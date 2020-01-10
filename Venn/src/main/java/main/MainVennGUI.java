@@ -24,8 +24,8 @@ public class MainVennGUI extends JFrame {
 		mainTitle.setBounds(446, 13, 402, 92);
 		getContentPane().add(mainTitle);
 		
-		JButton btnNewButton = new JButton("Chidalu Agbakwa");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		JButton btnNewButton = new JButton("Chidalu Agbakwa Test");
+		btnNewButton.setFont(new Font("Sylfaen", Font.PLAIN, 25));
 		btnNewButton.setBounds(95, 105, 307, 80);
 		getContentPane().add(btnNewButton);
 	}
