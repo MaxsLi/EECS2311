@@ -10,7 +10,6 @@ import views.MainFrame;
 
 public class Listener implements KeyListener, ActionListener {
 
-	private VennSet vennSet;
 	private MainFrame mainFrame;
 	
 	/**
@@ -18,7 +17,6 @@ public class Listener implements KeyListener, ActionListener {
 	 * and no view.
 	 */
 	public Listener() {
-		this.vennSet = null;
 		this.mainFrame = null;
 	}
 
@@ -28,8 +26,7 @@ public class Listener implements KeyListener, ActionListener {
 	 * @param vennSet the model
 	 * @param mainFrame the view
 	 */
-	public void set(VennSet vennSet, MainFrame mainFrame) {
-		this.vennSet = vennSet;
+	public void set(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 	}
 
@@ -43,10 +40,19 @@ public class Listener implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		switch (action) {
+			case MainFrame.ADD_CIRCLE:
+				VennSet vennSet = new VennSet();
+				this.mainFrame.addCircle(vennSet);
+				break;
+
 			case MainFrame.EXIT:
 				this.mainFrame.dispose();
 				break;
-		
+
+			case MainFrame.RESET_DIAGRAM:
+				this.mainFrame.resetDiagram();
+				break;
+
 			default:
 				break;
 		}
