@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import models.VennSet;
 
+
 public class DiagramPanel extends JPanel{
 
     private List<VennSet> vennSetList = new ArrayList<>();
