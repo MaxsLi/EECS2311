@@ -21,6 +21,7 @@ public class MenuBar extends JMenuBar {
     }
 
     private void createFileMenu() {
+    	// comment
         JMenu fileMenu = new JMenu("File");
         this.add(fileMenu);
 
