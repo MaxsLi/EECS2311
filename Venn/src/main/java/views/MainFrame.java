@@ -6,10 +6,9 @@ import javax.swing.JFrame;
 import controllers.Listener;
 import models.VennSet;
 public class MainFrame extends JFrame {
-	//THis is a comment
 
-	public static final int APP_WIDTH = 320;
-	public static final int APP_HEIGHT = 320;
+	public static final int APP_WIDTH = 1750;
+	public static final int APP_HEIGHT = 1000;
 	public static final String APP_TITLE = "Venn Diagram Maker";
 
 	private DiagramPanel diagramPanel;
