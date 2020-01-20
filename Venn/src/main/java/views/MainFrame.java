@@ -19,7 +19,7 @@ public class MainFrame extends JFrame {
 	public static final String ADD_CIRCLE = "ADD_CIRCLE";
 
 		/**
-	 * The action command to reset and clear all the circles in user's Venn diagram 
+	 * The action command to reset ad clear all the circles in user's Venn diagram 
 	 */
 	public static final String RESET_DIAGRAM = "RESET_DIAGRAM";
 
