@@ -1,10 +1,10 @@
 # EECS2311 Software Development Project
-a
+
 ## Description
 
 A desktop app that can draw customizable [Venn diagrams](https://en.wikipedia.org/wiki/Venn_diagram).
 
-## Table of Contents
+## Folder Structure
 * [[Venn]](/Venn)
   * [[src/main/java]](/Venn/src/main/java)
     * [[controllers]](/Venn/src/main/java/controllers)
@@ -13,6 +13,7 @@ A desktop app that can draw customizable [Venn diagrams](https://en.wikipedia.or
       * [Main.java](/Venn/src/main/java/venn/Main.java)
     * [[views]](/Venn/src/main/java/views)
 * [[docs]](/docs)
+  * [ideas.md](/docs/ideas.md)
 
 ## User Interface
 ```
