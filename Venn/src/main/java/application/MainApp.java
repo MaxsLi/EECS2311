@@ -56,7 +56,8 @@ public class MainApp extends Application {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("shapeScene.fxml"));
+            loader.setLocation(getClass().getResource("menuScene.fxml"));
+//            loader.setLocation(getClass().getResource("shapeScene.fxml"));
             AnchorPane shapeScene = (AnchorPane) loader.load();
             
             // Set person overview into the center of root layout.
