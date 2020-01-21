@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 
@@ -11,13 +12,15 @@
          <children>
             <Circle fill="#01ffea" layoutX="466.0" layoutY="570.0" radius="320.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="261.0" />
             <Circle blendMode="MULTIPLY" fill="#ffd1d1" layoutX="869.0" layoutY="570.0" radius="320.0" stroke="#4d4040" strokeType="INSIDE" AnchorPane.rightAnchor="134.0" />
-            <ButtonBar layoutX="1031.0" layoutY="968.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0">
+            <ButtonBar layoutX="1031.0" layoutY="968.0" prefHeight="40.0" prefWidth="288.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
               <buttons>
                 <Button fx:id="addBttn" mnemonicParsing="false" text="Add" />
                   <Button mnemonicParsing="false" text="Edit" />
                   <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="94.0" text="Remove" />
               </buttons>
             </ButtonBar>
+            <TextField fx:id="stringAdder_tf" layoutX="359.0" layoutY="922.0" prefHeight="75.0" prefWidth="500.0" promptText="Enter some Text to be added to the Venn Diagrams" />
+            <TextField layoutX="348.0" layoutY="180.0" prefHeight="60.0" prefWidth="555.0" promptText="Title of Venn Diagram" />
          </children>
       </AnchorPane>
    </children>
