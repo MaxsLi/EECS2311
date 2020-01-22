@@ -49,7 +49,7 @@ public class MainApp extends Application {
     
     
     /**
-     * Shows the person overview inside the root layout.
+     * Shows the person shapeScene inside the root layout.
      */
     public void showShapeScene() {
         try {
