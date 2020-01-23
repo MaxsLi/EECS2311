@@ -37,7 +37,7 @@ public class MainApp extends Application {
 		this.vennPane = (AnchorPane) loader.load();
 	
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
-//		
+	
 		
 	
 	}
