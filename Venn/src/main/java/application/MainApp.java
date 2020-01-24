@@ -7,73 +7,50 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
 	
 	private Stage primaryStage;
+	private AnchorPane vennPane;
 	private BorderPane rootLayout;
 
 	@Override
-	public void start(Stage primaryStage) {
-		this.primaryStage = primaryStage;
+	public void start(Stage primaryStage) throws IOException {
+		
+		this.primaryStage = primaryStage; //Setting the Primary Stage
 		this.primaryStage.setTitle("Venn Diagram Maker App");
 		
-		initRootLayout();
+		//Loading the Rootlayout menubar from FXML code to Java Code **DOESNT WORK STILL FIXING**
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("rootLayout.fxml")); 
 		
-		showShapeScene();
-	}
-
+		this.rootLayout = (BorderPane) loader.load(); // Loads the MenuBar Scene into rootLayout
+		Scene scene = new Scene(this.rootLayout);
+		this.primaryStage.setScene(scene);
+		this.primaryStage.sizeToScene();
+		
+		this.primaryStage.setMinWidth(primaryStage.getWidth());
+	    this.primaryStage.setMinHeight(primaryStage.getHeight());
+		this.primaryStage.show();
 	
-	/**
-     * Initializes the root layout.
-     */
-    public void initRootLayout() {
-        try {
-            // Load root layout from fxml file.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("RootLayout.fxml"));
-            rootLayout = (BorderPane) loader.load();
-            
-            // Show the scene containing the root layout.
-            Scene scene = new Scene(rootLayout);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } 
-        
-        
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    
-    /**
-     * Shows the shapeScene inside the root layout.
-     */
-    public void showShapeScene() {
-        try {
-            // Load person overview.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("shapeScene.fxml"));
-            AnchorPane shapeScene = (AnchorPane) loader.load();
-            
-            // Set person overview into the center of root layout.
-            rootLayout.setCenter(shapeScene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    /**
-     * Returns the main stage.
-     * @return
-     */
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
+//		//now I want to load shapeScene fxml file
+		loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("shapeScene.fxml"));
+		
+		this.vennPane = (AnchorPane) loader.load();
+	
+		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
+	
+		
+	
+	}
+	
     
     public static void main(String[] args) {
 		launch(args);
 	}
+    
+   
 }

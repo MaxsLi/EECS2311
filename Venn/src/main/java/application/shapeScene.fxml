@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="mainScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShapeSceneController">
    <children>
-      <AnchorPane layoutX="-18.0" layoutY="-135.0" prefHeight="1000.0" prefWidth="1250.0" AnchorPane.topAnchor="-135.0">
+      <TextField fx:id="diagramText" layoutX="408.0" layoutY="650.0" prefHeight="62.0" prefWidth="462.0" promptText="Enter text to add to Venn Diagram" style="-fx-font-size: 25;" AnchorPane.topAnchor="660.0" />
+      <StackPane layoutX="162.0" layoutY="14.0" prefHeight="667.0" prefWidth="1001.0">
          <children>
-            <Circle fill="#01ffea" layoutX="466.0" layoutY="570.0" radius="320.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.bottomAnchor="121.0" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="261.0" />
-            <Circle blendMode="MULTIPLY" fill="#ffd1d1" layoutX="869.0" layoutY="570.0" radius="320.0" stroke="#4d4040" strokeType="INSIDE" AnchorPane.rightAnchor="134.0" />
-            <ButtonBar layoutX="1031.0" layoutY="968.0" prefHeight="40.0" prefWidth="288.0" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
-              <buttons>
-                <Button fx:id="addBttn" mnemonicParsing="false" text="Add" />
-                  <Button mnemonicParsing="false" text="Edit" />
-                  <Button mnemonicParsing="false" prefHeight="32.0" prefWidth="94.0" text="Remove" />
-              </buttons>
-            </ButtonBar>
-            <TextField fx:id="stringAdder_tf" layoutX="359.0" layoutY="922.0" prefHeight="75.0" prefWidth="500.0" promptText="Enter some Text to be added to the Venn Diagrams" />
-            <TextField layoutX="348.0" layoutY="180.0" prefHeight="60.0" prefWidth="555.0" promptText="Title of Venn Diagram" />
+            <Circle fill="#c3e2ff" radius="300.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+            </Circle>
+            <Circle blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="#e88f8f" radius="300.0" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
+               <stroke>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#2c1e1e" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </stroke>
+               <StackPane.margin>
+                  <Insets right="50.0" />
+               </StackPane.margin>
+            </Circle>
          </children>
-      </AnchorPane>
+      </StackPane>
+      <ButtonBar layoutX="935.0" layoutY="666.0" prefHeight="46.0" prefWidth="297.0">
+        <buttons>
+            <Button fx:id="addBttn" mnemonicParsing="false" onAction="#addTextToDiagram" text="Add" />
+          <Button fx:id="editBttn" mnemonicParsing="false" text="Edit" />
+            <Button fx:id="removeButton" mnemonicParsing="false" text="Remove" />
+        </buttons>
+      </ButtonBar>
    </children>
 </AnchorPane>
