@@ -7,12 +7,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
 	
 	private Stage primaryStage;
-	private AnchorPane vennPane;
+	private StackPane vennPane;
 	private BorderPane rootLayout;
 
 	@Override
@@ -23,7 +24,7 @@ public class MainApp extends Application {
 		
 		//Loading the Rootlayout menubar from FXML code to Java Code **DOESNT WORK STILL FIXING**
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("RootLayout.fxml")); 
+		loader.setLocation(getClass().getResource("rootLayout.fxml")); 
 		
 		this.rootLayout = (BorderPane) loader.load(); // Loads the MenuBar Scene into rootLayout
 		Scene scene = new Scene(this.rootLayout);
@@ -34,7 +35,7 @@ public class MainApp extends Application {
 		loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("shapeScene.fxml"));
 		
-		this.vennPane = (AnchorPane) loader.load();
+		this.vennPane = (StackPane) loader.load();
 	
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
 	
