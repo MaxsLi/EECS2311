@@ -10,9 +10,9 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Circle?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShapeSceneController">
    <children>
+      <TextField fx:id="diagramText" layoutX="408.0" layoutY="650.0" prefHeight="62.0" prefWidth="462.0" promptText="Enter text to add to Venn Diagram" style="-fx-font-size: 25;" AnchorPane.topAnchor="660.0" />
       <StackPane layoutX="162.0" layoutY="14.0" prefHeight="667.0" prefWidth="1001.0">
          <children>
             <Circle fill="#c3e2ff" radius="300.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
@@ -35,12 +35,11 @@
             </Circle>
          </children>
       </StackPane>
-      <TextField layoutX="408.0" layoutY="650.0" prefHeight="62.0" prefWidth="462.0" promptText="Enter text to add to Venn Diagram" />
       <ButtonBar layoutX="935.0" layoutY="666.0" prefHeight="46.0" prefWidth="297.0">
         <buttons>
-            <Button mnemonicParsing="false" text="Add" />
-          <Button mnemonicParsing="false" text="Edit" />
-            <Button mnemonicParsing="false" text="Remove" />
+            <Button fx:id="addBttn" mnemonicParsing="false" onAction="#addTextToDiagram" text="Add" />
+          <Button fx:id="editBttn" mnemonicParsing="false" text="Edit" />
+            <Button fx:id="removeButton" mnemonicParsing="false" text="Remove" />
         </buttons>
       </ButtonBar>
    </children>

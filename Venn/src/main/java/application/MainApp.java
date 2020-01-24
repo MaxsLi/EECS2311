@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 	
 	private Stage primaryStage;
-	private StackPane vennPane;
+	private AnchorPane vennPane;
 	private BorderPane rootLayout;
 
 	@Override
@@ -31,15 +31,15 @@ public class MainApp extends Application {
 		this.primaryStage.setScene(scene);
 		this.primaryStage.sizeToScene();
 		
-		  primaryStage.setMinWidth(primaryStage.getWidth());
-	      primaryStage.setMinHeight(primaryStage.getHeight());
+		this.primaryStage.setMinWidth(primaryStage.getWidth());
+	    this.primaryStage.setMinHeight(primaryStage.getHeight());
 		this.primaryStage.show();
 	
 //		//now I want to load shapeScene fxml file
 		loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("shapeScene.fxml"));
 		
-		this.vennPane = (StackPane) loader.load();
+		this.vennPane = (AnchorPane) loader.load();
 	
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
 	
