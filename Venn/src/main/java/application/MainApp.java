@@ -29,6 +29,10 @@ public class MainApp extends Application {
 		this.rootLayout = (BorderPane) loader.load(); // Loads the MenuBar Scene into rootLayout
 		Scene scene = new Scene(this.rootLayout);
 		this.primaryStage.setScene(scene);
+		this.primaryStage.sizeToScene();
+		
+		  primaryStage.setMinWidth(primaryStage.getWidth());
+	      primaryStage.setMinHeight(primaryStage.getHeight());
 		this.primaryStage.show();
 	
 //		//now I want to load shapeScene fxml file
