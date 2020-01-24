@@ -1,7 +1,6 @@
 package application;
 
 import java.io.IOException;
-import java.net.URL;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +21,7 @@ public class MainApp extends Application {
 		
 		initRootLayout();
 		
-		showPersonOverview();
+		showShapeScene();
 	}
 
 	
@@ -50,9 +49,9 @@ public class MainApp extends Application {
     
     
     /**
-     * Shows the person overview inside the root layout.
+     * Shows the shapeScene inside the root layout.
      */
-    public void showPersonOverview() {
+    public void showShapeScene() {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();

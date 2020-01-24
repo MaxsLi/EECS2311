@@ -8,11 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Button fx:id="button1" layoutX="55.0" layoutY="300.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Create New" />
-      <Button fx:id="button2" layoutX="895.0" layoutY="300.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Get Existing" />
-      <Label layoutX="95.0" layoutY="365.0" text="Recent Venn Diagrams" underline="true" />
-      <MenuBar layoutY="1.0" prefWidth="1250.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -31,5 +26,8 @@
           </Menu>
         </menus>
       </MenuBar>
+      <Button fx:id="createNewBtn" layoutX="90.0" layoutY="350.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" text="Create New" />
+      <Button fx:id="getExistingBtn" layoutX="680.0" layoutY="350.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" text="Get Existing" />
+      <Label layoutX="150.0" layoutY="470.0" text="Recent Venn Diagrams" underline="true" />
    </children>
 </AnchorPane>
