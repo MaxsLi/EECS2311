@@ -5,7 +5,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -15,6 +15,8 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private StackPane vennPane;
 	private BorderPane rootLayout;
+	private MenuBar menuBar;
+	private FXMLLoader loader;
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -22,25 +24,38 @@ public class MainApp extends Application {
 		this.primaryStage = primaryStage; //Setting the Primary Stage
 		this.primaryStage.setTitle("Venn Diagram Maker App");
 		
-		//Loading the Rootlayout menubar from FXML code to Java Code **DOESNT WORK STILL FIXING**
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("rootLayout.fxml")); 
+		loadRootLayout();
+		loadMenubar();
+		loadShapeScene();
 		
-		this.rootLayout = (BorderPane) loader.load(); // Loads the MenuBar Scene into rootLayout
+		
 		Scene scene = new Scene(this.rootLayout);
 		this.primaryStage.setScene(scene);
 		this.primaryStage.show();
 	
-//		//now I want to load shapeScene fxml file
-		loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("shapeScene.fxml"));
+
 		
+	
+	}
+	
+	private void loadRootLayout() throws IOException {
+		this.loader = new FXMLLoader();
+		this.loader.setLocation(getClass().getResource("rootLayout.fxml")); 		
+		this.rootLayout = (BorderPane) loader.load();
+	}
+	
+	private void loadMenubar() throws IOException  {
+		this.loader = new FXMLLoader();
+		this.loader.setLocation(getClass().getResource("menuBar.fxml"));
+		this.menuBar = (MenuBar) loader.load();
+		this.rootLayout.setTop(this.menuBar);
+	}
+	
+	private void loadShapeScene() throws IOException {
+		this.loader = new FXMLLoader();
+		this.loader.setLocation(getClass().getResource("shapeScene.fxml"));
 		this.vennPane = (StackPane) loader.load();
-	
-		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
-	
-		
-	
+		this.rootLayout.setCenter(this.vennPane);
 	}
 	
     
