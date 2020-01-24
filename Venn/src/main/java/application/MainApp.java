@@ -2,7 +2,9 @@ package application;
 
 import java.io.IOException;
 
+import controllers.MenuBarController;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
@@ -12,7 +14,7 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 	
-	private Stage primaryStage;
+	public static Stage primaryStage;
 	private StackPane vennPane;
 	private BorderPane rootLayout;
 	private MenuBar menuBar;
@@ -21,17 +23,21 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		
-		this.primaryStage = primaryStage; //Setting the Primary Stage
-		this.primaryStage.setTitle("Venn Diagram Maker App");
+		MainApp.primaryStage = primaryStage; //Setting the Primary Stage
+		MainApp.primaryStage.setTitle("Venn Diagram Maker App");
 		
 		loadRootLayout();
 		loadMenubar();
 		loadShapeScene();
 		
+		MainApp.primaryStage.setOnCloseRequest(e -> {
+			e.consume();
+			MenuBarController.closeProgram(e);
+			});
 		
 		Scene scene = new Scene(this.rootLayout);
-		this.primaryStage.setScene(scene);
-		this.primaryStage.show();
+		MainApp.primaryStage.setScene(scene);
+		MainApp.primaryStage.show();
 	
 
 		
