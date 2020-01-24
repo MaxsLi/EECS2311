@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 	
 	private Stage primaryStage;
-	private StackPane vennPane;
+	private AnchorPane vennPane;
 	private BorderPane rootLayout;
 
 	@Override
@@ -39,7 +39,7 @@ public class MainApp extends Application {
 		loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("shapeScene.fxml"));
 		
-		this.vennPane = (StackPane) loader.load();
+		this.vennPane = (AnchorPane) loader.load();
 	
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
 	

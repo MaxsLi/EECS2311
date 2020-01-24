@@ -30,7 +30,7 @@ public class ShapeSceneController implements Initializable {
 	}
 	
 	public void addTextToDiagram(ActionEvent event) {
-		
+		System.out.println("Hello World!");
 	}
 
 	
