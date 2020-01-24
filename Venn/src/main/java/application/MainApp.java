@@ -31,8 +31,8 @@ public class MainApp extends Application {
 		this.primaryStage.setScene(scene);
 		this.primaryStage.sizeToScene();
 		
-		  primaryStage.setMinWidth(primaryStage.getWidth());
-	      primaryStage.setMinHeight(primaryStage.getHeight());
+		this.primaryStage.setMinWidth(primaryStage.getWidth());
+	    this.primaryStage.setMinHeight(primaryStage.getHeight());
 		this.primaryStage.show();
 	
 //		//now I want to load shapeScene fxml file
