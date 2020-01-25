@@ -30,12 +30,12 @@ public class MainApp extends Application {
 		Scene scene = new Scene(this.rootLayout);
 		this.primaryStage.setScene(scene);
 		this.primaryStage.sizeToScene();
-		
-		this.primaryStage.setMinWidth(primaryStage.getWidth());
-	    this.primaryStage.setMinHeight(primaryStage.getHeight());
 		this.primaryStage.show();
-	
-//		//now I want to load shapeScene fxml file
+		
+		//Maximizes the stage immediately on Launch
+		this.primaryStage.setMaximized(true);
+		
+		//now I want to load shapeScene fxml file
 		loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("shapeScene.fxml"));
 		

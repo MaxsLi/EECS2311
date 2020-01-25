@@ -4,19 +4,35 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 
 public class ShapeSceneController implements Initializable {
 	
+	
 	@FXML
 	private AnchorPane mainScene;
+	
+	@FXML
+	private StackPane stackPane;
+	
+	@FXML
+	private Circle blueCircle;
+	
+	@FXML 
+	private Circle redCircle;
 	
 	@FXML
 	private Button addBttn;
@@ -29,6 +45,7 @@ public class ShapeSceneController implements Initializable {
 	
 	@FXML
 	private TextField diagramText;
+	
 	
 	
 	public ShapeSceneController() {
@@ -47,8 +64,34 @@ public class ShapeSceneController implements Initializable {
 			alert.showAndWait();
 		}
 		
-				
+		String newText = this.diagramText.getText();
 		
+		TextField newTextBox = new TextField(newText);
+		newTextBox.setEditable(false);
+		newTextBox.resizeRelocate(blueCircle.getCenterX(), blueCircle.getCenterY(), 100, 100);
+		
+		stackPane.getChildren().add(newTextBox);
+		
+		
+		 
+		 final Stage stageRef = (Stage) mainScene.getScene().getWindow();
+		 
+		 // When mouse button is pressed, save the initial position of textField
+		 newTextBox.setOnMousePressed(new EventHandler<MouseEvent>() {
+		 public void handle(MouseEvent me) {
+		 double dragAnchorX = me.getX() - newTextBox.getLayoutX();
+		 double dragAnchorY = me.getY() - newTextBox.getLayoutY();
+		 }
+		 }); 
+		 
+		 // When screen is dragged, translate it accordingly
+		 newTextBox.setOnMouseDragged(new EventHandler<MouseEvent>() {
+		 public void handle(MouseEvent me) {
+			 newTextBox.relocate(me.getX(), me.getY());
+		 }
+		 }); 
+		 
+		 
 		
 	}
 
