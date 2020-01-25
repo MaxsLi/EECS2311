@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -15,30 +16,30 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 	
 	public static Stage primaryStage;
-	//private AnchorPane vennPane;
-	private StackPane vennPane;
+	//private stackPane vennPane;
+	private AnchorPane vennPane;
 	private BorderPane rootLayout;
 	private MenuBar menuBar;
 	private FXMLLoader loader;
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		this.primaryStage = primaryStage;
+		MainApp.primaryStage = primaryStage;
 		
 		loadRootLayout();
 		loadMenubar();
 		loadShapeScene();
 		
 
-		Scene scene = new Scene(this.rootLayout, 300, 300);
+		Scene scene = new Scene(this.rootLayout);
 
 
-		this.primaryStage.setScene(scene);
-		this.primaryStage.sizeToScene();
+		MainApp.primaryStage.setScene(scene);
+		MainApp.primaryStage.sizeToScene();
 		
-		this.primaryStage.setMinWidth(primaryStage.getWidth());
-	    this.primaryStage.setMinHeight(primaryStage.getHeight());
-		this.primaryStage.show();
+		MainApp.primaryStage.setMinWidth(primaryStage.getWidth());
+	    MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
+		MainApp.primaryStage.show();
 
 	
 	}
@@ -59,11 +60,11 @@ public class MainApp extends Application {
 	private void loadShapeScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("shapeScene.fxml"));
-		this.vennPane = (StackPane) loader.load();
-		this.rootLayout.setCenter(this.vennPane);
-		//this.vennPane = (AnchorPane) loader.load();
+		//this.vennPane = (StackPane) loader.load();
+		//this.rootLayout.setCenter(this.vennPane);
+		this.vennPane = (AnchorPane) loader.load();
 	
-		//rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
+		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
 	
 		
 	
