@@ -1,10 +1,16 @@
 package controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-public class ShapeSceneController {
+
+public class ShapeSceneController implements Initializable {
 	
 	@FXML
 	private Button addBttn;
@@ -18,12 +24,19 @@ public class ShapeSceneController {
 	@FXML
 	private TextField diagramText;
 	
-	@FXML
-	private TextField titleField;
-	
-	
 	
 	public ShapeSceneController() {
+		
+	}
+	
+	public void addTextToDiagram(ActionEvent event) {
+		System.out.println("Hello World!");
+	}
+
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
 		
 	}
 

@@ -7,12 +7,11 @@ A desktop app that can draw customizable [Venn diagrams](https://en.wikipedia.or
 ## Folder Structure
 * [[Venn]](/Venn)
   * [[src/main/java]](/Venn/src/main/java)
+    * [[application]](/Venn/src/main/java/application)
     * [[controllers]](/Venn/src/main/java/controllers)
-    * [[models]](/Venn/src/main/java/models)
-    * [[venn]](/Venn/src/main/java/venn)
-      * [Main.java](/Venn/src/main/java/venn/Main.java)
-    * [[views]](/Venn/src/main/java/views)
 * [[docs]](/docs)
+  * [[Venn-RD]](/docs/Venn-RD)
+    * [Venn-RD.pdf](/docs/Venn-RD/Venn-RD.pdf)
   * [ideas.md](/docs/ideas.md)
 
 ## User Interface
