@@ -38,9 +38,11 @@ public class MainApp extends Application {
 		MainApp.primaryStage.sizeToScene();
 		
 		MainApp.primaryStage.setMinWidth(primaryStage.getWidth());
-	    MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
+	  MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
 		MainApp.primaryStage.show();
 
+    //Maximizes the stage immediately on Launch
+		MainApp.primaryStage.setMaximized(true);
 	
 	}
 	
@@ -61,6 +63,7 @@ public class MainApp extends Application {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("shapeScene.fxml"));
 		//this.vennPane = (StackPane) loader.load();
+    
 		//this.rootLayout.setCenter(this.vennPane);
 		this.vennPane = (AnchorPane) loader.load();
 	
