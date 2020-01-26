@@ -2,7 +2,6 @@ package application;
 
 import java.io.IOException;
 
-import controllers.MenuBarController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +15,6 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 	
 	public static Stage primaryStage;
-	//private stackPane vennPane;
 	private AnchorPane vennPane;
 	private BorderPane rootLayout;
 	private MenuBar menuBar;
@@ -38,7 +36,7 @@ public class MainApp extends Application {
 		MainApp.primaryStage.sizeToScene();
 		
 		MainApp.primaryStage.setMinWidth(primaryStage.getWidth());
-	  MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
+		MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
 		MainApp.primaryStage.show();
 
     //Maximizes the stage immediately on Launch
@@ -53,9 +51,9 @@ public class MainApp extends Application {
 	}
 	
 	private void loadMenubar() throws IOException  {
-		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("menuBar.fxml"));
-		this.menuBar = (MenuBar) loader.load();
+		FXMLLoader loader1 = new FXMLLoader();
+		loader1.setLocation(getClass().getResource("menuBar.fxml"));
+		this.menuBar = (MenuBar) loader1.load();
 		this.rootLayout.setTop(this.menuBar);
 	}
 	
