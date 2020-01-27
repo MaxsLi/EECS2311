@@ -48,7 +48,7 @@ public class MainApp extends Application {
 	
 	private void loadRootLayout() throws IOException {
 		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("rootLayout.fxml")); 		
+		this.loader.setLocation(getClass().getResource("RootLayout.fxml")); 		
 		this.rootLayout = (BorderPane) loader.load();
 	}
 	
