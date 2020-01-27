@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 
+import controllers.MenuBarController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -40,6 +41,12 @@ public class MainApp extends Application {
 
     //Maximizes the stage immediately on Launch
 		MainApp.primaryStage.setMaximized(true);
+		
+		//Close window properly using consume
+		MainApp.primaryStage.setOnCloseRequest(e -> {
+			e.consume();
+			MenuBarController.closeProgram(e);
+		});
 	
 	}
 	

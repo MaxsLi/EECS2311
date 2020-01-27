@@ -20,11 +20,13 @@ public class MenuBarController {
 	
 	@FXML
 	private void closeProgram(ActionEvent e) {
+		//System.out.println("Closed properly.");
 		MainApp.primaryStage.close();
 	}
 	
 	//Method to close not using menuBar
 	public static void closeProgram(WindowEvent e) {
+		System.out.println("Closed properly.");
 		MainApp.primaryStage.close();
 	}
 	
