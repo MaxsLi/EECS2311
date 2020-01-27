@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 	
 	public static Stage primaryStage;
-	//private stackPane vennPane;
+	//private StackPane vennPane;
 	private AnchorPane vennPane;
 	private BorderPane rootLayout;
 	private MenuBar menuBar;
@@ -29,7 +29,6 @@ public class MainApp extends Application {
 		loadRootLayout();
 		loadMenubar();
 		loadShapeScene();
-		
 
 		Scene scene = new Scene(this.rootLayout);
 
@@ -66,11 +65,8 @@ public class MainApp extends Application {
 	
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
 	
-		
-	
 	}
 	
-    
     public static void main(String[] args) {
 		launch(args);
 	}
