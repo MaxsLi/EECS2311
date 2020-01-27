@@ -2,6 +2,7 @@ package application;
 
 import java.io.IOException;
 
+import controllers.MenuBarController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +29,6 @@ public class MainApp extends Application {
 		loadRootLayout();
 		loadMenubar();
 		loadShapeScene();
-		
 
 		Scene scene = new Scene(this.rootLayout);
 
@@ -42,6 +42,12 @@ public class MainApp extends Application {
 
     //Maximizes the stage immediately on Launch
 		MainApp.primaryStage.setMaximized(true);
+		
+		//Close window properly using consume
+		MainApp.primaryStage.setOnCloseRequest(e -> {
+			e.consume();
+			MenuBarController.closeProgram(e);
+		});
 	
 	}
 	
@@ -68,11 +74,8 @@ public class MainApp extends Application {
 	
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
 	
-		
-	
 	}
 	
-    
     public static void main(String[] args) {
 		launch(args);
 	}
