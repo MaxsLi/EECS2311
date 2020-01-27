@@ -19,6 +19,7 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 	private MenuBar menuBar;
 	private FXMLLoader loader;
+	//test
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
