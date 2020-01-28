@@ -20,7 +20,7 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 	private MenuBar menuBar;
 	private FXMLLoader loader;
-	//test
+	private BorderPane menuPane;
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -28,8 +28,8 @@ public class MainApp extends Application {
 		
 		loadRootLayout();
 		loadMenubar();
-		loadShapeScene();
-
+		//loadShapeScene();
+		loadMenuScene();
 		Scene scene = new Scene(this.rootLayout);
 
 
@@ -74,6 +74,14 @@ public class MainApp extends Application {
 	
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
 	
+	}
+	
+	private void loadMenuScene() throws IOException {
+		this.loader = new FXMLLoader();
+		this.loader.setLocation(getClass().getResource("menuScene.fxml"));
+		this.menuPane = (BorderPane) loader.load();
+		rootLayout.setCenter(this.menuPane);
+		
 	}
 	
     public static void main(String[] args) {
