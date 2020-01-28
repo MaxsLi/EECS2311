@@ -1,6 +1,10 @@
 package controllers;
 
+import java.awt.event.MouseEvent;
+
 import application.MainApp;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -25,6 +29,10 @@ public class MenuSceneController {
 	}
 	
 
+	public void createNew() {
+	
+		this.mainApp.
+	}
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
