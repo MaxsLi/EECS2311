@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
+//test
 public class MainApp extends Application {
 	
 	public static Stage primaryStage;
@@ -20,6 +20,7 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
 	private MenuBar menuBar;
 	private FXMLLoader loader;
+	//test
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
