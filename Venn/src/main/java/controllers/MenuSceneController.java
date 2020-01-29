@@ -1,6 +1,7 @@
 package controllers;
 
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import application.MainApp;
 import javafx.event.ActionEvent;
@@ -25,21 +26,21 @@ public class MenuSceneController {
      * The constructor is called before the initialize() method.
      */
 	public MenuSceneController() {
-		
+		this.setMainApp(new MainApp());
 	}
 	
-
-	public void createNew() {
+	@FXML
+	private void createNew() throws IOException {
 	
-		this.mainApp.
+	     mainApp.switchScene("shapeScene");
 	}
     /**
      * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
+     * after the fxml file has been loaded. 
      */
-    @FXML
+	@FXML
 	private void initalize() {
-		
+    	
 	}
     
     /**

@@ -75,7 +75,12 @@ public class MainApp extends Application {
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
 	
 	}
+	public  void switchScene(String scene) throws IOException {
+
+	}
 	
+	
+	}
 	private void loadMenuScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("menuScene.fxml"));
@@ -88,5 +93,4 @@ public class MainApp extends Application {
 		launch(args);
 	}
     
-   
 }
