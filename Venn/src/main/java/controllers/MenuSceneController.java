@@ -7,7 +7,9 @@ import application.MainApp;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 
 public class MenuSceneController {
 	
@@ -32,7 +34,7 @@ public class MenuSceneController {
 	@FXML
 	private void createNew() throws IOException {
 	
-	     mainApp.switchScene("shapeScene");
+	     this.mainApp.switchScene("shape");
 	}
     /**
      * Initializes the controller class. This method is automatically called
