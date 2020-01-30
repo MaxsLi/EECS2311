@@ -22,7 +22,7 @@ public class MainApp extends Application {
 	private MenuBar menuBar;
 	private FXMLLoader loader;
 	private BorderPane menuPane;
-
+	private MenuSceneController menuSceneCont;
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		MainApp.primaryStage = primaryStage;
@@ -74,25 +74,28 @@ public class MainApp extends Application {
 		this.vennPane = (AnchorPane) loader.load();
 	
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
+		
+	}
+	public void setupSwitch(String sceneNew) throws IOException {
+		menuSceneCont.setMainApp(this);
+		switcher(sceneNew);
 	
 	}
-	public void switchScene(String scene) throws IOException {
-//		loadShapeScene();
-//		Scene scene2=new Scene(this.rootLayout);
-//		MainApp.primaryStage.setScene(scene2);
-		MenuSceneController controller=(MenuSceneController) loader.getController();
-		controller.setMainApp(this);
-		controller.
-		
-	
-	
+	public void switcher(String sceneNew) throws IOException {
+		if (sceneNew.equals("menuScene")) {
+			loadMenuScene();
+		}	
+		else if (sceneNew.equals("shapeScene")) {
+			loadShapeScene();
+		}
 	}
 	private void loadMenuScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("menuScene.fxml"));
 		this.menuPane = (BorderPane) loader.load();
 		rootLayout.setCenter(this.menuPane);
-		
+		menuSceneCont=(MenuSceneController) loader.getController();
+		menuSceneCont.setMainApp(this);
 	}
 	
     public static void main(String[] args) {
