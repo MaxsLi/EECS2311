@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 
 import controllers.MenuBarController;
+import controllers.MenuSceneController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -75,9 +76,14 @@ public class MainApp extends Application {
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
 	
 	}
-	public  void switchScene(String scene) throws IOException {
-
-	}
+	public void switchScene(String scene) throws IOException {
+//		loadShapeScene();
+//		Scene scene2=new Scene(this.rootLayout);
+//		MainApp.primaryStage.setScene(scene2);
+		MenuSceneController controller=(MenuSceneController) loader.getController();
+		controller.setMainApp(this);
+		controller.
+		
 	
 	
 	}

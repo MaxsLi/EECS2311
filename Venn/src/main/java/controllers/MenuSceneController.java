@@ -2,16 +2,20 @@ package controllers;
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import application.MainApp;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
-public class MenuSceneController {
+public class MenuSceneController implements Initializable {
 	
 	@FXML
 	private Button createNewBttn;
@@ -27,14 +31,19 @@ public class MenuSceneController {
      * The constructor.
      * The constructor is called before the initialize() method.
      */
+	
 	public MenuSceneController() {
-		this.setMainApp(new MainApp());
+		//this.setMainApp(mainApp);
+		
 	}
 	
 	@FXML
 	private void createNew() throws IOException {
 	
-	     this.mainApp.switchScene("shape");
+		
+	}
+	public void switcher(MainApp mainApp) {
+
 	}
     /**
      * Initializes the controller class. This method is automatically called
@@ -55,6 +64,12 @@ public class MenuSceneController {
 
    
     }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
