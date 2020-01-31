@@ -40,11 +40,9 @@ public class MenuSceneController implements Initializable {
 	@FXML
 	private void createNew() throws IOException {
 	
-		mainApp.switcher("shapeScene");
+		mainApp.switchScene("shapeScene");
 	}
-	public void switcher(String scene) {
-		
-	}
+	
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded. 

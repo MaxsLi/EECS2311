@@ -76,12 +76,7 @@ public class MainApp extends Application {
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
 		
 	}
-	public void setupSwitch(String sceneNew) throws IOException {
-		menuSceneCont.setMainApp(this);
-		switcher(sceneNew);
-	
-	}
-	public void switcher(String sceneNew) throws IOException {
+	public void switchScene(String sceneNew) throws IOException {
 		if (sceneNew.equals("menuScene")) {
 			loadMenuScene();
 		}	
