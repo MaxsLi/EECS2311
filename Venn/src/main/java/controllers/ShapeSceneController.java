@@ -68,7 +68,8 @@ public class ShapeSceneController implements Initializable {
 		
 		TextField newTextBox = new TextField(newText);
 		newTextBox.setEditable(false);
-		newTextBox.resizeRelocate(blueCircle.getCenterX(), blueCircle.getCenterY(), 100, 100);
+		newTextBox.resizeRelocate(blueCircle.getCenterX(), blueCircle.getCenterY(), 1, 1);
+		newTextBox.resize(50, 50);
 		
 		stackPane.getChildren().add(newTextBox);
 		
