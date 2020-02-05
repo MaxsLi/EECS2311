@@ -20,8 +20,6 @@ public class MainApp extends Application {
 	private MenuBar menuBar;
 	private FXMLLoader loader;
 
-	//This is Chidalu's Change
-
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		MainApp.primaryStage = primaryStage;
