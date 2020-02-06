@@ -40,7 +40,7 @@ public class MenuSceneController implements Initializable {
 	@FXML
 	private void createNew() throws IOException {
 	
-		mainApp.switcher("shapeScene");
+		mainApp.switchScene("shapeScene");
 	}
 	
     /**
