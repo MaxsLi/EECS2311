@@ -46,6 +46,10 @@ public class ShapeSceneController implements Initializable {
 	@FXML
 	private TextField diagramText;
 	
+	private double orgSceneX;
+	private double orgSceneY;
+	private double orgTranslateX;
+	private double orgTranslateY;
 	
 	
 	public ShapeSceneController() {
@@ -70,31 +74,43 @@ public class ShapeSceneController implements Initializable {
 		newTextBox.setEditable(false);
 		newTextBox.resizeRelocate(blueCircle.getCenterX(), blueCircle.getCenterY(), 1, 1);
 		newTextBox.resize(50, 50);
+		newTextBox.setMinWidth(50);
+		newTextBox.setPrefWidth(50);
+		newTextBox.setMaxWidth(400);
+		
 		
 		stackPane.getChildren().add(newTextBox);
 		
+		newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+
+	            orgSceneX = e.getSceneX();
+	            orgSceneY = e.getSceneY();
+	            orgTranslateX = newTextBox.getTranslateX();
+	            orgTranslateY = newTextBox.getTranslateY();
+
+	            newTextBox.toFront();
+	        });
+
+		newTextBox.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
+
+	            System.out.println("is dragged");
+
+	            double offsetX = e.getSceneX() - orgSceneX;
+	            double offsetY = e.getSceneY() - orgSceneY;
+	            double newTranslateX = orgTranslateX + offsetX;
+	            double newTranslateY = orgTranslateY + offsetY;
+
+	            newTextBox.setTranslateX(newTranslateX);
+	            newTextBox.setTranslateY(newTranslateY);
+	        });
+
+	    }
+		 
 		
 		 
-		 final Stage stageRef = (Stage) mainScene.getScene().getWindow();
-		 
-		 // When mouse button is pressed, save the initial position of textField
-		 newTextBox.setOnMousePressed(new EventHandler<MouseEvent>() {
-		 public void handle(MouseEvent me) {
-		 double dragAnchorX = me.getX() - newTextBox.getLayoutX();
-		 double dragAnchorY = me.getY() - newTextBox.getLayoutY();
-		 }
-		 }); 
-		 
-		 // When screen is dragged, translate it accordingly
-		 newTextBox.setOnMouseDragged(new EventHandler<MouseEvent>() {
-		 public void handle(MouseEvent me) {
-			 newTextBox.relocate(me.getX(), me.getY());
-		 }
-		 }); 
-		 
 		 
 		
-	}
+	
 
 	
 	@Override
