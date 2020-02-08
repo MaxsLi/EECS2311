@@ -1,6 +1,10 @@
 package application;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
+
+import com.sun.prism.Graphics;
 
 import controllers.MenuBarController;
 import controllers.MenuSceneController;
@@ -13,7 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-//test
+
 public class MainApp extends Application {
 	
 	public static Stage primaryStage;
@@ -29,11 +33,11 @@ public class MainApp extends Application {
 		
 		loadRootLayout();
 		loadMenubar();
-		//loadShapeScene();
 		loadMenuScene();
+		
 		Scene scene = new Scene(this.rootLayout);
 
-
+		
 		MainApp.primaryStage.setScene(scene);
 		MainApp.primaryStage.sizeToScene();
 		
@@ -69,13 +73,15 @@ public class MainApp extends Application {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("shapeScene.fxml"));
 		//this.vennPane = (StackPane) loader.load();
-    
+		
 		//this.rootLayout.setCenter(this.vennPane);
 		this.vennPane = (AnchorPane) loader.load();
 	
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
 		
+		
 	}
+
 	public void switchScene(String sceneNew) throws IOException {
 		if (sceneNew.equals("menuScene")) {
 			loadMenuScene();
@@ -84,6 +90,7 @@ public class MainApp extends Application {
 			loadShapeScene();
 		}
 	}
+	
 	private void loadMenuScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("menuScene.fxml"));
