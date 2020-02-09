@@ -12,6 +12,8 @@ A desktop app that can draw customizable [Venn diagrams](https://en.wikipedia.or
 * [[docs]](/docs)
   * [[Venn-RD]](/docs/Venn-RD)
     * [Venn-RD.pdf](/docs/Venn-RD/Venn-RD.pdf)
+  * [[Venn-UM]](/docs/Venn-UM)
+    * [Venn-UM.pdf](/docs/Venn-UM/Venn-UM.pdf)
   * [ideas.md](/docs/ideas.md)
 
 ## User Interface
