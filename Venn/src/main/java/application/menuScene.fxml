@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1250.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.MenuSceneController">
+
    <left>
       <VBox BorderPane.alignment="CENTER">
          <children>
@@ -15,7 +16,7 @@
                   <Insets top="450.0" />
                </VBox.margin>
             </Button>
-            <Label alignment="BOTTOM_CENTER" text="Recent Venn Diagrams" underline="true">
+            <Label alignment="BOTTOM_CENTER" text="Recent Venn Diagrams" >
                <VBox.margin>
                   <Insets left="75.0" top="40.0" />
                </VBox.margin>
