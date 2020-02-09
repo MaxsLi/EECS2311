@@ -8,6 +8,7 @@ import com.sun.prism.Graphics;
 
 import controllers.MenuBarController;
 import controllers.MenuSceneController;
+import controllers.ShapeSceneController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +28,7 @@ public class MainApp extends Application {
 	private FXMLLoader loader;
 	private BorderPane menuPane;
 	private MenuSceneController menuSceneCont;
+	private ShapeSceneController shapeSceneCont;
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		MainApp.primaryStage = primaryStage;
@@ -50,6 +52,7 @@ public class MainApp extends Application {
 		
 		//Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
+			shapeSceneCont.saveVenn();
 			e.consume();
 			MenuBarController.closeProgram(e);
 		});
@@ -78,9 +81,12 @@ public class MainApp extends Application {
 		this.vennPane = (AnchorPane) loader.load();
 	
 		rootLayout.setCenter(this.vennPane); //make the center of the Menubar Scene to the rootLayout
+		shapeSceneCont=(ShapeSceneController) loader.getController();
+		shapeSceneCont.setMainApp(this);
 		
 		
 	}
+	
 
 	public void switchScene(String sceneNew) throws IOException {
 		if (sceneNew.equals("menuScene")) {

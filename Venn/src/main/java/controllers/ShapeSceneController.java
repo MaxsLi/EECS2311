@@ -1,8 +1,14 @@
 package controllers;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import application.MainApp;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -46,14 +52,17 @@ public class ShapeSceneController implements Initializable {
 	@FXML
 	private TextField diagramText;
 	
+	private MainApp mainApp;
+	
 	private double orgSceneX;
 	private double orgSceneY;
 	private double orgTranslateX;
 	private double orgTranslateY;
 	
+	private ArrayList<TextField> current;
 	
 	public ShapeSceneController() {
-		
+		current=new ArrayList<>();
 	}
 	/**
 	 * On click, creates a textArea which can be dragged into Respective Circle
@@ -78,8 +87,10 @@ public class ShapeSceneController implements Initializable {
 		newTextBox.setPrefWidth(50);
 		newTextBox.setMaxWidth(400);
 		
+	
 		
 		stackPane.getChildren().add(newTextBox);
+		current.add(newTextBox);
 		
 		newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
@@ -102,15 +113,57 @@ public class ShapeSceneController implements Initializable {
 
 	            newTextBox.setTranslateX(newTranslateX);
 	            newTextBox.setTranslateY(newTranslateY);
+	            current.get(getTextField(newTextBox)).setTranslateX(newTranslateX);
+	            current.get(getTextField(newTextBox)).setTranslateY(newTranslateY);
 	        });
 
 	    }
 		 
-		
+		public void saveVenn() {
+			try {
+				String dir=System.getProperty("user.dir");
+				
+				FileWriter fw=new FileWriter(dir+"\\src\\main\\java\\application\\save.csv",true);
+				BufferedWriter bw=new BufferedWriter(fw);
+				PrintWriter pw=new PrintWriter(bw);
+				for (TextField textField : current) {
+					
+					pw.write(textField.getText()+", "+textField.getTranslateX()+", "+textField.getTranslateY());
+					pw.flush();
+				}
+				pw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 		 
-		 
+		private int getTextField(TextField request) {
+			boolean found=false;
+			int index=-1;
+			for (int i=0; i<current.size()&&!found; i++) {
+				TextField textField=current.get(i);
+				if (textField.getText().equals(request.getText())&&textField.getTranslateX()==request.getTranslateX()&&textField.getTranslateY()==request.getTranslateY()) {
+					found=true;
+					index=i;
+				}
+				
+			}
+			return index;
+		} 
 		
 	
+		   /**
+	     * Is called by the main application to give a reference back to itself.
+	     * 
+	     * @param mainApp
+	     */
+	    public void setMainApp(MainApp mainApp) {
+	        this.mainApp = mainApp;
+
+	   
+	    }
 
 	
 	@Override
