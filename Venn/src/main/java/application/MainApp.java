@@ -95,6 +95,7 @@ public class MainApp extends Application {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("menuScene.fxml"));
 		this.menuPane = (BorderPane) loader.load();
+		this.menuPane.getStylesheets().add(getClass().getResource("menuScene.css").toString());
 		rootLayout.setCenter(this.menuPane);
 		menuSceneCont=(MenuSceneController) loader.getController();
 		menuSceneCont.setMainApp(this);
