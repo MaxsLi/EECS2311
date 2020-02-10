@@ -138,19 +138,7 @@ public class ShapeSceneController implements Initializable {
 			
 		}
 		 
-		private int getTextField(TextField request) {
-			boolean found=false;
-			int index=-1;
-			for (int i=0; i<current.size()&&!found; i++) {
-				TextField textField=current.get(i);
-				if (textField.getText().equals(request.getText())&&textField.getTranslateX()==request.getTranslateX()&&textField.getTranslateY()==request.getTranslateY()) {
-					found=true;
-					index=i;
-				}
-				
-			}
-			return index;
-		} 
+	
 		
 	
 		   /**
