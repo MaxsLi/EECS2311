@@ -89,7 +89,7 @@ public class ShapeSceneController implements Initializable {
 
 
 			stackPane.getChildren().add(newTextBox);
-
+			current.add(newTextBox);
 			newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
 				orgSceneX = e.getSceneX();
@@ -120,7 +120,7 @@ public class ShapeSceneController implements Initializable {
 		public void saveVenn() {
 			try {
 				String dir=System.getProperty("user.dir");
-				
+				System.out.println(dir);
 				FileWriter fw=new FileWriter(dir+"\\src\\main\\java\\application\\save.csv",true);
 				BufferedWriter bw=new BufferedWriter(fw);
 				PrintWriter pw=new PrintWriter(bw);
