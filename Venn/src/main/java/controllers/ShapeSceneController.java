@@ -75,47 +75,45 @@ public class ShapeSceneController implements Initializable {
 			alert.setHeaderText("Empty TextField");
 			alert.setContentText("Please enter some Text to the TextField under the Venn Diagram");
 			alert.showAndWait();
+      
+		} else {
+			String newText = this.diagramText.getText();
+
+			TextField newTextBox = new TextField(newText);
+			newTextBox.setEditable(false);
+			newTextBox.resizeRelocate(blueCircle.getCenterX(), blueCircle.getCenterY(), 1, 1);
+			newTextBox.resize(50, 50);
+			newTextBox.setMinWidth(50);
+			newTextBox.setPrefWidth(50);
+			newTextBox.setMaxWidth(400);
+
+
+			stackPane.getChildren().add(newTextBox);
+
+			newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+
+				orgSceneX = e.getSceneX();
+				orgSceneY = e.getSceneY();
+				orgTranslateX = newTextBox.getTranslateX();
+				orgTranslateY = newTextBox.getTranslateY();
+
+				newTextBox.toFront();
+			});
+
+			newTextBox.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
+
+				System.out.println("is dragged");
+
+				double offsetX = e.getSceneX() - orgSceneX;
+				double offsetY = e.getSceneY() - orgSceneY;
+				double newTranslateX = orgTranslateX + offsetX;
+				double newTranslateY = orgTranslateY + offsetY;
+
+				newTextBox.setTranslateX(newTranslateX);
+				newTextBox.setTranslateY(newTranslateY);
+			});
 		}
-		
-		String newText = this.diagramText.getText();
-		
-		TextField newTextBox = new TextField(newText);
-		newTextBox.setEditable(false);
-		newTextBox.resizeRelocate(blueCircle.getCenterX(), blueCircle.getCenterY(), 1, 1);
-		newTextBox.resize(50, 50);
-		newTextBox.setMinWidth(50);
-		newTextBox.setPrefWidth(50);
-		newTextBox.setMaxWidth(400);
-		
 	
-		
-		stackPane.getChildren().add(newTextBox);
-		current.add(newTextBox);
-		
-		newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-
-	            orgSceneX = e.getSceneX();
-	            orgSceneY = e.getSceneY();
-	            orgTranslateX = newTextBox.getTranslateX();
-	            orgTranslateY = newTextBox.getTranslateY();
-
-	            newTextBox.toFront();
-	        });
-
-		newTextBox.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-
-	            System.out.println("is dragged");
-
-	            double offsetX = e.getSceneX() - orgSceneX;
-	            double offsetY = e.getSceneY() - orgSceneY;
-	            double newTranslateX = orgTranslateX + offsetX;
-	            double newTranslateY = orgTranslateY + offsetY;
-
-	            newTextBox.setTranslateX(newTranslateX);
-	            newTextBox.setTranslateY(newTranslateY);
-	            current.get(getTextField(newTextBox)).setTranslateX(newTranslateX);
-	            current.get(getTextField(newTextBox)).setTranslateY(newTranslateY);
-	        });
 
 	    }
 		 
