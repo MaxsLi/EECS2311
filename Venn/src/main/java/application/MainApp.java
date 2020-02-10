@@ -1,22 +1,14 @@
 package application;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
+
 import java.io.IOException;
-
-import com.sun.prism.Graphics;
-
-import controllers.MenuBarController;
-import controllers.MenuSceneController;
-import controllers.ShapeSceneController;
+import controllers.*;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
