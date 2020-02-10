@@ -89,7 +89,7 @@ public class ShapeSceneController implements Initializable {
 
 
 			stackPane.getChildren().add(newTextBox);
-
+			current.add(newTextBox);
 			newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
 				orgSceneX = e.getSceneX();
