@@ -111,6 +111,7 @@ public class ShapeSceneController implements Initializable {
 
 				newTextBox.setTranslateX(newTranslateX);
 				newTextBox.setTranslateY(newTranslateY);
+				
 			});
 		}
 	
@@ -121,12 +122,12 @@ public class ShapeSceneController implements Initializable {
 			try {
 				String dir=System.getProperty("user.dir");
 				
-				FileWriter fw=new FileWriter(dir+"\\src\\main\\java\\application\\save.csv",true);
+				FileWriter fw=new FileWriter(dir+"\\src\\main\\java\\application\\save.csv",false);
 				BufferedWriter bw=new BufferedWriter(fw);
 				PrintWriter pw=new PrintWriter(bw);
 				for (TextField textField : current) {
 					
-					pw.write(textField.getText()+", "+textField.getTranslateX()+", "+textField.getTranslateY());
+					pw.write(textField.getText()+", "+textField.getTranslateX()+", "+textField.getTranslateY()+"\n");
 					pw.flush();
 				}
 				pw.close();
