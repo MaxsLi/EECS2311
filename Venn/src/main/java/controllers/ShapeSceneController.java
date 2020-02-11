@@ -66,9 +66,8 @@ public class ShapeSceneController implements Initializable {
 	}
 	/**
 	 * On click, creates a textArea which can be dragged into Respective Circle
-	 * @param event
 	 */
-	public void addTextToDiagram(ActionEvent event) {
+	public void addTextToDiagram() {
 		if(this.diagramText.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warning Dialog");
@@ -118,14 +117,18 @@ public class ShapeSceneController implements Initializable {
 
 	    }
 		 
-		public void saveVenn() {
+	
+		public ArrayList<TextField> getTextFields() {
+			return current;
+		}
+		public void saveVenn(ArrayList<TextField> write) {
 			try {
 				String dir=System.getProperty("user.dir");
 				
 				FileWriter fw=new FileWriter(dir+"\\src\\main\\java\\application\\save.csv",false);
 				BufferedWriter bw=new BufferedWriter(fw);
 				PrintWriter pw=new PrintWriter(bw);
-				for (TextField textField : current) {
+				for (TextField textField : write) {
 					
 					pw.write(textField.getText()+", "+textField.getTranslateX()+", "+textField.getTranslateY()+"\n");
 					pw.flush();
@@ -138,7 +141,9 @@ public class ShapeSceneController implements Initializable {
 			
 		}
 		 
-	
+	 public void load() {
+		
+	 }
 		
 	
 		   /**
