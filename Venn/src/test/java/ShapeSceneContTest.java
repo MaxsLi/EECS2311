@@ -1,15 +1,23 @@
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
+
 import org.junit.jupiter.api.*;
+
+import application.MainApp;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import controllers.ShapeSceneController;
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import sun.applet.Main;
 
 public class ShapeSceneContTest {
 
@@ -50,9 +58,31 @@ public class ShapeSceneContTest {
 		}
 	
 		@Test
-		public void testLoad() {
+		public void testLoad() throws IOException, InterruptedException {
+			
+			MainApp app=new MainApp();
+			Thread thread=new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					try {
+						app.start(new Stage());
+						app.switchScene("shapeScene");
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			
+				}
+			});
+					
+			thread.start();
+			Thread.sleep(1000);
 			String[] expected=new String[5];
 			TextField tf;
+			cont=app.getShapeSceneController();
 			for (int i = 0; i < expected.length; i++) {
 				tf=new TextField();
 				tf.setText("I am test");
@@ -63,7 +93,8 @@ public class ShapeSceneContTest {
 				
 			}
 			cont.saveVenn(cont.getTextFields());
-			cont=new ShapeSceneController();
+			app.switchScene("shapeScene");
+			cont=app.getShapeSceneController();
 			cont.loadVenn();
 			String[] s=new String[5];
 			
