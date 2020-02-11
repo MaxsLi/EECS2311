@@ -1,6 +1,9 @@
 package controllers;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -120,14 +123,41 @@ public class ShapeSceneController implements Initializable {
 				
 			});
 		}
+		public void loadVenn() {
+			
+			try {
+				FileReader fr=new FileReader(System.getProperty("user.dir")+"\\src\\main\\java\\application\\save.csv");
+				BufferedReader br=new BufferedReader(fr);
+				String[] parts;
+				String s;
+				TextField tf;
+				while ((s=br.readLine())!=null) {
+					parts=s.split(", ");
+					tf=new TextField();
+					tf.setText(parts[0]);
+					tf.setEditable(false);
+					tf.resizeRelocate(blueCircle.getCenterX(),blueCircle.getCenterY(), 1, 1);
+					tf.resize(50, 50);
+					tf.setMinWidth(50);
+					tf.setPrefWidth(50);
+					tf.setMaxWidth(400);
+					tf.setTranslateX(Double.parseDouble(parts[1]));
+					tf.setTranslateY(Double.parseDouble(parts[2]));
+					stackPane.getChildren().add(tf);
+					current.add(tf);
+					addDragEvent(tf);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		public ArrayList<TextField> getTextFields() {
 			return current;
 		}
 		public void saveVenn(ArrayList<TextField> write) {
 			try {
-				String dir=System.getProperty("user.dir");
-				
-				FileWriter fw=new FileWriter(dir+"\\src\\main\\java\\application\\save.csv",false);
+				FileWriter fw=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\application\\save.csv",false);
 				BufferedWriter bw=new BufferedWriter(fw);
 				PrintWriter pw=new PrintWriter(bw);
 				for (TextField textField : write) {
