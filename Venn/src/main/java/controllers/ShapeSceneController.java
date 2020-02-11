@@ -89,6 +89,13 @@ public class ShapeSceneController implements Initializable {
 
 			stackPane.getChildren().add(newTextBox);
 			current.add(newTextBox);
+			addDragEvent(newTextBox);
+		}
+	
+
+	    }
+		 
+		private void addDragEvent(TextField newTextBox) {
 			newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
 				orgSceneX = e.getSceneX();
@@ -113,11 +120,6 @@ public class ShapeSceneController implements Initializable {
 				
 			});
 		}
-	
-
-	    }
-		 
-	
 		public ArrayList<TextField> getTextFields() {
 			return current;
 		}
