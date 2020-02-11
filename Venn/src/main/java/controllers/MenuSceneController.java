@@ -46,7 +46,8 @@ public class MenuSceneController implements Initializable {
 	@FXML
 	private void loadLast() throws IOException {
 		
-		mainApp.switchScene("shapeScene");
+		mainApp.switchScene("load");
+		
 	}
 	
     /**
