@@ -57,6 +57,9 @@ public class ShapeSceneController implements Initializable {
 	@FXML
 	private TextField diagramText;
 	
+	@FXML
+	private TextField appTitle;
+	
 	private MainApp mainApp;
 	
 	private double orgSceneX;
