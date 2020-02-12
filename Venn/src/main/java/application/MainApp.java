@@ -39,6 +39,9 @@ public class MainApp extends Application {
 		
 		MainApp.primaryStage.setMinWidth(primaryStage.getWidth());
 		MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
+		
+		
+		
 		MainApp.primaryStage.show();
 
     //Maximizes the stage immediately on Launch
