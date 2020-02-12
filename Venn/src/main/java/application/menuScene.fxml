@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1250.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuSceneController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1250.0" prefWidth="1000.0" stylesheets="@menuScene.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuSceneController">
+
    <left>
       <VBox BorderPane.alignment="CENTER">
          <children>
@@ -15,7 +16,7 @@
                   <Insets top="450.0" />
                </VBox.margin>
             </Button>
-            <Label alignment="BOTTOM_CENTER" text="Recent Venn Diagrams" underline="true">
+            <Label alignment="BOTTOM_CENTER" text="Recent Venn Diagrams">
                <VBox.margin>
                   <Insets left="75.0" top="40.0" />
                </VBox.margin>
@@ -32,7 +33,7 @@
             <Insets right="90.0" />
          </BorderPane.margin>
          <children>
-            <Button fx:id="getExistingBtn" mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" text="Get Existing">
+            <Button fx:id="getExistingBtn" mnemonicParsing="false" onMouseClicked="#loadLast" prefHeight="80.0" prefWidth="250.0" text="Get Existing">
                <VBox.margin>
                   <Insets top="450.0" />
                </VBox.margin>

@@ -26,7 +26,7 @@ public class MenuBarController {
 	
 	//Method to close not using menuBar
 	public static void closeProgram(WindowEvent e) {
-		System.out.println("Closed properly.");
+		
 		MainApp.primaryStage.close();
 	}
 	

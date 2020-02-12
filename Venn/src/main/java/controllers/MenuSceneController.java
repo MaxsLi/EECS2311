@@ -43,6 +43,13 @@ public class MenuSceneController implements Initializable {
 		mainApp.switchScene("shapeScene");
 	}
 	
+	@FXML
+	private void loadLast() throws IOException {
+		
+		mainApp.switchScene("load");
+		
+	}
+	
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded. 

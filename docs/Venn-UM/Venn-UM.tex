@@ -1,0 +1,159 @@
+% !TEX encoding = UTF-8
+\documentclass[fontsize=12pt,paper=letter,twoside]{scrartcl}
+% Various imports and themes
+\input{sty/defns.tex} 
+\usepackage{pdfpages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title and Authors
+\newcommand{\mytitle}{
+	EECS2311-W20 Project: Venn Create\\ User Manual
+}
+\ihead[]{\small \mytitle}
+\title{\mytitle}
+\author{
+	Chidalu Agbakwa (216337784) \and
+	Jihal Patel (216376436) 	\and
+	Shangru Li (214488993) 		\and
+	Robert Suwary (215446016)
+}
+% Display a given date or no date
+\date{\today}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Revisions}
+\begin{tabular}{|l|l|p{3in}|}
+	\hline
+	Date & Revision& Description \\ 
+	\hline
+	09 February 2020 
+	& 1.0       
+	& Initial release of this document\\ 
+	\hline
+\end{tabular}
+\bigskip\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\vspace*{2in}
+\begin{center}
+	\huge{\textbf{User Manual}:\\ Venn Create}
+\end{center}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+%\listoftables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Introduction}
+Welcome to Venn Create - a desktop application that can draw customizable
+Venn diagrams.
+
+Venn Create enables user to easily create Venn diagrams with customized
+labels, in different size and shape. Which can be used to compare and
+contrast two or more objects, events, people, or concepts. Clearly
+illustrating the differences and similarities between different entities
+and all of this, with ZERO cost.
+
+Venn Create provides a user-friendly interface, so that new users will
+be able to use the application with minimum efforts. In addition,
+the application provides essential functionalities, such as export/import
+existing Venn diagrams, printing and customized theming.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Get Started}
+
+Venn Create provides an intuitive interface and strive to deliver the best user experience.
+
+\subsection{Introduction Interface}
+
+ After user opens the application, the introduction interface will display:
+
+\begin{figure}[hbt]
+	\begin{mdframed}
+		\includegraphics[width=\textwidth]{images/intro-screenshot.png}
+	\end{mdframed}
+	\caption{Introduction Interface}
+\end{figure}
+
+\begin{itemize}
+	\item[\textbf{A.}] {
+		Button to create a new Venn diagram.
+	}
+	\item[\textbf{B.}] {
+		Button to import existing Venn diagrams.
+	}
+	\item[\textbf{C.}] {
+		History list containing a record of the recent Venn diagrams.
+	}
+	\item[\textbf{D.}] {
+		Menu bar button to expand the options for operations regarding files.
+	}
+	\item[\textbf{E.}] {
+		Menu bar button to expand the options for inserting a new Venn diagram.
+	}
+	\item[\textbf{F.}] {
+		Menu bar button to view the help page.
+	}
+\end{itemize}
+
+\subsection{Main Interface}
+
+If user chose to create or import any Venn diagrams, the application will switch to the main interface:
+
+\begin{figure}[hbt]
+	\begin{mdframed}
+		\includegraphics[width=\textwidth]{images/main-screenshot.png}
+	\end{mdframed}
+	\caption{Main Interface}
+\end{figure}
+
+\begin{itemize}
+	\item[\textbf{A.}] {
+		Text area for the name of the left Venn diagram.
+	}
+	\item[\textbf{B.}] {
+		Text area for the name of the right Venn diagram.
+	}
+	\item[\textbf{C.}] {
+		Text area for the content of the new text label to be added to the Venn diagrams.
+	}
+	\item[\textbf{D.}] {
+		Button to add the a new text label to the Venn diagrams.
+	}
+	\item[\textbf{E.}] {
+		Button to edit an existing text label of the Venn diagrams.
+	}
+	\item[\textbf{F.}] {
+		Button to remove an existing text label from the Venn diagrams.
+	}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Using the Software}
+
+After getting acquainted with the basic user interface of the software.
+User can explore the product and create customized Venn diagram. Here is an example usage:
+
+\textbf{\begin{figure}[hbt]
+		\begin{mdframed}
+			\includegraphics[width=\textwidth]{images/usage1-screenshot.png}
+		\end{mdframed}
+		\caption{Example Usage}
+\end{figure}}
+
+In this use case, user named the left diagram "Diagram 1" and the right diagram "Diagram 2".
+
+Furthermore, user has already added two text label on the Venn diagrams. Note that, after each text label been added, user can drag it to anywhere on the workplace.
+
+If user wish to add more text label, one can input the content of the new label and click `Add` button. Then drag the new label anywhere needed.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} 	
+
