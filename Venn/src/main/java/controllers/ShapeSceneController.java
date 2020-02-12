@@ -163,6 +163,9 @@ public class ShapeSceneController implements Initializable {
 		public void saveVenn(ArrayList<TextField> write) {
 			try {
 				FileWriter fw=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\application\\save.csv",false);
+				String dir=System.getProperty("user.dir");
+				System.out.println(dir);
+				FileWriter fw=new FileWriter(dir+"\\src\\main\\java\\application\\save.csv",true);
 				BufferedWriter bw=new BufferedWriter(fw);
 				PrintWriter pw=new PrintWriter(bw);
 				for (TextField textField : write) {
