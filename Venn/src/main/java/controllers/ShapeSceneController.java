@@ -111,8 +111,6 @@ public class ShapeSceneController implements Initializable {
 
 			newTextBox.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
 
-				System.out.println("is dragged");
-
 				double offsetX = e.getSceneX() - orgSceneX;
 				double offsetY = e.getSceneY() - orgSceneY;
 				double newTranslateX = orgTranslateX + offsetX;
