@@ -21,9 +21,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -111,8 +113,6 @@ public class ShapeSceneController implements Initializable {
 
 			newTextBox.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
 
-				System.out.println("is dragged");
-
 				double offsetX = e.getSceneX() - orgSceneX;
 				double offsetY = e.getSceneY() - orgSceneY;
 				double newTranslateX = orgTranslateX + offsetX;
@@ -161,6 +161,7 @@ public class ShapeSceneController implements Initializable {
 		public ArrayList<TextField> getTextFields() {
 			return current;
 		}
+		
 		public void saveVenn(ArrayList<TextField> write) {
 			try {
 				FileWriter fw=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\application\\save.csv",false);
@@ -180,6 +181,10 @@ public class ShapeSceneController implements Initializable {
 			}
 			
 		}
+		
+		public void blueCircleGlow() {
+			
+		}
 		 
 	
 		   /**
@@ -189,6 +194,7 @@ public class ShapeSceneController implements Initializable {
 	     */
 	    public void setMainApp(MainApp mainApp) {
 	        this.mainApp = mainApp;
+
 
 	   
 	    }
