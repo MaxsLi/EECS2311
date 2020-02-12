@@ -83,9 +83,6 @@ public class MainApp extends Application {
 		
 	}
 	
-	public ShapeSceneController getShapeSceneController() {
-		return shapeSceneCont;
-	}
 	public void switchScene(String sceneNew) throws IOException {
 		if (sceneNew.equals("menuScene")) {
 			loadMenuScene();

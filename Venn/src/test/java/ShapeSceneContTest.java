@@ -16,6 +16,7 @@ import controllers.ShapeSceneController;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import sun.applet.Main;
 
@@ -58,31 +59,12 @@ public class ShapeSceneContTest {
 		}
 	
 		@Test
-		public void testLoad() throws IOException, InterruptedException {
+		public void testLoad() throws IOException {
 			
-			MainApp app=new MainApp();
-			Thread thread=new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					try {
-						app.start(new Stage());
-						app.switchScene("shapeScene");
-						
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			
-				}
-			});
-					
-			thread.start();
-			Thread.sleep(1000);
+		
 			String[] expected=new String[5];
 			TextField tf;
-			cont=app.getShapeSceneController();
+			cont=new ShapeSceneController();
 			for (int i = 0; i < expected.length; i++) {
 				tf=new TextField();
 				tf.setText("I am test");
@@ -93,8 +75,8 @@ public class ShapeSceneContTest {
 				
 			}
 			cont.saveVenn(cont.getTextFields());
-			app.switchScene("shapeScene");
-			cont=app.getShapeSceneController();
+			cont=new ShapeSceneController();
+			cont.setStackPane(new StackPane());
 			cont.loadVenn();
 			String[] s=new String[5];
 			

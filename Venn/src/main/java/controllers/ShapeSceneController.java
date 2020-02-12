@@ -136,7 +136,7 @@ public class ShapeSceneController implements Initializable {
 					tf=new TextField();
 					tf.setText(parts[0]);
 					tf.setEditable(false);
-					tf.resizeRelocate(blueCircle.getCenterX(),blueCircle.getCenterY(), 1, 1);
+					tf.resizeRelocate(0,0, 1, 1);
 					tf.resize(50, 50);
 					tf.setMinWidth(50);
 					tf.setPrefWidth(50);
@@ -151,6 +151,11 @@ public class ShapeSceneController implements Initializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		//for  tester
+		public void setStackPane(StackPane sp) {
+			this.stackPane=sp;
+			
 		}
 		public ArrayList<TextField> getTextFields() {
 			return current;
@@ -173,10 +178,6 @@ public class ShapeSceneController implements Initializable {
 			
 		}
 		 
-	 public void load() {
-		
-	 }
-		
 	
 		   /**
 	     * Is called by the main application to give a reference back to itself.
