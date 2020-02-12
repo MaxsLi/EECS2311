@@ -33,7 +33,7 @@
             <Insets right="90.0" />
          </BorderPane.margin>
          <children>
-            <Button fx:id="getExistingBtn" mnemonicParsing="false" prefHeight="80.0" prefWidth="250.0" text="Get Existing">
+            <Button fx:id="getExistingBtn" mnemonicParsing="false" onMouseClicked="#loadLast" prefHeight="80.0" prefWidth="250.0" text="Get Existing">
                <VBox.margin>
                   <Insets top="450.0" />
                </VBox.margin>

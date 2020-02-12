@@ -1,6 +1,9 @@
 package controllers;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -66,9 +69,8 @@ public class ShapeSceneController implements Initializable {
 	}
 	/**
 	 * On click, creates a textArea which can be dragged into Respective Circle
-	 * @param event
 	 */
-	public void addTextToDiagram(ActionEvent event) {
+	public void addTextToDiagram() {
 		if(this.diagramText.getText().isEmpty()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warning Dialog");
@@ -90,6 +92,13 @@ public class ShapeSceneController implements Initializable {
 
 			stackPane.getChildren().add(newTextBox);
 			current.add(newTextBox);
+			addDragEvent(newTextBox);
+		}
+	
+
+	    }
+		 
+		private void addDragEvent(TextField newTextBox) {
 			newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
 				orgSceneX = e.getSceneX();
@@ -111,22 +120,57 @@ public class ShapeSceneController implements Initializable {
 
 				newTextBox.setTranslateX(newTranslateX);
 				newTextBox.setTranslateY(newTranslateY);
+				
 			});
 		}
-	
-
-	    }
-		 
-		public void saveVenn() {
+		public void loadVenn() {
+			
 			try {
+				FileReader fr=new FileReader(System.getProperty("user.dir")+"\\src\\main\\java\\application\\save.csv");
+				BufferedReader br=new BufferedReader(fr);
+				String[] parts;
+				String s;
+				TextField tf;
+				while ((s=br.readLine())!=null) {
+					parts=s.split(", ");
+					tf=new TextField();
+					tf.setText(parts[0]);
+					tf.setEditable(false);
+					tf.resizeRelocate(0,0, 1, 1);
+					tf.resize(50, 50);
+					tf.setMinWidth(50);
+					tf.setPrefWidth(50);
+					tf.setMaxWidth(400);
+					tf.setTranslateX(Double.parseDouble(parts[1]));
+					tf.setTranslateY(Double.parseDouble(parts[2]));
+					stackPane.getChildren().add(tf);
+					current.add(tf);
+					addDragEvent(tf);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		//for  tester
+		public void setStackPane(StackPane sp) {
+			this.stackPane=sp;
+			
+		}
+		public ArrayList<TextField> getTextFields() {
+			return current;
+		}
+		public void saveVenn(ArrayList<TextField> write) {
+			try {
+				FileWriter fw=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\application\\save.csv",false);
 				String dir=System.getProperty("user.dir");
 				System.out.println(dir);
 				FileWriter fw=new FileWriter(dir+"\\src\\main\\java\\application\\save.csv",true);
 				BufferedWriter bw=new BufferedWriter(fw);
 				PrintWriter pw=new PrintWriter(bw);
-				for (TextField textField : current) {
+				for (TextField textField : write) {
 					
-					pw.write(textField.getText()+", "+textField.getTranslateX()+", "+textField.getTranslateY());
+					pw.write(textField.getText()+", "+textField.getTranslateX()+", "+textField.getTranslateY()+"\n");
 					pw.flush();
 				}
 				pw.close();
@@ -137,20 +181,6 @@ public class ShapeSceneController implements Initializable {
 			
 		}
 		 
-		private int getTextField(TextField request) {
-			boolean found=false;
-			int index=-1;
-			for (int i=0; i<current.size()&&!found; i++) {
-				TextField textField=current.get(i);
-				if (textField.getText().equals(request.getText())&&textField.getTranslateX()==request.getTranslateX()&&textField.getTranslateY()==request.getTranslateY()) {
-					found=true;
-					index=i;
-				}
-				
-			}
-			return index;
-		} 
-		
 	
 		   /**
 	     * Is called by the main application to give a reference back to itself.

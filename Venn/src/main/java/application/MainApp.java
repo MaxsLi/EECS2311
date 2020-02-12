@@ -1,22 +1,16 @@
 package application;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
+
 import java.io.IOException;
-
-import com.sun.prism.Graphics;
-
-import controllers.MenuBarController;
-import controllers.MenuSceneController;
-import controllers.ShapeSceneController;
+import controllers.*;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -52,7 +46,9 @@ public class MainApp extends Application {
 		
 		//Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
-			shapeSceneCont.saveVenn();
+			if (shapeSceneCont!=null) {
+			shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
+			}
 			e.consume();
 			MenuBarController.closeProgram(e);
 		});
@@ -87,13 +83,24 @@ public class MainApp extends Application {
 		
 	}
 	
-
 	public void switchScene(String sceneNew) throws IOException {
 		if (sceneNew.equals("menuScene")) {
 			loadMenuScene();
 		}	
 		else if (sceneNew.equals("shapeScene")) {
 			loadShapeScene();
+		}
+		else if (sceneNew.equals("load")) {
+			loadShapeScene();
+			shapeSceneCont.loadVenn();
+			if(shapeSceneCont.getTextFields().isEmpty()){
+				loadMenuScene();
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Warning Dialog");
+				alert.setHeaderText("Empty TextField");
+				alert.setContentText("Error Loading: Nothing to Load, Please Create a New Venn Diagram First");
+				alert.showAndWait();
+			}
 		}
 	}
 	
