@@ -147,6 +147,7 @@ public class ShapeSceneController implements Initializable {
 					current.add(tf);
 					addDragEvent(tf);
 				}
+				fr.close();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -163,9 +164,7 @@ public class ShapeSceneController implements Initializable {
 		public void saveVenn(ArrayList<TextField> write) {
 			try {
 				FileWriter fw=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\application\\save.csv",false);
-				String dir=System.getProperty("user.dir");
-				System.out.println(dir);
-				FileWriter fw=new FileWriter(dir+"\\src\\main\\java\\application\\save.csv",true);
+				
 				BufferedWriter bw=new BufferedWriter(fw);
 				PrintWriter pw=new PrintWriter(bw);
 				for (TextField textField : write) {
@@ -174,6 +173,7 @@ public class ShapeSceneController implements Initializable {
 					pw.flush();
 				}
 				pw.close();
+				fw.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
