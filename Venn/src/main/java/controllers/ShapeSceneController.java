@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import java.io.File;
+
 import application.MainApp;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -59,6 +61,12 @@ public class ShapeSceneController implements Initializable {
 	
 	@FXML
 	private TextField appTitle;
+	
+	@FXML
+	private TextField diagram1Title;
+	
+	@FXML
+	private TextField diagram2Title;
 	
 	private MainApp mainApp;
 	
@@ -126,6 +134,7 @@ public class ShapeSceneController implements Initializable {
 				
 			});
 		}
+		//needs to be edited to use the new method of saving should take in a path
 		public void loadVenn() {
 			
 			try {
@@ -164,13 +173,23 @@ public class ShapeSceneController implements Initializable {
 		public ArrayList<TextField> getTextFields() {
 			return current;
 		}
+		// will see if venn was saved
+		public void compare() {
+			
+		}
+		//pretty much done
+		public void saveVenn(ArrayList<TextField> write)  {
 		
-		public void saveVenn(ArrayList<TextField> write) {
 			try {
-				FileWriter fw=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\application\\save.csv",false);
+				if (appTitle.getText()==null) {
+					appTitle.setText("Untitled");
+				}
+				File file=new File(System.getProperty("user.dir")+"\\src\\main\\java\\resources\\"+appTitle.getText()+"\\save.csv");
+				FileWriter fw=new FileWriter(file,false);
 				
 				BufferedWriter bw=new BufferedWriter(fw);
 				PrintWriter pw=new PrintWriter(bw);
+				pw.write(appTitle.getText()+", "+diagram1Title.getText()+", "+ diagram2Title.getText());
 				for (TextField textField : write) {
 					
 					pw.write(textField.getText()+", "+textField.getTranslateX()+", "+textField.getTranslateY()+"\n");

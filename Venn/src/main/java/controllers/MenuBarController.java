@@ -1,12 +1,11 @@
 package controllers;
 
+
 import java.util.ArrayList;
 import java.util.List;
-
 import application.MainApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.WindowEvent;
 
@@ -17,7 +16,7 @@ public class MenuBarController {
 	private final int C_X = 50, C_Y = 50;
 	public static int circles = 0;
 	private final int MAX_CIRCLES = 2;
-	
+	private MainApp mainApp;
 	@FXML
 	private void closeProgram(ActionEvent e) {
 		//System.out.println("Closed properly.");
@@ -30,6 +29,16 @@ public class MenuBarController {
 		MainApp.primaryStage.close();
 	}
 	
+	@FXML
+	 private void saveVenn() {
+		// TODO Auto-generated method stub
+
+		
+	}
+	
+	public void setMainApp(MainApp mainApp) {
+		     this.mainApp=mainApp;
+	}
 	@FXML
 	private void addCircle(ActionEvent e) {
 		if(circles < MAX_CIRCLES) {
