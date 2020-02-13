@@ -23,6 +23,7 @@ public class MainApp extends Application {
 	private BorderPane menuPane;
 	private MenuSceneController menuSceneCont;
 	private ShapeSceneController shapeSceneCont;
+	private MenuSceneController menuBarCont;
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		MainApp.primaryStage = primaryStage;
@@ -40,7 +41,7 @@ public class MainApp extends Application {
 		MainApp.primaryStage.setMinWidth(primaryStage.getWidth());
 		MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
 		
-		
+	
 		
 		MainApp.primaryStage.show();
 
@@ -69,9 +70,12 @@ public class MainApp extends Application {
 		loader1.setLocation(getClass().getResource("menuBar.fxml"));
 		this.menuBar = (MenuBar) loader1.load();
 		this.rootLayout.setTop(this.menuBar);
+		menuBarCont=(MenuSceneController) loader1.getController();
+		menuBarCont.setMainApp(this);
 	}
 	
 	private void loadShapeScene() throws IOException {
+		MainApp.primaryStage.setTitle("Untitled Vennn Diagram");
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("shapeScene.fxml"));
 		//this.vennPane = (StackPane) loader.load();
@@ -83,6 +87,12 @@ public class MainApp extends Application {
 		shapeSceneCont=(ShapeSceneController) loader.getController();
 		shapeSceneCont.setMainApp(this);
 		
+		
+	}
+	
+	public void save() {
+			shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
+
 		
 	}
 	

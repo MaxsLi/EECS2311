@@ -4,10 +4,11 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 
-<MenuBar xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.MenuBarController">
+<MenuBar xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuBarController">
   <menus>
     <Menu mnemonicParsing="false" text="File">
       <items>
+            <MenuItem mnemonicParsing="false" text="Save" />
         <MenuItem mnemonicParsing="false" onAction="#closeProgram" text="Close" />
       </items>
     </Menu>
