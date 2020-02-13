@@ -46,8 +46,8 @@
             <Button fx:id="removeButton" mnemonicParsing="false" text="Remove" />
         </buttons>
       </ButtonBar>
-      <TextField layoutX="274.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #1's Name" style="-fx-font-size: 20;" />
-      <TextField layoutX="667.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #2's Name" style="-fx-font-size: 20;" />
+      <TextField fx:id="diagram1Title" layoutX="274.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #1's Name" style="-fx-font-size: 20;" />
+      <TextField fx:id="diagram2Title" layoutX="667.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #2's Name" style="-fx-font-size: 20;" />
       <TextField fx:id="appTitle" layoutX="428.0" layoutY="14.0" prefHeight="46.0" prefWidth="396.0" promptText="Enter Title of Application" style="-fx-font-size: 25;" />
    </children>
 </AnchorPane>

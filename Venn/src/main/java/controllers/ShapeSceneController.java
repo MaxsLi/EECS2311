@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import java.io.File;
+
 import application.MainApp;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -57,6 +59,13 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private TextField appTitle;
+
+	
+	@FXML
+	private TextField diagram1Title;
+	
+	@FXML
+	private TextField diagram2Title;
 
 	private MainApp mainApp;
 
@@ -113,6 +122,7 @@ public class ShapeSceneController implements Initializable {
 
 		newTextBox.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
 
+
 			double offsetX = e.getSceneX() - orgSceneX;
 			double offsetY = e.getSceneY() - orgSceneY;
 			double newTranslateX = orgTranslateX + offsetX;
@@ -147,12 +157,49 @@ public class ShapeSceneController implements Initializable {
 				stackPane.getChildren().add(tf);
 				current.add(tf);
 				addDragEvent(tf);
+
+				newTextBox.setTranslateX(newTranslateX);
+				newTextBox.setTranslateY(newTranslateY);
+				
+			});
+		}
+		//needs to be edited to use the new method of saving should take in a path
+		public void loadVenn() {
+			
+			try {
+				FileReader fr=new FileReader(System.getProperty("user.dir")+"\\src\\main\\java\\application\\save.csv");
+				BufferedReader br=new BufferedReader(fr);
+				String[] parts;
+				String s;
+				TextField tf;
+				while ((s=br.readLine())!=null) {
+					parts=s.split(", ");
+					tf=new TextField();
+					tf.setText(parts[0]);
+					tf.setEditable(false);
+					tf.resizeRelocate(0,0, 1, 1);
+					tf.resize(50, 50);
+					tf.setMinWidth(50);
+					tf.setPrefWidth(50);
+					tf.setMaxWidth(400);
+					tf.setTranslateX(Double.parseDouble(parts[1]));
+					tf.setTranslateY(Double.parseDouble(parts[2]));
+					stackPane.getChildren().add(tf);
+					current.add(tf);
+					addDragEvent(tf);
+				}
+				fr.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
 			}
 			fr.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 
 	// for tester
@@ -177,6 +224,43 @@ public class ShapeSceneController implements Initializable {
 				pw.write(textField.getText() + ", " + textField.getTranslateX() + ", " + textField.getTranslateY()
 						+ "\n");
 				pw.flush();
+
+		//for  tester
+		public void setStackPane(StackPane sp) {
+			this.stackPane=sp;
+			
+		}
+		public ArrayList<TextField> getTextFields() {
+			return current;
+		}
+		// will see if venn was saved
+		public void compare() {
+			
+		}
+		//pretty much done
+		public void saveVenn(ArrayList<TextField> write)  {
+		
+			try {
+				if (appTitle.getText()==null) {
+					appTitle.setText("Untitled");
+				}
+				File file=new File(System.getProperty("user.dir")+"\\src\\main\\java\\resources\\"+appTitle.getText()+"\\save.csv");
+				FileWriter fw=new FileWriter(file,false);
+				
+				BufferedWriter bw=new BufferedWriter(fw);
+				PrintWriter pw=new PrintWriter(bw);
+				pw.write(appTitle.getText()+", "+diagram1Title.getText()+", "+ diagram2Title.getText());
+				for (TextField textField : write) {
+					
+					pw.write(textField.getText()+", "+textField.getTranslateX()+", "+textField.getTranslateY()+"\n");
+					pw.flush();
+				}
+				pw.close();
+				fw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
 			}
 			pw.close();
 			fw.close();
