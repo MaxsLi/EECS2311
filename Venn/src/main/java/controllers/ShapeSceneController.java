@@ -97,7 +97,7 @@ public class ShapeSceneController implements Initializable {
 			newTextBox.setEditable(false);
 			newTextBox.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
 	
-			newTextBox.setMaxWidth(newText.length() * 10);
+			newTextBox.setMaxWidth(newText.length() * 15);
 
 			stackPane.getChildren().add(newTextBox);
 			current.add(newTextBox);
@@ -105,7 +105,7 @@ public class ShapeSceneController implements Initializable {
 		}
 
 	}
-
+ 
 	private void addDragEvent(TextField newTextBox) {
 		newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
