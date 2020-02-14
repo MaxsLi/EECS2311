@@ -19,6 +19,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Control;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -38,10 +40,10 @@ public class ShapeSceneController implements Initializable {
 	private StackPane stackPane;
 
 	@FXML
-	private Circle blueCircle;
+	private Circle leftCircle;
 
 	@FXML
-	private Circle redCircle;
+	private Circle rightCircle;
 
 	@FXML
 	private Button addBttn;
@@ -57,6 +59,12 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private TextField appTitle;
+	
+	@FXML
+	private ColorPicker leftColorPicker;
+	
+	@FXML
+	private ColorPicker rightColorPicker;
 
 	private MainApp mainApp;
 
@@ -87,11 +95,9 @@ public class ShapeSceneController implements Initializable {
 
 			TextField newTextBox = new TextField(newText);
 			newTextBox.setEditable(false);
-			newTextBox.resizeRelocate(blueCircle.getCenterX(), blueCircle.getCenterY(), 1, 1);
-			newTextBox.resize(50, 50);
-			newTextBox.setMinWidth(50);
-			newTextBox.setPrefWidth(50);
-			newTextBox.setMaxWidth(400);
+			newTextBox.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
+	
+			newTextBox.setMaxWidth(newText.length() * 10);
 
 			stackPane.getChildren().add(newTextBox);
 			current.add(newTextBox);
@@ -187,8 +193,12 @@ public class ShapeSceneController implements Initializable {
 
 	}
 
-	public void blueCircleGlow() {
-
+	public void changeLeftColor() {
+		leftCircle.setFill(leftColorPicker.getValue());
+	}
+	
+	public void changeRightColor() {
+		rightCircle.setFill(rightColorPicker.getValue());
 	}
 
 	/**
