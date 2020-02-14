@@ -118,15 +118,8 @@ public class ShapeSceneController implements Initializable {
 		});
 
 		newTextBox.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-
-			double offsetX = e.getSceneX() - orgSceneX;
-			double offsetY = e.getSceneY() - orgSceneY;
-			double newTranslateX = orgTranslateX + offsetX;
-			double newTranslateY = orgTranslateY + offsetY;
-
-			newTextBox.setTranslateX(newTranslateX);
-			newTextBox.setTranslateY(newTranslateY);
-
+		  newTextBox.setTranslateX(newTranslateX);
+		  newTextBox.setTranslateY(newTranslateY);
 		});
 	}
 
