@@ -44,13 +44,12 @@
         <buttons>
             <Button fx:id="addBttn" mnemonicParsing="false" onAction="#addTextToDiagram" text="Add" />
           <Button fx:id="editBttn" mnemonicParsing="false" text="Edit" />
-            <Button fx:id="removeButton" mnemonicParsing="false" text="Remove" />
         </buttons>
       </ButtonBar>
       <TextField layoutX="274.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #1's Name" style="-fx-font-size: 20;" />
       <TextField layoutX="667.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #2's Name" style="-fx-font-size: 20;" />
       <TextField fx:id="appTitle" layoutX="428.0" layoutY="14.0" prefHeight="46.0" prefWidth="396.0" promptText="Enter Title of Application" style="-fx-font-size: 25;" />
-      <ColorPicker fx:id="leftColorPicker" layoutX="24.0" layoutY="239.0" onAction="#changeLeftColor" />
-      <ColorPicker fx:id="rightColorPicker" layoutX="1057.0" layoutY="239.0" onAction="#changeRightColor" />
+      <ColorPicker fx:id="leftColorPicker" layoutX="14.0" layoutY="239.0" onAction="#changeLeftColor" />
+      <ColorPicker fx:id="rightColorPicker" layoutX="1100.0" layoutY="239.0" onAction="#changeRightColor" />
    </children>
 </AnchorPane>

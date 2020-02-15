@@ -20,7 +20,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Control;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
@@ -65,6 +67,9 @@ public class ShapeSceneController implements Initializable {
 	
 	@FXML
 	private ColorPicker rightColorPicker;
+	
+	@FXML
+	private ContextMenu textFieldContext;
 
 	private MainApp mainApp;
 
@@ -102,6 +107,7 @@ public class ShapeSceneController implements Initializable {
 			stackPane.getChildren().add(newTextBox);
 			current.add(newTextBox);
 			addDragEvent(newTextBox);
+			addContext(newTextBox);
 		}
 
 	}
@@ -128,6 +134,25 @@ public class ShapeSceneController implements Initializable {
 			newTextBox.setTranslateY(newTranslateY);
 
 		});
+	}
+	
+	public void addContext(TextField text) {
+		ContextMenu context = new ContextMenu();
+		MenuItem delete = new MenuItem("Delete");
+		MenuItem edit = new MenuItem("Edit");
+		context.getItems().add(delete);
+		context.getItems().add(edit);
+		text.setContextMenu(context);
+
+        delete.setOnAction((event) -> {
+        	stackPane.getChildren().remove(text);
+        });
+        
+        edit.setOnAction((event) -> {
+        	text.setEditable(true);
+        });
+        
+        
 	}
 
 	public void loadVenn() {
