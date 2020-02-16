@@ -132,7 +132,7 @@ public class ShapeSceneController implements Initializable {
 
 			newTextBox.setTranslateX(newTranslateX);
 			newTextBox.setTranslateY(newTranslateY);
-
+			
 		});
 	}
 	
