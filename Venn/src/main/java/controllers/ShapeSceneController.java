@@ -90,7 +90,7 @@ public class ShapeSceneController implements Initializable {
 	 * On click, creates a textArea which can be dragged into Respective Circle
 	 */
 	public void addTextToDiagram() {
-		if (this.diagramText.getText().isEmpty()) {
+		if (this.diagramText.getText().isEmpty() || this.diagramText.getText().trim().equals("")) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Warning Dialog");
 			alert.setHeaderText("Empty TextField");
