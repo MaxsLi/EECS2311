@@ -26,6 +26,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -61,13 +63,13 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private TextField appTitle;
-	
+
 	@FXML
 	private ColorPicker leftColorPicker;
-	
+
 	@FXML
 	private ColorPicker rightColorPicker;
-	
+
 	@FXML
 	private ContextMenu textFieldContext;
 
@@ -101,8 +103,8 @@ public class ShapeSceneController implements Initializable {
 			TextField newTextBox = new TextField(newText);
 			newTextBox.setEditable(false);
 			newTextBox.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
-	
-			newTextBox.setMaxWidth(newText.length() * 15);
+
+			newTextBox.setMaxWidth(newText.length() + 50);
 
 			stackPane.getChildren().add(newTextBox);
 			current.add(newTextBox);
@@ -111,7 +113,15 @@ public class ShapeSceneController implements Initializable {
 		}
 
 	}
- 
+	
+	public void handle(KeyEvent e) {
+		if( e.getCode() == KeyCode.ENTER) {
+			addTextToDiagram();
+		}
+		
+		e.consume();
+		}
+
 	private void addDragEvent(TextField newTextBox) {
 		newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
@@ -132,10 +142,12 @@ public class ShapeSceneController implements Initializable {
 
 			newTextBox.setTranslateX(newTranslateX);
 			newTextBox.setTranslateY(newTranslateY);
-			
+
 		});
 	}
 	
+		
+
 	public void addContext(TextField text) {
 		ContextMenu context = new ContextMenu();
 		MenuItem delete = new MenuItem("Delete");
@@ -144,15 +156,14 @@ public class ShapeSceneController implements Initializable {
 		context.getItems().add(edit);
 		text.setContextMenu(context);
 
-        delete.setOnAction((event) -> {
-        	stackPane.getChildren().remove(text);
-        });
-        
-        edit.setOnAction((event) -> {
-        	text.setEditable(true);
-        });
-        
-        
+		delete.setOnAction((event) -> {
+			stackPane.getChildren().remove(text);
+		});
+
+		edit.setOnAction((event) -> {
+			text.setEditable(true);
+		});
+
 	}
 
 	public void loadVenn() {
@@ -221,7 +232,7 @@ public class ShapeSceneController implements Initializable {
 	public void changeLeftColor() {
 		leftCircle.setFill(leftColorPicker.getValue());
 	}
-	
+
 	public void changeRightColor() {
 		rightCircle.setFill(rightColorPicker.getValue());
 	}
