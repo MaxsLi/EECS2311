@@ -114,13 +114,6 @@ public class ShapeSceneController implements Initializable {
 
 	}
 	
-	public void handle(KeyEvent e) {
-		if( e.getCode() == KeyCode.ENTER) {
-			addTextToDiagram();
-		}
-		
-		e.consume();
-		}
 
 	private void addDragEvent(TextField newTextBox) {
 		newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
@@ -228,7 +221,7 @@ public class ShapeSceneController implements Initializable {
 		}
 
 	}
-
+	
 	public void changeLeftColor() {
 		leftCircle.setFill(leftColorPicker.getValue());
 	}
