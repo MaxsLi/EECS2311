@@ -26,9 +26,12 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -113,7 +116,18 @@ public class ShapeSceneController implements Initializable {
 		}
 
 	}
+<<<<<<< HEAD
 	
+=======
+
+	public void handle(KeyEvent e) {
+		if (e.getCode() == KeyCode.ENTER) {
+			addTextToDiagram();
+		}
+
+		e.consume();
+	}
+>>>>>>> 367f7243ecf02225d73b20c4cc793d296ae68202
 
 	private void addDragEvent(TextField newTextBox) {
 		newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
@@ -141,7 +155,7 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	
-		
+
 
 	public void addContext(TextField text) {
 		ContextMenu context = new ContextMenu();
