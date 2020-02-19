@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -37,6 +38,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import models.VennSet;
 
 public class ShapeSceneController implements Initializable {
 
@@ -77,6 +79,14 @@ public class ShapeSceneController implements Initializable {
 	private ContextMenu textFieldContext;
 
 	private MainApp mainApp;
+	
+	private VennSet leftSet = new VennSet();
+	
+	private VennSet rightSet = new VennSet();
+	
+	private VennSet intersectionSet = new VennSet();
+	
+	
 
 	private double orgSceneX;
 	private double orgSceneY;
@@ -116,19 +126,7 @@ public class ShapeSceneController implements Initializable {
 		}
 
 	}
-<<<<<<< HEAD
 	
-=======
-
-	public void handle(KeyEvent e) {
-		if (e.getCode() == KeyCode.ENTER) {
-			addTextToDiagram();
-		}
-
-		e.consume();
-	}
->>>>>>> 367f7243ecf02225d73b20c4cc793d296ae68202
-
 	private void addDragEvent(TextField newTextBox) {
 		newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
@@ -152,6 +150,50 @@ public class ShapeSceneController implements Initializable {
 			
 
 		});
+		
+		/**
+		 * On Mouse Release Calculates Distances with circles
+		 */
+		newTextBox.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
+		
+			Point2D leftCenter = leftCircle.localToParent(leftCircle.getCenterX(), leftCircle.getCenterY());
+			Point2D rightCenter = rightCircle.localToParent(rightCircle.getCenterX(), rightCircle.getCenterY());
+			
+			
+			double leftRadius = leftCircle.getRadius();
+			double rightRadius = rightCircle.getRadius();
+			
+			Point2D textFieldLocation = newTextBox.localToParent(newTextBox.getScene().getX(), newTextBox.getScene().getY());
+			
+			double distanceToLeft = textFieldLocation.distance(leftCenter);
+			double distanceToRight = textFieldLocation.distance(rightCenter);
+			
+			if(distanceToLeft <= leftRadius && distanceToRight <= rightRadius ) {
+				intersectionSet.add(newTextBox.getText());
+				System.out.println("Added to Intersection: " + newTextBox.getText());
+				System.out.println("TextField Location: " + textFieldLocation.toString());
+			}
+			else if (distanceToLeft <= leftRadius) {
+				leftSet.add(newTextBox.getText());
+				System.out.println("Added to Left Circle: " + newTextBox.getText());
+				
+			}
+			else if(distanceToRight <= rightRadius) {
+				rightSet.add(newTextBox.getText());
+				System.out.println("Added to Right Circle: " + newTextBox.getText());
+			}
+			else {
+				
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Warning Dialog");
+				alert.setHeaderText("TextField Out of Bounds");
+				alert.setContentText("If you dont place the textField inside the bounds, I wont be able to add it to the CSV File.");
+				alert.showAndWait();
+			}
+			
+		});
+		
+		
 	}
 
 	
