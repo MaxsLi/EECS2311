@@ -104,7 +104,7 @@ public class ShapeSceneController implements Initializable {
 			newTextBox.setEditable(false);
 			newTextBox.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
 
-			newTextBox.setMaxWidth(newText.length() + 50);
+			newTextBox.setMaxWidth(newText.length() * 12);
 
 			stackPane.getChildren().add(newTextBox);
 			current.add(newTextBox);
@@ -135,9 +135,11 @@ public class ShapeSceneController implements Initializable {
 
 			newTextBox.setTranslateX(newTranslateX);
 			newTextBox.setTranslateY(newTranslateY);
+			
 
 		});
 	}
+
 	
 		
 

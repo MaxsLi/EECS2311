@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Circle?>
@@ -17,16 +16,13 @@
          <children>
             <Circle fx:id="leftCircle" fill="#c3e2ff" radius="300.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
                <StackPane.margin>
-                  <Insets />
+                  <Insets left="35.0" />
                </StackPane.margin>
             </Circle>
             <Circle fx:id="rightCircle" blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="#e88f8f" radius="300.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
                <StackPane.margin>
-                  <Insets right="50.0" />
+                  <Insets right="35.0" />
                </StackPane.margin>
-               <effect>
-                  <DropShadow />
-               </effect>
             </Circle>
          </children>
       </StackPane>
