@@ -256,7 +256,7 @@ public class ShapeSceneController implements Initializable {
 	public void loadVenn() {
 
 		try {
-			FileReader fr = new FileReader(System.getProperty("user.dir") + "\\src\\main\\java\\application\\save.csv");
+			FileReader fr = new FileReader(System.getProperty("user.dir") + "\\src\\main\\java\\resources\\save.csv");
 			BufferedReader br = new BufferedReader(fr);
 			String[] parts;
 			String s;
@@ -298,7 +298,7 @@ public class ShapeSceneController implements Initializable {
 
 	public void saveVenn(ArrayList<TextField> write) {
 		try {
-			FileWriter fw = new FileWriter(System.getProperty("user.dir") + "\\src\\main\\java\\application\\save.csv",
+			FileWriter fw = new FileWriter(System.getProperty("user.dir") + "\\src\\main\\java\\resources\\save.csv",
 					false);
 
 			BufferedWriter bw = new BufferedWriter(fw);
