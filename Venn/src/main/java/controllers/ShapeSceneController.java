@@ -213,6 +213,7 @@ public class ShapeSceneController implements Initializable {
 			if (distanceToLeft <= leftRadius && distanceToRight <= rightRadius) {
 				intersectionSet.add(newTextBox.getText());
 				sideAdded.setText("Intersection!");
+				sideAdded.setEditable(false);
 				masterMap.put(newTextBox.getText(), Location.MIDDLE);
 				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 25px;");
 				System.out.println("Added to Intersection: " + newTextBox.getText());
@@ -220,6 +221,7 @@ public class ShapeSceneController implements Initializable {
 			} else if (distanceToLeft <= leftRadius) {
 				leftSet.add(newTextBox.getText());
 				sideAdded.setText("Left!");
+				sideAdded.setEditable(false);
 				masterMap.put(newTextBox.getText(), Location.LEFT);
 				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 25px;");
 				System.out.println("Added to Left Circle: " + newTextBox.getText());
@@ -227,6 +229,7 @@ public class ShapeSceneController implements Initializable {
 			} else if (distanceToRight <= rightRadius) {
 				rightSet.add(newTextBox.getText());
 				sideAdded.setText("Right!");
+				sideAdded.setEditable(false);
 				masterMap.put(newTextBox.getText(), Location.RIGHT);
 				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 25px;");
 				System.out.println("Added to Right Circle: " + newTextBox.getText());
