@@ -42,6 +42,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import models.Location;
 import models.VennSet;
 
 public class ShapeSceneController implements Initializable {
@@ -93,17 +94,6 @@ public class ShapeSceneController implements Initializable {
 
 	private VennSet intersectionSet = new VennSet();
 
-	/**
-	 * An Enumeration Class to represent Location of where TextField is Dragged
-	 * Implemented to improve Code Readabillity (Could have used Integers like -1,
-	 * 0, 1)
-	 * 
-	 * @author Chidalu Agbakwa
-	 *
-	 */
-	public enum Location {
-		LEFT, MIDDLE, RIGHT
-	}
 
 	/**
 	 * A Map that stores the location of all textFields in the application (where
@@ -217,7 +207,6 @@ public class ShapeSceneController implements Initializable {
 				masterMap.put(newTextBox.getText(), Location.MIDDLE);
 				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 25px;");
 				System.out.println("Added to Intersection: " + newTextBox.getText());
-				System.out.println("TextField Location: " + textFieldLocation.toString());
 			} else if (distanceToLeft <= leftRadius) {
 				leftSet.add(newTextBox.getText());
 				sideAdded.setText("Left!");
@@ -225,7 +214,6 @@ public class ShapeSceneController implements Initializable {
 				masterMap.put(newTextBox.getText(), Location.LEFT);
 				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 25px;");
 				System.out.println("Added to Left Circle: " + newTextBox.getText());
-
 			} else if (distanceToRight <= rightRadius) {
 				rightSet.add(newTextBox.getText());
 				sideAdded.setText("Right!");
@@ -268,7 +256,7 @@ public class ShapeSceneController implements Initializable {
 	public void loadVenn() {
 
 		try {
-			FileReader fr = new FileReader(System.getProperty("user.dir") + "\\src\\main\\java\\application\\save.csv");
+			FileReader fr = new FileReader(System.getProperty("user.dir") + "\\src\\main\\java\\resources\\save.csv");
 			BufferedReader br = new BufferedReader(fr);
 			String[] parts;
 			String s;
@@ -310,7 +298,7 @@ public class ShapeSceneController implements Initializable {
 
 	public void saveVenn(ArrayList<TextField> write) {
 		try {
-			FileWriter fw = new FileWriter(System.getProperty("user.dir") + "\\src\\main\\java\\application\\save.csv",
+			FileWriter fw = new FileWriter(System.getProperty("user.dir") + "\\src\\main\\java\\resources\\save.csv",
 					false);
 
 			BufferedWriter bw = new BufferedWriter(fw);
