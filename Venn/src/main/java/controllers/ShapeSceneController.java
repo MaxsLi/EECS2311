@@ -42,6 +42,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import models.Location;
 import models.VennSet;
 
 public class ShapeSceneController implements Initializable {
@@ -93,17 +94,6 @@ public class ShapeSceneController implements Initializable {
 
 	private VennSet intersectionSet = new VennSet();
 
-	/**
-	 * An Enumeration Class to represent Location of where TextField is Dragged
-	 * Implemented to improve Code Readabillity (Could have used Integers like -1,
-	 * 0, 1)
-	 * 
-	 * @author Chidalu Agbakwa
-	 *
-	 */
-	public enum Location {
-		LEFT, MIDDLE, RIGHT
-	}
 
 	/**
 	 * A Map that stores the location of all textFields in the application (where
