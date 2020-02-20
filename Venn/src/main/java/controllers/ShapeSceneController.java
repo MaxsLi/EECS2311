@@ -130,7 +130,10 @@ public class ShapeSceneController implements Initializable {
 			TextField newTextBox = new TextField(newText);
 			newTextBox.setEditable(false);
 			newTextBox.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
-
+			
+			if(newText.length() <= 3) {
+				newTextBox.setMaxWidth(newText.length() * 20);	
+			}
 			newTextBox.setMaxWidth(newText.length() * 12);
 
 			stackPane.getChildren().add(newTextBox);
@@ -148,7 +151,8 @@ public class ShapeSceneController implements Initializable {
 	 */
 	private void addDragEvent(TextField newTextBox) {
 		newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-
+			
+			this.diagramText.clear();
 			orgSceneX = e.getSceneX();
 			orgSceneY = e.getSceneY();
 			orgTranslateX = newTextBox.getTranslateX();
@@ -206,21 +210,18 @@ public class ShapeSceneController implements Initializable {
 				sideAdded.setEditable(false);
 				masterMap.put(newTextBox.getText(), Location.MIDDLE);
 				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 25px;");
-				System.out.println("Added to Intersection: " + newTextBox.getText());
 			} else if (distanceToLeft <= leftRadius) {
 				leftSet.add(newTextBox.getText());
 				sideAdded.setText("Left!");
 				sideAdded.setEditable(false);
 				masterMap.put(newTextBox.getText(), Location.LEFT);
 				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 25px;");
-				System.out.println("Added to Left Circle: " + newTextBox.getText());
 			} else if (distanceToRight <= rightRadius) {
 				rightSet.add(newTextBox.getText());
 				sideAdded.setText("Right!");
 				sideAdded.setEditable(false);
 				masterMap.put(newTextBox.getText(), Location.RIGHT);
 				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 25px;");
-				System.out.println("Added to Right Circle: " + newTextBox.getText());
 			} else {
 
 				Alert alert = new Alert(AlertType.WARNING);
