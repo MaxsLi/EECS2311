@@ -207,7 +207,6 @@ public class ShapeSceneController implements Initializable {
 				masterMap.put(newTextBox.getText(), Location.MIDDLE);
 				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 25px;");
 				System.out.println("Added to Intersection: " + newTextBox.getText());
-				System.out.println("TextField Location: " + textFieldLocation.toString());
 			} else if (distanceToLeft <= leftRadius) {
 				leftSet.add(newTextBox.getText());
 				sideAdded.setText("Left!");
@@ -215,7 +214,6 @@ public class ShapeSceneController implements Initializable {
 				masterMap.put(newTextBox.getText(), Location.LEFT);
 				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 25px;");
 				System.out.println("Added to Left Circle: " + newTextBox.getText());
-
 			} else if (distanceToRight <= rightRadius) {
 				rightSet.add(newTextBox.getText());
 				sideAdded.setText("Right!");
