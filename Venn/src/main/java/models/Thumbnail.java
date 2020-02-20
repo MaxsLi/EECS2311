@@ -6,17 +6,17 @@ import javafx.scene.image.Image;
 
 /**
  * This is a Class to represent a Thumbnail Slot in "Get Recent Venn Diagrams"
- * @author Chidalu Agbakwa
+ * 
  *
  */
 public class Thumbnail {
-	
+
 	private Image imageOfVenn;
 	private Date dateCreated;
 	private String titleOfProject;
 	private String leftCircleName;
 	private String rightCircleName;
-	
+
 	public Thumbnail(Image imageOfVenn, Date dateCreated, String titleOfProject, String leftCircleName,
 			String rightCircleName) {
 		super();
@@ -66,6 +66,5 @@ public class Thumbnail {
 	public void setRightCircleName(String rightCircleName) {
 		this.rightCircleName = rightCircleName;
 	}
-	
-	
+
 }

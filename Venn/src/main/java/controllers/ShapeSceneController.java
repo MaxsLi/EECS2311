@@ -10,8 +10,10 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import application.MainApp;
 import javafx.event.ActionEvent;
@@ -88,12 +90,20 @@ public class ShapeSceneController implements Initializable {
 
 	private MainApp mainApp;
 
+	/**
+	 * An Set that stores Strings for the leftCircle
+	 */
 	private VennSet leftSet = new VennSet();
 
+	/**
+	 * An Set that stores Strings for the rightCircle
+	 */
 	private VennSet rightSet = new VennSet();
 
+	/**
+	 * An Set that stores Strings for the middleCircle
+	 */
 	private VennSet intersectionSet = new VennSet();
-
 
 	/**
 	 * A Map that stores the location of all textFields in the application (where
@@ -106,6 +116,9 @@ public class ShapeSceneController implements Initializable {
 	private double orgTranslateX;
 	private double orgTranslateY;
 
+	/**
+	 * A List that stores all textFields on the scene
+	 */
 	private ArrayList<TextField> current;
 
 	public ShapeSceneController() {
@@ -130,9 +143,9 @@ public class ShapeSceneController implements Initializable {
 			TextField newTextBox = new TextField(newText);
 			newTextBox.setEditable(false);
 			newTextBox.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
-			
-			if(newText.length() <= 3) {
-				newTextBox.setMaxWidth(newText.length() * 20);	
+
+			if (newText.length() <= 3) {
+				newTextBox.setMaxWidth(newText.length() * 20);
 			}
 			newTextBox.setMaxWidth(newText.length() * 12);
 
@@ -151,7 +164,7 @@ public class ShapeSceneController implements Initializable {
 	 */
 	private void addDragEvent(TextField newTextBox) {
 		newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-			
+
 			this.diagramText.clear();
 			orgSceneX = e.getSceneX();
 			orgSceneY = e.getSceneY();
@@ -174,6 +187,9 @@ public class ShapeSceneController implements Initializable {
 
 		});
 
+		/**
+		 * On Mouse Drag Moves the TextField Around the Screen
+		 */
 		newTextBox.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
 
 			double offsetX = e.getSceneX() - orgSceneX;
@@ -189,9 +205,17 @@ public class ShapeSceneController implements Initializable {
 		/**
 		 * On Mouse Release Calculates Distances with circles. to determine where this
 		 * circle has been placed
+		 * 
+		 * Uses Basic Distance Between point calculations to do so
+		 * 
+		 * Stores the string contents of the textField in leftSet, rightSet or
+		 * intersectionSet
 		 */
 		newTextBox.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
 
+			/*
+			 * Point2D, points to represent locations on the scene
+			 */
 			Point2D leftCenter = leftCircle.localToParent(leftCircle.getCenterX(), leftCircle.getCenterY());
 			Point2D rightCenter = rightCircle.localToParent(rightCircle.getCenterX(), rightCircle.getCenterY());
 
@@ -204,25 +228,44 @@ public class ShapeSceneController implements Initializable {
 			double distanceToLeft = textFieldLocation.distance(leftCenter);
 			double distanceToRight = textFieldLocation.distance(rightCenter);
 
+			/*
+			 * If TextField location is within radial distance of the left and right circle,
+			 * it must be somewhere in the intersection of the two circles
+			 */
 			if (distanceToLeft <= leftRadius && distanceToRight <= rightRadius) {
 				intersectionSet.add(newTextBox.getText());
 				sideAdded.setText("Intersection!");
 				sideAdded.setEditable(false);
 				masterMap.put(newTextBox.getText(), Location.MIDDLE);
 				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 25px;");
-			} else if (distanceToLeft <= leftRadius) {
+			}
+			/*
+			 * Else if, if its within radial distance of the left Circle, it must be in the
+			 * left circle
+			 */
+			else if (distanceToLeft <= leftRadius) {
 				leftSet.add(newTextBox.getText());
 				sideAdded.setText("Left!");
 				sideAdded.setEditable(false);
 				masterMap.put(newTextBox.getText(), Location.LEFT);
 				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 25px;");
-			} else if (distanceToRight <= rightRadius) {
+			}
+			/*
+			 * Else if, if its within radial distance of the left Circle, it must be in the
+			 * right circle
+			 */
+			else if (distanceToRight <= rightRadius) {
 				rightSet.add(newTextBox.getText());
 				sideAdded.setText("Right!");
 				sideAdded.setEditable(false);
 				masterMap.put(newTextBox.getText(), Location.RIGHT);
 				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 25px;");
-			} else {
+			}
+
+			/*
+			 * Else, it must be outside the circles, give a warning.
+			 */
+			else {
 
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Warning Dialog");
@@ -236,6 +279,12 @@ public class ShapeSceneController implements Initializable {
 
 	}
 
+	/**
+	 * A Method that gives a right-click feature on each textField added to the
+	 * screen, On right-click of a textfield added, gives a contextMenu
+	 * 
+	 * @param text
+	 */
 	public void addContext(TextField text) {
 		ContextMenu context = new ContextMenu();
 		MenuItem delete = new MenuItem("Delete");
@@ -254,6 +303,10 @@ public class ShapeSceneController implements Initializable {
 
 	}
 
+	/**
+	 * A Method that loads all comma delimeted rows from save.csv and puts them on
+	 * the screen
+	 */
 	public void loadVenn() {
 
 		try {
@@ -265,7 +318,7 @@ public class ShapeSceneController implements Initializable {
 			while ((s = br.readLine()) != null) {
 				parts = s.split(", ");
 				tf = new TextField();
-				tf.setText(parts[0]); //parts[0] is the text column of the line
+				tf.setText(parts[0]); // parts[0] is the text column of the line
 				tf.setEditable(false);
 				tf.resizeRelocate(0, 0, 1, 1);
 				tf.resize(50, 50);
@@ -297,6 +350,12 @@ public class ShapeSceneController implements Initializable {
 		return current;
 	}
 
+	/**
+	 * A method that saves all text-fields on scene to a csv file
+	 * 
+	 * @param write A List with all the TextFields that are to be written to the
+	 *              save.csv file
+	 */
 	public void saveVenn(ArrayList<TextField> write) {
 		try {
 			FileWriter fw = new FileWriter(System.getProperty("user.dir") + "\\src\\main\\java\\resources\\save.csv",
@@ -305,11 +364,12 @@ public class ShapeSceneController implements Initializable {
 			BufferedWriter bw = new BufferedWriter(fw);
 			PrintWriter pw = new PrintWriter(bw);
 			for (TextField textField : write) {
-				
-				try { //If Nothing Was Added on GetExisting, the program crashes, this is so it doesn't crash
-				pw.write(textField.getText() + ", " + textField.getTranslateX() + ", " + textField.getTranslateY()
-						+ ", " + masterMap.get(textField.getText()).toString() + "\n");
-				}catch(Exception excep) {
+
+				try { // If Nothing Was Added on GetExisting, the program crashes, this is so it
+						// doesn't crash
+					pw.write(textField.getText() + ", " + textField.getTranslateX() + ", " + textField.getTranslateY()
+							+ ", " + masterMap.get(textField.getText()).toString() + "\n");
+				} catch (Exception excep) {
 					continue;
 				}
 				pw.flush();
@@ -323,10 +383,16 @@ public class ShapeSceneController implements Initializable {
 
 	}
 
+	/**
+	 * A method that changes the color of the leftCircle
+	 */
 	public void changeLeftColor() {
 		leftCircle.setFill(leftColorPicker.getValue());
 	}
 
+	/**
+	 * A method that changes the color of the rightCircle
+	 */
 	public void changeRightColor() {
 		rightCircle.setFill(rightColorPicker.getValue());
 	}
@@ -334,7 +400,7 @@ public class ShapeSceneController implements Initializable {
 	/**
 	 * Is called by the main application to give a reference back to itself.
 	 * 
-	 * @param mainApp
+	 * @param mainApp a reference to the mainStage
 	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;

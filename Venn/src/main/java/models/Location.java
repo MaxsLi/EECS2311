@@ -5,7 +5,7 @@ package models;
  * Implemented to improve Code Readabillity (Could have used Integers like -1,
  * 0, 1)
  * 
- * @author Chidalu Agbakwa
+ * 
  *
  */
 public enum Location {
