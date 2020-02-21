@@ -1,6 +1,7 @@
 package controllers;
 
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,8 +13,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class MenuSceneController implements Initializable {
 
@@ -38,14 +43,42 @@ public class MenuSceneController implements Initializable {
 	@FXML
 	private void createNew() throws IOException {
 
-		mainApp.switchScene("shapeScene");
+		mainApp.switchScene("shapeScene", "");
 	}
 
+//	@FXML
+//	private void loadLast() throws IOException {
+//
+//		mainApp.switchScene("load");
+//
+//	}
+	
+	
 	@FXML
-	private void loadLast() throws IOException {
-
-		mainApp.switchScene("load");
-
+	private void getExisting(ActionEvent event) throws IOException {
+		 FileChooser fileChooser = new FileChooser();
+		 fileChooser.setTitle("Open Resource File");
+		 
+		 File currentDir = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" 
+		 + File.separator + "java" + File.separator + "resources" + File.separator);
+		 
+		 fileChooser.setInitialDirectory(currentDir);
+		 fileChooser.getExtensionFilters().addAll(
+		         new ExtensionFilter("CSV Files", "*.csv")
+		 );
+		 File selectedFile = fileChooser.showOpenDialog(null);
+		 if(selectedFile == null) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Warning Dialog");
+				alert.setHeaderText("CSV Not Chosen");
+				alert.setContentText("Please Chose Correct CSV and try again");
+				alert.showAndWait();
+		 }
+		 else {
+			 String fileTitle = selectedFile.getName();
+			 mainApp.switchScene("load", fileTitle);
+		 }
+		 
 	}
 
 	/**

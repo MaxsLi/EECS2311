@@ -103,14 +103,14 @@ public class MainApp extends Application {
 	 * @param sceneNew A string of the scene to change to
 	 * @throws IOException
 	 */
-	public void switchScene(String sceneNew) throws IOException {
+	public void switchScene(String sceneNew, String fileTitle) throws IOException {
 		if (sceneNew.equals("menuScene")) {
 			loadMenuScene();
 		} else if (sceneNew.equals("shapeScene")) {
 			loadShapeScene();
 		} else if (sceneNew.equals("load")) {
 			loadShapeScene();
-			shapeSceneCont.loadVenn();
+			shapeSceneCont.loadVenn(fileTitle);
 			if (shapeSceneCont.getTextFields().isEmpty()) {
 				loadMenuScene();
 				Alert alert = new Alert(AlertType.WARNING);
