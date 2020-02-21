@@ -1,16 +1,24 @@
 package application;
 
-import java.io.IOException;
-import controllers.*;
+import controllers.MenuBarController;
+import controllers.MenuSceneController;
+import controllers.ShapeSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+
 
 public class MainApp extends Application {
 
@@ -22,6 +30,10 @@ public class MainApp extends Application {
 	private BorderPane menuPane;
 	private MenuSceneController menuSceneCont;
 	private ShapeSceneController shapeSceneCont;
+
+	public static void main(String[] args) {
+		launch(args);
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -52,7 +64,6 @@ public class MainApp extends Application {
 			e.consume();
 			MenuBarController.closeProgram(e);
 		});
-
 	}
 
 	/**
@@ -63,7 +74,7 @@ public class MainApp extends Application {
 	private void loadRootLayout() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("RootLayout.fxml"));
-		this.rootLayout = (BorderPane) loader.load();
+		this.rootLayout = loader.load();
 	}
 
 	/**
@@ -89,10 +100,16 @@ public class MainApp extends Application {
 		// this.vennPane = (StackPane) loader.load();
 
 		// this.rootLayout.setCenter(this.vennPane);
-		this.vennPane = (AnchorPane) loader.load();
+		this.vennPane = loader.load();
 
-		rootLayout.setCenter(this.vennPane); // make the center of the Menubar Scene to the rootLayout
-		shapeSceneCont = (ShapeSceneController) loader.getController();
+		// Zoom!
+		Parent zoomPane = new zoomPane(new Group(this.vennPane)).getParent();
+		VBox layout = new VBox();
+		layout.getChildren().setAll(zoomPane);
+		VBox.setVgrow(zoomPane, Priority.ALWAYS);
+
+		rootLayout.setCenter(layout); // make the center of the Menubar Scene to the rootLayout
+		shapeSceneCont = loader.getController();
 		shapeSceneCont.setMainApp(this);
 
 	}
@@ -136,9 +153,4 @@ public class MainApp extends Application {
 		menuSceneCont = (MenuSceneController) loader.getController();
 		menuSceneCont.setMainApp(this);
 	}
-
-	public static void main(String[] args) {
-		launch(args);
-	}
-
 }
