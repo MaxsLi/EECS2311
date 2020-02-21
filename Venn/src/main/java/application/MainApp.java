@@ -55,12 +55,22 @@ public class MainApp extends Application {
 
 	}
 
+	/**
+	 * A Method to parse the RootLayout.fxml file and turn it into java code
+	 * 
+	 * @throws IOException
+	 */
 	private void loadRootLayout() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("RootLayout.fxml"));
 		this.rootLayout = (BorderPane) loader.load();
 	}
 
+	/**
+	 * A Method to parse the menuBar.fxml file and turn it into java code
+	 * 
+	 * @throws IOException
+	 */
 	private void loadMenubar() throws IOException {
 		FXMLLoader loader1 = new FXMLLoader();
 		loader1.setLocation(getClass().getResource("menuBar.fxml"));
@@ -68,6 +78,11 @@ public class MainApp extends Application {
 		this.rootLayout.setTop(this.menuBar);
 	}
 
+	/**
+	 * A Method to parse the shapeScene.fxml file and turn it into java code
+	 * 
+	 * @throws IOException
+	 */
 	private void loadShapeScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("shapeScene.fxml"));
@@ -82,6 +97,12 @@ public class MainApp extends Application {
 
 	}
 
+	/**
+	 * A Method that switches the scene on the mainStage
+	 * 
+	 * @param sceneNew A string of the scene to change to
+	 * @throws IOException
+	 */
 	public void switchScene(String sceneNew) throws IOException {
 		if (sceneNew.equals("menuScene")) {
 			loadMenuScene();
@@ -101,6 +122,11 @@ public class MainApp extends Application {
 		}
 	}
 
+	/**
+	 * A Method to parse the menuScene.fxml file and turn it into java code
+	 * 
+	 * @throws IOException
+	 */
 	private void loadMenuScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("menuScene.fxml"));
