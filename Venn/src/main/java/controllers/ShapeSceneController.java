@@ -371,11 +371,10 @@ public class ShapeSceneController implements Initializable {
 					tf.setTranslateX(textFieldX);
 					tf.setTranslateY(textFieldY);
 					stackPane.getChildren().add(tf);
-					current.add(tf);
+					this.vennSet.add(tf);
 					
 					//System.out.println(parts[3]);
-					
-					masterMap.put(parts[0], Location.valueOf(parts[3].trim()));
+
 
 					addDragEvent(tf);
 
@@ -509,9 +508,9 @@ public class ShapeSceneController implements Initializable {
 
 				try { // If Nothing Was Added on GetExisting, the program crashes, this is so it
 						// doesn't crash
-					//System.out.println(masterMap.get(textField.getText()));
+					//System.out.println(this.vennSet.getLocation(textField)));
 					pw.println(textField.getText() + COMMA + textField.getTranslateX() + COMMA
-							+ textField.getTranslateY() + COMMA + masterMap.get(textField.getText()).toString());
+							+ textField.getTranslateY() + COMMA + this.vennSet.getLocation(textField));
 
 					writeIndexer++;
 				} catch (Exception excep) {
