@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 import controllers.*;
 import javafx.application.Application;
@@ -111,7 +112,12 @@ public class MainApp extends Application {
 		} else if (sceneNew.equals("load")) {
 			loadShapeScene();
 			shapeSceneCont.loadVenn(fileTitle);
-			if (shapeSceneCont.getTextFields().isEmpty()) {
+			
+			 File currentDir = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" 
+					 + File.separator + "java" + File.separator + "resources" + File.separator);
+			
+			
+			if (currentDir.list().length == 0) {
 				loadMenuScene();
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Warning Dialog");
