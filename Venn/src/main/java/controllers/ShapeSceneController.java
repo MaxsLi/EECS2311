@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.scene.control.*;
+import javafx.scene.paint.Paint;
 import views.MainApp;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

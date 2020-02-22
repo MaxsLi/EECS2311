@@ -37,14 +37,14 @@
          <Button fx:id="saveBttn" layoutX="294.0" layoutY="17.0" mnemonicParsing="false" text="Save"/>
       </buttons>
    </ButtonBar>
-   <TextField layoutX="274.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #1's Name"
-              style="-fx-font-size: 20;"/>
-   <TextField layoutX="667.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #2's Name"
-              style="-fx-font-size: 20;"/>
+   <TextField fx:id="leftTitle" layoutX="274.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0"
+              promptText="Diagram #1's Name" style="-fx-font-size: 20;"/>
+   <TextField fx:id="rightTitle" layoutX="663.0" layoutY="109.0" prefHeight="46.0" prefWidth="238.0"
+              promptText="Diagram #2's Name" style="-fx-font-size: 20;"/>
    <TextField fx:id="appTitle" layoutX="428.0" layoutY="14.0" prefHeight="46.0" prefWidth="396.0"
               promptText="Enter Title of Venn Diagram" style="-fx-font-size: 25;"/>
    <ColorPicker fx:id="leftColorPicker" layoutX="14.0" layoutY="239.0" onAction="#changeLeftColor"/>
    <ColorPicker fx:id="rightColorPicker" layoutX="1100.0" layoutY="239.0" onAction="#changeRightColor"/>
    <TextField fx:id="sideAdded" layoutX="14.0" layoutY="828.0"/>
-   <Label fx:id="sideLabel" layoutX="22.0" layoutY="792.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added"/>
+   <Label layoutX="22.0" layoutY="792.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added"/>
 </AnchorPane>

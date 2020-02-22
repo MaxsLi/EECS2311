@@ -6,6 +6,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1250.0" prefWidth="1000.0" stylesheets="@../css/menuScene.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuSceneController">
 
    <left>
@@ -31,7 +33,7 @@
          <BorderPane.margin>
             <Insets right="90.0"/>
          </BorderPane.margin>
-         <Button fx:id="getExistingBtn" mnemonicParsing="false" onMouseClicked="#loadLast" prefHeight="80.0"
+         <Button fx:id="getExistingBtn" mnemonicParsing="false" onAction="#getExisting" prefHeight="80.0"
                  prefWidth="250.0" text="Get Existing">
             <VBox.margin>
                <Insets top="450.0"/>
@@ -39,4 +41,11 @@
          </Button>
       </VBox>
    </right>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <Text layoutX="-6.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0"
+               style="-fx-font-size: 60; -fx-font-family: Helvetica Neue; -fx-fill: Blue;" text="VennCreate"
+               textAlignment="CENTER" wrappingWidth="332.94921875"/>
+      </AnchorPane>
+   </center>
 </BorderPane>
