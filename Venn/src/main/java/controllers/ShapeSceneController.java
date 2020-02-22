@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import application.MainApp;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,6 +49,7 @@ import javafx.stage.Stage;
 import models.Location;
 import models.VennSet;
 import models.VennShape;
+import utilities.TextUtils;
 
 public class ShapeSceneController implements Initializable {
 
@@ -121,14 +124,19 @@ public class ShapeSceneController implements Initializable {
 		} else {
 			String newText = this.diagramText.getText();
 
-			TextField newTextBox = new TextField(newText);
+			TextField newTextBox = new TextField();
 			newTextBox.setEditable(false);
 			newTextBox.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
 
-			if (newText.length() <= 3) {
-				newTextBox.setMaxWidth(newText.length() * 20);
-			}
-			newTextBox.setMaxWidth(newText.length() * 12);
+			// Auto-resize according to text size
+			newTextBox.textProperty().addListener((ob, o, n) -> {
+				// expand the textfield
+				newTextBox.setMaxWidth(TextUtils.computeTextWidth(newTextBox.getFont(),
+						newTextBox.getText(), 0.0D) + 20);
+			});
+
+			// Adding `newText` to `newTextBox`
+			newTextBox.setText(newText);
 
 			stackPane.getChildren().add(newTextBox);
 			this.vennSet.add(newTextBox);
