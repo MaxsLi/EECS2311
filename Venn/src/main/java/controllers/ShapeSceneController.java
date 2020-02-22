@@ -157,6 +157,7 @@ public class ShapeSceneController implements Initializable {
 			this.vennSet.add(newTextBox);
 			addDragEvent(newTextBox);
 			addContext(newTextBox);
+			this.sideAdded.clear();
 		}
 
 	}
