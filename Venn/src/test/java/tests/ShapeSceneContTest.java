@@ -1,27 +1,19 @@
+package tests;
+
+import controllers.ShapeSceneController;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.junit.jupiter.api.*;
-
-import application.MainApp;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import controllers.ShapeSceneController;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import sun.applet.Main;
+import static org.junit.Assert.assertArrayEquals;
 
 public class ShapeSceneContTest {
-
 		
 		ShapeSceneController cont;
 		JFXPanel fxPanel;

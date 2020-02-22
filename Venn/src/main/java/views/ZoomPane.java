@@ -1,4 +1,4 @@
-package application;
+package views;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -9,12 +9,12 @@ import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.StackPane;
 
-public class zoomPane {
+public class ZoomPane {
 
 	private final Group group;
 	private final double SCALE_DELTA = 1.05;
 
-	public zoomPane(Group group) {
+	public ZoomPane(Group group) {
 		this.group = group;
 	}
 
