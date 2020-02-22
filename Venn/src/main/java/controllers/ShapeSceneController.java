@@ -2,50 +2,28 @@ package controllers;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
-import application.MainApp;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import views.MainApp;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Control;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 import models.Location;
 import models.VennSet;
 import models.VennShape;
@@ -99,6 +77,9 @@ public class ShapeSceneController implements Initializable {
 	 */
 	private VennSet vennSet;
 
+	/**
+	 * An Set of `Shape`s
+	 */
 	private VennShape vennShape;
 
 	private double orgSceneX;
@@ -123,59 +104,51 @@ public class ShapeSceneController implements Initializable {
 
 		} else {
 			String newText = this.diagramText.getText();
+			TextField newTextField = new TextField();
 
-			TextField newTextBox = new TextField();
-			newTextBox.setEditable(false);
-			newTextBox.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
+			newTextField.setEditable(false);
+			newTextField.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
 
-			// Auto-resize according to text size
-			newTextBox.textProperty().addListener((ob, o, n) -> {
-				// expand the textfield
-				newTextBox.setMaxWidth(TextUtils.computeTextWidth(newTextBox.getFont(),
-						newTextBox.getText(), 0.0D) + 20);
-			});
+			this.addAutoResize(newTextField);
+			this.addDragEvent(newTextField);
+			this.addContext(newTextField);
 
-			// Adding `newText` to `newTextBox`
-			newTextBox.setText(newText);
-
-			stackPane.getChildren().add(newTextBox);
-			this.vennSet.add(newTextBox);
-			addDragEvent(newTextBox);
-			addContext(newTextBox);
+			newTextField.setText(newText);
+			this.stackPane.getChildren().add(newTextField);
+			this.vennSet.add(newTextField);
 		}
-
 	}
 
 	/**
 	 * Adds Drag Events to created TextFields
 	 * 
-	 * @param newTextBox
+	 * @param textField the TextField to be added
 	 */
-	private void addDragEvent(TextField newTextBox) {
-		newTextBox.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+	private void addDragEvent(TextField textField) {
+		textField.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
 			this.diagramText.clear();
 			orgSceneX = e.getSceneX();
 			orgSceneY = e.getSceneY();
-			orgTranslateX = newTextBox.getTranslateX();
-			orgTranslateY = newTextBox.getTranslateY();
+			orgTranslateX = textField.getTranslateX();
+			orgTranslateY = textField.getTranslateY();
 
-			newTextBox.toFront();
+			textField.toFront();
 
 		});
 
 		 /*
 		 * On Mouse Drag Moves the TextField Around the Screen
 		 */
-		newTextBox.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
+		textField.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
 
 			double offsetX = e.getSceneX() - orgSceneX;
 			double offsetY = e.getSceneY() - orgSceneY;
 			double newTranslateX = orgTranslateX + offsetX;
 			double newTranslateY = orgTranslateY + offsetY;
 
-			newTextBox.setTranslateX(newTranslateX);
-			newTextBox.setTranslateY(newTranslateY);
+			textField.setTranslateX(newTranslateX);
+			textField.setTranslateY(newTranslateY);
 
 		});
 
@@ -188,11 +161,11 @@ public class ShapeSceneController implements Initializable {
 		 * Stores the string contents of the textField in leftSet, rightSet or
 		 * intersectionSet
 		 */
-		newTextBox.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
+		textField.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
 			Location textBoxLocation;
 
 			try {
-				textBoxLocation = this.vennSet.getLocation(newTextBox);
+				textBoxLocation = this.vennSet.getLocation(textField);
 			} catch (Exception exception) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Warning Dialog");
@@ -239,32 +212,45 @@ public class ShapeSceneController implements Initializable {
 	 * A Method that gives a right-click feature on each textField added to the
 	 * screen, On right-click of a textfield added, gives a contextMenu
 	 * 
-	 * @param text
+	 * @param textField the TextField to be added
 	 */
-	public void addContext(TextField text) {
+	private void addContext(TextField textField) {
 		ContextMenu context = new ContextMenu();
 		MenuItem delete = new MenuItem("Delete");
 		MenuItem edit = new MenuItem("Edit");
 		context.getItems().add(delete);
 		context.getItems().add(edit);
-		text.setContextMenu(context);
+		textField.setContextMenu(context);
 
 		delete.setOnAction((event) -> {
-			stackPane.getChildren().remove(text);
+			stackPane.getChildren().remove(textField);
 		});
 
 		edit.setOnAction((event) -> {
-			text.setEditable(true);
+			textField.setEditable(true);
 		});
 
 	}
 
 	/**
-	 * A Method that loads all comma delimeted rows from save.csv and puts them on
+	 * A Method that gives allows the given TextField auto-resize its width
+	 * according to the content.
+	 *
+	 * @param textField the TextField to be added
+	 */
+	private void addAutoResize(TextField textField) {
+		textField.textProperty().addListener((ob, o, n) -> {
+			// expand the textfield
+			textField.setMaxWidth(TextUtils.computeTextWidth(textField.getFont(),
+					textField.getText(), 0.0D) + 20);
+		});
+	}
+
+	/**
+	 * A Method that loads all comma delimited rows from save.csv and puts them on
 	 * the screen
 	 */
 	public void loadVenn() {
-
 		try {
 			FileReader fr = new FileReader(System.getProperty("user.dir") + "\\src\\main\\java\\resources\\save.csv");
 			BufferedReader br = new BufferedReader(fr);

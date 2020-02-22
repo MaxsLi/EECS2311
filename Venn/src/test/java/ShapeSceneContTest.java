@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.*;
 
-import application.MainApp;
+import views.MainApp;
 
 import static org.junit.jupiter.api.Assertions.*;
 

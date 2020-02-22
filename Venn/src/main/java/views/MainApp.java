@@ -1,4 +1,4 @@
-package application;
+package views;
 
 import controllers.MenuBarController;
 import controllers.MenuSceneController;
@@ -73,7 +73,7 @@ public class MainApp extends Application {
 	 */
 	private void loadRootLayout() throws IOException {
 		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("RootLayout.fxml"));
+		this.loader.setLocation(getClass().getResource("./fxml/RootLayout.fxml"));
 		this.rootLayout = loader.load();
 	}
 
@@ -84,7 +84,7 @@ public class MainApp extends Application {
 	 */
 	private void loadMenubar() throws IOException {
 		FXMLLoader loader1 = new FXMLLoader();
-		loader1.setLocation(getClass().getResource("menuBar.fxml"));
+		loader1.setLocation(getClass().getResource("./fxml/menuBar.fxml"));
 		this.menuBar = (MenuBar) loader1.load();
 		this.rootLayout.setTop(this.menuBar);
 	}
@@ -96,14 +96,14 @@ public class MainApp extends Application {
 	 */
 	private void loadShapeScene() throws IOException {
 		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("shapeScene.fxml"));
+		this.loader.setLocation(getClass().getResource("./fxml/shapeScene.fxml"));
 		// this.vennPane = (StackPane) loader.load();
 
 		// this.rootLayout.setCenter(this.vennPane);
 		this.vennPane = loader.load();
 
 		// Zoom!
-		Parent zoomPane = new zoomPane(new Group(this.vennPane)).getParent();
+		Parent zoomPane = new ZoomPane(new Group(this.vennPane)).getParent();
 		VBox layout = new VBox();
 		layout.getChildren().setAll(zoomPane);
 		VBox.setVgrow(zoomPane, Priority.ALWAYS);
@@ -146,9 +146,9 @@ public class MainApp extends Application {
 	 */
 	private void loadMenuScene() throws IOException {
 		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("menuScene.fxml"));
+		this.loader.setLocation(getClass().getResource("./fxml/menuScene.fxml"));
 		this.menuPane = (BorderPane) loader.load();
-		this.menuPane.getStylesheets().add(getClass().getResource("menuScene.css").toString());
+		this.menuPane.getStylesheets().add(getClass().getResource("./css/menuScene.css").toString());
 		rootLayout.setCenter(this.menuPane);
 		menuSceneCont = (MenuSceneController) loader.getController();
 		menuSceneCont.setMainApp(this);
