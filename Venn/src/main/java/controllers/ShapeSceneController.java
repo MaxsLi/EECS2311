@@ -318,7 +318,6 @@ public class ShapeSceneController implements Initializable {
 				alert.showAndWait();
 			}
 
-			boolean linePrinted = true; // Dont touch the first Line
 
 			while ((s = br.readLine()) != null) {
 				if (lineCounter == 1) { // Make sure to not touch first Line
@@ -337,7 +336,6 @@ public class ShapeSceneController implements Initializable {
 						//System.out.println("The line number is: " + lineCounter);
 						
 						lineCounter++;
-						linePrinted = false;
 						continue;
 
 					} catch (IllegalArgumentException ex) {
@@ -434,7 +432,7 @@ public class ShapeSceneController implements Initializable {
 		AppAtributes appSaver = new AppAtributes(this.appTitle.getText(), this.leftTitle.getText(),
 				this.rightTitle.getText(), this.leftCircle.getFill(), this.rightCircle.getFill());
 
-		String dummyLine = "This" + "," + "is" + "," + "a" + "," + "DummyLine---"; // Program not reading Line two,
+		String dummyLine = "This Line" + "," + "is Required" + "," + "By the Program" + "," + "For Correct Functionallity"; // Program not reading Line two,
 																					// adding dummyLine
 
 		/*
