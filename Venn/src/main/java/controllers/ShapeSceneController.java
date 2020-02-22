@@ -330,7 +330,8 @@ public class ShapeSceneController implements Initializable {
 			BufferedReader br = new BufferedReader(fr);
 
 			this.currentFileName = fileName.substring(0, fileName.length() - 4); // Cuts off the ".csv" extension
-			System.out.println(this.currentFileName);
+			
+			//System.out.println(this.currentFileName);
 
 			String[] parts;
 			String s;
@@ -340,14 +341,16 @@ public class ShapeSceneController implements Initializable {
 			try {
 				String[] firstLineInfo = br.readLine().split(COMMA);
 
-				System.out.println(Arrays.toString(firstLineInfo));
+				//System.out.println(Arrays.toString(firstLineInfo));
 
 				this.appTitle.setText(firstLineInfo[0]);
 				this.leftTitle.setText(firstLineInfo[1]);
 				this.rightTitle.setText(firstLineInfo[2]);
 				this.leftCircle.setFill(Paint.valueOf(firstLineInfo[3]));
 				this.rightCircle.setFill(Paint.valueOf(firstLineInfo[4]));
-				System.out.println(lineCounter);
+				
+				//System.out.println(lineCounter);
+				
 				lineCounter++;
 
 			} catch (IllegalArgumentException ex) {
@@ -366,14 +369,17 @@ public class ShapeSceneController implements Initializable {
 					try {
 						String[] firstLineInfo = s.split(COMMA);
 
-						System.out.println(Arrays.toString(firstLineInfo));
+						//System.out.println(Arrays.toString(firstLineInfo));
 
 						this.appTitle.setText(firstLineInfo[0]);
 						this.leftTitle.setText(firstLineInfo[1]);
 						this.rightTitle.setText(firstLineInfo[2]);
 						this.leftCircle.setFill(Paint.valueOf(firstLineInfo[3]));
 						this.rightCircle.setFill(Paint.valueOf(firstLineInfo[4]));
-						System.out.println("The line number is: " + lineCounter);
+						
+						
+						//System.out.println("The line number is: " + lineCounter);
+						
 						lineCounter++;
 						linePrinted = false;
 						continue;
@@ -390,7 +396,9 @@ public class ShapeSceneController implements Initializable {
 				}
 				parts = s.split(COMMA);
 
-				System.out.println("The line number is: " + lineCounter);
+				//System.out.println("The line number is: " + lineCounter);
+				
+				
 				lineCounter++;
 				tf = new TextField();
 				tf.setText(parts[0]); // parts[0] is the text column of the line
@@ -406,14 +414,16 @@ public class ShapeSceneController implements Initializable {
 					tf.setTranslateX(textFieldX);
 					tf.setTranslateY(textFieldY);
 					stackPane.getChildren().add(tf);
-
 					current.add(tf);
-					System.out.println(parts[3]);
+					
+					//System.out.println(parts[3]);
+					
 					masterMap.put(parts[0], Location.valueOf(parts[3].trim()));
 
 					addDragEvent(tf);
 
-					System.out.println(lineCounter);
+					//System.out.println(lineCounter);
+
 					lineCounter++;
 				} catch (NumberFormatException NFE) {
 					if (lineCounter == 2) {
@@ -509,11 +519,19 @@ public class ShapeSceneController implements Initializable {
 						+ File.separator + "java" + File.separator + "resources" + File.separator + titleOfApp + ".csv",
 						false);
 			} catch (FileNotFoundException FNFE) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error");
-				alert.setHeaderText("File Could Not be Saved to");
-				alert.setContentText(FNFE.toString());
-				alert.showAndWait();
+				Alert alertWarn = new Alert(AlertType.WARNING);
+				alertWarn.setTitle("WARNING");
+				alertWarn.setHeaderText("Dangerous Action");
+				alertWarn.setContentText(
+						"If you close the Main Window without closing the other file, your changes will not be saved");
+				alertWarn.showAndWait();
+
+				Alert alertError = new Alert(AlertType.ERROR);
+				alertError.setTitle("Error");
+				alertError.setHeaderText("File Could Not be Saved to");
+				alertError.setContentText("The File You want to write to by Closing this wondow"
+						+ ", is open in another process. Please Close that File before trying to close this window.");
+				alertError.showAndWait();
 
 			}
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -534,7 +552,8 @@ public class ShapeSceneController implements Initializable {
 
 				try { // If Nothing Was Added on GetExisting, the program crashes, this is so it
 						// doesn't crash
-					System.out.println(masterMap.get(textField.getText()));
+					//System.out.println(masterMap.get(textField.getText()));
+					
 					pw.println(textField.getText() + COMMA + textField.getTranslateX() + COMMA
 							+ textField.getTranslateY() + COMMA + masterMap.get(textField.getText()).toString());
 

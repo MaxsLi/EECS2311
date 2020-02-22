@@ -48,7 +48,12 @@ public class MainApp extends Application {
 		// Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
 			if (shapeSceneCont != null) {
+				try {
 				shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
+				}
+				catch(NullPointerException NPE) {
+					System.out.println("Null Pointer Exception has occured");
+				}
 			}
 			e.consume();
 			MenuBarController.closeProgram(e);
@@ -115,7 +120,6 @@ public class MainApp extends Application {
 			
 			 File currentDir = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" 
 					 + File.separator + "java" + File.separator + "resources" + File.separator);
-			
 			
 			if (currentDir.list().length == 0) {
 				loadMenuScene();
