@@ -20,6 +20,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import application.MainApp;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -51,6 +53,8 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import models.Location;
 import models.VennSet;
+import models.VennShape;
+import utilities.TextUtils;
 
 public class ShapeSceneController implements Initializable {
 
@@ -104,39 +108,19 @@ public class ShapeSceneController implements Initializable {
 	private TextField rightTitle;
 
 	/**
-	 * An Set that stores Strings for the leftCircle
+	 * An Set of `TextLabel`s
 	 */
-	private VennSet leftSet = new VennSet();
+	private VennSet vennSet;
 
-	/**
-	 * An Set that stores Strings for the rightCircle
-	 */
-	private VennSet rightSet = new VennSet();
-
-	/**
-	 * An Set that stores Strings for the middleCircle
-	 */
-	private VennSet intersectionSet = new VennSet();
-
-	/**
-	 * A Map that stores the location of all textFields in the application (where
-	 * they were placed)
-	 */
-	private Map<String, Location> masterMap;
+	private VennShape vennShape;
 
 	private double orgSceneX;
 	private double orgSceneY;
 	private double orgTranslateX;
 	private double orgTranslateY;
 
-	/**
-	 * A List that stores all textFields on the scene
-	 */
-	private ArrayList<TextField> current;
-
 	public ShapeSceneController() {
-		current = new ArrayList<>();
-		masterMap = new HashMap<>();
+		// Note that function `initialize` will do the init
 	}
 
 	public static final String COMMA = ",";
@@ -155,17 +139,22 @@ public class ShapeSceneController implements Initializable {
 		} else {
 			String newText = this.diagramText.getText();
 
-			TextField newTextBox = new TextField(newText);
+			TextField newTextBox = new TextField();
 			newTextBox.setEditable(false);
 			newTextBox.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
 
-			if (newText.length() <= 3) {
-				newTextBox.setMaxWidth(newText.length() * 20);
-			}
-			newTextBox.setMaxWidth(newText.length() * 20);
+			// Auto-resize according to text size
+			newTextBox.textProperty().addListener((ob, o, n) -> {
+				// expand the textfield
+				newTextBox.setMaxWidth(TextUtils.computeTextWidth(newTextBox.getFont(),
+						newTextBox.getText(), 0.0D) + 20);
+			});
+
+			// Adding `newText` to `newTextBox`
+			newTextBox.setText(newText);
 
 			stackPane.getChildren().add(newTextBox);
-			current.add(newTextBox);
+			this.vennSet.add(newTextBox);
 			addDragEvent(newTextBox);
 			addContext(newTextBox);
 		}
@@ -188,21 +177,9 @@ public class ShapeSceneController implements Initializable {
 
 			newTextBox.toFront();
 
-			/*
-			 * On Every MousePress on an Added TextField, if the VennSet already contains
-			 * the text, remove it. On Mouse Release it will be added back Anyway
-			 */
-			if (leftSet.contains(newTextBox.getText())) {
-				leftSet.remove(newTextBox.getText());
-			} else if (rightSet.contains(newTextBox.getText())) {
-				rightSet.remove(newTextBox.getText());
-			} else if (intersectionSet.contains(newTextBox.getText())) {
-				intersectionSet.remove(newTextBox.getText());
-			}
-
 		});
 
-		/**
+		 /*
 		 * On Mouse Drag Moves the TextField Around the Screen
 		 */
 		newTextBox.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
@@ -217,7 +194,7 @@ public class ShapeSceneController implements Initializable {
 
 		});
 
-		/**
+		 /*
 		 * On Mouse Release Calculates Distances with circles. to determine where this
 		 * circle has been placed
 		 * 
@@ -227,67 +204,46 @@ public class ShapeSceneController implements Initializable {
 		 * intersectionSet
 		 */
 		newTextBox.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
+			Location textBoxLocation;
 
-			/*
-			 * Point2D, points to represent locations on the scene
-			 */
-			Point2D leftCenter = leftCircle.localToParent(leftCircle.getCenterX(), leftCircle.getCenterY());
-			Point2D rightCenter = rightCircle.localToParent(rightCircle.getCenterX(), rightCircle.getCenterY());
-
-			double leftRadius = leftCircle.getRadius();
-			double rightRadius = rightCircle.getRadius();
-
-			Point2D textFieldLocation = newTextBox.localToParent(newTextBox.getScene().getX(),
-					newTextBox.getScene().getY());
-
-			double distanceToLeft = textFieldLocation.distance(leftCenter);
-			double distanceToRight = textFieldLocation.distance(rightCenter);
+			try {
+				textBoxLocation = this.vennSet.getLocation(newTextBox);
+			} catch (Exception exception) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Warning Dialog");
+				alert.setHeaderText("TextField Out of Bounds");
+				alert.setContentText(
+						"Please place the label inside the one of the shape.");
+				alert.showAndWait();
+				return;
+			}
 
 			/*
 			 * If TextField location is within radial distance of the left and right circle,
 			 * it must be somewhere in the intersection of the two circles
 			 */
-			if (distanceToLeft <= leftRadius && distanceToRight <= rightRadius) {
-				intersectionSet.add(newTextBox.getText());
+			if (textBoxLocation == Location.MIDDLE) {
 				sideAdded.setText("Intersection!");
 				sideAdded.setEditable(false);
-				masterMap.put(newTextBox.getText(), Location.MIDDLE);
 				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 25px;");
 			}
 			/*
 			 * Else if, if its within radial distance of the left Circle, it must be in the
 			 * left circle
 			 */
-			else if (distanceToLeft <= leftRadius) {
-				leftSet.add(newTextBox.getText());
+			else if (textBoxLocation == Location.LEFT) {
 				sideAdded.setText("Left!");
 				sideAdded.setEditable(false);
-				masterMap.put(newTextBox.getText(), Location.LEFT);
 				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 25px;");
 			}
 			/*
 			 * Else if, if its within radial distance of the left Circle, it must be in the
 			 * right circle
 			 */
-			else if (distanceToRight <= rightRadius) {
-				rightSet.add(newTextBox.getText());
+			else if (textBoxLocation == Location.RIGHT) {
 				sideAdded.setText("Right!");
 				sideAdded.setEditable(false);
-				masterMap.put(newTextBox.getText(), Location.RIGHT);
 				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 25px;");
-			}
-
-			/*
-			 * Else, it must be outside the circles, give a warning.
-			 */
-			else {
-
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Warning Dialog");
-				alert.setHeaderText("TextField Out of Bounds");
-				alert.setContentText(
-						"If you dont place the textField inside the bounds, I wont be able to add it to the CSV File.");
-				alert.showAndWait();
 			}
 
 		});
@@ -405,6 +361,7 @@ public class ShapeSceneController implements Initializable {
 				tf.setEditable(false);
 				tf.resizeRelocate(0, 0, 1, 1);
 				tf.resize(50, 50);
+        
 				tf.setMaxWidth(tf.getText().length() * 20);
 
 				try {
@@ -465,7 +422,7 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	public ArrayList<TextField> getTextFields() {
-		return current;
+		return this.vennSet;
 	}
 
 	/**
@@ -553,7 +510,6 @@ public class ShapeSceneController implements Initializable {
 				try { // If Nothing Was Added on GetExisting, the program crashes, this is so it
 						// doesn't crash
 					//System.out.println(masterMap.get(textField.getText()));
-					
 					pw.println(textField.getText() + COMMA + textField.getTranslateX() + COMMA
 							+ textField.getTranslateY() + COMMA + masterMap.get(textField.getText()).toString());
 
@@ -639,8 +595,8 @@ public class ShapeSceneController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-
+		this.vennShape = new VennShape(this.leftCircle, this.rightCircle);
+		this.vennSet = new VennSet(this.vennShape);
 	}
 
 }
