@@ -45,6 +45,6 @@
               promptText="Enter Title of Venn Diagram" style="-fx-font-size: 25;"/>
    <ColorPicker fx:id="leftColorPicker" layoutX="14.0" layoutY="239.0" onAction="#changeLeftColor"/>
    <ColorPicker fx:id="rightColorPicker" layoutX="1100.0" layoutY="239.0" onAction="#changeRightColor"/>
-   <TextField fx:id="sideAdded" layoutX="14.0" layoutY="828.0"/>
-   <Label layoutX="22.0" layoutY="792.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added"/>
+   <TextField fx:id="sideAdded" layoutX="14.0" layoutY="828.0" style="-fx-font-size: 20;"/>
+   <Label fx:id="sideLabel" layoutX="22.0" layoutY="792.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added"/>
 </AnchorPane>

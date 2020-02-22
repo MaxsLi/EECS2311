@@ -1,3 +1,10 @@
+#titleText {
+  -fx-font-family: open-sans, sans-serif;
+  -fx-font-size: 60px;
+  -fx-font-weight: bold;
+  -fx-fill: rgb(33,33,33);
+}
+
 .button{
   -fx-font-family : open-sans, sans-serif;
   -fx-font-weight : bold;

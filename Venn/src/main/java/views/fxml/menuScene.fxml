@@ -43,9 +43,8 @@
    </right>
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <Text layoutX="-6.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0"
-               style="-fx-font-size: 60; -fx-font-family: Helvetica Neue; -fx-fill: Blue;" text="VennCreate"
-               textAlignment="CENTER" wrappingWidth="332.94921875"/>
+         <Text fx:id="titleText" layoutX="-6.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0"
+               text="VennCreate" textAlignment="CENTER" wrappingWidth="332.94921875"/>
       </AnchorPane>
    </center>
 </BorderPane>
