@@ -2,41 +2,33 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1250.0" prefWidth="1000.0" stylesheets="@../css/menuScene.css" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuSceneController">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1250.0" prefWidth="1000.0" stylesheets="@../css/menuScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuSceneController">
 
    <left>
       <VBox BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets left="90.0"/>
+            <Insets left="90.0" />
          </BorderPane.margin>
-         <Button fx:id="createNewBtn" mnemonicParsing="false" onMouseClicked="#createNew" prefHeight="80.0"
-                 prefWidth="250.0" text="Create New">
+         <Button fx:id="createNewBtn" mnemonicParsing="false" onMouseClicked="#createNew" prefHeight="80.0" prefWidth="250.0" text="Create New">
             <VBox.margin>
-               <Insets top="450.0"/>
+               <Insets top="450.0" />
             </VBox.margin>
          </Button>
-         <Label alignment="BOTTOM_CENTER" text="Recent Venn Diagrams">
-            <VBox.margin>
-               <Insets left="75.0" top="40.0"/>
-            </VBox.margin>
-         </Label>
       </VBox>
    </left>
    <right>
       <VBox BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets right="90.0"/>
+            <Insets right="90.0" />
          </BorderPane.margin>
-         <Button fx:id="getExistingBtn" mnemonicParsing="false" onAction="#getExisting" prefHeight="80.0"
-                 prefWidth="250.0" text="Get Existing">
+         <Button fx:id="getExistingBtn" mnemonicParsing="false" onAction="#getExisting" prefHeight="80.0" prefWidth="250.0" text="Get Existing">
             <VBox.margin>
-               <Insets top="450.0"/>
+               <Insets top="450.0" />
             </VBox.margin>
          </Button>
       </VBox>
