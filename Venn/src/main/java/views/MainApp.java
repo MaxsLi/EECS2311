@@ -22,6 +22,8 @@ import java.io.IOException;
 
 public class MainApp extends Application {
 
+	public static final String APP_TITLE = "VennCreate";
+
 	public static Stage primaryStage;
 	private AnchorPane vennPane;
 	private BorderPane rootLayout;
@@ -39,14 +41,15 @@ public class MainApp extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		MainApp.primaryStage = primaryStage;
 
-		loadRootLayout();
-		loadMenubar();
-		loadMenuScene();
+		this.loadRootLayout();
+		this.loadMenubar();
+		this.loadMenuScene();
 
 		Scene scene = new Scene(this.rootLayout);
 
 		MainApp.primaryStage.setScene(scene);
 		MainApp.primaryStage.sizeToScene();
+		MainApp.primaryStage.setTitle(APP_TITLE);
 
 		MainApp.primaryStage.setMinWidth(primaryStage.getWidth());
 		MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
@@ -100,6 +103,7 @@ public class MainApp extends Application {
 		// this.vennPane = (StackPane) loader.load();
 
 		// this.rootLayout.setCenter(this.vennPane);
+
 		this.vennPane = loader.load();
 
 		// Zoom!
@@ -147,10 +151,9 @@ public class MainApp extends Application {
 	private void loadMenuScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("./fxml/menuScene.fxml"));
-		this.menuPane = (BorderPane) loader.load();
-		this.menuPane.getStylesheets().add(getClass().getResource("./css/menuScene.css").toString());
+		this.menuPane = loader.load();
 		rootLayout.setCenter(this.menuPane);
-		menuSceneCont = (MenuSceneController) loader.getController();
+		menuSceneCont = loader.getController();
 		menuSceneCont.setMainApp(this);
 	}
 }

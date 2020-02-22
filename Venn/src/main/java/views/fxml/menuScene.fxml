@@ -10,35 +10,33 @@
 
    <left>
       <VBox BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="createNewBtn" mnemonicParsing="false" onMouseClicked="#createNew" prefHeight="80.0" prefWidth="250.0" text="Create New">
-               <VBox.margin>
-                  <Insets top="450.0" />
-               </VBox.margin>
-            </Button>
-            <Label alignment="BOTTOM_CENTER" text="Recent Venn Diagrams">
-               <VBox.margin>
-                  <Insets left="75.0" top="40.0" />
-               </VBox.margin>
-            </Label>
-         </children>
          <BorderPane.margin>
-            <Insets left="90.0" />
+            <Insets left="90.0"/>
          </BorderPane.margin>
+         <Button fx:id="createNewBtn" mnemonicParsing="false" onMouseClicked="#createNew" prefHeight="80.0"
+                 prefWidth="250.0" text="Create New">
+            <VBox.margin>
+               <Insets top="450.0"/>
+            </VBox.margin>
+         </Button>
+         <Label alignment="BOTTOM_CENTER" text="Recent Venn Diagrams">
+            <VBox.margin>
+               <Insets left="75.0" top="40.0"/>
+            </VBox.margin>
+         </Label>
       </VBox>
    </left>
    <right>
       <VBox BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets right="90.0" />
+            <Insets right="90.0"/>
          </BorderPane.margin>
-         <children>
-            <Button fx:id="getExistingBtn" mnemonicParsing="false" onMouseClicked="#loadLast" prefHeight="80.0" prefWidth="250.0" text="Get Existing">
-               <VBox.margin>
-                  <Insets top="450.0" />
-               </VBox.margin>
-            </Button>
-         </children>
+         <Button fx:id="getExistingBtn" mnemonicParsing="false" onMouseClicked="#loadLast" prefHeight="80.0"
+                 prefWidth="250.0" text="Get Existing">
+            <VBox.margin>
+               <Insets top="450.0"/>
+            </VBox.margin>
+         </Button>
       </VBox>
    </right>
 </BorderPane>

@@ -10,16 +10,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.scene.control.*;
 import views.MainApp;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -30,6 +25,9 @@ import models.VennShape;
 import utilities.TextUtils;
 
 public class ShapeSceneController implements Initializable {
+
+	@FXML
+	public Label sideLabel;
 
 	@FXML
 	private AnchorPane mainScene;
