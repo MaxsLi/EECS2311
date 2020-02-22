@@ -77,7 +77,7 @@ public class ShapeSceneContTest {
 			cont.saveVenn(cont.getTextFields());
 			cont=new ShapeSceneController();
 			cont.setStackPane(new StackPane());
-			cont.loadVenn();
+			cont.loadVenn("save.csv");
 			String[] s=new String[5];
 			
 			for (int i = 0; i < s.length; i++) {

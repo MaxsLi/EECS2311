@@ -1,8 +1,8 @@
 package application;
 
-import controllers.MenuBarController;
-import controllers.MenuSceneController;
-import controllers.ShapeSceneController;
+import java.io.File;
+import java.io.IOException;
+import controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -59,7 +59,12 @@ public class MainApp extends Application {
 		// Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
 			if (shapeSceneCont != null) {
+				try {
 				shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
+				}
+				catch(NullPointerException NPE) {
+					System.out.println("Null Pointer Exception has occured");
+				}
 			}
 			e.consume();
 			MenuBarController.closeProgram(e);
@@ -120,15 +125,19 @@ public class MainApp extends Application {
 	 * @param sceneNew A string of the scene to change to
 	 * @throws IOException
 	 */
-	public void switchScene(String sceneNew) throws IOException {
+	public void switchScene(String sceneNew, String fileTitle) throws IOException {
 		if (sceneNew.equals("menuScene")) {
 			loadMenuScene();
 		} else if (sceneNew.equals("shapeScene")) {
 			loadShapeScene();
 		} else if (sceneNew.equals("load")) {
 			loadShapeScene();
-			shapeSceneCont.loadVenn();
-			if (shapeSceneCont.getTextFields().isEmpty()) {
+			shapeSceneCont.loadVenn(fileTitle);
+			
+			 File currentDir = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" 
+					 + File.separator + "java" + File.separator + "resources" + File.separator);
+			
+			if (currentDir.list().length == 0) {
 				loadMenuScene();
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Warning Dialog");
