@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
@@ -50,6 +51,12 @@ public class MainApp extends Application {
 		MainApp.primaryStage.setScene(scene);
 		MainApp.primaryStage.sizeToScene();
 		MainApp.primaryStage.setTitle(APP_TITLE);
+		MainApp.primaryStage.getIcons().add(new Image(
+				"file:" + System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
+						+ File.separator + "java" + File.separator + "resources" + File.separator + "images" + File.separator
+				+ "logo.png")
+		);
+
 
 		MainApp.primaryStage.setMinWidth(primaryStage.getWidth());
 		MainApp.primaryStage.setMinHeight(primaryStage.getHeight());

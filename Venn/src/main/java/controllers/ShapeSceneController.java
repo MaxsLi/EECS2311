@@ -10,11 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -27,16 +23,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Control;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -253,13 +242,9 @@ public class ShapeSceneController implements Initializable {
 		context.getItems().add(edit);
 		textField.setContextMenu(context);
 
-		delete.setOnAction((event) -> {
-			stackPane.getChildren().remove(textField);
-		});
+		delete.setOnAction((event) -> stackPane.getChildren().remove(textField));
 
-		edit.setOnAction((event) -> {
-			textField.setEditable(true);
-		});
+		edit.setOnAction((event) -> textField.setEditable(true));
 
 	}
 
@@ -401,7 +386,6 @@ public class ShapeSceneController implements Initializable {
 							+ " Please check this line and try again");
 					alert.showAndWait();
 					lineCounter++;
-					continue;
 					/*
 					 * If the user touches the CSV file and changes the Numbers that represent x and
 					 * y location into say a string, an error will occur, so catch it.
@@ -432,7 +416,7 @@ public class ShapeSceneController implements Initializable {
 	 *              save.csv file
 	 */
 	public void saveVenn(ArrayList<TextField> write) {
-		AppAtributes appSaver = new AppAtributes(this.appTitle.getText(), this.leftTitle.getText(),
+		AppAttributes appSaver = new AppAttributes(this.appTitle.getText(), this.leftTitle.getText(),
 				this.rightTitle.getText(), this.leftCircle.getFill(), this.rightCircle.getFill());
 
 		String dummyLine = "TEXT COLUMN" + COMMA + "TextField X Coor" + COMMA + "TextField Y Coor" + COMMA + "Location of TextField" + COMMA + "<--DO NOT MODIFY THIS LINE"; // Program not reading Line two,
@@ -441,8 +425,8 @@ public class ShapeSceneController implements Initializable {
 		/*
 		 * Set the First Line of the CSV File Accordingly
 		 */
-		String firstLine = appSaver.attriAppTitle + "," + appSaver.attriLeftTitle + "," + appSaver.attriRightTitle + ","
-				+ appSaver.attriLeftColor.toString() + "," + appSaver.attriRightColor.toString() + ","
+		String firstLine = appSaver.attrAppTitle + "," + appSaver.attrLeftTitle + "," + appSaver.attrRightTitle + ","
+				+ appSaver.attrLeftColor.toString() + "," + appSaver.attrRightColor.toString() + ","
 				+ "<---DO NOT MODIFY THIS LINE" + "\n" + dummyLine;
 
 		try {
@@ -475,7 +459,7 @@ public class ShapeSceneController implements Initializable {
 				fw = new FileWriter(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
 						+ File.separator + "java" + File.separator + "resources" + File.separator + titleOfApp + ".csv",
 						false);
-			} catch (FileNotFoundException FNFE) {
+			} catch (FileNotFoundException ex) {
 				Alert alertWarn = new Alert(AlertType.WARNING);
 				alertWarn.setTitle("WARNING");
 				alertWarn.setHeaderText("Dangerous Action");
@@ -486,7 +470,7 @@ public class ShapeSceneController implements Initializable {
 				Alert alertError = new Alert(AlertType.ERROR);
 				alertError.setTitle("Error");
 				alertError.setHeaderText("File Could Not be Saved to");
-				alertError.setContentText("The File You want to write to by Closing this wondow"
+				alertError.setContentText("The File You want to write to by Closing this window"
 						+ ", is open in another process. Please Close that File before trying to close this window.");
 				alertError.showAndWait();
 
@@ -494,13 +478,13 @@ public class ShapeSceneController implements Initializable {
 			BufferedWriter bw = new BufferedWriter(fw);
 			PrintWriter pw = new PrintWriter(bw);
 
-			pw.println(firstLine); // Prints important AppAtributtes to the first Line
+			pw.println(firstLine); // Prints important AppAttributes to the first Line
 			boolean linePrinted = true;
 
 			int writeIndexer = 0; // A Indexer for the write ArrayList argument
 
 			while (writeIndexer < write.size()) {
-				if (linePrinted == true) {
+				if (linePrinted) {
 					linePrinted = false;
 					continue;
 				}
@@ -531,39 +515,38 @@ public class ShapeSceneController implements Initializable {
 
 	/**
 	 * An Object to store All important Details on an App Instance
-	 * 
 	 *
 	 */
-	private class AppAtributes {
-		String attriAppTitle = appTitle.getText();
-		String attriLeftTitle = leftTitle.getText();
-		String attriRightTitle = rightTitle.getText();
-		Paint attriLeftColor = leftCircle.getFill();
-		Paint attriRightColor = rightCircle.getFill();
+	private class AppAttributes {
+		String attrAppTitle = appTitle.getText();
+		String attrLeftTitle = leftTitle.getText();
+		String attrRightTitle = rightTitle.getText();
+		Paint attrLeftColor = leftCircle.getFill();
+		Paint attrRightColor = rightCircle.getFill();
 
-		public AppAtributes(String attributeAppTitle, String leftTitle, String rightTitle, Paint leftColor,
-				Paint rightColor) {
+		public AppAttributes(String attributeAppTitle, String leftTitle, String rightTitle, Paint leftColor,
+							 Paint rightColor) {
 			super();
-			if (this.attriAppTitle.trim().isEmpty()) {
-				this.attriAppTitle = "DefaultTitle";
+			if (this.attrAppTitle.trim().isEmpty()) {
+				this.attrAppTitle = "DefaultTitle";
 			} else {
-				this.attriAppTitle = attributeAppTitle;
+				this.attrAppTitle = attributeAppTitle;
 			}
 
-			if (this.attriLeftTitle.trim().isEmpty()) {
-				this.attriLeftTitle = "DefaultLeftTitle";
+			if (this.attrLeftTitle.trim().isEmpty()) {
+				this.attrLeftTitle = "DefaultLeftTitle";
 			} else {
-				this.attriLeftTitle = leftTitle;
+				this.attrLeftTitle = leftTitle;
 			}
 
-			if (this.attriRightTitle.trim().isEmpty()) {
-				this.attriRightTitle = "DefaultRightTitle";
+			if (this.attrRightTitle.trim().isEmpty()) {
+				this.attrRightTitle = "DefaultRightTitle";
 			} else {
-				this.attriRightTitle = rightTitle;
+				this.attrRightTitle = rightTitle;
 			}
 
-			this.attriLeftColor = leftColor;
-			this.attriRightColor = rightColor;
+			this.attrLeftColor = leftColor;
+			this.attrRightColor = rightColor;
 
 		}
 
