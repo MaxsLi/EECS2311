@@ -20,3 +20,9 @@
   -fx-font-family : open-sans, sans-serif;
   -fx-font-weight : bold;
 }
+
+.paneCenter {
+	-fx-background-image: url("../../resources/images/title.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 1000 1250;
+}
