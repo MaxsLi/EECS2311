@@ -13,6 +13,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -169,6 +174,16 @@ public class MainApp extends Application {
 		this.loader.setLocation(getClass().getResource("./fxml/menuScene.fxml"));
 		this.menuPane = loader.load();
 		rootLayout.setCenter(this.menuPane);
+		
+//		String pathToPic = "file:///" + System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
+//				+ File.separator + "java" + File.separator + "resources" + File.separator + "title.png"; 
+//		
+//		System.out.println(pathToPic);
+//		
+//		 this.rootLayout.setBackground(new Background(new BackgroundImage(new Image(pathToPic), BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+		
+		
 		menuSceneCont = loader.getController();
 		menuSceneCont.setMainApp(this);
 	}
