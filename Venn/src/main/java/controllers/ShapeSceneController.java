@@ -435,7 +435,7 @@ public class ShapeSceneController implements Initializable {
 		AppAtributes appSaver = new AppAtributes(this.appTitle.getText(), this.leftTitle.getText(),
 				this.rightTitle.getText(), this.leftCircle.getFill(), this.rightCircle.getFill());
 
-		String dummyLine = "This Line" + "," + "is Required" + "," + "By the Program" + "," + "For Correct Functionallity"; // Program not reading Line two,
+		String dummyLine = "TEXT COLUMN" + COMMA + "TextField X Coor" + COMMA + "TextField Y Coor" + COMMA + "Location of TextField" + COMMA + "<--DO NOT MODIFY THIS LINE"; // Program not reading Line two,
 																					// adding dummyLine
 
 		/*
