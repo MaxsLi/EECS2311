@@ -6,6 +6,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import javafx.scene.control.TextField;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,7 +19,7 @@ public class ShapeSceneContTest {
 		
 		ShapeSceneController cont;
 		JFXPanel fxPanel;
-		@Before
+		@BeforeEach
 		public void setUp() {
 		  cont=new ShapeSceneController();
 		  fxPanel=new JFXPanel();
@@ -28,7 +30,7 @@ public class ShapeSceneContTest {
 		public void testSave() throws Exception {
 		
 			String[] expected=new String[5];
-			TextField tf;
+			TextField tf = new TextField();
 			for (int i = 0; i < expected.length; i++) {
 				tf=new TextField();
 				tf.setText("I am test");

@@ -448,7 +448,7 @@ public class ShapeSceneController implements Initializable {
 				Optional<String> result = dialog.showAndWait();
 				if (result.isPresent()) {
 					titleOfApp = result.get();
-				} else {
+				} else { 
 					Date today = new Date();
 					titleOfApp = "untitledVC:Made on[" + today.toString() + "]";
 				}
