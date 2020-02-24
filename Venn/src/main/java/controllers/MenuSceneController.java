@@ -1,32 +1,21 @@
 package controllers;
 
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import views.MainApp;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MenuSceneController implements Initializable {
-
-	@FXML
-	public ImageView titleImage;
 
 	@FXML
 	private Button createNewBttn;
@@ -110,11 +99,7 @@ public class MenuSceneController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-			Image img = new Image(
-					"file:" + System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
-							+ File.separator + "java" + File.separator + "resources" + File.separator + "images" + File.separator
-							+ "title.png");
-			this.titleImage = new ImageView(img);
+
 	}
 
 	/**
