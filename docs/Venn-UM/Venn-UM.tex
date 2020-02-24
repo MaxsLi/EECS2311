@@ -31,6 +31,10 @@
 	& 1.0       
 	& Initial release of this document\\ 
 	\hline
+	23 February 2020
+	& 1.1
+	& Updated for Save/Load feature\\
+	\hline
 \end{tabular}
 \bigskip\bigskip
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,30 +84,27 @@ Venn Create provides an intuitive interface and strive to deliver the best user 
 	\caption{Introduction Interface}
 \end{figure}
 
+On the top left corner there are three options on the menu bar:
+
 \begin{itemize}
-	\item[\textbf{A.}] {
-		Button to create a new Venn diagram.
+	\item[] {
+		\textbf{File}: Operation regarding the file, currently, close the application.
 	}
-	\item[\textbf{B.}] {
-		Button to import existing Venn diagrams.
+	\item[] {
+	 	\textbf{Insert}: Add a new circle to the diagram (currently disabled).
 	}
-	\item[\textbf{C.}] {
-		History list containing a record of the recent Venn diagrams.
-	}
-	\item[\textbf{D.}] {
-		Menu bar button to expand the options for operations regarding files.
-	}
-	\item[\textbf{E.}] {
-		Menu bar button to expand the options for inserting a new Venn diagram.
-	}
-	\item[\textbf{F.}] {
-		Menu bar button to view the help page.
+	\item[] {
+		\textbf{Help}: Open this user manual.
 	}
 \end{itemize}
+	
+In the middle, there are two buttons. \textbf{Create New} will allow user
+to create a new Venn diagram. \textbf{Get Existing} will enable user to
+load an existing Venn diagram to the application.
 
 \subsection{Main Interface}
 
-If user chose to create or import any Venn diagrams, the application will switch to the main interface:
+If user chose to create a new Venn diagrams, the application will switch to the main interface:
 
 \begin{figure}[hbt]
 	\begin{mdframed}
@@ -112,30 +113,26 @@ If user chose to create or import any Venn diagrams, the application will switch
 	\caption{Main Interface}
 \end{figure}
 
-\begin{itemize}
-	\item[\textbf{A.}] {
-		Text area for the name of the left Venn diagram.
-	}
-	\item[\textbf{B.}] {
-		Text area for the name of the right Venn diagram.
-	}
-	\item[\textbf{C.}] {
-		Text area for the content of the new text label to be added to the Venn diagrams.
-	}
-	\item[\textbf{D.}] {
-		Button to add the a new text label to the Venn diagrams.
-	}
-	\item[\textbf{E.}] {
-		Button to edit an existing text label of the Venn diagrams.
-	}
-	\item[\textbf{F.}] {
-		Button to remove an existing text label from the Venn diagrams.
-	}
-\end{itemize}
+On top, user can customize the title of the current Venn diagram, and the
+name of either diagrams.
+
+On the side of the diagrams, user can customize the colour of the diagram
+py using a colour picker.
+
+At the bottom left there is a indicator for which side of the diagram the label
+is in.
+
+Bottom centre is a text area for putting text for new labels.
+
+Then bottom right, clicking the add button will add the text to the diagram.
+And the save button will save the current diagram to a .csv file.
+
+When a user attempts to close the application, the application will also
+warn the user to save the progress to a file. In case for future loading.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newpage
+\newpage 
 \section{Using the Software}
 
 After getting acquainted with the basic user interface of the software.
