@@ -62,9 +62,9 @@ To run, either double click or use command line `java -jar ./VennCreate.jar`.
 
 ## Group Memebers
 * Chidalu Agbakwa (216337784)
-* Shangru(Max) Li (214488993)
+* Shangru Li (214488993)
 * Jihal Patel (216376436)
-* Robert (Robbie) Suwary (215446016)
+* Robert Suwary (215446016)
 
 ## License
 
