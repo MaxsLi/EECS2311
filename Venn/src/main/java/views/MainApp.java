@@ -91,7 +91,7 @@ public class MainApp extends Application {
 	 * 
 	 * @throws IOException
 	 */
-	private void loadRootLayout() throws IOException {
+	public void loadRootLayout() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("./fxml/RootLayout.fxml"));
 		this.rootLayout = loader.load();
@@ -102,7 +102,7 @@ public class MainApp extends Application {
 	 * 
 	 * @throws IOException
 	 */
-	private void loadMenubar() throws IOException {
+	public void loadMenubar() throws IOException {
 		FXMLLoader loader1 = new FXMLLoader();
 		loader1.setLocation(getClass().getResource("./fxml/menuBar.fxml"));
 		this.menuBar = (MenuBar) loader1.load();
@@ -114,7 +114,7 @@ public class MainApp extends Application {
 	 * 
 	 * @throws IOException
 	 */
-	private void loadShapeScene() throws IOException {
+	public void loadShapeScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("./fxml/shapeScene.fxml"));
 		// this.vennPane = (StackPane) loader.load();
@@ -169,7 +169,7 @@ public class MainApp extends Application {
 	 * 
 	 * @throws IOException
 	 */
-	private void loadMenuScene() throws IOException {
+	public void loadMenuScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("./fxml/menuScene.fxml"));
 		this.menuPane = loader.load();
