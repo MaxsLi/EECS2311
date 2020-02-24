@@ -9,5 +9,8 @@ package models;
  *
  */
 public enum Location {
-	LEFT, MIDDLE, RIGHT
+	LEFT, MIDDLE, RIGHT;
+	
 }
+
+

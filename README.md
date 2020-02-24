@@ -7,13 +7,16 @@ A desktop app that can draw customizable [Venn diagrams](https://en.wikipedia.or
 ## Folder Structure
 * [[Venn]](/Venn)
   * [[src/main/java]](/Venn/src/main/java)
-    * [[application]](/Venn/src/main/java/application)
     * [[controllers]](/Venn/src/main/java/controllers)
+    * [[models]](/Venn/src/main/java/models)
+    * [[resources]](/Venn/src/main/java/resources)
+    * [[views]](/Venn/src/main/java/views)
 * [[artifacts]](/artifacts)
   * [VennCreate.jar](/artifacts/VennCreate.jar)
 * [[docs]](/docs)
   * [[Venn-RD]](/docs/Venn-RD)
     * [Venn-RD.pdf](/docs/Venn-RD/Venn-RD.pdf)
+  * [Venn-TD](/docs/Venn-TD.pdf)
   * [[Venn-UM]](/docs/Venn-UM)
     * [Venn-UM.pdf](/docs/Venn-UM/Venn-UM.pdf)
   * [ideas.md](/docs/ideas.md)
@@ -26,12 +29,12 @@ MainFrame
 ├─────────────────────────────────────┤
 │                                     │
 │                                     │
-│              DiagramPanel           │
+│              shapeScence            │
 │                                     │
 │                                     │
 └─────────────────────────────────────┘
 ```
-## Framework
+## Design Pattern
 
 [Model–View–Controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
 
@@ -42,18 +45,26 @@ MainFrame
 ```
 
 * **Model**: Mathematical sets serves as the primary logic of Venn diagrams.
-* **View**: Implemented using JFrame.
-* **Controller**: Button click and key press action listener.
+* **View**: Implemented using JavaFX.
+* **Controller**: Mouse and key listener.
 
 ## Installation
 
-## Usage
+Please download the executable jar [here](/artifacts/VennCreate.jar).
+
+To run, either double click or use command line `java -jar ./VennCreate.jar`.
+
+## Documents
+
+* [Requirements Document](/docs/Venn-RD/Venn-RD.pdf)
+* [User Manual](/docs/Venn-UM/Venn-UM.pdf)
+* [Testing Document](/docs/Venn-TD.pdf)
 
 ## Group Memebers
 * Chidalu Agbakwa (216337784)
-* Shangru(Max) Li (214488993)
+* Shangru Li (214488993)
 * Jihal Patel (216376436)
-* Robert (Robbie) Suwary (215446016)
+* Robert Suwary (215446016)
 
 ## License
 
