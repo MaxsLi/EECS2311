@@ -1,8 +1,8 @@
 #pane {
-  -fx-background-image: url("../../resources/images/title.png");
-  -fx-background-repeat: stretch;
-  -fx-background-size: 1920 1920;
-  -fx-background-position: center center;
+  -fx-background-image: url("/resources/images/title.png");
+  -fx-background-repeat: no-repeat;
+  -fx-background-size: 1920 1080;
+  -fx-background-position: center;
 }
 
 .button{

@@ -6,6 +6,7 @@ import controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -17,8 +18,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 
 public class MainApp extends Application {
@@ -43,20 +42,15 @@ public class MainApp extends Application {
 		MainApp.primaryStage = primaryStage;
 
 		this.loadRootLayout();
-		this.loadMenubar();
 		this.loadMenuScene();
+		this.loadMenubar();
 
 		Scene scene = new Scene(this.rootLayout);
 
 		MainApp.primaryStage.setScene(scene);
 		MainApp.primaryStage.sizeToScene();
 		MainApp.primaryStage.setTitle(APP_TITLE);
-		MainApp.primaryStage.getIcons().add(new Image(
-				"file:" + System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
-						+ File.separator + "java" + File.separator + "resources" + File.separator + "images" + File.separator
-				+ "logo.png")
-		);
-
+		MainApp.primaryStage.getIcons().add(new Image("/resources/images/logo.png"));
 
 		MainApp.primaryStage.setMinWidth(primaryStage.getWidth());
 		MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
@@ -73,7 +67,7 @@ public class MainApp extends Application {
 				shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
 				}
 				catch(NullPointerException NPE) {
-					System.out.println("Null Pointer Exception has occured");
+					System.out.println("Null Pointer Exception has occurred");
 				}
 			}
 			e.consume();
@@ -88,7 +82,7 @@ public class MainApp extends Application {
 	 */
 	private void loadRootLayout() throws IOException {
 		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("./fxml/RootLayout.fxml"));
+		this.loader.setLocation(getClass().getResource("/views/fxml/RootLayout.fxml"));
 		this.rootLayout = loader.load();
 	}
 
@@ -99,8 +93,8 @@ public class MainApp extends Application {
 	 */
 	private void loadMenubar() throws IOException {
 		FXMLLoader loader1 = new FXMLLoader();
-		loader1.setLocation(getClass().getResource("./fxml/menuBar.fxml"));
-		this.menuBar = (MenuBar) loader1.load();
+		loader1.setLocation(getClass().getResource("/views/fxml/menuBar.fxml"));
+		this.menuBar = loader1.load();
 		this.rootLayout.setTop(this.menuBar);
 	}
 
@@ -111,23 +105,16 @@ public class MainApp extends Application {
 	 */
 	private void loadShapeScene() throws IOException {
 		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("./fxml/shapeScene.fxml"));
+		this.loader.setLocation(getClass().getResource("/views/fxml/shapeScene.fxml"));
 		// this.vennPane = (StackPane) loader.load();
 
 		// this.rootLayout.setCenter(this.vennPane);
 
 		this.vennPane = loader.load();
 
-		// Zoom!
-		Parent zoomPane = new ZoomPane(new Group(this.vennPane)).getParent();
-		VBox layout = new VBox();
-		layout.getChildren().setAll(zoomPane);
-		VBox.setVgrow(zoomPane, Priority.ALWAYS);
-
-		rootLayout.setCenter(layout); // make the center of the Menubar Scene to the rootLayout
+		rootLayout.setCenter(this.addZoomPane(this.vennPane)); // make the center of the Menubar Scene to the rootLayout
 		shapeSceneCont = loader.getController();
 		shapeSceneCont.setMainApp(this);
-
 	}
 
 	/**
@@ -166,10 +153,18 @@ public class MainApp extends Application {
 	 */
 	private void loadMenuScene() throws IOException {
 		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("./fxml/menuScene.fxml"));
+		this.loader.setLocation(getClass().getResource("/views/fxml/menuScene.fxml"));
 		this.menuPane = loader.load();
-		rootLayout.setCenter(this.menuPane);
+		rootLayout.setCenter(this.addZoomPane(this.menuPane));
 		menuSceneCont = loader.getController();
 		menuSceneCont.setMainApp(this);
+	}
+
+	private VBox addZoomPane(Node node) {
+		Parent zoomPane = new ZoomPane(new Group(node)).getParent();
+		VBox layout = new VBox();
+		layout.getChildren().setAll(zoomPane);
+		VBox.setVgrow(zoomPane, Priority.ALWAYS);
+		return layout;
 	}
 }
