@@ -343,12 +343,13 @@ public class ShapeSceneController implements Initializable {
 				
 				lineCounter++;
 				tf = new TextField();
+				this.addAutoResize(tf);
 				tf.setText(parts[0]); // parts[0] is the text column of the line
 				tf.setEditable(false);
 				tf.resizeRelocate(0, 0, 1, 1);
 				tf.resize(50, 50);
         
-				tf.setMaxWidth(tf.getText().length() * 20);
+				
 
 				try {
 
