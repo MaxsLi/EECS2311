@@ -19,6 +19,7 @@ import controllers.ShapeSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -197,7 +198,7 @@ class ShapeSceneControllerTest extends ApplicationTest {
 		clickOn("#diagramText");
 		write("Good Test Mate");
 		type(KeyCode.ENTER);
-		assertEquals(stackPane.getChildren().size(), 2);
+		assertEquals(stackPane.getChildren().size(), 3);
 	
 	}
 	
@@ -214,11 +215,93 @@ class ShapeSceneControllerTest extends ApplicationTest {
 	
 	}
 	
-
+	@Test
+	public void testDrag_03() throws Exception {
+		clickOn("#diagramText");
+		write("This is a Junit Test");
+		type(KeyCode.ENTER);	
+	
+	}
+	
+	@Test
+	public void testDrag_04() throws Exception {
+		clickOn("#diagramText");
+		write("This is a Junit Test LOOOOOL");
+		type(KeyCode.ENTER);
+		Node tf = stackPane.getChildren().get(2);
+		
+		tf.setTranslateX(-174);
+		Thread.sleep(1000);
+		clickOn(leftCircle);
+		Thread.sleep(1000);
+	
+	}
+	
+	@Test
+	public void testDrag_05() throws Exception {
+		clickOn("#diagramText");
+		write("This is a Junit Test SIDE ADDED YA");
+		type(KeyCode.ENTER);
+		Node tf = stackPane.getChildren().get(2);
+		
+		tf.setTranslateX(-174);
+		Thread.sleep(1000);
+		clickOn(leftCircle);
+		Thread.sleep(1000);
+		assertEquals(sideAdded.getText(), "Left!");
+	
+	}
+	
+	@Test
+	public void testDrag_06() throws Exception {
+		clickOn("#diagramText");
+		write("This is a Junit Test SIDE ADDED YA");
+		type(KeyCode.ENTER);
+		Node tf = stackPane.getChildren().get(2);
+		
+		tf.setTranslateX(-174);
+		Thread.sleep(1000);
+		clickOn(leftCircle).drag(MouseButton.PRIMARY).dropTo(rightCircle);
+		Thread.sleep(1000);
+		
+	
+	}
+	
+	@Test
+	public void testDrag_07() throws Exception {
+		clickOn("#diagramText");
+		write("This is a Junit Test SIDE ADDED YA");
+		type(KeyCode.ENTER);
+		Node tf = stackPane.getChildren().get(2);
+		
+		tf.setTranslateX(-174);
+		Thread.sleep(1000);
+		clickOn(leftCircle).drag(MouseButton.PRIMARY).dropTo(rightCircle);
+		Thread.sleep(1000);
+		assertEquals(sideAdded.getText(), "Intersection!");
+	}
+	
+	@Test
+	public void testLeftTitle1() throws Exception {
+		clickOn("#leftTitle");
+		write("Benefits");
+		
+		assertEquals(leftTitle.getText(), "Benefits");
+		
+	
+		
+	}
+	
+	@Test
+	public void testRightTitle1() throws Exception {
+		clickOn("#rightTitle");
+		write("Doubts");
+		
+		assertEquals(rightTitle.getText(), "Doubts");
+	
+		
+	}
 	
 	
 	
-	
-	
-
 }
