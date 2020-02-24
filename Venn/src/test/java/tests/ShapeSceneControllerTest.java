@@ -197,25 +197,24 @@ class ShapeSceneControllerTest extends ApplicationTest {
 		clickOn("#diagramText");
 		write("Good Test Mate");
 		type(KeyCode.ENTER);
-		assertEquals(stackPane.getChildren().size(), 3);
+		assertEquals(stackPane.getChildren().size(), 2);
 	
 	}
 	
 	@Test
-	public void testDrag_01() throws Exception {
-		clickOn("#diagramText");
-		write("TextField 1");
-		type(KeyCode.ENTER);
-		
-		randomTF = (TextField) stackPane.getChildren().get(2);
-		randomTF = find("#randomTF");
-
-		//System.out.println(textF.localToScene(textF.getScene().getX(), textF.getScene().getY()));
-		drag(randomTF).dropTo(leftCircle);
-		
-		
+	public void changeColor_2() throws InterruptedException {
+		clickOn("#leftColorPicker").type(KeyCode.LEFT).type(KeyCode.LEFT).type(KeyCode.UP).type(KeyCode.UP).type(KeyCode.UP).type(KeyCode.LEFT).type(KeyCode.LEFT).type(KeyCode.LEFT).type(KeyCode.LEFT).type(KeyCode.ENTER);
+	
 	}
 	
+	
+	@Test
+	public void changeColor_3() throws InterruptedException {
+		clickOn("#leftColorPicker").type(KeyCode.LEFT).type(KeyCode.RIGHT).type(KeyCode.DOWN).type(KeyCode.UP).type(KeyCode.UP).type(KeyCode.LEFT).type(KeyCode.LEFT).type(KeyCode.LEFT).type(KeyCode.LEFT).type(KeyCode.ENTER);
+	
+	}
+	
+
 	
 	
 	
