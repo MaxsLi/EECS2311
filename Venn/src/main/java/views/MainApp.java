@@ -72,7 +72,7 @@ public class MainApp extends Application {
 				shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
 				}
 				catch(NullPointerException NPE) {
-					System.out.println("Null Pointer Exception has occurred");
+					System.out.println("Thank You for Using Venn Create! (Exception)");
 				}
 			}
 			e.consume();
