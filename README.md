@@ -7,15 +7,16 @@ A desktop app that can draw customizable [Venn diagrams](https://en.wikipedia.or
 ## Folder Structure
 * [[Venn]](/Venn)
   * [[src/main/java]](/Venn/src/main/java)
-    * [[views]](/views)
     * [[controllers]](/Venn/src/main/java/controllers)
     * [[models]](/Venn/src/main/java/models)
     * [[resources]](/Venn/src/main/java/resources)
+    * [[views]](/Venn/src/main/java/views)
 * [[artifacts]](/artifacts)
   * [VennCreate.jar](/artifacts/VennCreate.jar)
 * [[docs]](/docs)
   * [[Venn-RD]](/docs/Venn-RD)
     * [Venn-RD.pdf](/docs/Venn-RD/Venn-RD.pdf)
+  * [Venn-TD](/docs/Venn-TD.pdf)
   * [[Venn-UM]](/docs/Venn-UM)
     * [Venn-UM.pdf](/docs/Venn-UM/Venn-UM.pdf)
   * [ideas.md](/docs/ideas.md)
@@ -53,8 +54,11 @@ Please download the executable jar [here](/artifacts/VennCreate.jar).
 
 To run, either double click or use command line `java -jar ./VennCreate.jar`.
 
-## Usage
+## Documents
 
+* [Requirements Document](/docs/Venn-RD/Venn-RD.pdf)
+* [User Manual](/docs/Venn-UM/Venn-UM.pdf)
+* [Testing Document](/docs/Venn-TD.pdf)
 
 ## Group Memebers
 * Chidalu Agbakwa (216337784)
