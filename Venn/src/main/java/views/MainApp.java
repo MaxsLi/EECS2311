@@ -72,7 +72,7 @@ public class MainApp extends Application {
 				shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
 				}
 				catch(NullPointerException NPE) {
-					System.out.println("Null Pointer Exception has occurred");
+					System.out.println("Thank You for Using Venn Create! (Exception)");
 				}
 			}
 			e.consume();
@@ -85,7 +85,7 @@ public class MainApp extends Application {
 	 * 
 	 * @throws IOException
 	 */
-	private void loadRootLayout() throws IOException {
+	public void loadRootLayout() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("/views/fxml/RootLayout.fxml"));
 		this.rootLayout = loader.load();
@@ -96,7 +96,7 @@ public class MainApp extends Application {
 	 * 
 	 * @throws IOException
 	 */
-	private void loadMenubar() throws IOException {
+	public void loadMenubar() throws IOException {
 		FXMLLoader loader1 = new FXMLLoader();
 		loader1.setLocation(getClass().getResource("/views/fxml/menuBar.fxml"));
 		this.menuBar = loader1.load();
@@ -108,7 +108,7 @@ public class MainApp extends Application {
 	 * 
 	 * @throws IOException
 	 */
-	private void loadShapeScene() throws IOException {
+	public void loadShapeScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("/views/fxml/shapeScene.fxml"));
 		// this.vennPane = (StackPane) loader.load();
@@ -156,7 +156,7 @@ public class MainApp extends Application {
 	 * 
 	 * @throws IOException
 	 */
-	private void loadMenuScene() throws IOException {
+	public void loadMenuScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("/views/fxml/menuScene.fxml"));
 		this.menuPane = loader.load();
