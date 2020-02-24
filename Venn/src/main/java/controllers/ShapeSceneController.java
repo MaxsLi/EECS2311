@@ -269,8 +269,8 @@ public class ShapeSceneController implements Initializable {
 	public void loadVenn(String fileName) {
 
 		try {
-			FileReader fr = new FileReader(System.getProperty("user.dir") + File.separator + "src" + File.separator
-					+ "main" + File.separator + "java" + File.separator + "resources" + File.separator + fileName);
+			String path = MainApp.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+			FileReader fr = new FileReader(path);
 			BufferedReader br = new BufferedReader(fr);
 
 			this.currentFileName = fileName.substring(0, fileName.length() - 4); // Cuts off the ".csv" extension
@@ -416,6 +416,9 @@ public class ShapeSceneController implements Initializable {
 	 *              save.csv file
 	 */
 	public void saveVenn(ArrayList<TextField> write) {
+		
+		String path = MainApp.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		
 		AppAttributes appSaver = new AppAttributes(this.appTitle.getText(), this.leftTitle.getText(),
 				this.rightTitle.getText(), this.leftCircle.getFill(), this.rightCircle.getFill());
 
@@ -456,8 +459,7 @@ public class ShapeSceneController implements Initializable {
 				titleOfApp = this.currentFileName;
 			}
 			try {
-				fw = new FileWriter(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
-						+ File.separator + "java" + File.separator + "resources" + File.separator + titleOfApp + ".csv",
+				fw = new FileWriter(path + titleOfApp + ".csv",
 						false);
 			} catch (FileNotFoundException ex) {
 				Alert alertWarn = new Alert(AlertType.WARNING);

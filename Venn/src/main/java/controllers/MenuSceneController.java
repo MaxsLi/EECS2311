@@ -54,13 +54,13 @@ public class MenuSceneController implements Initializable {
 		 FileChooser fileChooser = new FileChooser();
 		 fileChooser.setTitle("Open Resource File");
 		 
-		 File currentDir = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" 
-		 + File.separator + "java" + File.separator + "resources" + File.separator);
+		String path = MainApp.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		 File currentDir = new File(path);
 		 
 		 int numOfCSVFiles = 0;
 		 
 		 for(String f: currentDir.list()) {
-			 if(f.substring(f.length()-4, f.length()).equals(".csv")) {
+			 if(f.length() > 4 && f.substring(f.length()-4, f.length()).equals(".csv")) {
 				 numOfCSVFiles++;
 			 }
 		 }

@@ -3,6 +3,8 @@ package controllers;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,9 +52,18 @@ public class MenuBarController {
 	}
 	
 	public void openUserManual() {
-		String currentDir = System.getProperty("user.dir");
+		
+		String path = MainApp.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		try {
-		File userManual = new File(currentDir + "\\src\\main\\java\\resources\\Venn-UM.pdf");
+			String decodedPath = URLDecoder.decode(path, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		String currentDir = path;
+		try {
+		File userManual = new File(currentDir);
 		if(userManual.exists()) {
 			if(Desktop.isDesktopSupported()) {
 				try {

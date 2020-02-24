@@ -137,8 +137,8 @@ public class MainApp extends Application {
 			loadShapeScene();
 			shapeSceneCont.loadVenn(fileTitle);
 			
-			 File currentDir = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" 
-					 + File.separator + "java" + File.separator + "resources" + File.separator);
+			String path = MainApp.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+			 File currentDir = new File(path);
 			
 			if (currentDir.list().length == 0) {
 				loadMenuScene();
