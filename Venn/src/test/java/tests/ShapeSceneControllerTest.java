@@ -164,7 +164,7 @@ class ShapeSceneControllerTest extends ApplicationTest {
 		write("Stop it");
 		assertEquals(diagramText.getText(), "Stop it");
 	}
-	
+
 	@Test
 	public void test_appTitle() throws InterruptedException {
 		clickOn("#appTitle");
@@ -301,7 +301,5 @@ class ShapeSceneControllerTest extends ApplicationTest {
 	
 		
 	}
-	
-	
 	
 }
