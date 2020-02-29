@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'group18'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    // repo for testFX
+    jcenter()
+}
+
+dependencies {
+    // Junit 5
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+    // Test FX
+    testCompile "org.testfx:testfx-core:4.0.+"
+    testCompile "org.testfx:testfx-junit:4.0.+"
+}
