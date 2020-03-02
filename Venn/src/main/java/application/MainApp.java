@@ -1,16 +1,24 @@
 package application;
 
+import java.io.File;
 import java.io.IOException;
 import controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+
 
 public class MainApp extends Application {
 
@@ -22,6 +30,10 @@ public class MainApp extends Application {
 	private BorderPane menuPane;
 	private MenuSceneController menuSceneCont;
 	private ShapeSceneController shapeSceneCont;
+
+	public static void main(String[] args) {
+		launch(args);
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -47,20 +59,34 @@ public class MainApp extends Application {
 		// Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
 			if (shapeSceneCont != null) {
+				try {
 				shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
+				}
+				catch(NullPointerException NPE) {
+					System.out.println("Null Pointer Exception has occured");
+				}
 			}
 			e.consume();
 			MenuBarController.closeProgram(e);
 		});
-
 	}
 
+	/**
+	 * A Method to parse the RootLayout.fxml file and turn it into java code
+	 * 
+	 * @throws IOException
+	 */
 	private void loadRootLayout() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("RootLayout.fxml"));
-		this.rootLayout = (BorderPane) loader.load();
+		this.rootLayout = loader.load();
 	}
 
+	/**
+	 * A Method to parse the menuBar.fxml file and turn it into java code
+	 * 
+	 * @throws IOException
+	 */
 	private void loadMenubar() throws IOException {
 		FXMLLoader loader1 = new FXMLLoader();
 		loader1.setLocation(getClass().getResource("menuBar.fxml"));
@@ -68,29 +94,50 @@ public class MainApp extends Application {
 		this.rootLayout.setTop(this.menuBar);
 	}
 
+	/**
+	 * A Method to parse the shapeScene.fxml file and turn it into java code
+	 * 
+	 * @throws IOException
+	 */
 	private void loadShapeScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("shapeScene.fxml"));
 		// this.vennPane = (StackPane) loader.load();
 
 		// this.rootLayout.setCenter(this.vennPane);
-		this.vennPane = (AnchorPane) loader.load();
+		this.vennPane = loader.load();
 
-		rootLayout.setCenter(this.vennPane); // make the center of the Menubar Scene to the rootLayout
-		shapeSceneCont = (ShapeSceneController) loader.getController();
+		// Zoom!
+		Parent zoomPane = new zoomPane(new Group(this.vennPane)).getParent();
+		VBox layout = new VBox();
+		layout.getChildren().setAll(zoomPane);
+		VBox.setVgrow(zoomPane, Priority.ALWAYS);
+
+		rootLayout.setCenter(layout); // make the center of the Menubar Scene to the rootLayout
+		shapeSceneCont = loader.getController();
 		shapeSceneCont.setMainApp(this);
 
 	}
 
-	public void switchScene(String sceneNew) throws IOException {
+	/**
+	 * A Method that switches the scene on the mainStage
+	 * 
+	 * @param sceneNew A string of the scene to change to
+	 * @throws IOException
+	 */
+	public void switchScene(String sceneNew, String fileTitle) throws IOException {
 		if (sceneNew.equals("menuScene")) {
 			loadMenuScene();
 		} else if (sceneNew.equals("shapeScene")) {
 			loadShapeScene();
 		} else if (sceneNew.equals("load")) {
 			loadShapeScene();
-			shapeSceneCont.loadVenn();
-			if (shapeSceneCont.getTextFields().isEmpty()) {
+			shapeSceneCont.loadVenn(fileTitle);
+			
+			 File currentDir = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" 
+					 + File.separator + "java" + File.separator + "resources" + File.separator);
+			
+			if (currentDir.list().length == 0) {
 				loadMenuScene();
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Warning Dialog");
@@ -101,6 +148,11 @@ public class MainApp extends Application {
 		}
 	}
 
+	/**
+	 * A Method to parse the menuScene.fxml file and turn it into java code
+	 * 
+	 * @throws IOException
+	 */
 	private void loadMenuScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("menuScene.fxml"));
@@ -110,9 +162,4 @@ public class MainApp extends Application {
 		menuSceneCont = (MenuSceneController) loader.getController();
 		menuSceneCont.setMainApp(this);
 	}
-
-	public static void main(String[] args) {
-		launch(args);
-	}
-
 }

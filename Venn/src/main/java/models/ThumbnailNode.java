@@ -13,17 +13,17 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
 public class ThumbnailNode extends Node {
-	
+
 	private Group group;
 	private Rectangle backgroundShape;
 	private Image thumbailClip;
 	private TextArea info;
 	private Thumbnail thumbnail;
-	
+
 	public ThumbnailNode(Thumbnail thumbnail) {
 		this.group = new Group();
 		this.backgroundShape = new Rectangle(100, 200);
-		
+
 	}
 
 	@Override

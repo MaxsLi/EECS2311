@@ -11,6 +11,8 @@ A desktop app that can draw customizable [Venn diagrams](https://en.wikipedia.or
   * [[src/main/java]](/Venn/src/main/java)
     * [[application]](/Venn/src/main/java/application)
     * [[controllers]](/Venn/src/main/java/controllers)
+    * [[models]](/Venn/src/main/java/models)
+    * [[resources]](/Venn/src/main/java/resources)
 * [[artifacts]](/artifacts)
   * [VennCreate.jar](/artifacts/VennCreate.jar)
 * [[docs]](/docs)
@@ -28,12 +30,12 @@ MainFrame
 ├─────────────────────────────────────┤
 │                                     │
 │                                     │
-│              DiagramPanel           │
+│              shapeScence            │
 │                                     │
 │                                     │
 └─────────────────────────────────────┘
 ```
-## Framework
+## Design Pattern
 
 [Model–View–Controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
 
@@ -44,12 +46,17 @@ MainFrame
 ```
 
 * **Model**: Mathematical sets serves as the primary logic of Venn diagrams.
-* **View**: Implemented using JFrame.
-* **Controller**: Button click and key press action listener.
+* **View**: Implemented using JavaFX.
+* **Controller**: Mouse and key listener.
 
 ## Installation
 
+Please download the executable jar [here](/artifacts/VennCreate.jar).
+
+To run, either double click or use command line `java -jar ./VennCreate.jar`.
+
 ## Usage
+
 
 ## Group Memebers
 * Chidalu Agbakwa (216337784)
