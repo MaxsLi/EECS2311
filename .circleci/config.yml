@@ -3,11 +3,12 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2
+    
 jobs:
   build:
     docker:
       # specify the version you desire here
-      #- image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:8-jdk
       - image: danielmapar/gradle_and_node:2.0
       
       # Specify service dependencies here if necessary
@@ -24,6 +25,7 @@ jobs:
 
     steps:
       - checkout
+      - run: chmod +x gradlew
 
       # Download and cache dependencies
       - restore_cache:
@@ -32,7 +34,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: gradle dependencies
+      - run: ./gradlew dependencies
 
       - save_cache:
           paths:
@@ -40,7 +42,7 @@ jobs:
           key: v1-dependencies-{{ checksum "./build.gradle" }}
 
       # run tests!
-      - run: gradle test
+      - run: ./gradlew test
 
       - run: 
           name: "Build and Publish Release on GitHub"
@@ -55,8 +57,8 @@ jobs:
             zip ${ZIP_FILE_NAME}.zip VennCreate.jar
 
             github-release upload --token ${GITHUB_TOKEN} --owner ${PROJECT_USERNAME} --repo ${PROJECT_REPONAME} --tag ${TAG} --name ${TAG} --body "Release date: ${NOW}" ${ZIP_FILE_NAME}.zip
-
-
+            
+    
 workflows:
   version: 2
   build:
