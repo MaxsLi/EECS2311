@@ -14,7 +14,7 @@ Click "Create New" to create a new Venn Diagram. Fill out all information and yo
 
 To retrieve a previously worked on application, run MainApp.java and click "Retrieve Existing" and select an Existing project.
 
-Previous Projects can also be opened in any CSV Editor like excel by heading to Venn/src/main/java/resources/
+Previous Projects can also be opened in any CSV Editor like excel by heading to VennCreate/src/main/java/resources/
 
 ## Folder Structure
 * [[VennCreate]](/)
