@@ -14,11 +14,6 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -55,7 +50,7 @@ public class MainApp extends Application {
 		MainApp.primaryStage.setScene(scene);
 		MainApp.primaryStage.sizeToScene();
 		MainApp.primaryStage.setTitle(APP_TITLE);
-		MainApp.primaryStage.getIcons().add(new Image("/resources/images/logo.png"));
+		MainApp.primaryStage.getIcons().add(new Image("/images/logo.png"));
 
 		MainApp.primaryStage.setMinWidth(primaryStage.getWidth());
 		MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
@@ -81,13 +76,13 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * A Method to parse the RootLayout.fxml file and turn it into java code
+	 * A Method to parse the rootLayout.fxml file and turn it into java code
 	 * 
 	 * @throws IOException
 	 */
 	public void loadRootLayout() throws IOException {
 		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("/views/fxml/RootLayout.fxml"));
+		this.loader.setLocation(getClass().getResource("/fxml/rootLayout.fxml"));
 		this.rootLayout = loader.load();
 	}
 
@@ -98,7 +93,7 @@ public class MainApp extends Application {
 	 */
 	public void loadMenubar() throws IOException {
 		FXMLLoader loader1 = new FXMLLoader();
-		loader1.setLocation(getClass().getResource("/views/fxml/menuBar.fxml"));
+		loader1.setLocation(getClass().getResource("/fxml/menuBar.fxml"));
 		this.menuBar = loader1.load();
 		this.rootLayout.setTop(this.menuBar);
 	}
@@ -110,7 +105,7 @@ public class MainApp extends Application {
 	 */
 	public void loadShapeScene() throws IOException {
 		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("/views/fxml/shapeScene.fxml"));
+		this.loader.setLocation(getClass().getResource("/fxml/shapeScene.fxml"));
 		// this.vennPane = (StackPane) loader.load();
 
 		// this.rootLayout.setCenter(this.vennPane);
@@ -158,7 +153,7 @@ public class MainApp extends Application {
 	 */
 	public void loadMenuScene() throws IOException {
 		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("/views/fxml/menuScene.fxml"));
+		this.loader.setLocation(getClass().getResource("/fxml/menuScene.fxml"));
 		this.menuPane = loader.load();
 		rootLayout.setCenter(this.addZoomPane(this.menuPane));
 		menuSceneCont = loader.getController();

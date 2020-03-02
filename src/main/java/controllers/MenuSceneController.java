@@ -18,10 +18,10 @@ import java.util.ResourceBundle;
 public class MenuSceneController implements Initializable {
 
 	@FXML
-	private Button createNewBttn;
+	private Button createNewBtn;
 
 	@FXML
-	private Button getExistingBttn;
+	private Button getExistingBtn;
 
 	// Reference to the Main Application
 	private MainApp mainApp;
