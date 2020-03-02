@@ -1,0 +1,17 @@
+.menu-bar {
+    -fx-background-color: White;
+    -fx-border-radius: 1px;
+    -fx-border-color: LightGrey;
+}
+
+.menu .label {
+    -fx-font-family : open-sans, sans-serif;
+    -fx-font-size: 12px;
+    -fx-text-fill: Black;
+}
+
+.menu-item .label {
+    -fx-font-family : open-sans, sans-serif;
+    -fx-font-size: 12px;
+    -fx-text-fill: Black;
+}
