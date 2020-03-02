@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="tests.VennSetTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-03-02T17:51:36" hostname="Aitia" time="1.012">
+<testsuite name="tests.VennSetTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-03-02T18:00:48" hostname="Aitia" time="0.15">
   <properties/>
-  <testcase name="test()" classname="tests.VennSetTest" time="1.012"/>
+  <testcase name="test()" classname="tests.VennSetTest" time="0.15"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
