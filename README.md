@@ -10,26 +10,28 @@ To use our application first you much launch it. To do so, head to the exact pat
 
 Click "Create New" to create a new Venn Diagram. Fill out all information and you work will be automatically saved to a CSV File with a name of your choice.
 
-### Retriving your Previous Applciation
+### Retrieving Your Saved Diagrams
 
 To retrieve a previously worked on application, run MainApp.java and click "Retrieve Existing" and select an Existing project.
 
 Previous Projects can also be opened in any CSV Editor like excel by heading to Venn/src/main/java/resources/
- 
 
 ## Folder Structure
-* [[Venn]](/Venn)
-  * [[src/main/java]](/Venn/src/main/java)
-    * [[controllers]](/Venn/src/main/java/controllers)
-    * [[models]](/Venn/src/main/java/models)
-    * [[resources]](/Venn/src/main/java/resources)
-    * [[views]](/Venn/src/main/java/views)
-* [[artifacts]](/artifacts)
-  * [VennCreate.jar](/artifacts/VennCreate.jar)
+* [[VennCreate]](/)
+  * [[src/main]](/src/main)
+    * [[java]](/src/main/java)
+      * [[controllers]](/src/main/java/controllers)
+      * [[models]](/src/main/java/models)
+      * [[utilities]](/src/main/java/utilities)
+      * [[views]](/src/main/java/views)
+    * [[resources]](/src/main/resources)
+  * [[src/test]](/src/test)
+    * [[java]](/src/test/java)
+      * [[tests]](/src/test/java/tests)
 * [[docs]](/docs)
   * [[Venn-RD]](/docs/Venn-RD)
     * [Venn-RD.pdf](/docs/Venn-RD/Venn-RD.pdf)
-  * [Venn-TD](/docs/Venn-TD.pdf)
+  * [Venn-TD.pdf](/docs/Venn-TD.pdf)
   * [[Venn-UM]](/docs/Venn-UM)
     * [Venn-UM.pdf](/docs/Venn-UM/Venn-UM.pdf)
   * [ideas.md](/docs/ideas.md)
@@ -63,7 +65,7 @@ MainFrame
 
 ## Installation
 
-Please download the executable jar [here](/artifacts/VennCreate.jar).
+Please find the latest release in [here](https://github.com/MaxsLi/EECS2311/releases).
 
 To run, either double click or use command line `java -jar ./VennCreate.jar`.
 
