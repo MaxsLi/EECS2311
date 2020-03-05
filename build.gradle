@@ -9,22 +9,9 @@
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java'
-<<<<<<< HEAD
-	id 'application'
-	id 'org.openjfx.javafxplugin' version '0.0.8'
-}
-
-sourceCompatibility = 11
-targetCompatibility = 11
-
-javafx {
-	version = "11.0.2"
-	modules = [ 'javafx.controls' ]
-	mainClassName = 'views.MainApp'
-=======
     id 'application'
  	id 'org.openjfx.javafxplugin' version '0.0.8'
->>>>>>> Develop
+
 }
 
 dependencies {
