@@ -9,6 +9,7 @@ import java.util.List;
 import views.MainApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
@@ -19,6 +20,8 @@ public class MenuBarController {
 	
 	@FXML
 	private MenuItem aboutItem;
+	
+	private ShapeSceneController shapeSceneCont;
 
 	public static List<Ellipse> circleList = new ArrayList<Ellipse>();
 	// public static Group group = new Group();
@@ -26,15 +29,39 @@ public class MenuBarController {
 	public static int circles = 0;
 	private final int MAX_CIRCLES = 2;
 
-	@FXML
-	private void closeProgram(ActionEvent e) {
-		// System.out.println("Closed properly.");
-		MainApp.primaryStage.close();
-	}
+	private MainApp mainApp;
+
+//	@FXML
+//	private void closeProgram(ActionEvent e) {
+//		// System.out.println("Closed properly.");
+//		MainApp.primaryStage.close();
+//	}
 
 	// Method to close not using menuBar
 	public static void closeProgram(WindowEvent e) {
 		MainApp.primaryStage.close();
+	}
+	
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
+
+	}
+	
+	public void saveProgram(ActionEvent e) {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/fxml/shapeScene.fxml"));
+		
+		shapeSceneCont = mainApp.getShapeSceneController();
+		if(shapeSceneCont == null) System.out.println("LOL");
+		if (shapeSceneCont != null) {
+			try {
+			shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
+			}
+			catch(NullPointerException NPE) {
+				System.out.println("Thank You for Using Venn Create! (Exception)");
+			}
+		}
+		e.consume();
 	}
 
 	@FXML
