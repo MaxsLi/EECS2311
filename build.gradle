@@ -23,8 +23,9 @@ dependencies {
 }
 
 javafx {
-    version = "11.0.2"
-    modules = [ 'javafx.controls' ]
+	version = "11.0.2"
+	modules = [ 'javafx.controls' ]
+	mainClassName = 'views.MainApp'
 }
 
 jar {
