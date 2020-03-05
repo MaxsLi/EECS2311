@@ -30,6 +30,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import models.Location;
 import models.VennSet;
 import models.VennShape;
@@ -82,6 +84,8 @@ public class ShapeSceneController implements Initializable {
 	private MainApp mainApp;
 
 	private String currentFileName;
+	
+	private File currentFile;
 
 	@FXML
 	private TextField leftTitle;
@@ -266,14 +270,16 @@ public class ShapeSceneController implements Initializable {
 	 * A Method that loads all comma delimited rows from save.csv and puts them on
 	 * the screen
 	 */
-	public void loadVenn(String fileName) {
+	public void loadVenn(File fileToLoad) {
 
 		try {
-			FileReader fr = new FileReader(System.getProperty("user.dir") + File.separator + "src" + File.separator
-					+ "main" + File.separator + "java" + File.separator + "resources" + File.separator + fileName);
+			
+			FileReader fr = new FileReader(fileToLoad);
 			BufferedReader br = new BufferedReader(fr);
 
-			this.currentFileName = fileName.substring(0, fileName.length() - 4); // Cuts off the ".csv" extension
+			this.currentFileName = fileToLoad.getName().substring(0, fileToLoad.getName().length() - 4); // Cuts off the ".csv" extension
+			
+			this.currentFile = fileToLoad;
 			
 			//System.out.println(this.currentFileName);
 
@@ -344,6 +350,7 @@ public class ShapeSceneController implements Initializable {
 				lineCounter++;
 				tf = new TextField();
 				this.addAutoResize(tf);
+				this.addContext(tf);
 				tf.setText(parts[0]); // parts[0] is the text column of the line
 				tf.setEditable(false);
 				tf.resizeRelocate(0, 0, 1, 1);
@@ -433,13 +440,14 @@ public class ShapeSceneController implements Initializable {
 		try {
 			String titleOfApp;
 			FileWriter fw = null;
+			FileChooser fileChooser = null;
 
 			/*
 			 * Upon Loading a Previous file, this.currentFileName is initialized. If it is
 			 * created brand new, this.currentFileName will be null and ill know to make a
 			 * new file and not write an an existing one
 			 */
-			if (this.currentFileName == null) {
+			if (this.currentFile == null) {
 				TextInputDialog dialog = new TextInputDialog("Untitled1");
 				dialog.setTitle("Title your Project");
 				dialog.setHeaderText("Please Enter a Title for your VennCreate Project");
@@ -457,9 +465,41 @@ public class ShapeSceneController implements Initializable {
 				titleOfApp = this.currentFileName;
 			}
 			try {
-				fw = new FileWriter(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
-						+ File.separator + "java" + File.separator + "resources" + File.separator + titleOfApp + ".csv",
-						false);
+			if(this.currentFile == null) {
+				Window stage = this.stackPane.getScene().getWindow();
+				fileChooser = new FileChooser();
+				
+				File recordsDir = new File(System.getProperty("user.home"), "VennCreateFiles" + File.separator);
+				
+				if(! recordsDir.exists()) {
+					recordsDir.mkdirs();
+				}
+				
+				fileChooser.setInitialDirectory(recordsDir);
+				fileChooser.setTitle("Save File");
+				fileChooser.setInitialFileName(titleOfApp);
+				fileChooser.getExtensionFilters().addAll(
+						new FileChooser.ExtensionFilter("CSV files", "*.csv")
+			);
+			
+			this.currentFile = fileChooser.showSaveDialog(stage);
+			}	
+				
+				
+			if(this.currentFile != null) { //Throw Alert if Somehow the currentWorking File is Still null, if not null, write to it
+				fw = new FileWriter(this.currentFile,false);
+				
+				//fileChooser.setInitialDirectory(this.currentFile);
+			}
+			else {
+				Alert alertError = new Alert(AlertType.ERROR);
+				alertError.setTitle("Error");
+				alertError.setHeaderText("File Could Not be Saved to");
+				alertError.setContentText("The File You want to write to by Closing this window"
+						+ ", is open in another process. Please Close that File before trying to close this window.");
+				alertError.showAndWait();
+			}
+			
 			} catch (FileNotFoundException ex) {
 				Alert alertWarn = new Alert(AlertType.WARNING);
 				alertWarn.setTitle("WARNING");

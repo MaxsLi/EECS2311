@@ -31,6 +31,7 @@ public class MainApp extends Application {
 	private FXMLLoader loader;
 	private BorderPane menuPane;
 	private MenuSceneController menuSceneCont;
+	private MenuBarController menuBarCont;
 	private ShapeSceneController shapeSceneCont;
 
 	public static void main(String[] args) {
@@ -68,6 +69,7 @@ public class MainApp extends Application {
 				}
 				catch(NullPointerException NPE) {
 					System.out.println("Thank You for Using Venn Create! (Exception)");
+					NPE.printStackTrace();
 				}
 			}
 			e.consume();
@@ -96,6 +98,8 @@ public class MainApp extends Application {
 		loader1.setLocation(getClass().getResource("/fxml/menuBar.fxml"));
 		this.menuBar = loader1.load();
 		this.rootLayout.setTop(this.menuBar);
+		menuBarCont = loader1.getController();
+		menuBarCont.setMainApp(this);
 	}
 
 	/**
@@ -123,17 +127,20 @@ public class MainApp extends Application {
 	 * @param sceneNew A string of the scene to change to
 	 * @throws IOException
 	 */
-	public void switchScene(String sceneNew, String fileTitle) throws IOException {
+	public void switchScene(String sceneNew, File file) throws IOException {
 		if (sceneNew.equals("menuScene")) {
 			loadMenuScene();
 		} else if (sceneNew.equals("shapeScene")) {
 			loadShapeScene();
 		} else if (sceneNew.equals("load")) {
 			loadShapeScene();
-			shapeSceneCont.loadVenn(fileTitle);
+			shapeSceneCont.loadVenn(file);
 			
-			 File currentDir = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" 
-					 + File.separator + "java" + File.separator + "resources" + File.separator);
+			 File currentDir = file.getParentFile();
+			 
+			 if( ! currentDir.exists()) {
+				 currentDir = new File(System.getProperty("user.home"));
+			 }
 			
 			if (currentDir.list().length == 0) {
 				loadMenuScene();
@@ -144,6 +151,14 @@ public class MainApp extends Application {
 				alert.showAndWait();
 			}
 		}
+	}
+	
+	public ShapeSceneController getShapeSceneController() {
+		return this.shapeSceneCont;
+	}
+
+	public MenuSceneController getMenuSceneCont() {
+		return this.menuSceneCont;
 	}
 
 	/**
