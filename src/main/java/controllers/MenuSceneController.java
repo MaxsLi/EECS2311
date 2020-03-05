@@ -38,7 +38,7 @@ public class MenuSceneController implements Initializable {
 	@FXML
 	private void createNew() throws IOException {
 
-		mainApp.switchScene("shapeScene", "");
+		mainApp.switchScene("shapeScene", null); //null should be a file
 	}
 
 //	@FXML
@@ -54,31 +54,39 @@ public class MenuSceneController implements Initializable {
 		 FileChooser fileChooser = new FileChooser();
 		 fileChooser.setTitle("Open Resource File");
 		 
-		 File currentDir = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" 
-		 + File.separator + "java" + File.separator + "resources" + File.separator);
 		 
-		 int numOfCSVFiles = 0;
+		 File currentDir = new File(System.getProperty("user.home") + File.separator + "VennCreateFiles" + File.separator);
 		 
-		 for(String f: currentDir.list()) {
-			 if(f.substring(f.length()-4, f.length()).equals(".csv")) {
-				 numOfCSVFiles++;
-			 }
+		 if( ! currentDir.exists()) {
+			 currentDir = new File(System.getProperty("user.home"));
 		 }
 		 
-		 if(numOfCSVFiles==0) {
-			 Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Warning Dialog");
-				alert.setHeaderText("Empty TextField");
-				alert.setContentText("Error Loading: Nothing to Load, Please Create a New Venn Diagram First");
-				alert.showAndWait(); 
-				return;
-		 }
+	//	 int numOfCSVFiles = 0;
+		 
+//		 for(String f: currentDir.list()) {
+//			 if(f.substring(f.length()-4, f.length()).equals(".csv")) {
+//				 numOfCSVFiles++;
+//			 }
+//		 }
+//		 
+//		 if(numOfCSVFiles==0) {
+//			 Alert alert = new Alert(AlertType.WARNING);
+//				alert.setTitle("Warning Dialog");
+//				alert.setHeaderText("Empty TextField");
+//				alert.setContentText("Error Loading: Nothing to Load, Please Create a New Venn Diagram First");
+//				alert.showAndWait(); 
+//				return;
+//		 }
 		 
 		 fileChooser.setInitialDirectory(currentDir);
 		 fileChooser.getExtensionFilters().addAll(
 		         new ExtensionFilter("CSV Files", "*.csv")
 		 );
 		 File selectedFile = fileChooser.showOpenDialog(null);
+		 
+		 
+		 
+		 
 		 if(selectedFile == null) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Warning Dialog");
@@ -87,8 +95,7 @@ public class MenuSceneController implements Initializable {
 				alert.showAndWait();
 		 }
 		 else {
-			 String fileTitle = selectedFile.getName();
-			 mainApp.switchScene("load", fileTitle);
+			 mainApp.switchScene("load", selectedFile);
 		 }
 		 
 	}

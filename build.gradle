@@ -9,6 +9,8 @@
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java'
+    id 'application'
+ 	id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 dependencies {
@@ -17,6 +19,12 @@ dependencies {
 	// Test FX
 	testCompile "org.testfx:testfx-core:4.0.+"
 	testCompile "org.testfx:testfx-junit:4.0.+"
+	
+}
+
+javafx {
+    version = "11.0.2"
+    modules = [ 'javafx.controls' ]
 }
 
 jar {
