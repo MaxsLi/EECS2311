@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -97,6 +98,8 @@ public class ShapeSceneController implements Initializable {
 	 * An Set of `TextLabel`s
 	 */
 	private VennSet vennSet;
+	
+	private HashMap<Location, TextField> tfLocations =  new HashMap<>();
 
 	/**
 	 * An Set of `Shape`s
@@ -208,6 +211,7 @@ public class ShapeSceneController implements Initializable {
 				sideAdded.setText("Intersection!");
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 25px;");
+				tfLocations.put(Location.MIDDLE, textField);
 			}
 			/*
 			 * Else if, if its within radial distance of the left Circle, it must be in the
@@ -217,6 +221,7 @@ public class ShapeSceneController implements Initializable {
 				sideAdded.setText("Left!");
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 25px;");
+				tfLocations.put(Location.LEFT, textField);
 			}
 			/*
 			 * Else if, if its within radial distance of the left Circle, it must be in the
@@ -226,6 +231,7 @@ public class ShapeSceneController implements Initializable {
 				sideAdded.setText("Right!");
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 25px;");
+				tfLocations.put(Location.RIGHT, textField);
 			}
 
 		});
@@ -621,6 +627,7 @@ public class ShapeSceneController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		this.vennShape = new VennShape(this.leftCircle, this.rightCircle);
 		this.vennSet = new VennSet(this.vennShape);
+		
 	}
 
 }
