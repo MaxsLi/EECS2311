@@ -13,6 +13,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Stack;
+
+import javax.sound.midi.VoiceStatus;
+import javax.swing.JTextField;
+
+import org.assertj.core.internal.bytebuddy.agent.builder.AgentBuilder.RedefinitionStrategy.DiscoveryStrategy.Reiterating;
+import org.junit.platform.commons.function.Try;
 
 import javafx.scene.control.*;
 import javafx.scene.paint.Paint;
@@ -32,6 +39,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import models.AddCommand;
+import models.Command;
 import models.Location;
 import models.VennSet;
 import models.VennShape;
@@ -108,12 +117,39 @@ public class ShapeSceneController implements Initializable {
 	private double orgTranslateX;
 	private double orgTranslateY;
 
+	private Stack<Command> undoStack;
+	private Stack<Command> redoStack;
+	
 	public ShapeSceneController() {
 		// Note that function `initialize` will do the init
 	}
 
 	public static final String COMMA = ",";
 
+	public void addText(String newText) {
+		TextField newTextField = new TextField();
+
+		newTextField.setEditable(false);
+		newTextField.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
+
+		this.addAutoResize(newTextField);
+		this.addDragEvent(newTextField);
+		this.addContext(newTextField);
+
+		newTextField.setText(newText);
+		this.stackPane.getChildren().add(newTextField);
+		this.vennSet.add(newTextField);
+		this.sideAdded.clear();
+	}
+	public void removeText(String text) {
+		boolean found=false;
+		for (int i = 0; i < vennSet.size()&&!found; i++) {
+			TextField field=vennSet.get(i);
+			if (field.getText().equals(text)) {
+				stackPane.getChildren().remove(field);
+			}
+		}
+	}
 	/**
 	 * On click, creates a textArea which can be dragged into Respective Circle
 	 */
@@ -126,23 +162,27 @@ public class ShapeSceneController implements Initializable {
 			alert.showAndWait();
 
 		} else {
-			String newText = this.diagramText.getText();
-			TextField newTextField = new TextField();
-
-			newTextField.setEditable(false);
-			newTextField.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
-
-			this.addAutoResize(newTextField);
-			this.addDragEvent(newTextField);
-			this.addContext(newTextField);
-
-			newTextField.setText(newText);
-			this.stackPane.getChildren().add(newTextField);
-			this.vennSet.add(newTextField);
-			this.sideAdded.clear();
+			Command a=new AddCommand(this, this.diagramText.getText());
+			a.execute();
+			undoStack.push(a);
+		}
+	}
+	
+	public void undo() {
+		if (!(undoStack.empty())) {
+			Command a=undoStack.pop();
+			a.execute();
+			redoStack.push(a);
 		}
 	}
 
+	public void redo() {
+		if (!(redoStack.empty())) {
+			Command a=redoStack.pop();
+			a.execute();
+			undoStack.push(a);
+		}
+	}
 	/**
 	 * Adds Drag Events to created TextFields
 	 * 
@@ -621,6 +661,7 @@ public class ShapeSceneController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		this.vennShape = new VennShape(this.leftCircle, this.rightCircle);
 		this.vennSet = new VennSet(this.vennShape);
+		this.undoStack=new Stack<>();
+		this.redoStack=new Stack<>();
 	}
-
 }
