@@ -9,18 +9,18 @@
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java'
-	id 'application'
-	id 'org.openjfx.javafxplugin' version '0.0.8'
+//	id 'application'
+//	id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
-sourceCompatibility = 11
-targetCompatibility = 11
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
-javafx {
-	version = "11.0.2"
-	modules = [ 'javafx.controls' ]
-	mainClassName = 'views.MainApp'
-}
+//javafx {
+//	version = "11.0.2"
+//	modules = [ 'javafx.controls' ]
+//	mainClassName = 'views.MainApp'
+//}
 
 dependencies {
     // Use JUnit test framework
