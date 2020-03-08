@@ -51,10 +51,10 @@ jobs:
             ZIP_FILE_NAME=VennCreate
             TAG=Release-$(date '+%Y-%m-%d-%H-%M-%S')
 
-            ./gradle jar
+            ./gradlew jar
 
             cd ./build/libs/
-            
+
             sudo apt-get install zip
 
             zip ${ZIP_FILE_NAME}.zip VennCreate.jar
