@@ -51,7 +51,7 @@ jobs:
             ZIP_FILE_NAME=VennCreate
             TAG=Release-$(date '+%Y-%m-%d-%H-%M-%S')
 
-            ./gradlew jar
+            gradle jar
 
             cd ./build/libs/
             zip ${ZIP_FILE_NAME}.zip VennCreate.jar
