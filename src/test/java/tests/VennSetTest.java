@@ -13,7 +13,7 @@ public class VennSetTest {
 	private Circle leftCircle;
 	private Circle rightCircle;
 
-//	@BeforeEach
+	@BeforeEach
 	public void setUp() {
 		this.leftCircle = new Circle();
 		this.leftCircle.setCenterX(0);

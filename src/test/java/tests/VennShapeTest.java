@@ -11,7 +11,7 @@ public class VennShapeTest {
 	private Circle leftCircle;
 	private Circle rightCircle;
 
-//	@BeforeEach
+	@BeforeEach
 	public void setUp() {
 		this.leftCircle = new Circle();
 		this.rightCircle = new Circle();
@@ -20,14 +20,12 @@ public class VennShapeTest {
 
 	@Test
 	public void testLeftCircle() {
-//		assertEquals(this.vennShape.getLeftShape(), this.leftCircle);
-		assertTrue(true);
+		assertEquals(this.vennShape.getLeftShape(), this.leftCircle);
 	}
 
 	@Test
 	public void testRightCircle() {
-//		assertEquals(this.vennShape.getRightShape(), this.rightCircle);
-		assertTrue(true);
+		assertEquals(this.vennShape.getRightShape(), this.rightCircle);
 	}
 
 }
