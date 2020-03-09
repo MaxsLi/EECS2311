@@ -9,7 +9,7 @@ jobs:
     docker:
       # specify the version you desire here
        - image: circleci/jdk8:0.1.1
-#      - image: danielmapar/gradle_and_node:2.0
+       - image: danielmapar/gradle_and_node:2.0
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -54,8 +54,6 @@ jobs:
             ./gradlew jar
 
             cd ./build/libs/
-
-            sudo apt-get install zip
 
             zip ${ZIP_FILE_NAME}.zip VennCreate.jar
 
