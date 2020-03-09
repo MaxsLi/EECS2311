@@ -14,13 +14,6 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Stack;
-
-import javax.sound.midi.VoiceStatus;
-import javax.swing.JTextField;
-
-import org.assertj.core.internal.bytebuddy.agent.builder.AgentBuilder.RedefinitionStrategy.DiscoveryStrategy.Reiterating;
-import org.junit.platform.commons.function.Try;
-
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;

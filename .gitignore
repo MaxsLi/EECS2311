@@ -1,5 +1,5 @@
 /.gradle/
 /.idea/
 /bin/
-!/bin/libs/
 /build/
+!/build/libs/VennCreate.jar
