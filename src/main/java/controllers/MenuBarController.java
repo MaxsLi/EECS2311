@@ -3,16 +3,20 @@ package controllers;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import views.MainApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.WindowEvent;
 
@@ -29,8 +33,13 @@ public class MenuBarController {
 	public static int circles = 0;
 	private final int MAX_CIRCLES = 2;
 
+	@FXML
+	private MenuItem undoBtn;
+	
+	@FXML
+	private MenuItem redoBtn;
+	
 	private MainApp mainApp;
-
 //	@FXML
 //	private void closeProgram(ActionEvent e) {
 //		// System.out.println("Closed properly.");
@@ -63,7 +72,21 @@ public class MenuBarController {
 		}
 		e.consume();
 	}
+	
+	
 
+	@FXML
+	private void undo(ActionEvent e) {
+		shapeSceneCont=mainApp.getShapeSceneController();
+		shapeSceneCont.undo();
+		
+	}
+	
+	@FXML
+	private void redo(ActionEvent e) {
+		shapeSceneCont=mainApp.getShapeSceneController();
+		shapeSceneCont.redo();
+	}
 	@FXML
 	private void addCircle(ActionEvent e) {
 		if (circles < MAX_CIRCLES) {

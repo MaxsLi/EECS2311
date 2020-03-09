@@ -8,6 +8,10 @@
   <Menu mnemonicParsing="false" text="File">
       <MenuItem mnemonicParsing="false" onAction="#saveProgram" text="Save" />
   </Menu>
+  <Menu mnemonicParsing="false" text="Edit">
+      <MenuItem mnemonicParsing="false" fx:id="undoBtn" onAction="#undo" text="Undo" />
+      <MenuItem mnemonicParsing="false" fx:id="redoBtn" onAction="#redo" text="Redo" />
+  </Menu>
   <Menu mnemonicParsing="false" text="Insert">
     <MenuItem mnemonicParsing="false" onAction="#addCircle" text="Add Circle" />
   </Menu>
