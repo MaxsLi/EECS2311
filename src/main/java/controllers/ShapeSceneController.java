@@ -13,8 +13,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Stack;
+
+import javax.sound.midi.VoiceStatus;
+import javax.swing.JTextField;
+
+import org.assertj.core.internal.bytebuddy.agent.builder.AgentBuilder.RedefinitionStrategy.DiscoveryStrategy.Reiterating;
+import org.junit.platform.commons.function.Try;
 
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import views.MainApp;
 import javafx.fxml.FXML;
@@ -30,7 +38,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
+import models.AddCommand;
+import models.Command;
+import models.DragCommand;
+import models.EditColorCommand;
+import models.EditTextCommand;
 import models.Location;
+import models.RemoveCommand;
 import models.VennSet;
 import models.VennShape;
 import utilities.TextUtils;
@@ -82,6 +98,8 @@ public class ShapeSceneController implements Initializable {
 	private MainApp mainApp;
 
 	private String currentFileName;
+	
+	private File currentFile;
 
 	@FXML
 	private TextField leftTitle;
@@ -104,11 +122,33 @@ public class ShapeSceneController implements Initializable {
 	private double orgTranslateX;
 	private double orgTranslateY;
 
+	private Stack<Command> undoStack;
+	private Stack<Command> redoStack;
+	
 	public ShapeSceneController() {
 		// Note that function `initialize` will do the init
 	}
 
 	public static final String COMMA = ",";
+
+	public void addText(TextField newTextField) {
+		
+		newTextField.setEditable(false);
+		newTextField.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
+
+		this.addDragEvent(newTextField);
+		this.addContext(newTextField);
+
+		this.stackPane.getChildren().add(newTextField);
+		this.vennSet.add(newTextField);
+		this.sideAdded.clear();
+	}
+	public void removeTextField(TextField textField) {
+		stackPane.getChildren().remove(textField);
+	}
+	public void setText(TextField textField, String text) {
+		textField.setText(text);
+	}
 
 	/**
 	 * On click, creates a textArea which can be dragged into Respective Circle
@@ -122,29 +162,47 @@ public class ShapeSceneController implements Initializable {
 			alert.showAndWait();
 
 		} else {
-			String newText = this.diagramText.getText();
-			TextField newTextField = new TextField();
-
-			newTextField.setEditable(false);
-			newTextField.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
-
+			TextField newTextField=new TextField();
 			this.addAutoResize(newTextField);
-			this.addDragEvent(newTextField);
-			this.addContext(newTextField);
-
-			newTextField.setText(newText);
-			this.stackPane.getChildren().add(newTextField);
-			this.vennSet.add(newTextField);
-			this.sideAdded.clear();
+			newTextField.setText(this.diagramText.getText());
+			Command a=new AddCommand(this, newTextField);
+			redoStack.clear();
+			a.execute();
+			undoStack.push(a);
+		}
+	}
+	
+	public void undo() {
+		if (!(undoStack.empty())) {
+			Command a=undoStack.pop();
+			a.undo();
+			redoStack.push(a);
 		}
 	}
 
+	public void redo() {
+		if (!(redoStack.empty())) {
+			Command a=redoStack.pop();
+			a.redo();
+			undoStack.push(a);	
+		}
+	}
+
+	public void moveTextField(TextField textField, double offsetX, double offsetY) {
+		double newTranslateX = orgTranslateX + offsetX;
+		double newTranslateY = orgTranslateY + offsetY;
+
+		textField.setTranslateX(newTranslateX);
+		textField.setTranslateY(newTranslateY);
+	}
 	/**
 	 * Adds Drag Events to created TextFields
 	 * 
 	 * @param textField the TextField to be added
 	 */
+	private DragCommand drag;
 	private void addDragEvent(TextField textField) {
+		
 		textField.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
 			this.diagramText.clear();
@@ -154,7 +212,8 @@ public class ShapeSceneController implements Initializable {
 			orgTranslateY = textField.getTranslateY();
 
 			textField.toFront();
-
+			drag=new DragCommand(this, textField, orgTranslateX, orgTranslateY);
+			
 		});
 
 		 /*
@@ -164,12 +223,9 @@ public class ShapeSceneController implements Initializable {
 
 			double offsetX = e.getSceneX() - orgSceneX;
 			double offsetY = e.getSceneY() - orgSceneY;
-			double newTranslateX = orgTranslateX + offsetX;
-			double newTranslateY = orgTranslateY + offsetY;
-
-			textField.setTranslateX(newTranslateX);
-			textField.setTranslateY(newTranslateY);
-
+			drag.setOffsetX(offsetX);
+			drag.setOffsetY(offsetY);
+			drag.execute();
 		});
 
 		 /*
@@ -182,52 +238,60 @@ public class ShapeSceneController implements Initializable {
 		 * intersectionSet
 		 */
 		textField.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-			Location textBoxLocation;
-
-			try {
-				textBoxLocation = this.vennSet.getLocation(textField);
-			} catch (Exception exception) {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Warning Dialog");
-				alert.setHeaderText("TextField Out of Bounds");
-				alert.setContentText(
-						"Please place the label inside the one of the shape.");
-				alert.showAndWait();
-				return;
-			}
-
-			/*
-			 * If TextField location is within radial distance of the left and right circle,
-			 * it must be somewhere in the intersection of the two circles
-			 */
-			if (textBoxLocation == Location.MIDDLE) {
-				sideAdded.setText("Intersection!");
-				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 25px;");
-			}
-			/*
-			 * Else if, if its within radial distance of the left Circle, it must be in the
-			 * left circle
-			 */
-			else if (textBoxLocation == Location.LEFT) {
-				sideAdded.setText("Left!");
-				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 25px;");
-			}
-			/*
-			 * Else if, if its within radial distance of the left Circle, it must be in the
-			 * right circle
-			 */
-			else if (textBoxLocation == Location.RIGHT) {
-				sideAdded.setText("Right!");
-				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 25px;");
-			}
-
+			drag.setOffsetX(textField.getTranslateX());
+			drag.setOffsetY(textField.getTranslateY());
+			redoStack.clear();
+			undoStack.push(drag);
+			getLocation(textField);
 		});
 
 	}
 
+	public void getLocation(TextField textField) {
+		Location textBoxLocation;
+
+		try {
+			textBoxLocation = this.vennSet.getLocation(textField);
+		} catch (Exception exception) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning Dialog");
+			alert.setHeaderText("TextField Out of Bounds");
+			alert.setContentText(
+					"Please place the label inside the one of the shape.");
+			alert.showAndWait();
+			return;
+		}
+
+		/*
+		 * If TextField location is within radial distance of the left and right circle,
+		 * it must be somewhere in the intersection of the two circles
+		 */
+		if (textBoxLocation == Location.MIDDLE) {
+			sideAdded.setText("Intersection!");
+			sideAdded.setEditable(false);
+			sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 25px;");
+		}
+		/*
+		 * Else if, if its within radial distance of the left Circle, it must be in the
+		 * left circle
+		 */
+		else if (textBoxLocation == Location.LEFT) {
+			sideAdded.setText("Left!");
+			sideAdded.setEditable(false);
+			sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 25px;");
+		}
+		/*
+		 * Else if, if its within radial distance of the left Circle, it must be in the
+		 * right circle
+		 */
+		else if (textBoxLocation == Location.RIGHT) {
+			sideAdded.setText("Right!");
+			sideAdded.setEditable(false);
+			sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 25px;");
+		}
+
+	}
+	
 	/**
 	 * A Method that gives a right-click feature on each textField added to the
 	 * screen, On right-click of a textfield added, gives a contextMenu
@@ -242,12 +306,45 @@ public class ShapeSceneController implements Initializable {
 		context.getItems().add(edit);
 		textField.setContextMenu(context);
 
-		delete.setOnAction((event) -> stackPane.getChildren().remove(textField));
+		delete.setOnAction((event) ->{
+			RemoveCommand remove=new RemoveCommand(this, textField);
+			redoStack.clear();
+			undoStack.push(remove);
+			remove.execute();
+			
+		});
 
-		edit.setOnAction((event) -> textField.setEditable(true));
+		edit.setOnAction((event) -> {
+			EditTextCommand e=new EditTextCommand(this, textField, textField.getText());
+			redoStack.clear();
+			undoStack.push(e);
+			textField.setEditable(true);
+			
+		});
 
 	}
 
+	private void setTitleBoxes() {
+		
+		appTitle.addEventHandler(MouseEvent.MOUSE_PRESSED, e  -> {
+			EditTextCommand edit=new EditTextCommand(this, appTitle, appTitle.getText());
+			redoStack.clear();
+			undoStack.push(edit);
+		});
+		
+		leftTitle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+			EditTextCommand edit=new EditTextCommand(this, leftTitle, leftTitle.getText());
+			redoStack.clear();
+			undoStack.push(edit);
+			
+		});
+		
+		rightTitle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+			EditTextCommand edit=new EditTextCommand(this, rightTitle, rightTitle.getText());
+			redoStack.clear();
+			undoStack.push(edit);
+		});
+	}
 	/**
 	 * A Method that gives allows the given TextField auto-resize its width
 	 * according to the content.
@@ -259,6 +356,7 @@ public class ShapeSceneController implements Initializable {
 			// expand the textfield
 			textField.setMaxWidth(TextUtils.computeTextWidth(textField.getFont(),
 					textField.getText(), 0.0D) + 20);
+			
 		});
 	}
 
@@ -266,14 +364,16 @@ public class ShapeSceneController implements Initializable {
 	 * A Method that loads all comma delimited rows from save.csv and puts them on
 	 * the screen
 	 */
-	public void loadVenn(String fileName) {
+	public void loadVenn(File fileToLoad) {
 
 		try {
-			FileReader fr = new FileReader(System.getProperty("user.dir") + File.separator + "src" + File.separator
-					+ "main" + File.separator + "java" + File.separator + "resources" + File.separator + fileName);
+			
+			FileReader fr = new FileReader(fileToLoad);
 			BufferedReader br = new BufferedReader(fr);
 
-			this.currentFileName = fileName.substring(0, fileName.length() - 4); // Cuts off the ".csv" extension
+			this.currentFileName = fileToLoad.getName().substring(0, fileToLoad.getName().length() - 4); // Cuts off the ".csv" extension
+			
+			this.currentFile = fileToLoad;
 			
 			//System.out.println(this.currentFileName);
 
@@ -344,6 +444,7 @@ public class ShapeSceneController implements Initializable {
 				lineCounter++;
 				tf = new TextField();
 				this.addAutoResize(tf);
+				this.addContext(tf);
 				tf.setText(parts[0]); // parts[0] is the text column of the line
 				tf.setEditable(false);
 				tf.resizeRelocate(0, 0, 1, 1);
@@ -433,13 +534,14 @@ public class ShapeSceneController implements Initializable {
 		try {
 			String titleOfApp;
 			FileWriter fw = null;
+			FileChooser fileChooser = null;
 
 			/*
 			 * Upon Loading a Previous file, this.currentFileName is initialized. If it is
 			 * created brand new, this.currentFileName will be null and ill know to make a
 			 * new file and not write an an existing one
 			 */
-			if (this.currentFileName == null) {
+			if (this.currentFile == null) {
 				TextInputDialog dialog = new TextInputDialog("Untitled1");
 				dialog.setTitle("Title your Project");
 				dialog.setHeaderText("Please Enter a Title for your VennCreate Project");
@@ -457,9 +559,41 @@ public class ShapeSceneController implements Initializable {
 				titleOfApp = this.currentFileName;
 			}
 			try {
-				fw = new FileWriter(System.getProperty("user.dir") + File.separator + "src" + File.separator + "main"
-						+ File.separator + "java" + File.separator + "resources" + File.separator + titleOfApp + ".csv",
-						false);
+			if(this.currentFile == null) {
+				Window stage = this.stackPane.getScene().getWindow();
+				fileChooser = new FileChooser();
+				
+				File recordsDir = new File(System.getProperty("user.home"), "VennCreateFiles" + File.separator);
+				
+				if(! recordsDir.exists()) {
+					recordsDir.mkdirs();
+				}
+				
+				fileChooser.setInitialDirectory(recordsDir);
+				fileChooser.setTitle("Save File");
+				fileChooser.setInitialFileName(titleOfApp);
+				fileChooser.getExtensionFilters().addAll(
+						new FileChooser.ExtensionFilter("CSV files", "*.csv")
+			);
+			
+			this.currentFile = fileChooser.showSaveDialog(stage);
+			}	
+				
+				
+			if(this.currentFile != null) { //Throw Alert if Somehow the currentWorking File is Still null, if not null, write to it
+				fw = new FileWriter(this.currentFile,false);
+				
+				//fileChooser.setInitialDirectory(this.currentFile);
+			}
+			else {
+				Alert alertError = new Alert(AlertType.ERROR);
+				alertError.setTitle("Error");
+				alertError.setHeaderText("File Could Not be Saved to");
+				alertError.setContentText("The File You want to write to by Closing this window"
+						+ ", is open in another process. Please Close that File before trying to close this window.");
+				alertError.showAndWait();
+			}
+			
 			} catch (FileNotFoundException ex) {
 				Alert alertWarn = new Alert(AlertType.WARNING);
 				alertWarn.setTitle("WARNING");
@@ -553,18 +687,32 @@ public class ShapeSceneController implements Initializable {
 
 	}
 
+	public void setCircleColor(Circle circle, Paint color) {
+		if (leftCircle.equals(circle)) {
+			leftCircle.setFill(color);
+			leftColorPicker.setValue((Color) color);
+		}
+		else if (rightCircle.equals(circle)) {
+			rightCircle.setFill(color);
+			rightColorPicker.setValue((Color) color); 
+		}
+	}
 	/**
 	 * A method that changes the color of the leftCircle
 	 */
 	public void changeLeftColor() {
-		leftCircle.setFill(leftColorPicker.getValue());
+		EditColorCommand edit=new EditColorCommand(this, leftCircle, leftCircle.getFill(), leftColorPicker.getValue());
+		undoStack.push(edit);
+		edit.execute();
 	}
 
 	/**
 	 * A method that changes the color of the rightCircle
 	 */
 	public void changeRightColor() {
-		rightCircle.setFill(rightColorPicker.getValue());
+		EditColorCommand edit=new EditColorCommand(this, rightCircle, rightCircle.getFill(), rightColorPicker.getValue());
+		undoStack.push(edit);
+		edit.execute();
 	}
 
 	/**
@@ -581,6 +729,8 @@ public class ShapeSceneController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		this.vennShape = new VennShape(this.leftCircle, this.rightCircle);
 		this.vennSet = new VennSet(this.vennShape);
+		this.undoStack=new Stack<>();
+		this.redoStack=new Stack<>();
+		this.setTitleBoxes();
 	}
-
 }
