@@ -8,8 +8,8 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-#       - image: circleci/jdk8:0.1.1
-       - image: danielmapar/gradle_and_node:2.0
+       - image: circleci/jdk8:0.1.1
+#       - image: danielmapar/gradle_and_node:2.0
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -52,9 +52,9 @@ jobs:
             TAG=Release-$(date '+%Y-%m-%d-%H-%M-%S')
 
             ./gradlew jar
-
+            ls -la
             cd ./build/libs/
-
+            ls -la
             zip ${ZIP_FILE_NAME}.zip VennCreate.jar
 
             github-release upload --token ${GITHUB_TOKEN} --owner ${PROJECT_USERNAME} --repo ${PROJECT_REPONAME} --tag ${TAG} --name ${TAG} --body "Release date: ${NOW}" ${ZIP_FILE_NAME}.zip
