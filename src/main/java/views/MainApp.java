@@ -100,6 +100,7 @@ public class MainApp extends Application {
 		this.rootLayout.setTop(this.menuBar);
 		menuBarCont = loader1.getController();
 		menuBarCont.setMainApp(this);
+	
 	}
 
 	/**
@@ -159,6 +160,10 @@ public class MainApp extends Application {
 
 	public MenuSceneController getMenuSceneCont() {
 		return this.menuSceneCont;
+	}
+
+	public MenuBarController getMenuBarCont() {
+		return menuBarCont;
 	}
 
 	/**
