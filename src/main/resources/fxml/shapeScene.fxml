@@ -10,31 +10,41 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane fx:id="mainScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="917.0" prefWidth="1250.0" stylesheets="@../css/shapeScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShapeSceneController">
-   <TextField fx:id="diagramText" layoutX="404.0" layoutY="828.0" onAction="#addTextToDiagram" prefHeight="62.0" prefWidth="462.0" promptText="Enter text to add to Venn Diagram" style="-fx-font-size: 25;" AnchorPane.topAnchor="828.0" />
+<AnchorPane fx:id="mainScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="917.0" prefWidth="1250.0" stylesheets="@../css/shapeScene.css"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.ShapeSceneController">
+   <TextField fx:id="diagramText" layoutX="404.0" layoutY="828.0" onAction="#addTextToDiagram" prefHeight="62.0"
+              prefWidth="462.0" promptText="Enter text to add to Venn Diagram" style="-fx-font-size: 25;"
+              AnchorPane.topAnchor="828.0"/>
    <StackPane fx:id="stackPane" layoutX="126.0" layoutY="125.0" prefHeight="667.0" prefWidth="1001.0">
-      <Circle fx:id="leftCircle" fill="WHITE" radius="300.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
+      <Circle fx:id="leftCircle" fill="#c3e2ff" radius="300.0" stroke="BLACK" strokeType="INSIDE"
+              StackPane.alignment="CENTER_LEFT">
          <StackPane.margin>
-            <Insets left="35.0" />
+            <Insets left="35.0"/>
          </StackPane.margin>
       </Circle>
-      <Circle fx:id="rightCircle" blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="WHITE" radius="300.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
+      <Circle fx:id="rightCircle" blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="#e88f8f" radius="300.0"
+              stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
          <StackPane.margin>
-            <Insets right="35.0" />
+            <Insets right="35.0"/>
          </StackPane.margin>
       </Circle>
    </StackPane>
    <ButtonBar layoutX="877.0" layoutY="836.0" prefHeight="46.0" prefWidth="359.0">
       <buttons>
-         <Button fx:id="addBttn" mnemonicParsing="false" onAction="#addTextToDiagram" text="Add" />
-         <Button fx:id="saveBttn" layoutX="294.0" layoutY="17.0" mnemonicParsing="false" text="Save" />
+         <Button fx:id="addBttn" mnemonicParsing="false" onAction="#addTextToDiagram" text="Add"/>
+         <Button fx:id="saveBttn" layoutX="294.0" layoutY="17.0" mnemonicParsing="false" text="Save"/>
       </buttons>
    </ButtonBar>
-   <TextField fx:id="leftTitle" layoutX="274.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #1's Name" style="-fx-font-size: 20;" />
-   <TextField fx:id="rightTitle" layoutX="663.0" layoutY="109.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #2's Name" style="-fx-font-size: 20;" />
-   <TextField fx:id="appTitle" layoutX="428.0" layoutY="14.0" prefHeight="46.0" prefWidth="396.0" promptText="Enter Title of Venn Diagram" style="-fx-font-size: 25;" />
-   <ColorPicker fx:id="leftColorPicker" layoutX="14.0" layoutY="239.0" onAction="#changeLeftColor" />
-   <ColorPicker fx:id="rightColorPicker" layoutX="1100.0" layoutY="239.0" onAction="#changeRightColor" />
-   <TextField fx:id="sideAdded" layoutX="14.0" layoutY="828.0" style="-fx-font-size: 20;" />
-   <Label fx:id="sideLabel" layoutX="22.0" layoutY="792.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added" />
+   <TextField fx:id="leftTitle" layoutX="274.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0"
+              promptText="Diagram #1's Name" style="-fx-font-size: 20;"/>
+   <TextField fx:id="rightTitle" layoutX="663.0" layoutY="109.0" prefHeight="46.0" prefWidth="238.0"
+              promptText="Diagram #2's Name" style="-fx-font-size: 20;"/>
+   <TextField fx:id="appTitle" layoutX="428.0" layoutY="14.0" prefHeight="46.0" prefWidth="396.0"
+              promptText="Enter Title of Venn Diagram" style="-fx-font-size: 25;"/>
+   <ColorPicker fx:id="leftColorPicker" layoutX="14.0" layoutY="239.0" onAction="#changeLeftColor"/>
+   <ColorPicker fx:id="rightColorPicker" layoutX="1100.0" layoutY="239.0" onAction="#changeRightColor"/>
+   <TextField fx:id="sideAdded" layoutX="14.0" layoutY="828.0" style="-fx-font-size: 20;"/>
+   <Label fx:id="sideLabel" layoutX="22.0" layoutY="792.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added"/>
 </AnchorPane>

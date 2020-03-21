@@ -47,7 +47,7 @@ public class MainApp extends Application {
 		this.loadMenubar();
 
 		Scene scene = new Scene(this.rootLayout);
-
+		
 		MainApp.primaryStage.setScene(scene);
 		MainApp.primaryStage.sizeToScene();
 		MainApp.primaryStage.setTitle(APP_TITLE);
@@ -60,7 +60,8 @@ public class MainApp extends Application {
 
 		// Maximizes the stage immediately on Launch
 		MainApp.primaryStage.setMaximized(true);
-
+		
+		
 		// Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
 			if (shapeSceneCont != null) {
@@ -69,7 +70,7 @@ public class MainApp extends Application {
 				}
 				catch(NullPointerException NPE) {
 					System.out.println("Thank You for Using Venn Create! (Exception)");
-					NPE.printStackTrace();
+					//NPE.printStackTrace();
 				}
 			}
 			e.consume();
