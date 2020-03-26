@@ -1,5 +1,7 @@
 package controllers;
 
+import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,6 +16,9 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Stack;
+
+import com.sun.scenario.effect.impl.prism.ps.PPSBlend_ADDPeer;
+
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -33,6 +38,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import jdk.nashorn.internal.ir.RuntimeNode.Request;
 import models.AddCommand;
 import models.Command;
 import models.DragCommand;
@@ -85,7 +91,7 @@ public class ShapeSceneController implements Initializable {
 	@FXML
 	private ContextMenu textFieldContext;
 
-	@FXML
+	@FXML 
 	private TextField sideAdded;
 
 	private MainApp mainApp;
@@ -126,15 +132,41 @@ public class ShapeSceneController implements Initializable {
 
 	public void addText(TextField newTextField) {
 		
+		Point2D.Double position=new Point2D.Double(leftCircle.getCenterX(), leftCircle.getCenterY());
+		position=getFreePos(position);
+		
 		newTextField.setEditable(false);
 		newTextField.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
-
+		
 		this.addDragEvent(newTextField);
 		this.addContext(newTextField);
 
+		newTextField.setTranslateX(position.getX());
+		newTextField.setTranslateY(position.getY());
 		this.stackPane.getChildren().add(newTextField);
 		this.vennSet.add(newTextField);
 		this.sideAdded.clear();
+	}
+	/*
+	Gets the first possible free positon for the Textbox
+	@param p the  center of circles */
+	private Point2D.Double getFreePos(Point2D.Double p) {
+	//keep track of even odd so every other textbox goes above
+		int j=0;
+		for (int i = 0; i < vennSet.size(); i++) {
+			double x=vennSet.get(i).getTranslateX();
+			double y=vennSet.get(i).getTranslateY();
+			if (x==p.getX()&&y==p.getY()&&(j%2)==0) {
+				p.y+=(j+1)*vennSet.get(i).getHeight();
+				j++;
+			}
+			else if (x==p.getX()&&y==p.getY()) {
+				p.y-=(j+1)*vennSet.get(i).getHeight();
+				j++;
+			}
+		}
+		
+		return p;
 	}
 	public void removeTextField(TextField textField) {
 		stackPane.getChildren().remove(textField);
