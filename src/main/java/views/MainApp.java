@@ -71,7 +71,7 @@ public class MainApp extends Application {
 				}
 				catch(NullPointerException NPE) {
 					System.out.println("Thank You for Using Venn Create! (Exception)");
-					NPE.printStackTrace();
+					//NPE.printStackTrace();
 				}
 			}
 			e.consume();
