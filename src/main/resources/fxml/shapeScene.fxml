@@ -24,7 +24,7 @@
          <Label alignment="TOP_CENTER" prefHeight="32.0" prefWidth="222.0" style="-fx-font-size: 20;" text="VennCreate Nav Bar" />
          <HBox prefHeight="44.0" prefWidth="353.0">
             <children>
-               <TextField fx:id="diagramText" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#addTextToDiagram" prefHeight="43.0" prefWidth="250.0">
+               <TextField fx:id="diagramText" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#addTextToDiagram" prefHeight="43.0" prefWidth="250.0" style="-fx-font-size: 20;">
                   <HBox.margin>
                      <Insets left="10.0" />
                   </HBox.margin>
@@ -66,7 +66,7 @@
                                  <Insets left="50.0" top="10.0" />
                               </VBox.margin>
                            </Label>
-                           <ColorPicker fx:id="backgroundColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
+                           <ColorPicker fx:id="backgroundColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#changebackgroundColor" prefHeight="28.0" prefWidth="137.0">
                               <VBox.margin>
                                  <Insets left="50.0" top="10.0" />
                               </VBox.margin>
@@ -76,7 +76,7 @@
                                  <Insets left="50.0" top="10.0" />
                               </VBox.margin>
                            </Label>
-                           <ColorPicker fx:id="titleColors" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
+                           <ColorPicker fx:id="titleColors" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#changetitleColors" prefHeight="28.0" prefWidth="137.0">
                               <VBox.margin>
                                  <Insets left="50.0" top="10.0" />
                               </VBox.margin>
@@ -136,7 +136,7 @@
                                  <Insets left="50.0" top="10.0" />
                               </VBox.margin>
                            </Label>
-                           <Slider fx:id="rightSlider" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="178.0">
+                           <Slider fx:id="rightSlider" max="300.0" maxHeight="-Infinity" maxWidth="-Infinity" min="225.0" prefHeight="24.0" prefWidth="178.0">
                               <VBox.margin>
                                  <Insets left="50.0" top="5.0" />
                               </VBox.margin>
@@ -172,14 +172,11 @@
          </StackPane.margin>
       </Circle>
    </StackPane>
-   <ButtonBar layoutX="877.0" layoutY="812.0" prefHeight="46.0" prefWidth="359.0">
-      <buttons>
-         <Label fx:id="sideLabel" prefHeight="26.0" prefWidth="136.0" text="  Side Added" />
-      </buttons>
-   </ButtonBar>
+   <ButtonBar layoutX="877.0" layoutY="812.0" prefHeight="46.0" prefWidth="359.0" />
    <TextField fx:id="leftTitle" layoutX="308.0" layoutY="67.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #1's Name" style="-fx-font-size: 20; -fx-background-color: transparent;" />
    <TextField fx:id="rightTitle" layoutX="704.0" layoutY="67.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #2's Name" style="-fx-font-size: 20; -fx-background-color: transparent;" />
    <TextField fx:id="appTitle" layoutX="428.0" layoutY="14.0" prefHeight="46.0" prefWidth="396.0" promptText="Enter Title of Venn Diagram" style="-fx-font-size: 25; -fx-background-color: transparent;" />
    <TextField fx:id="sideAdded" layoutX="1004.0" layoutY="857.0" style="-fx-font-size: 20; -fx-background-color: transparent;" />
    <ToggleButton fx:id="toggle" layoutX="33.0" layoutY="25.0" mnemonicParsing="false" onAction="#toggleDrawer" style="-fx-font-size: 18;" text="SHOW" />
+   <Label fx:id="sideLabel" layoutX="1048.0" layoutY="845.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added" />
 </AnchorPane>
