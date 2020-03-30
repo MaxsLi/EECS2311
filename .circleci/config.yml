@@ -1,0 +1,121 @@
+# Java Gradle CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/jdk8:0.1.1
+
+    # Specify service dependencies here if necessary
+    # CircleCI maintains a library of pre-built images
+    # documented at https://circleci.com/docs/2.0/circleci-images/
+    # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+      JVM_OPTS: -Xmx3200m
+      TERM: xterm
+      _JAVA_OPTIONS: "-Dtestfx.robot=glass -Dheadless.geometry=800x600-32 -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw -Djava.awt.headless=true -Dtestfx.headless=true -Dprism.verbose=true -Dprism.order=sw"
+
+
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "./build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: apt-get update
+
+      - run: chmod +x gradlew
+      - run: ./gradlew dependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "./build.gradle" }}
+
+
+      - run:
+          name: "Install CLI dependencies"
+          command: |
+            apt-get -y install libswt-gtk-3-java xvfb libgtk2.0-bin curl zip
+      - run:
+          name: "JUnit Tests"
+          command : |
+            ./gradlew clean test -i --stacktrace
+      - run:
+          name: "Install node.js"
+          command: |
+            curl -sL https://deb.nodesource.com/setup_10.x > install.sh && chmod +x install.sh && ./install.sh && apt-get install -y nodejs
+            npm install -g npm@latest
+            npm install -g github-release-cli
+      - run:
+          name: "Build and Publish Release on GitHub"
+          command: |
+            NOW="$(date)"
+            ZIP_FILE_NAME=VennCreate
+            TAG=Release-$(date '+%Y-%m-%d-%H-%M-%S')
+            ./gradlew jar
+            cd ./build/libs/
+            zip ${ZIP_FILE_NAME}.zip VennCreate.jar
+            github-release upload --token ${GITHUB_TOKEN} --owner ${PROJECT_USERNAME} --repo ${PROJECT_REPONAME} --tag ${TAG} --name ${TAG} --body "Release date: ${NOW}" ${ZIP_FILE_NAME}.zip
+  test:
+    docker:
+      # specify the version you desire here
+      - image: circleci/jdk8:0.1.1
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+      JVM_OPTS: -Xmx3200m
+      TERM: xterm
+      _JAVA_OPTIONS: "-Dtestfx.robot=glass -Dheadless.geometry=800x600-32 -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw -Djava.awt.headless=true -Dtestfx.headless=true -Dprism.verbose=true -Dprism.order=sw"
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "./build.gradle" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: apt-get update
+      - run: apt-cache policy openjfx
+      - run: apt-get -y install libswt-gtk-3-java xvfb libgtk2.0-bin libXtst6 libxslt1.1
+      - run: Xvfb :99 &>/dev/null &
+      - run: export DISPLAY=:99
+      - run: chmod +x gradlew
+      - run: ./gradlew dependencies
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "./build.gradle" }}
+
+      # run tests!
+      - run: ./gradlew clean test -i --stacktrace
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
