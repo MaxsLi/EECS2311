@@ -14,13 +14,12 @@ public class AddCommand implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		shapesceneController.addText(textField);
+//		shapesceneController.addText(textField);
 	}
 	@Override
 	public void undo() {
 		// TODO Auto-generated method stub
-		shapesceneController.removeTextField(textField);
-		
+//		shapesceneController.removeTextField(textField);
 	}
 	@Override
 	public void redo() {

@@ -89,14 +89,13 @@ public class MenuBarController {
 	@FXML
 	private void undo(ActionEvent e) {
 		shapeSceneCont=mainApp.getShapeSceneController();
-		shapeSceneCont.undo();
-		
+//		shapeSceneCont.undo();
 	}
 	
 	@FXML
 	private void redo(ActionEvent e) {
 		shapeSceneCont=mainApp.getShapeSceneController();
-		shapeSceneCont.redo();
+//		shapeSceneCont.redo();
 	}
 	@FXML
 	private void addCircle(ActionEvent e) {

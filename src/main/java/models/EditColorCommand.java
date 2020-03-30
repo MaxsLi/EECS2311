@@ -21,12 +21,12 @@ public class EditColorCommand implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		shapesceneController.setCircleColor(circle, newColor);
+//		shapesceneController.setCircleColor(circle, newColor);
 	}
 	@Override
 	public void undo() {
 		// TODO Auto-generated method stub
-		shapesceneController.setCircleColor(circle, oldColor);
+//		shapesceneController.setCircleColor(circle, oldColor);
 		
 	}
 	@Override
