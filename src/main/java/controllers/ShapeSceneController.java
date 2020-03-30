@@ -754,7 +754,10 @@ public class ShapeSceneController implements Initializable {
 		});
 
 	}
-
+	
+	/**
+	 * A method to Translate items on screen
+	 */
 	@FXML
 	private void toggleDrawer() {
 		this.toggle.setStyle("-fx-font-size:18");
