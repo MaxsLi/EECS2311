@@ -7,24 +7,42 @@
  */
 
 plugins {
-	// Apply the java-library plugin to add support for Java Library
-	id 'java'
+    // Apply the java-library plugin to add support for Java Library
+    id 'java'
+    id 'application'
+ 	//id 'org.openjfx.javafxplugin' version '0.0.8'
 }
+
+apply plugin: 'application'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-	// Use JUnit test framework
-	testImplementation 'org.junit.jupiter:junit-jupiter:5.4.0'
+    // Use JUnit test framework
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.0'
 	// Test FX
 	testCompile "org.testfx:testfx-core:4.0.+"
 	testCompile "org.testfx:testfx-junit:4.0.+"
+	implementation fileTree(dir: 'libs', include: '*.jar')
+	implementation fileTree(dir: "${System.properties['java.home']}", include: '**/jfxrt.jar')
+	
 }
+
+//javafx {
+//   version = "8"
+//    modules = [ 'javafx.controls' ]
+//}
+
+mainClassName = 'views.MainApp'
 
 jar {
 	manifest {
-		attributes 'Main-Class': 'views.MainApp'
+		attributes 'Main-Class': mainClassName
+		
 	}
 }
 
@@ -37,7 +55,8 @@ test {
 
 // In this section you declare where to find the dependencies of your project
 repositories {
-	// Use jcenter for resolving your dependencies.
-	// You can declare any Maven/Ivy/file repository here.
-	jcenter()
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+    mavenCentral()
 }

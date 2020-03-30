@@ -5,36 +5,178 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane fx:id="mainScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="917.0" prefWidth="1250.0" stylesheets="@../css/shapeScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShapeSceneController">
-   <TextField fx:id="diagramText" layoutX="404.0" layoutY="828.0" onAction="#addTextToDiagram" prefHeight="62.0" prefWidth="462.0" promptText="Enter text to add to Venn Diagram" style="-fx-font-size: 25;" AnchorPane.topAnchor="828.0" />
-   <StackPane fx:id="stackPane" layoutX="126.0" layoutY="125.0" prefHeight="667.0" prefWidth="1001.0">
-      <Circle fx:id="leftCircle" fill="#c3e2ff" radius="300.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
+<AnchorPane fx:id="mainScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="917.0" prefWidth="1250.0" style="-fx-background-color: #F5DEB3;" stylesheets="@../css/shapeScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShapeSceneController">
+   <VBox fx:id="navBox" alignment="TOP_CENTER" layoutX="-353.0" layoutY="83.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="791.0" prefWidth="353.0" spacing="10.0" style="-fx-background-color: #DEB887; -fx-border-color: black; -fx-border-width: 2;">
+      <children>
+         <Label alignment="TOP_CENTER" prefHeight="32.0" prefWidth="222.0" style="-fx-font-size: 20;" text="VennCreate Nav Bar" />
+         <HBox prefHeight="44.0" prefWidth="353.0">
+            <children>
+               <TextField fx:id="diagramText" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#addTextToDiagram" prefHeight="43.0" prefWidth="250.0" style="-fx-font-size: 20;">
+                  <HBox.margin>
+                     <Insets left="10.0" />
+                  </HBox.margin>
+               </TextField>
+               <Button fx:id="addBttn" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#addTextToDiagram" prefHeight="44.0" prefWidth="80.0" text="Add">
+                  <HBox.margin>
+                     <Insets left="10.0" right="5.0" />
+                  </HBox.margin>
+               </Button>
+            </children>
+         </HBox>
+         <ListView fx:id="itemList" prefHeight="249.0" prefWidth="353.0" />
+         <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="273.0">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <children>
+               <ButtonBar prefHeight="40.0" prefWidth="200.0">
+                 <buttons>
+                   <Button fx:id="clearListBttn" mnemonicParsing="false" onAction="#clearList" text="Clear List" />
+                     <Button fx:id="removeItemButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="121.0" text="Del Item" />
+                 </buttons>
+               </ButtonBar>
+            </children>
+         </HBox>
+         <TitledPane fx:id="appearancePane" animated="false" text="Appearance">
+            <content>
+               <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" pannable="true" prefHeight="201.0" prefWidth="351.0">
+                  <content>
+                     <VBox fx:id="scrollBox" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="336.0">
+                        <children>
+                           <Label alignment="CENTER" prefHeight="18.0" prefWidth="89.0" style="-fx-font-size: 15;" text="Main Scene">
+                              <VBox.margin>
+                                 <Insets left="30.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Background Color">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <ColorPicker fx:id="backgroundColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#changebackgroundColor" prefHeight="28.0" prefWidth="137.0">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </ColorPicker>
+                           <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Title Text Color">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <ColorPicker fx:id="titleColors" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#changetitleColors" prefHeight="28.0" prefWidth="137.0">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </ColorPicker>
+                           <Separator prefWidth="200.0">
+                              <VBox.margin>
+                                 <Insets top="10.0" />
+                              </VBox.margin>
+                           </Separator>
+                           <Label alignment="CENTER" prefHeight="18.0" prefWidth="89.0" style="-fx-font-size: 15;" text="Left Circle">
+                              <VBox.margin>
+                                 <Insets left="30.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Circle Color">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <ColorPicker fx:id="leftColorPicker" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#changeLeftColor" prefHeight="28.0" prefWidth="137.0">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </ColorPicker>
+                           <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Circle Size">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <Slider fx:id="leftSlider" max="300.0" maxHeight="-Infinity" maxWidth="-Infinity" min="225.0" prefHeight="24.0" prefWidth="178.0" showTickMarks="true" value="225.0">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="5.0" />
+                              </VBox.margin>
+                           </Slider>
+                           <Separator prefWidth="200.0">
+                              <VBox.margin>
+                                 <Insets top="10.0" />
+                              </VBox.margin>
+                           </Separator>
+                           <Label alignment="CENTER" prefHeight="18.0" prefWidth="89.0" style="-fx-font-size: 15;" text="Right Circle">
+                              <VBox.margin>
+                                 <Insets left="30.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Circle Color">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <ColorPicker fx:id="rightColorPicker" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#changeRightColor" prefHeight="28.0" prefWidth="137.0">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </ColorPicker>
+                           <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Circle Size">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <Slider fx:id="rightSlider" max="300.0" maxHeight="-Infinity" maxWidth="-Infinity" min="225.0" prefHeight="24.0" prefWidth="178.0">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="5.0" />
+                              </VBox.margin>
+                           </Slider>
+                        </children>
+                     </VBox>
+                  </content>
+               </ScrollPane>
+            </content>
+         </TitledPane>
+         <Label style="-fx-font-size: 20;" text="Quick Actions" />
+         <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="353.0">
+            <children>
+               <ButtonBar prefHeight="50.0" prefWidth="178.0">
+                  <buttons>
+                     <Button mnemonicParsing="false" text="Load" />
+                     <Button fx:id="saveBttn" minWidth="0.0" mnemonicParsing="false" onAction="#saveVennBttn" prefHeight="32.0" text="Save" />
+                  </buttons>
+               </ButtonBar>
+            </children>
+         </HBox>
+      </children>
+   </VBox>
+   <StackPane fx:id="stackPane" layoutX="152.0" layoutY="145.0" prefHeight="667.0" prefWidth="947.0">
+      <Circle fx:id="leftCircle" fill="SKYBLUE" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
          <StackPane.margin>
-            <Insets left="35.0" />
+            <Insets left="100.0" />
          </StackPane.margin>
       </Circle>
-      <Circle fx:id="rightCircle" blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="#e88f8f" radius="300.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
+      <Circle fx:id="rightCircle" blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="SIENNA" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
          <StackPane.margin>
-            <Insets right="35.0" />
+            <Insets right="100.0" />
          </StackPane.margin>
       </Circle>
    </StackPane>
-   <ButtonBar layoutX="877.0" layoutY="836.0" prefHeight="46.0" prefWidth="359.0">
-      <buttons>
-         <Button fx:id="addBttn" mnemonicParsing="false" onAction="#addTextToDiagram" text="Add" />
-         <Button fx:id="saveBttn" layoutX="294.0" layoutY="17.0" mnemonicParsing="false" onAction="#saveVennBttn" text="Save" />
-      </buttons>
-   </ButtonBar>
-   <TextField fx:id="leftTitle" layoutX="274.0" layoutY="102.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #1's Name" style="-fx-font-size: 20;" />
-   <TextField fx:id="rightTitle" layoutX="663.0" layoutY="109.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #2's Name" style="-fx-font-size: 20;" />
-   <TextField fx:id="appTitle" layoutX="428.0" layoutY="14.0" prefHeight="46.0" prefWidth="396.0" promptText="Enter Title of Venn Diagram" style="-fx-font-size: 25;" />
-   <ColorPicker fx:id="leftColorPicker" layoutX="14.0" layoutY="239.0" onAction="#changeLeftColor" />
-   <ColorPicker fx:id="rightColorPicker" layoutX="1100.0" layoutY="239.0" onAction="#changeRightColor" />
-   <TextField fx:id="sideAdded" layoutX="14.0" layoutY="828.0" style="-fx-font-size: 20;" />
-   <Label fx:id="sideLabel" layoutX="22.0" layoutY="792.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added" />
+   <ButtonBar layoutX="877.0" layoutY="812.0" prefHeight="46.0" prefWidth="359.0" />
+   <TextField fx:id="leftTitle" layoutX="308.0" layoutY="67.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #1's Name" style="-fx-font-size: 20; -fx-background-color: transparent;" />
+   <TextField fx:id="rightTitle" layoutX="704.0" layoutY="67.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #2's Name" style="-fx-font-size: 20; -fx-background-color: transparent;" />
+   <TextField fx:id="appTitle" layoutX="428.0" layoutY="14.0" prefHeight="46.0" prefWidth="396.0" promptText="Enter Title of Venn Diagram" style="-fx-font-size: 25; -fx-background-color: transparent;" />
+   <TextField fx:id="sideAdded" layoutX="1004.0" layoutY="857.0" style="-fx-font-size: 20; -fx-background-color: transparent;" />
+   <ToggleButton fx:id="toggle" layoutX="33.0" layoutY="25.0" mnemonicParsing="false" onAction="#toggleDrawer" style="-fx-font-size: 18;" text="SHOW" />
+   <Label fx:id="sideLabel" layoutX="1048.0" layoutY="845.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added" />
 </AnchorPane>
