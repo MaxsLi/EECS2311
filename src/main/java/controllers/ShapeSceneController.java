@@ -1,5 +1,6 @@
 package controllers;
 
+import java.beans.EventHandler;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,10 +16,17 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import views.MainApp;
+import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -30,9 +38,11 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import javafx.util.Duration;
 import models.Location;
 import models.VennSet;
 import models.VennShape;
@@ -93,6 +103,45 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private TextField rightTitle;
+	
+	@FXML
+	private ToggleButton toggle;
+	
+//	@FXML
+//	private JFXDrawer drawerHolder;
+	
+	@FXML 
+	private ListView<String> itemList;
+	
+	@FXML
+	private ColorPicker backgroundColor;
+	
+	@FXML
+	private ColorPicker titleColors;
+	
+	@FXML
+	private Slider leftSlider;
+	
+	@FXML
+	private Slider rightSlider;
+	
+	@FXML
+	private ButtonBar listBttns;
+	
+	@FXML
+	private Button clearListBttn;
+	
+	@FXML
+	private Button removeItemButton;
+	
+	@FXML
+	private VBox navBox;
+	
+	@FXML
+	private TitledPane appearancePane;
+	
+	@FXML
+	private VBox scrollBox;
 
 	/**
 	 * An Set of `TextLabel`s
@@ -110,6 +159,9 @@ public class ShapeSceneController implements Initializable {
 	private double orgSceneY;
 	private double orgTranslateX;
 	private double orgTranslateY;
+	
+	static Color LEFTCIRCLECOLOR = Color.valueOf("#ff8a8a");
+	static Color RIGHTCIRCLECOLOR = Color.valueOf("#a7ff8f");
 
 	public ShapeSceneController() {
 		// Note that function `initialize` will do the init
@@ -132,6 +184,7 @@ public class ShapeSceneController implements Initializable {
 		} else {
 			String newText = this.diagramText.getText();
 			TextField newTextField = new TextField();
+			newTextField.setStyle("-fx-font-size:16px;-fx-background-color:transparent; ");
 
 			newTextField.setEditable(false);
 			newTextField.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
@@ -139,12 +192,20 @@ public class ShapeSceneController implements Initializable {
 			this.addAutoResize(newTextField);
 			this.addDragEvent(newTextField);
 			this.addContext(newTextField);
+			
+			this.itemList.getItems().add(newText);
+			
 
 			newTextField.setText(newText);
 			this.stackPane.getChildren().add(newTextField);
 			this.vennSet.add(newTextField);
 			this.sideAdded.clear();
 		}
+	}
+	
+	@FXML
+	private void clearList() {
+		this.itemList.getItems().remove(0, this.itemList.getItems().size());
 	}
 
 	/**
@@ -560,6 +621,11 @@ public class ShapeSceneController implements Initializable {
 		}
 
 	}
+	
+	@FXML
+	public void saveVennBttn() {
+		saveVenn(this.getTextFields());
+	}
 
 	/**
 	 * An Object to store All important Details on an App Instance
@@ -623,12 +689,87 @@ public class ShapeSceneController implements Initializable {
 		this.mainApp = mainApp;
 
 	}
+	
+	
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.vennShape = new VennShape(this.leftCircle, this.rightCircle);
 		this.vennSet = new VennSet(this.vennShape);
 		
+		//this.drawerHolder.setSidePane(this.navBox);
+		this.navBox.setVisible(false);
+		this.toggle.setText("SHOW");
+		this.toggle.setStyle("-fx-font-size:18");
+		this.toggle.setStyle("-fx-background-color:#FF69B4");
+		
 	}
-
-}
+	
+	@FXML
+	private void toggleDrawer() {
+		this.toggle.setStyle("-fx-font-size:18");
+		 TranslateTransition translate = new TranslateTransition();
+		 TranslateTransition translateStk = new TranslateTransition();
+		 
+		 FadeTransition ft = new FadeTransition(Duration.millis(1000), this.navBox);
+			if(!toggle.isSelected()) {//NAV SHOULD BE VISIBLE
+				//System.out.println("I was selected!");
+				this.toggle.setStyle("-fx-background-color:#FF69B4"); //pinkish
+				this.toggle.setText("SHOW");
+			     ft.setFromValue(1.0);
+			     ft.setToValue(0.0);
+			     ft.setAutoReverse(true);
+				
+				
+				  translate.setByX(-353);
+				  translateStk.setByX(-198);
+				  
+				  translate.setDuration(Duration.millis(1000));
+				 translateStk.setDuration(Duration.millis(1000));
+				  
+				  translate.setAutoReverse(true); 
+				  translateStk.setAutoReverse(true); 
+				  
+				 translate.setNode(this.navBox); 
+				 translateStk.setNode(this.stackPane);
+				 
+				  
+				 translate.play();
+				 translateStk.play();
+				  ft.play();
+				this.navBox.setVisible(false);
+				 
+				  
+			}
+			else {// NAV SHOULD BE INVISIBLE
+				//System.out.println("I was not selected!");
+				this.navBox.setVisible(true);
+				this.toggle.setStyle("-fx-background-color:#E0FFFF"); //blueish
+				this.toggle.setText("HIDE"); 
+				ft.setFromValue(0);
+				 ft.setToValue(1);
+				 ft.setAutoReverse(true);
+				
+				
+				translate.setByX(+353);
+				translateStk.setByX(+198);
+				
+				translate.setDuration(Duration.millis(1000));
+				translateStk.setDuration(Duration.millis(1000)); 
+				
+				translate.setAutoReverse(true); 
+				translateStk.setAutoReverse(true); 
+				
+				translate.setNode(this.navBox);
+				translateStk.setNode(this.stackPane); 
+				
+				ft.play();
+				translate.play();
+				translateStk.play();
+				  
+			}
+		
+		  
+		
+		}
+	}
