@@ -237,6 +237,10 @@ public class ShapeSceneController implements Initializable {
 
 		} else {
 			String newText = this.diagramText.getText();
+			if(newText.charAt(newText.length()-1) == ',') {
+				newText = newText.substring(0, newText.length()-1);
+			}
+			
 			TextField newTextField = new TextField();
 
 			newTextField.setEditable(false);
