@@ -10,11 +10,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -53,6 +55,15 @@ import models.VennShape;
 import utilities.TextUtils;
 
 public class ShapeSceneController implements Initializable {
+
+	private final static String DEFAULT_BACKGROUND_COLOR = "#F5DEB3";
+	private final static String DEFAULT_LEFTCIRCLE_COLOR = "#87CEEB";
+	private final static String DEFAULT_RIGHTCIRCLE_COLOR = "#A0522D";
+	private final static String DEFAULT_TITLE_COLOR = "#000000";
+
+	public static boolean REMIND_OUTOF_BOUNDS = true;
+
+	public static boolean REMIND_EMPTY_TEXTFIELD = true;
 
 	@FXML
 	public Label sideLabel;
@@ -125,10 +136,10 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private Slider rightSlider;
-	
+
 	@FXML
 	private ColorPicker leftHoverColor;
-	
+
 	@FXML
 	private ColorPicker rightHoverColor;
 
@@ -140,7 +151,7 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private Button removeItemButton;
-	
+
 	@FXML
 	private Button addCircleBttn;
 
@@ -152,8 +163,8 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private VBox scrollBox;
-	
-	//-----------------------Extra Circle #1's Properties May or may not be needed
+
+	// -----------------------Extra Circle #1's Properties May or may not be needed
 	private Slider extra1Slider;
 	private ColorPicker extra1Color;
 	private Label extra1Label = new Label("Circle 3");
@@ -162,11 +173,9 @@ public class ShapeSceneController implements Initializable {
 	private Label extra1HoverLabel = new Label("Hover Color");
 	private ColorPicker exrtra1ColorHover;
 	private Separator extra1Seperator;
-	
+
 	public static boolean EXTRA_CIRCLE_ADDED = false;
-	//--------------------------------------
-	
-	
+	// --------------------------------------
 
 	/**
 	 * An Set of `TextLabel`s
@@ -179,7 +188,6 @@ public class ShapeSceneController implements Initializable {
 	 * A static variable to allow the user to choice if they want to continue to be
 	 * reminded that they're placing a textfield out of bounds
 	 */
-	public static boolean REMIND_OUTOF_BOUNDS = true;
 
 	/**
 	 * An Set of `Shape`s
@@ -205,12 +213,27 @@ public class ShapeSceneController implements Initializable {
 	 */
 	public void addTextToDiagram() {
 
-		if (this.diagramText.getText().isEmpty() || this.diagramText.getText().trim().equals("")) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Warning Dialog");
-			alert.setHeaderText("Empty TextField");
-			alert.setContentText("Please enter some Text to the TextField under the Venn Diagram");
-			alert.showAndWait();
+		if ((this.diagramText.getText().isEmpty() || this.diagramText.getText().trim().equals(""))) {
+
+			if (REMIND_EMPTY_TEXTFIELD) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Confirmation Dialog");
+				alert.setHeaderText("Empty TextField");
+				alert.setContentText("Please Enter Text Before you click Add" + "\n"
+						+ "Would you like to be reminded of this again?");
+
+				ButtonType remindMe = new ButtonType("Remind Me");
+				ButtonType dontRemindMe = new ButtonType("Do not Remind Me");
+
+				alert.getButtonTypes().setAll(remindMe, dontRemindMe);
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == remindMe) {
+					REMIND_EMPTY_TEXTFIELD = true;
+				} else {
+					REMIND_EMPTY_TEXTFIELD = false;
+				}
+			}
 
 		} else {
 			String newText = this.diagramText.getText();
@@ -232,6 +255,7 @@ public class ShapeSceneController implements Initializable {
 			this.stackPane.getChildren().add(newTextField);
 			this.vennSet.add(newTextField);
 			this.sideAdded.clear();
+			this.diagramText.clear();
 		}
 	}
 
@@ -292,8 +316,8 @@ public class ShapeSceneController implements Initializable {
 					Alert alert = new Alert(AlertType.CONFIRMATION);
 					alert.setTitle("Confirmation Dialog");
 					alert.setHeaderText("TextField Out of Bounds");
-					alert.setContentText("Please place the textfield within the bounds of the circle." + "\n" +
-					"Would you like to be reminded of this again?");
+					alert.setContentText("Please place the textfield within the bounds of the circle." + "\n"
+							+ "Would you like to be reminded of this again?");
 
 					ButtonType remindMe = new ButtonType("Remind Me");
 					ButtonType dontRemindMe = new ButtonType("Do not Remind Me");
@@ -311,35 +335,45 @@ public class ShapeSceneController implements Initializable {
 				return;
 			}
 
-			/*
-			 * If TextField location is within radial distance of the left and right circle,
-			 * it must be somewhere in the intersection of the two circles
-			 */
-			if (textBoxLocation == Location.MIDDLE) {
-				sideAdded.setText("Intersection!");
+			if (textBoxLocation == Location.INTERSECTING_ALL) {
+				sideAdded.setText("Intersecting All Circles!");
 				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 25px;-fx-background-color:transparent;");
-				tfLocations.put(Location.MIDDLE, textField);
+				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
+				tfLocations.put(Location.INTERSECTING_ALL, textField);
 			}
-			/*
-			 * Else if, if its within radial distance of the left Circle, it must be in the
-			 * left circle
-			 */
+
+			else if (textBoxLocation == Location.INTERSECTING_BOTTOM_LEFT) {
+				sideAdded.setText("Intersecting Left & Bottom!");
+				sideAdded.setEditable(false);
+				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
+				tfLocations.put(Location.INTERSECTING_BOTTOM_LEFT, textField);
+			} else if (textBoxLocation == Location.INTERSECTING_LEFT_RIGHT) {
+				sideAdded.setText("Intersecting Left & Right!");
+				sideAdded.setEditable(false);
+				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
+				tfLocations.put(Location.INTERSECTING_LEFT_RIGHT, textField);
+			} else if (textBoxLocation == Location.INTERSECTING_BOTTOM_RIGHT) {
+				sideAdded.setText("Intersecting Right & Bottom!");
+				sideAdded.setEditable(false);
+				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
+				tfLocations.put(Location.INTERSECTING_BOTTOM_RIGHT, textField);
+			}
+
 			else if (textBoxLocation == Location.LEFT) {
 				sideAdded.setText("Left!");
 				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 25px;-fx-background-color:transparent;");
+				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(Location.LEFT, textField);
-			}
-			/*
-			 * Else if, if its within radial distance of the left Circle, it must be in the
-			 * right circle
-			 */
-			else if (textBoxLocation == Location.RIGHT) {
+			} else if (textBoxLocation == Location.RIGHT) {
 				sideAdded.setText("Right!");
 				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 25px;-fx-background-color:transparent;");
+				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(Location.RIGHT, textField);
+			} else if (textBoxLocation == Location.BOTTOM) {
+				sideAdded.setText("Bottom!");
+				sideAdded.setEditable(false);
+				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
+				tfLocations.put(Location.BOTTOM, textField);
 			}
 
 		});
@@ -411,9 +445,49 @@ public class ShapeSceneController implements Initializable {
 				this.appTitle.setText(firstLineInfo[0]);
 				this.leftTitle.setText(firstLineInfo[1]);
 				this.rightTitle.setText(firstLineInfo[2]);
-				this.leftCircle.setFill(Paint.valueOf(firstLineInfo[3]));
-				this.rightCircle.setFill(Paint.valueOf(firstLineInfo[4]));
 
+				if (firstLineInfo[3].equals("0xffffffff")) {
+					this.leftCircle.setFill(Color.valueOf(ShapeSceneController.DEFAULT_LEFTCIRCLE_COLOR));
+				} else {
+					this.leftCircle.setFill(Paint.valueOf(firstLineInfo[3]));
+				}
+
+				if (firstLineInfo[4].equals("0xffffffff")) {
+					this.rightCircle.setFill(Color.valueOf(ShapeSceneController.DEFAULT_RIGHTCIRCLE_COLOR));
+				} else {
+					this.rightCircle.setFill(Paint.valueOf(firstLineInfo[4]));
+				}
+
+				if (firstLineInfo[5].equals("0xffffffff")) {
+					this.mainScene
+							.setStyle("-fx-background-color:" + ShapeSceneController.DEFAULT_BACKGROUND_COLOR + ";");
+				} else {
+					this.mainScene.setStyle("-fx-background-color:#" + Paint.valueOf(firstLineInfo[5]).toString()
+							.substring(2, Paint.valueOf(firstLineInfo[5]).toString().length() - 2) + ";");
+				}
+
+				if (firstLineInfo[6].equals("0xffffffff")) {
+					this.appTitle.setStyle("-fx-text-fill:" + ShapeSceneController.DEFAULT_TITLE_COLOR + ";"
+							+ "-fx-background-color: transparent; -fx-font-size:25px;");
+					this.leftTitle.setStyle("-fx-text-fill:" + ShapeSceneController.DEFAULT_TITLE_COLOR + ";"
+							+ "-fx-background-color: transparent;-fx-font-size:20px;");
+					this.rightTitle.setStyle("-fx-text-fill:" + ShapeSceneController.DEFAULT_TITLE_COLOR + ";"
+							+ "-fx-background-color: transparent;-fx-font-size:20px;");
+				} else {
+					this.appTitle.setStyle("-fx-text-fill:#"
+							+ Paint.valueOf(firstLineInfo[6]).toString().substring(2,
+									Paint.valueOf(firstLineInfo[6]).toString().length() - 2)
+							+ ";" + "-fx-background-color: transparent; -fx-font-size:25px;");
+					this.leftTitle.setStyle("-fx-text-fill:#"
+							+ Paint.valueOf(firstLineInfo[6]).toString().substring(2,
+									Paint.valueOf(firstLineInfo[6]).toString().length() - 2)
+							+ ";" + "-fx-background-color: transparent;-fx-font-size:20px;");
+					this.rightTitle.setStyle("-fx-text-fill:#"
+							+ Paint.valueOf(firstLineInfo[6]).toString().substring(2,
+									Paint.valueOf(firstLineInfo[6]).toString().length() - 2)
+							+ ";" + "-fx-background-color: transparent;-fx-font-size:20px;");
+
+				}
 				// System.out.println(lineCounter);
 
 				lineCounter++;
@@ -476,6 +550,7 @@ public class ShapeSceneController implements Initializable {
 					tf.setTranslateY(textFieldY);
 					stackPane.getChildren().add(tf);
 					this.vennSet.add(tf);
+					tf.setStyle("-fx-background-color:transparent; -fx-border-color:red; ");
 
 					// System.out.println(parts[3]);
 
@@ -534,7 +609,8 @@ public class ShapeSceneController implements Initializable {
 	 */
 	public void saveVenn(ArrayList<TextField> write) {
 		AppAttributes appSaver = new AppAttributes(this.appTitle.getText(), this.leftTitle.getText(),
-				this.rightTitle.getText(), this.leftCircle.getFill(), this.rightCircle.getFill());
+				this.rightTitle.getText(), this.leftCircle.getFill(), this.rightCircle.getFill(),
+				this.backgroundColor.getValue(), this.titleColors.getValue());
 
 		String dummyLine = "TEXT COLUMN" + COMMA + "TextField X Coor" + COMMA + "TextField Y Coor" + COMMA
 				+ "Location of TextField" + COMMA + "<--DO NOT MODIFY THIS LINE"; // Program not reading Line two,
@@ -543,8 +619,9 @@ public class ShapeSceneController implements Initializable {
 		/*
 		 * Set the First Line of the CSV File Accordingly
 		 */
-		String firstLine = appSaver.attrAppTitle + "," + appSaver.attrLeftTitle + "," + appSaver.attrRightTitle + ","
-				+ appSaver.attrLeftColor.toString() + "," + appSaver.attrRightColor.toString() + ","
+		String firstLine = appSaver.attrAppTitle + COMMA + appSaver.attrLeftTitle + COMMA + appSaver.attrRightTitle
+				+ COMMA + appSaver.attrLeftColor.toString() + COMMA + appSaver.attrRightColor.toString() + COMMA
+				+ appSaver.attrSceneColor.toString() + COMMA + appSaver.attrTitleColor.toString() + COMMA
 				+ "<---DO NOT MODIFY THIS LINE" + "\n" + dummyLine;
 
 		try {
@@ -610,7 +687,7 @@ public class ShapeSceneController implements Initializable {
 			} catch (FileNotFoundException ex) {
 				Alert alertWarn = new Alert(AlertType.WARNING);
 				alertWarn.setTitle("WARNING");
-				alertWarn.setHeaderText("Dangerous Action");
+				alertWarn.setHeaderText(this.currentFileName + "Is Open in Another Location");
 				alertWarn.setContentText(
 						"If you close the Main Window without closing the other file, your changes will not be saved");
 				alertWarn.showAndWait();
@@ -676,9 +753,11 @@ public class ShapeSceneController implements Initializable {
 		String attrRightTitle = rightTitle.getText();
 		Paint attrLeftColor = leftCircle.getFill();
 		Paint attrRightColor = rightCircle.getFill();
+		Paint attrSceneColor = backgroundColor.getValue();
+		Paint attrTitleColor = titleColors.getValue();
 
 		public AppAttributes(String attributeAppTitle, String leftTitle, String rightTitle, Paint leftColor,
-				Paint rightColor) {
+				Paint rightColor, Paint attrSceneColor, Paint attrTitleColor) {
 			super();
 			if (this.attrAppTitle.trim().isEmpty()) {
 				this.attrAppTitle = "DefaultTitle";
@@ -700,6 +779,8 @@ public class ShapeSceneController implements Initializable {
 
 			this.attrLeftColor = leftColor;
 			this.attrRightColor = rightColor;
+			this.attrSceneColor = backgroundColor.getValue();
+			this.attrLeftColor = titleColors.getValue();
 
 		}
 
@@ -718,38 +799,45 @@ public class ShapeSceneController implements Initializable {
 	public void changeRightColor() {
 		rightCircle.setFill(rightColorPicker.getValue());
 	}
-	
+
 	public void changebackgroundColor() {
 		mainScene.setStyle("-fx-background-color: #"
 				+ backgroundColor.getValue().toString().substring(2, backgroundColor.getValue().toString().length() - 2)
 				+ ";");
 	}
-	
+
 	public void startHoverLeft() {
-		leftCircle.setStyle("-fx-stroke:#" + leftHoverColor.getValue().toString().substring(2, leftHoverColor.getValue().toString().length() - 2) + ";" +  " -fx-stroke-width: 5;");  
-								
+		leftCircle.setStyle("-fx-stroke:#"
+				+ leftHoverColor.getValue().toString().substring(2, leftHoverColor.getValue().toString().length() - 2)
+				+ ";" + " -fx-stroke-width: 5;");
+
 	}
-	
+
 	public void endHoverLeft() {
 		leftCircle.setStyle("-fx-stroke:black;");
 	}
-	
+
 	public void startHoverRight() {
-		rightCircle.setStyle("-fx-stroke:#" + rightHoverColor.getValue().toString().substring(2, rightHoverColor.getValue().toString().length() - 2) + ";" +  " -fx-stroke-width: 5;"); 
-								
+		rightCircle.setStyle("-fx-stroke:#"
+				+ rightHoverColor.getValue().toString().substring(2, rightHoverColor.getValue().toString().length() - 2)
+				+ ";" + " -fx-stroke-width: 5;");
+
 	}
-	
+
 	public void endHoverRight() {
 		rightCircle.setStyle("-fx-stroke:black;");
 	}
-	
+
 	public void changetitleColors() {
 		appTitle.setStyle("-fx-background-color: transparent;\n-fx-text-fill: #"
-				+ titleColors.getValue().toString().substring(2, titleColors.getValue().toString().length() - 2) + ";" + "-fx-font-size:25px;");
+				+ titleColors.getValue().toString().substring(2, titleColors.getValue().toString().length() - 2) + ";"
+				+ "-fx-font-size:25px;");
 		leftTitle.setStyle("-fx-background-color: transparent;\n-fx-text-fill: #"
-				+ titleColors.getValue().toString().substring(2, titleColors.getValue().toString().length() - 2) + ";" + "-fx-font-size:20px;");
+				+ titleColors.getValue().toString().substring(2, titleColors.getValue().toString().length() - 2) + ";"
+				+ "-fx-font-size:20px;");
 		rightTitle.setStyle("-fx-background-color: transparent;\n-fx-text-fill: #"
-				+ titleColors.getValue().toString().substring(2, titleColors.getValue().toString().length() - 2) + ";" + "-fx-font-size:20px;");
+				+ titleColors.getValue().toString().substring(2, titleColors.getValue().toString().length() - 2) + ";"
+				+ "-fx-font-size:20px;");
 	}
 
 	/**
@@ -796,7 +884,7 @@ public class ShapeSceneController implements Initializable {
 		});
 
 	}
-	
+
 	/**
 	 * A method to Translate items on screen
 	 */
@@ -808,11 +896,10 @@ public class ShapeSceneController implements Initializable {
 		TranslateTransition translateLeftTitle = new TranslateTransition();
 		TranslateTransition translateRightTitle = new TranslateTransition();
 		TranslateTransition translateMainTitle = new TranslateTransition();
-	
 
 		FadeTransition ft = new FadeTransition(Duration.millis(1000), this.navBox);
 		if (!toggle.isSelected()) {// NAV SHOULD BE VISIBLE
-			System.out.println("I was selected!");
+			// System.out.println("I was selected!");
 			this.toggle.setStyle("-fx-background-color:#FF69B4"); // pinkish
 			this.toggle.setText("SHOW");
 			ft.setFromValue(1.0);
@@ -830,19 +917,18 @@ public class ShapeSceneController implements Initializable {
 			translateLeftTitle.setDuration(Duration.millis(1000));
 			translateRightTitle.setDuration(Duration.millis(1000));
 			translateMainTitle.setDuration(Duration.millis(1000));
-			
+
 			translate.setAutoReverse(true);
 			translateStk.setAutoReverse(true);
 			translateLeftTitle.setAutoReverse(true);
 			translateRightTitle.setAutoReverse(true);
 			translateMainTitle.setAutoReverse(true);
-			
+
 			translate.setNode(this.navBox);
 			translateStk.setNode(this.stackPane);
 			translateLeftTitle.setNode(this.leftTitle);
 			translateRightTitle.setNode(this.rightTitle);
 			translateMainTitle.setNode(this.appTitle);
-			
 
 			ft.play();
 			translate.play();
@@ -852,10 +938,10 @@ public class ShapeSceneController implements Initializable {
 			translateMainTitle.play();
 			this.navBox.setVisible(false);
 
-		} else if(toggle.isSelected()) {// NAV SHOULD BE INVISIBLE
-			System.out.println("I was not selected!");
+		} else if (toggle.isSelected()) {// NAV SHOULD BE INVISIBLE
+			// System.out.println("I was not selected!");
 			this.navBox.setVisible(true);
-			
+
 			this.toggle.setStyle("-fx-background-color:#E0FFFF"); // blueish
 			this.toggle.setText("HIDE");
 			ft.setFromValue(0);
@@ -879,7 +965,6 @@ public class ShapeSceneController implements Initializable {
 			translateLeftTitle.setAutoReverse(true);
 			translateRightTitle.setAutoReverse(true);
 			translateMainTitle.setAutoReverse(true);
-			
 
 			translate.setNode(this.navBox);
 			translateStk.setNode(this.stackPane);
@@ -896,121 +981,128 @@ public class ShapeSceneController implements Initializable {
 		}
 
 	}
-	
+
 	/**
-	 * A method to add a new circle to the Scene, When a person clicks "Add new circle" 
-	 * It adds a new circle to the stack pane and adds support for a new circle in the 
-	 * vertical navigation drawer
+	 * A method to add a new circle to the Scene, When a person clicks "Add new
+	 * circle" It adds a new circle to the stack pane and adds support for a new
+	 * circle in the vertical navigation drawer
 	 */
 	public void addCircle() {
-		if(!EXTRA_CIRCLE_ADDED) {
-		ShapeSceneController.EXTRA_CIRCLE_ADDED = true;
-		
-		Circle extraCircle = new Circle(225);
-		extraCircle.setBlendMode(BlendMode.MULTIPLY);
-		extraCircle.setFill(Color.valueOf("#9ACD32"));
-		
-		
-		this.stackPane.getChildren().add(extraCircle);
-		StackPane.setMargin(extraCircle, new Insets(250, 0, 0, 0));
-		
-		this.extra1Label.setStyle("-fx-font-size:15px;");
-		this.scrollBox.getChildren().add(this.extra1Label);
-		
-		VBox.setMargin(this.extra1Label, new Insets(10, 0, 0, 30));
-		
-		this.extra1LabelColor.setStyle("-fx-font-size:12px;");
-		this.scrollBox.getChildren().add(this.extra1LabelColor);
-		VBox.setMargin(this.extra1LabelColor, new Insets(10, 0, 0, 50));
-		
-		this.extra1Color = new ColorPicker();
-		this.extra1Color.setMinHeight(28);
-		this.extra1Color.setMinWidth(137);
-		this.extra1Color.setMaxHeight(28);
-		this.extra1Color.setMaxWidth(137);
-		
+		if (!EXTRA_CIRCLE_ADDED) {
+			ShapeSceneController.EXTRA_CIRCLE_ADDED = true;
 
-		extra1Color.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		    	extraCircle.setFill(extra1Color.getValue());
-		    }
-		});
-		
-		
-		this.scrollBox.getChildren().add(this.extra1Color);
-		
-		VBox.setMargin(this.extra1Color, new Insets(10, 0, 0, 50));
-		
-		this.scrollBox.getChildren().add(this.extra1LabelSize);
-		this.extra1LabelSize.setStyle("-fx-font-size:12px;");
-		
-		VBox.setMargin(this.extra1LabelSize, new Insets(10, 0, 0, 50));
-		
-		this.extra1Slider = new Slider();
-		this.extra1Slider.setMin(225);
-		this.extra1Slider.setMax(300);
-		this.extra1Slider.setMinHeight(Control.USE_COMPUTED_SIZE);
-		this.extra1Slider.setMinWidth(Control.USE_COMPUTED_SIZE);
-		this.extra1Slider.prefWidth(178);
-		this.extra1Slider.prefHeight(24);
-		this.extra1Slider.setMaxHeight(Control.USE_PREF_SIZE);
-		this.extra1Slider.setMaxWidth(Control.USE_PREF_SIZE);
-		
-		this.scrollBox.getChildren().add(this.extra1Slider);
-		VBox.setMargin(this.extra1Slider, new Insets(5, 0, 0, 50));
-		
-		
-		this.extra1HoverLabel.setStyle("-fx-font-size:12px;");
-		this.scrollBox.getChildren().add(this.extra1HoverLabel);
-		VBox.setMargin(this.extra1HoverLabel, new Insets(10, 0, 0, 50));
-		
-		this.exrtra1ColorHover = new ColorPicker();
-		this.exrtra1ColorHover.setMinHeight(28);
-		this.exrtra1ColorHover.setMinWidth(137);
-		this.exrtra1ColorHover.setMaxHeight(28);
-		this.exrtra1ColorHover.setMaxWidth(137);
-		
-		
-		exrtra1ColorHover.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		    	extraCircle.setFill(extra1Color.getValue());
-		    }
-		});
-		
-		extraCircle.addEventHandler(MouseEvent.MOUSE_ENTERED, 
-			    new EventHandler<MouseEvent>() {
-			        @Override public void handle(MouseEvent e) {
-			        	extraCircle.setStyle("-fx-stroke:#" + exrtra1ColorHover.getValue().toString().substring(2, exrtra1ColorHover.getValue().toString().length() - 2) + ";" +  " -fx-stroke-width: 5;"); 
-			        }
+			Circle extraCircle = new Circle(225);
+
+			this.vennShape.add(extraCircle);
+
+			extraCircle.setBlendMode(BlendMode.MULTIPLY);
+			extraCircle.setFill(Color.valueOf("#9ACD32"));
+
+			this.stackPane.getChildren().add(extraCircle);
+
+			StackPane.setMargin(extraCircle, new Insets(250, 0, 0, 0));
+
+			this.extra1Label.setStyle("-fx-font-size:15px;");
+			this.scrollBox.getChildren().add(this.extra1Label);
+
+			VBox.setMargin(this.extra1Label, new Insets(10, 0, 0, 30));
+
+			this.extra1LabelColor.setStyle("-fx-font-size:12px;");
+			this.scrollBox.getChildren().add(this.extra1LabelColor);
+			VBox.setMargin(this.extra1LabelColor, new Insets(10, 0, 0, 50));
+
+			this.extra1Color = new ColorPicker();
+			this.extra1Color.setMinHeight(28);
+			this.extra1Color.setMinWidth(137);
+			this.extra1Color.setMaxHeight(28);
+			this.extra1Color.setMaxWidth(137);
+
+			extra1Color.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					extraCircle.setFill(extra1Color.getValue());
+				}
 			});
-		
-		extraCircle.addEventHandler(MouseEvent.MOUSE_EXITED, 
-			    new EventHandler<MouseEvent>() {
-			        @Override public void handle(MouseEvent e) {
-			        	extraCircle.setStyle("-fx-stroke:black;"); 
-			        }
+
+			this.scrollBox.getChildren().add(this.extra1Color);
+
+			VBox.setMargin(this.extra1Color, new Insets(10, 0, 0, 50));
+
+			this.scrollBox.getChildren().add(this.extra1LabelSize);
+			this.extra1LabelSize.setStyle("-fx-font-size:12px;");
+
+			VBox.setMargin(this.extra1LabelSize, new Insets(10, 0, 0, 50));
+
+			this.extra1Slider = new Slider();
+			this.extra1Slider.setMin(225);
+			this.extra1Slider.setMax(300);
+			this.extra1Slider.setMinHeight(Control.USE_COMPUTED_SIZE);
+			this.extra1Slider.setMinWidth(Control.USE_COMPUTED_SIZE);
+			this.extra1Slider.prefWidth(178);
+			this.extra1Slider.prefHeight(24);
+			this.extra1Slider.setMaxHeight(Control.USE_PREF_SIZE);
+			this.extra1Slider.setMaxWidth(Control.USE_PREF_SIZE);
+
+			this.scrollBox.getChildren().add(this.extra1Slider);
+			VBox.setMargin(this.extra1Slider, new Insets(5, 0, 0, 50));
+
+			this.extra1HoverLabel.setStyle("-fx-font-size:12px;");
+			this.scrollBox.getChildren().add(this.extra1HoverLabel);
+			VBox.setMargin(this.extra1HoverLabel, new Insets(10, 0, 0, 50));
+
+			this.exrtra1ColorHover = new ColorPicker();
+			this.exrtra1ColorHover.setMinHeight(28);
+			this.exrtra1ColorHover.setMinWidth(137);
+			this.exrtra1ColorHover.setMaxHeight(28);
+			this.exrtra1ColorHover.setMaxWidth(137);
+
+			exrtra1ColorHover.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					extraCircle.setFill(extra1Color.getValue());
+				}
 			});
-		
-		extra1Slider.valueProperty().addListener(new ChangeListener<Number>() {
 
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, //
-					Number oldValue, Number newValue) {
+			extraCircle.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					extraCircle.setStyle("-fx-stroke:#"
+							+ exrtra1ColorHover.getValue().toString().substring(2,
+									exrtra1ColorHover.getValue().toString().length() - 2)
+							+ ";" + " -fx-stroke-width: 5;");
+				}
+			});
 
-				extraCircle.setRadius((double) newValue);
+			extraCircle.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					extraCircle.setStyle("-fx-stroke:black;");
+				}
+			});
+
+			extra1Slider.valueProperty().addListener(new ChangeListener<Number>() {
+
+				@Override
+				public void changed(ObservableValue<? extends Number> observable, //
+						Number oldValue, Number newValue) {
+
+					extraCircle.setRadius((double) newValue);
+				}
+			});
+
+			this.scrollBox.getChildren().add(this.exrtra1ColorHover);
+			VBox.setMargin(this.exrtra1ColorHover, new Insets(10, 0, 0, 50));
+
+			for (TextField t : this.vennSet) {
+				t.toFront();
 			}
-		});
-		
-		
-		this.scrollBox.getChildren().add(this.exrtra1ColorHover);
-		VBox.setMargin(this.exrtra1ColorHover, new Insets(10, 0, 0, 50));
-		
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Circle 3 Has Been Addded!");
-		alert.setHeaderText("Success!");
-		alert.setContentText("Support for a third circle has been added in the Apperance pane.");
-		alert.showAndWait();
-		
+
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Circle 3 Has Been Addded!");
+			alert.setHeaderText("Success!");
+			alert.setContentText("Support for a third circle has been added in the Apperance pane.");
+			alert.showAndWait();
+
 		}
 	}
 
