@@ -1,6 +1,5 @@
 package controllers;
 
-import java.beans.EventHandler;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,12 +23,16 @@ import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
@@ -137,6 +140,9 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private Button removeItemButton;
+	
+	@FXML
+	private Button addCircleBttn;
 
 	@FXML
 	private VBox navBox;
@@ -149,13 +155,15 @@ public class ShapeSceneController implements Initializable {
 	
 	//-----------------------Extra Circle #1's Properties May or may not be needed
 	private Slider extra1Slider;
-	private ColorPicker exrtra1Color;
-	private Label extra1Label = new Label("Extra Circle #1");
+	private ColorPicker extra1Color;
+	private Label extra1Label = new Label("Circle 3");
 	private Label extra1LabelColor = new Label("Extra Circle #1 Color");
 	private Label extra1LabelSize = new Label("Extra Circle #1 Size");
+	private Label extra1HoverLabel = new Label("Hover Color");
 	private ColorPicker exrtra1ColorHover;
 	private Separator extra1Seperator;
 	
+	public static boolean EXTRA_CIRCLE_ADDED = false;
 	//--------------------------------------
 	
 	
@@ -887,6 +895,123 @@ public class ShapeSceneController implements Initializable {
 			translateMainTitle.play();
 		}
 
+	}
+	
+	/**
+	 * A method to add a new circle to the Scene, When a person clicks "Add new circle" 
+	 * It adds a new circle to the stack pane and adds support for a new circle in the 
+	 * vertical navigation drawer
+	 */
+	public void addCircle() {
+		if(!EXTRA_CIRCLE_ADDED) {
+		ShapeSceneController.EXTRA_CIRCLE_ADDED = true;
+		
+		Circle extraCircle = new Circle(225);
+		extraCircle.setBlendMode(BlendMode.MULTIPLY);
+		extraCircle.setFill(Color.valueOf("#9ACD32"));
+		
+		
+		this.stackPane.getChildren().add(extraCircle);
+		StackPane.setMargin(extraCircle, new Insets(250, 0, 0, 0));
+		
+		this.extra1Label.setStyle("-fx-font-size:15px;");
+		this.scrollBox.getChildren().add(this.extra1Label);
+		
+		VBox.setMargin(this.extra1Label, new Insets(10, 0, 0, 30));
+		
+		this.extra1LabelColor.setStyle("-fx-font-size:12px;");
+		this.scrollBox.getChildren().add(this.extra1LabelColor);
+		VBox.setMargin(this.extra1LabelColor, new Insets(10, 0, 0, 50));
+		
+		this.extra1Color = new ColorPicker();
+		this.extra1Color.setMinHeight(28);
+		this.extra1Color.setMinWidth(137);
+		this.extra1Color.setMaxHeight(28);
+		this.extra1Color.setMaxWidth(137);
+		
+
+		extra1Color.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	extraCircle.setFill(extra1Color.getValue());
+		    }
+		});
+		
+		
+		this.scrollBox.getChildren().add(this.extra1Color);
+		
+		VBox.setMargin(this.extra1Color, new Insets(10, 0, 0, 50));
+		
+		this.scrollBox.getChildren().add(this.extra1LabelSize);
+		this.extra1LabelSize.setStyle("-fx-font-size:12px;");
+		
+		VBox.setMargin(this.extra1LabelSize, new Insets(10, 0, 0, 50));
+		
+		this.extra1Slider = new Slider();
+		this.extra1Slider.setMin(225);
+		this.extra1Slider.setMax(300);
+		this.extra1Slider.setMinHeight(Control.USE_COMPUTED_SIZE);
+		this.extra1Slider.setMinWidth(Control.USE_COMPUTED_SIZE);
+		this.extra1Slider.prefWidth(178);
+		this.extra1Slider.prefHeight(24);
+		this.extra1Slider.setMaxHeight(Control.USE_PREF_SIZE);
+		this.extra1Slider.setMaxWidth(Control.USE_PREF_SIZE);
+		
+		this.scrollBox.getChildren().add(this.extra1Slider);
+		VBox.setMargin(this.extra1Slider, new Insets(5, 0, 0, 50));
+		
+		
+		this.extra1HoverLabel.setStyle("-fx-font-size:12px;");
+		this.scrollBox.getChildren().add(this.extra1HoverLabel);
+		VBox.setMargin(this.extra1HoverLabel, new Insets(10, 0, 0, 50));
+		
+		this.exrtra1ColorHover = new ColorPicker();
+		this.exrtra1ColorHover.setMinHeight(28);
+		this.exrtra1ColorHover.setMinWidth(137);
+		this.exrtra1ColorHover.setMaxHeight(28);
+		this.exrtra1ColorHover.setMaxWidth(137);
+		
+		
+		exrtra1ColorHover.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	extraCircle.setFill(extra1Color.getValue());
+		    }
+		});
+		
+		extraCircle.addEventHandler(MouseEvent.MOUSE_ENTERED, 
+			    new EventHandler<MouseEvent>() {
+			        @Override public void handle(MouseEvent e) {
+			        	extraCircle.setStyle("-fx-stroke:#" + exrtra1ColorHover.getValue().toString().substring(2, exrtra1ColorHover.getValue().toString().length() - 2) + ";" +  " -fx-stroke-width: 5;"); 
+			        }
+			});
+		
+		extraCircle.addEventHandler(MouseEvent.MOUSE_EXITED, 
+			    new EventHandler<MouseEvent>() {
+			        @Override public void handle(MouseEvent e) {
+			        	extraCircle.setStyle("-fx-stroke:black;"); 
+			        }
+			});
+		
+		extra1Slider.valueProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, //
+					Number oldValue, Number newValue) {
+
+				extraCircle.setRadius((double) newValue);
+			}
+		});
+		
+		
+		this.scrollBox.getChildren().add(this.exrtra1ColorHover);
+		VBox.setMargin(this.exrtra1ColorHover, new Insets(10, 0, 0, 50));
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Circle 3 Has Been Addded!");
+		alert.setHeaderText("Success!");
+		alert.setContentText("Support for a third circle has been added in the Apperance pane.");
+		alert.showAndWait();
+		
+		}
 	}
 
 }

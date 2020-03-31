@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Circle?>
 
 <AnchorPane fx:id="mainScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="917.0" prefWidth="1250.0" style="-fx-background-color: #F5DEB3;" stylesheets="@../css/shapeScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShapeSceneController">
-   <VBox fx:id="navBox" alignment="TOP_CENTER" layoutX="-353.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="791.0" prefWidth="353.0" spacing="10.0" style="-fx-background-color: #DEB887; -fx-border-color: black; -fx-border-width: 2;">
+   <VBox fx:id="navBox" alignment="TOP_CENTER" layoutX="-353.0" layoutY="83.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="791.0" prefWidth="353.0" spacing="10.0" style="-fx-background-color: #DEB887; -fx-border-color: black; -fx-border-width: 2;">
       <children>
          <Label alignment="TOP_CENTER" prefHeight="32.0" prefWidth="222.0" style="-fx-font-size: 20;" text="VennCreate Nav Bar" />
          <HBox prefHeight="44.0" prefWidth="353.0">
@@ -175,25 +175,29 @@
          <Label style="-fx-font-size: 20;" text="Quick Actions" />
          <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="353.0">
             <children>
-               <ButtonBar prefHeight="50.0" prefWidth="178.0">
+               <ButtonBar prefHeight="50.0" prefWidth="178.0" HBox.hgrow="ALWAYS">
                   <buttons>
                      <Button mnemonicParsing="false" text="Load" />
                      <Button fx:id="saveBttn" minWidth="0.0" mnemonicParsing="false" onAction="#saveVennBttn" prefHeight="32.0" text="Save" />
+                     <Button fx:id="addCircleBttn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addCircle" prefHeight="29.0" prefWidth="96.0" text="Add Circle" />
                   </buttons>
+                  <padding>
+                     <Insets right="25.0" />
+                  </padding>
                </ButtonBar>
             </children>
          </HBox>
       </children>
    </VBox>
-   <StackPane fx:id="stackPane" layoutX="152.0" layoutY="145.0" prefHeight="667.0" prefWidth="947.0">
-      <Circle fx:id="leftCircle" blendMode="MULTIPLY" fill="SKYBLUE" onMouseEntered="#startHoverLeft" onMouseExited="#endHoverLeft" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
-         <StackPane.margin>
-            <Insets left="100.0" />
-         </StackPane.margin>
-      </Circle>
+   <StackPane fx:id="stackPane" layoutX="169.0" layoutY="113.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="667.0" prefWidth="947.0">
       <Circle fx:id="rightCircle" blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="SIENNA" onMouseEntered="#startHoverRight" onMouseExited="#endHoverRight" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
          <StackPane.margin>
-            <Insets right="100.0" />
+            <Insets bottom="75.0" right="100.0" />
+         </StackPane.margin>
+      </Circle>
+      <Circle fx:id="leftCircle" blendMode="MULTIPLY" fill="SKYBLUE" onMouseEntered="#startHoverLeft" onMouseExited="#endHoverLeft" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
+         <StackPane.margin>
+            <Insets bottom="75.0" left="100.0" />
          </StackPane.margin>
       </Circle>
    </StackPane>
