@@ -18,5 +18,9 @@ public class VennShape extends ArrayList<Shape> {
 	public Shape getRightShape() {
 		return this.get(1);
 	}
+	
+	public Shape getBottomShape() {
+		return this.get(2);
+	}
 
 }

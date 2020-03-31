@@ -45,7 +45,7 @@
                <ButtonBar prefHeight="40.0" prefWidth="200.0">
                  <buttons>
                    <Button fx:id="clearListBttn" mnemonicParsing="false" onAction="#clearList" text="Clear List" />
-                     <Button fx:id="removeItemButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="121.0" text="Del Item" />
+                     <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="29.0" prefWidth="155.0" text="Erase Item" />
                  </buttons>
                </ButtonBar>
             </children>
@@ -111,6 +111,16 @@
                                  <Insets left="50.0" top="5.0" />
                               </VBox.margin>
                            </Slider>
+                           <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Hover Color">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <ColorPicker fx:id="leftHoverColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </ColorPicker>
                            <Separator prefWidth="200.0">
                               <VBox.margin>
                                  <Insets top="10.0" />
@@ -141,6 +151,21 @@
                                  <Insets left="50.0" top="5.0" />
                               </VBox.margin>
                            </Slider>
+                           <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Hover Color">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <ColorPicker fx:id="rightHoverColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </ColorPicker>
+                           <Separator prefWidth="200.0">
+                              <VBox.margin>
+                                 <Insets top="10.0" />
+                              </VBox.margin>
+                           </Separator>
                         </children>
                      </VBox>
                   </content>
@@ -150,25 +175,29 @@
          <Label style="-fx-font-size: 20;" text="Quick Actions" />
          <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="353.0">
             <children>
-               <ButtonBar prefHeight="50.0" prefWidth="178.0">
+               <ButtonBar prefHeight="50.0" prefWidth="178.0" HBox.hgrow="ALWAYS">
                   <buttons>
                      <Button mnemonicParsing="false" text="Load" />
                      <Button fx:id="saveBttn" minWidth="0.0" mnemonicParsing="false" onAction="#saveVennBttn" prefHeight="32.0" text="Save" />
+                     <Button fx:id="addCircleBttn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addCircle" prefHeight="29.0" prefWidth="96.0" text="Add Circle" />
                   </buttons>
+                  <padding>
+                     <Insets right="25.0" />
+                  </padding>
                </ButtonBar>
             </children>
          </HBox>
       </children>
    </VBox>
-   <StackPane fx:id="stackPane" layoutX="152.0" layoutY="145.0" prefHeight="667.0" prefWidth="947.0">
-      <Circle fx:id="leftCircle" fill="SKYBLUE" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
+   <StackPane fx:id="stackPane" layoutX="169.0" layoutY="113.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="667.0" prefWidth="947.0">
+      <Circle fx:id="rightCircle" blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="SIENNA" onMouseEntered="#startHoverRight" onMouseExited="#endHoverRight" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
          <StackPane.margin>
-            <Insets left="100.0" />
+            <Insets bottom="75.0" right="100.0" />
          </StackPane.margin>
       </Circle>
-      <Circle fx:id="rightCircle" blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="SIENNA" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
+      <Circle fx:id="leftCircle" blendMode="MULTIPLY" fill="SKYBLUE" onMouseEntered="#startHoverLeft" onMouseExited="#endHoverLeft" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
          <StackPane.margin>
-            <Insets right="100.0" />
+            <Insets bottom="75.0" left="100.0" />
          </StackPane.margin>
       </Circle>
    </StackPane>
