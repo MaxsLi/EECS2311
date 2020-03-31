@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Circle?>
 
 <AnchorPane fx:id="mainScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="917.0" prefWidth="1250.0" style="-fx-background-color: #F5DEB3;" stylesheets="@../css/shapeScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShapeSceneController">
-   <VBox fx:id="navBox" alignment="TOP_CENTER" layoutX="-353.0" layoutY="83.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="791.0" prefWidth="353.0" spacing="10.0" style="-fx-background-color: #DEB887; -fx-border-color: black; -fx-border-width: 2;">
+   <VBox fx:id="navBox" alignment="TOP_CENTER" layoutX="-353.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="791.0" prefWidth="353.0" spacing="10.0" style="-fx-background-color: #DEB887; -fx-border-color: black; -fx-border-width: 2;">
       <children>
          <Label alignment="TOP_CENTER" prefHeight="32.0" prefWidth="222.0" style="-fx-font-size: 20;" text="VennCreate Nav Bar" />
          <HBox prefHeight="44.0" prefWidth="353.0">
@@ -45,7 +45,7 @@
                <ButtonBar prefHeight="40.0" prefWidth="200.0">
                  <buttons>
                    <Button fx:id="clearListBttn" mnemonicParsing="false" onAction="#clearList" text="Clear List" />
-                     <Button fx:id="removeItemButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="121.0" text="Del Item" />
+                     <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="29.0" prefWidth="155.0" text="Erase Item" />
                  </buttons>
                </ButtonBar>
             </children>
@@ -111,6 +111,16 @@
                                  <Insets left="50.0" top="5.0" />
                               </VBox.margin>
                            </Slider>
+                           <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Hover Color">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <ColorPicker fx:id="leftHoverColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </ColorPicker>
                            <Separator prefWidth="200.0">
                               <VBox.margin>
                                  <Insets top="10.0" />
@@ -141,6 +151,21 @@
                                  <Insets left="50.0" top="5.0" />
                               </VBox.margin>
                            </Slider>
+                           <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Hover Color">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </Label>
+                           <ColorPicker fx:id="rightHoverColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
+                              <VBox.margin>
+                                 <Insets left="50.0" top="10.0" />
+                              </VBox.margin>
+                           </ColorPicker>
+                           <Separator prefWidth="200.0">
+                              <VBox.margin>
+                                 <Insets top="10.0" />
+                              </VBox.margin>
+                           </Separator>
                         </children>
                      </VBox>
                   </content>
@@ -161,12 +186,12 @@
       </children>
    </VBox>
    <StackPane fx:id="stackPane" layoutX="152.0" layoutY="145.0" prefHeight="667.0" prefWidth="947.0">
-      <Circle fx:id="leftCircle" fill="SKYBLUE" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
+      <Circle fx:id="leftCircle" blendMode="MULTIPLY" fill="SKYBLUE" onMouseEntered="#startHoverLeft" onMouseExited="#endHoverLeft" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
          <StackPane.margin>
             <Insets left="100.0" />
          </StackPane.margin>
       </Circle>
-      <Circle fx:id="rightCircle" blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="SIENNA" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
+      <Circle fx:id="rightCircle" blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="SIENNA" onMouseEntered="#startHoverRight" onMouseExited="#endHoverRight" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
          <StackPane.margin>
             <Insets right="100.0" />
          </StackPane.margin>

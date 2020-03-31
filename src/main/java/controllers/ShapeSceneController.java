@@ -108,9 +108,6 @@ public class ShapeSceneController implements Initializable {
 	@FXML
 	private ToggleButton toggle;
 
-//	@FXML
-//	private JFXDrawer drawerHolder;
-
 	@FXML
 	private ListView<String> itemList;
 
@@ -125,6 +122,12 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private Slider rightSlider;
+	
+	@FXML
+	private ColorPicker leftHoverColor;
+	
+	@FXML
+	private ColorPicker rightHoverColor;
 
 	@FXML
 	private ButtonBar listBttns;
@@ -143,6 +146,19 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private VBox scrollBox;
+	
+	//-----------------------Extra Circle #1's Properties May or may not be needed
+	private Slider extra1Slider;
+	private ColorPicker exrtra1Color;
+	private Label extra1Label = new Label("Extra Circle #1");
+	private Label extra1LabelColor = new Label("Extra Circle #1 Color");
+	private Label extra1LabelSize = new Label("Extra Circle #1 Size");
+	private ColorPicker exrtra1ColorHover;
+	private Separator extra1Seperator;
+	
+	//--------------------------------------
+	
+	
 
 	/**
 	 * An Set of `TextLabel`s
@@ -699,6 +715,24 @@ public class ShapeSceneController implements Initializable {
 		mainScene.setStyle("-fx-background-color: #"
 				+ backgroundColor.getValue().toString().substring(2, backgroundColor.getValue().toString().length() - 2)
 				+ ";");
+	}
+	
+	public void startHoverLeft() {
+		leftCircle.setStyle("-fx-stroke:#" + leftHoverColor.getValue().toString().substring(2, leftHoverColor.getValue().toString().length() - 2) + ";" +  " -fx-stroke-width: 5;");  
+								
+	}
+	
+	public void endHoverLeft() {
+		leftCircle.setStyle("-fx-stroke:black;");
+	}
+	
+	public void startHoverRight() {
+		rightCircle.setStyle("-fx-stroke:#" + rightHoverColor.getValue().toString().substring(2, rightHoverColor.getValue().toString().length() - 2) + ";" +  " -fx-stroke-width: 5;"); 
+								
+	}
+	
+	public void endHoverRight() {
+		rightCircle.setStyle("-fx-stroke:black;");
 	}
 	
 	public void changetitleColors() {
