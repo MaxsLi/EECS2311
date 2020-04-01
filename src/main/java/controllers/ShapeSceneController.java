@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
@@ -148,7 +149,13 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private Button clearListBttn;
+	
+	@FXML
+	private Button eraseItemBttn;
 
+	@FXML
+	private Button createItemBttn;
+	
 	@FXML
 	private Button removeItemButton;
 
@@ -262,10 +269,33 @@ public class ShapeSceneController implements Initializable {
 			this.diagramText.clear();
 		}
 	}
+	
+	@FXML
+	private void createItem() {
+		String newItem = itemList.getSelectionModel().getSelectedItem();
+		diagramText.setText(newItem);
+		addTextToDiagram();
+	}
 
 	@FXML
 	private void clearList() {
+		try {
 		this.itemList.getItems().remove(0, this.itemList.getItems().size());
+		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			return;
+		}
+	}
+	
+	@FXML
+	private void eraseItem() {
+		try {
+		int index = itemList.getSelectionModel().getSelectedIndex();
+		itemList.getItems().remove(index);
+		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			return;
+		}
 	}
 
 	/**
@@ -814,22 +844,25 @@ public class ShapeSceneController implements Initializable {
 		leftCircle.setStyle("-fx-stroke:#"
 				+ leftHoverColor.getValue().toString().substring(2, leftHoverColor.getValue().toString().length() - 2)
 				+ ";" + " -fx-stroke-width: 5;");
+		this.mainScene.setCursor(Cursor.HAND);
 
 	}
 
 	public void endHoverLeft() {
 		leftCircle.setStyle("-fx-stroke:black;");
+		this.mainScene.setCursor(Cursor.DEFAULT);
 	}
 
 	public void startHoverRight() {
 		rightCircle.setStyle("-fx-stroke:#"
 				+ rightHoverColor.getValue().toString().substring(2, rightHoverColor.getValue().toString().length() - 2)
 				+ ";" + " -fx-stroke-width: 5;");
-
+		this.mainScene.setCursor(Cursor.HAND);
 	}
 
 	public void endHoverRight() {
 		rightCircle.setStyle("-fx-stroke:black;");
+		this.mainScene.setCursor(Cursor.DEFAULT);
 	}
 
 	public void changetitleColors() {
@@ -1039,7 +1072,7 @@ public class ShapeSceneController implements Initializable {
 
 			this.extra1Slider = new Slider();
 			this.extra1Slider.setMin(225);
-			this.extra1Slider.setMax(300);
+			this.extra1Slider.setMax(275);
 			this.extra1Slider.setMinHeight(Control.USE_COMPUTED_SIZE);
 			this.extra1Slider.setMinWidth(Control.USE_COMPUTED_SIZE);
 			this.extra1Slider.prefWidth(178);
@@ -1074,6 +1107,8 @@ public class ShapeSceneController implements Initializable {
 							+ exrtra1ColorHover.getValue().toString().substring(2,
 									exrtra1ColorHover.getValue().toString().length() - 2)
 							+ ";" + " -fx-stroke-width: 5;");
+					
+					mainScene.setCursor(Cursor.HAND);
 				}
 			});
 
@@ -1081,6 +1116,8 @@ public class ShapeSceneController implements Initializable {
 				@Override
 				public void handle(MouseEvent e) {
 					extraCircle.setStyle("-fx-stroke:black;");
+					
+					mainScene.setCursor(Cursor.DEFAULT);
 				}
 			});
 

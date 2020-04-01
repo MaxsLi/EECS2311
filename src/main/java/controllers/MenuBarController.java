@@ -5,16 +5,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import views.MainApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.shape.Ellipse;
+import javafx.stage.FileChooser;
 import javafx.stage.WindowEvent;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class MenuBarController {
 	
@@ -23,19 +27,85 @@ public class MenuBarController {
 	
 	private ShapeSceneController shapeSceneCont;
 
-	public static List<Ellipse> circleList = new ArrayList<Ellipse>();
-	// public static Group group = new Group();
-	private final int C_X = 50, C_Y = 50;
-	public static int circles = 0;
-	private final int MAX_CIRCLES = 2;
-
 	private MainApp mainApp;
+	
+	@FXML
+	private MenuItem createNewVenn;
+	
+	@FXML
+	private MenuItem openMenuItem;
+	
+	@FXML
+	private MenuItem addCircleMenuItem;
+	
+	
+	@FXML
+	private void createNew() throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("Create New Venn Diagram");
+		alert.setContentText("Any Unsaved Changes Will be lost. Are you Sure you would like to create a new Venn Diagram? ");
 
-//	@FXML
-//	private void closeProgram(ActionEvent e) {
-//		// System.out.println("Closed properly.");
-//		MainApp.primaryStage.close();
-//	}
+		ButtonType ok = new ButtonType("Ok");
+		ButtonType cancel = new ButtonType("Cancel");
+
+		alert.getButtonTypes().setAll(ok, cancel);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ok) {
+			mainApp.switchScene("shapeScene", null);
+		} else {
+			return;
+		}
+	}
+	
+	@FXML
+	private void openExisting() throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("Open Existing Venn Diagram");
+		alert.setContentText("Any Unsaved Changes Will be lost. Are you sure you would like to open an Existing Venn Diagram?");
+
+		ButtonType ok = new ButtonType("Ok");
+		ButtonType cancel = new ButtonType("Cancel");
+
+		alert.getButtonTypes().setAll(ok, cancel);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ok) {
+			 FileChooser fileChooser = new FileChooser();
+			 fileChooser.setTitle("Open Resource File");
+			 
+			 
+			 File currentDir = new File(System.getProperty("user.home") + File.separator + "VennCreateFiles" + File.separator);
+			 
+			 if( ! currentDir.exists()) {
+				 currentDir = new File(System.getProperty("user.home"));
+			 }	 
+			 
+			 fileChooser.setInitialDirectory(currentDir);
+			 fileChooser.getExtensionFilters().addAll(
+			         new ExtensionFilter("CSV Files", "*.csv")
+			 );
+			 File selectedFile = fileChooser.showOpenDialog(null);
+			 
+			 
+			 
+			 
+			 if(selectedFile == null) {
+					Alert alert1 = new Alert(AlertType.WARNING);
+					alert1.setTitle("Warning Dialog");
+					alert1.setHeaderText("CSV Not Chosen");
+					alert1.setContentText("Please Chose Correct CSV and try again");
+					alert1.showAndWait();
+			 }
+			 else {
+				 mainApp.switchScene("load", selectedFile);
+			 }
+		} else {
+			return;
+		}
+	}
 
 	// Method to close not using menuBar
 	public static void closeProgram(WindowEvent e) {
@@ -64,17 +134,6 @@ public class MenuBarController {
 		e.consume();
 	}
 
-	@FXML
-	private void addCircle(ActionEvent e) {
-		if (circles < MAX_CIRCLES) {
-			Ellipse ellipse = new Ellipse(this.C_Y, this.C_Y);
-			ellipse.setCenterX(100);
-			ellipse.setCenterY(100);
-			MenuBarController.circleList.add(ellipse);
-			// group.getChildren().add(ellipse);
-			circles++;
-		}
-	}
 	
 	public void openUserManual() {
 		String currentDir = System.getProperty("user.dir");
@@ -118,6 +177,15 @@ public class MenuBarController {
 			alert.showAndWait();
 
 		}
+	}
+	
+	@FXML
+	private void addCircle() {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/fxml/shapeScene.fxml"));
+		
+		shapeSceneCont = mainApp.getShapeSceneController();
+		shapeSceneCont.addCircle();
 	}
 
 }

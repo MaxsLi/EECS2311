@@ -59,24 +59,7 @@ public class MenuSceneController implements Initializable {
 		 
 		 if( ! currentDir.exists()) {
 			 currentDir = new File(System.getProperty("user.home"));
-		 }
-		 
-	//	 int numOfCSVFiles = 0;
-		 
-//		 for(String f: currentDir.list()) {
-//			 if(f.substring(f.length()-4, f.length()).equals(".csv")) {
-//				 numOfCSVFiles++;
-//			 }
-//		 }
-//		 
-//		 if(numOfCSVFiles==0) {
-//			 Alert alert = new Alert(AlertType.WARNING);
-//				alert.setTitle("Warning Dialog");
-//				alert.setHeaderText("Empty TextField");
-//				alert.setContentText("Error Loading: Nothing to Load, Please Create a New Venn Diagram First");
-//				alert.showAndWait(); 
-//				return;
-//		 }
+		 }	 
 		 
 		 fileChooser.setInitialDirectory(currentDir);
 		 fileChooser.getExtensionFilters().addAll(
