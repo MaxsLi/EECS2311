@@ -42,10 +42,11 @@
                <Insets />
             </opaqueInsets>
             <children>
-               <ButtonBar prefHeight="40.0" prefWidth="200.0">
+               <ButtonBar prefHeight="46.0" prefWidth="359.0" HBox.hgrow="ALWAYS">
                  <buttons>
                    <Button fx:id="clearListBttn" mnemonicParsing="false" onAction="#clearList" text="Clear List" />
-                     <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="29.0" prefWidth="155.0" text="Erase Item" />
+                     <Button fx:id="eraseItemBttn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#eraseItem" prefHeight="29.0" prefWidth="155.0" text="Erase Item" />
+                     <Button fx:id="createItemBttn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createItem" prefHeight="29.0" text="Create Item" />
                  </buttons>
                </ButtonBar>
             </children>
@@ -189,15 +190,15 @@
          </HBox>
       </children>
    </VBox>
-   <StackPane fx:id="stackPane" layoutX="169.0" layoutY="113.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="667.0" prefWidth="947.0">
+   <StackPane fx:id="stackPane" layoutX="169.0" layoutY="113.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="740.0" prefWidth="947.0">
       <Circle fx:id="rightCircle" blendMode="MULTIPLY" centerX="625.0" centerY="375.0" fill="SIENNA" onMouseEntered="#startHoverRight" onMouseExited="#endHoverRight" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_RIGHT">
          <StackPane.margin>
-            <Insets bottom="75.0" right="100.0" />
+            <Insets bottom="150.0" right="100.0" />
          </StackPane.margin>
       </Circle>
       <Circle fx:id="leftCircle" blendMode="MULTIPLY" fill="SKYBLUE" onMouseEntered="#startHoverLeft" onMouseExited="#endHoverLeft" radius="225.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER_LEFT">
          <StackPane.margin>
-            <Insets bottom="75.0" left="100.0" />
+            <Insets bottom="150.0" left="100.0" />
          </StackPane.margin>
       </Circle>
    </StackPane>
