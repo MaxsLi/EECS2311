@@ -27,10 +27,9 @@ public class MainApp extends Application {
 
 	public static Stage primaryStage;
 	private AnchorPane vennPane;
-	private BorderPane rootLayout;
 	private MenuBar menuBar;
 	private FXMLLoader loader;
-	private BorderPane menuPane;
+	private AnchorPane menuPane;
 	private MenuSceneController menuSceneCont;
 	private MenuBarController menuBarCont;
 	private ShapeSceneController shapeSceneCont;
@@ -43,25 +42,25 @@ public class MainApp extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		MainApp.primaryStage = primaryStage;
 
-		this.loadRootLayout();
 		this.loadMenuScene();
 		this.loadMenubar();
-
-		Scene scene = new Scene(this.rootLayout);
+		
+		Parent root = menuPane;
+		Scene scene = new Scene(root);
 		
 	
 		MainApp.primaryStage.setScene(scene);
-		MainApp.primaryStage.sizeToScene();
+		//MainApp.primaryStage.sizeToScene();
 		MainApp.primaryStage.setTitle(APP_TITLE);
 		MainApp.primaryStage.getIcons().add(new Image("/images/logo.png"));
 
-		MainApp.primaryStage.setMinWidth(primaryStage.getWidth());
-		MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
+		MainApp.primaryStage.setMaxWidth(1250);
+		MainApp.primaryStage.setMaxHeight(917);
 
 		MainApp.primaryStage.show();
 
 		// Maximizes the stage immediately on Launch
-		MainApp.primaryStage.setMaximized(true);
+		//MainApp.primaryStage.setMaximized(true);
 
 		// Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
@@ -79,16 +78,6 @@ public class MainApp extends Application {
 		});
 	}
 
-	/**
-	 * A Method to parse the rootLayout.fxml file and turn it into java code
-	 * 
-	 * @throws IOException
-	 */
-	public void loadRootLayout() throws IOException {
-		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("/fxml/rootLayout.fxml"));
-		this.rootLayout = loader.load();
-	}
 
 	/**
 	 * A Method to parse the menuBar.fxml file and turn it into java code
@@ -99,10 +88,9 @@ public class MainApp extends Application {
 		FXMLLoader loader1 = new FXMLLoader();
 		loader1.setLocation(getClass().getResource("/fxml/menuBar.fxml"));
 		this.menuBar = loader1.load();
-		this.rootLayout.setTop(this.menuBar);
 		menuBarCont = loader1.getController();
 		menuBarCont.setMainApp(this);
-		menuBarCont.addKeyShortcuts();
+		//menuBarCont.addKeyShortcuts();
 	}
 
 	/**
@@ -113,15 +101,13 @@ public class MainApp extends Application {
 	public void loadShapeScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("/fxml/shapeScene.fxml"));
-		// this.vennPane = (StackPane) loader.load();
-
-		// this.rootLayout.setCenter(this.vennPane);
 
 		this.vennPane = loader.load();
 
-		rootLayout.setCenter(this.addZoomPane(this.vennPane)); // make the center of the Menubar Scene to the rootLayout
+
 		shapeSceneCont = loader.getController();
 		shapeSceneCont.setMainApp(this);
+		MainApp.primaryStage.setScene(new Scene(this.vennPane));
 	}
 
 	/**
@@ -177,16 +163,8 @@ public class MainApp extends Application {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("/fxml/menuScene.fxml"));
 		this.menuPane = loader.load();
-		rootLayout.setCenter(this.addZoomPane(this.menuPane));
 		menuSceneCont = loader.getController();
 		menuSceneCont.setMainApp(this);
 	}
-
-	private VBox addZoomPane(Node node) {
-		Parent zoomPane = new ZoomPane(new Group(node)).getParent();
-		VBox layout = new VBox();
-		layout.getChildren().setAll(zoomPane);
-		VBox.setVgrow(zoomPane, Priority.ALWAYS);
-		return layout;
-	}
+	
 }

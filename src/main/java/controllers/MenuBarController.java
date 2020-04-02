@@ -38,28 +38,28 @@ public class MenuBarController {
 	@FXML
 	private MenuItem addCircleMenuItem;
 
-	/* Undo/redo
-	@FXML
-	private MenuItem undoBtn;
-	
-	@FXML
-	private MenuItem redoBtn;
-
-	public void addKeyShortcuts() {
-		// mainApp.primaryStage.getScene().setOnKeyPressed(e->{
-		// if (e.isControlDown()&&e.getCode()==KeyCode.Z) {
-		// shapeSceneCont=mainApp.getShapeSceneController();
-		// shapeSceneCont.undo();
-		// }
-		// else if (e.isControlDown()&&e.isShiftDown()&&e.getCode()==KeyCode.Y) {
-		// shapeSceneCont=mainApp.getShapeSceneController();
-		// shapeSceneCont.redo();
-		// }
-		// });
-		undoBtn.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
-		redoBtn.setAccelerator(
-				new KeyCodeCombination(KeyCode.Y, KeyCodeCombination.SHIFT_DOWN, KeyCodeCombination.CONTROL_DOWN));
-	}
+//	 Undo/redo
+//	@FXML
+//	private MenuItem undoBtn;
+//	
+//	@FXML
+//	private MenuItem redoBtn;
+//
+//	public void addKeyShortcuts() {
+//		// mainApp.primaryStage.getScene().setOnKeyPressed(e->{
+//		// if (e.isControlDown()&&e.getCode()==KeyCode.Z) {
+//		// shapeSceneCont=mainApp.getShapeSceneController();
+//		// shapeSceneCont.undo();
+//		// }
+//		// else if (e.isControlDown()&&e.isShiftDown()&&e.getCode()==KeyCode.Y) {
+//		// shapeSceneCont=mainApp.getShapeSceneController();
+//		// shapeSceneCont.redo();
+//		// }
+//		// });
+//		undoBtn.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
+//		redoBtn.setAccelerator(
+//				new KeyCodeCombination(KeyCode.Y, KeyCodeCombination.SHIFT_DOWN, KeyCodeCombination.CONTROL_DOWN));
+//	}
 
 	@FXML
 	private void undo(ActionEvent e) {
@@ -72,7 +72,7 @@ public class MenuBarController {
 		shapeSceneCont = mainApp.getShapeSceneController();
 		// shapeSceneCont.redo();
 	}
-	*/
+
 
 	@FXML
 	private void createNew() throws IOException {
@@ -215,3 +215,4 @@ public class MenuBarController {
 	}
 
 }
+

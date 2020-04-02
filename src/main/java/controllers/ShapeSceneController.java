@@ -1,5 +1,6 @@
 package controllers;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -36,12 +37,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.BlendMode;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -49,6 +44,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 import models.Location;
 import models.VennSet;
@@ -170,6 +167,18 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private VBox scrollBox;
+	
+	@FXML
+	private MenuItem createNewVenn;
+
+	@FXML
+	private MenuItem openMenuItem;
+
+	@FXML
+	private MenuItem addCircleMenuItem;
+	
+	@FXML
+	private MenuItem aboutItem;
 
 	// -----------------------Extra Circle #1's Properties May or may not be needed
 	private Slider extra1Slider;
@@ -1031,6 +1040,7 @@ public class ShapeSceneController implements Initializable {
 			Circle extraCircle = new Circle(225);
 
 			this.vennShape.add(extraCircle);
+			extraCircle.setOpacity(0.6);
 
 			extraCircle.setBlendMode(BlendMode.MULTIPLY);
 			extraCircle.setFill(Color.valueOf("#9ACD32"));
@@ -1146,6 +1156,127 @@ public class ShapeSceneController implements Initializable {
 
 		}
 	}
+	
+	@FXML
+	private void undo(ActionEvent e) {
+		// shapeSceneCont.undo();
+	}
+
+	@FXML
+	private void redo(ActionEvent e) {
+		// shapeSceneCont.redo();
+	}
+
+
+	@FXML
+	private void createNew() throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("Create New Venn Diagram");
+		alert.setContentText(
+				"Any Unsaved Changes Will be lost. Are you Sure you would like to create a new Venn Diagram? ");
+
+		ButtonType ok = new ButtonType("Ok");
+		ButtonType cancel = new ButtonType("Cancel");
+
+		alert.getButtonTypes().setAll(ok, cancel);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ok) {
+			mainApp.switchScene("shapeScene", null);
+		} else {
+			return;
+		}
+	}
+
+	@FXML
+	private void openExisting() throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("Open Existing Venn Diagram");
+		alert.setContentText(
+				"Any Unsaved Changes Will be lost. Are you sure you would like to open an Existing Venn Diagram?");
+
+		ButtonType ok = new ButtonType("Ok");
+		ButtonType cancel = new ButtonType("Cancel");
+
+		alert.getButtonTypes().setAll(ok, cancel);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ok) {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Open Resource File");
+
+			File currentDir = new File(
+					System.getProperty("user.home") + File.separator + "VennCreateFiles" + File.separator);
+
+			if (!currentDir.exists()) {
+				currentDir = new File(System.getProperty("user.home"));
+			}
+
+			fileChooser.setInitialDirectory(currentDir);
+			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("CSV Files", "*.csv"));
+			File selectedFile = fileChooser.showOpenDialog(null);
+
+			if (selectedFile == null) {
+				Alert alert1 = new Alert(AlertType.WARNING);
+				alert1.setTitle("Warning Dialog");
+				alert1.setHeaderText("CSV Not Chosen");
+				alert1.setContentText("Please Chose Correct CSV and try again");
+				alert1.showAndWait();
+			} else {
+				mainApp.switchScene("load", selectedFile);
+			}
+		} else {
+			return;
+		}
+	}
+
+	// Method to close not using menuBar
+	public static void closeProgram(WindowEvent e) {
+		MainApp.primaryStage.close();
+	}
+
+	public void openUserManual() {
+		String currentDir = System.getProperty("user.dir");
+		try {
+			File userManual = new File(currentDir + "\\src\\main\\java\\resources\\Venn-UM.pdf");
+			if (userManual.exists()) {
+				if (Desktop.isDesktopSupported()) {
+					try {
+						Desktop.getDesktop().open(userManual);
+					} catch (IOException e) {
+						Alert alert = new Alert(AlertType.WARNING);
+						alert.setTitle("Warning Dialog");
+						alert.setHeaderText("An Error Occurred");
+						alert.setContentText("User Manual could not be opened.");
+						alert.showAndWait();
+
+					}
+				} else {
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle("Warning Dialog");
+					alert.setHeaderText("An Error Occurred");
+					alert.setContentText("Desktop is Not Supported!");
+					alert.showAndWait();
+				}
+			} else {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Warning Dialog");
+				alert.setHeaderText("An Error Occurred");
+				alert.setContentText("User Manual Does not Exist!");
+				alert.showAndWait();
+			}
+		} catch (Exception e) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning Dialog");
+			alert.setHeaderText("An Error Occurred");
+			alert.setContentText("User Manual could not be opened.");
+			alert.showAndWait();
+
+		}
+	}
+
 
 }
 
