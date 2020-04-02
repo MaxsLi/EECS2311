@@ -44,7 +44,6 @@
                <MenuItem fx:id="undoBtn" mnemonicParsing="false" onAction="#undo" text="Undo" />
                <MenuItem fx:id="redoBtn" mnemonicParsing="false" onAction="#redo" text="Redo" />
                <SeparatorMenuItem mnemonicParsing="false" />
-               <MenuItem mnemonicParsing="false" text="Select All" />
                <MenuItem mnemonicParsing="false" text="Delete Selected Item(s)" />
             </items>
          </Menu>
@@ -247,7 +246,7 @@
    <TextField fx:id="leftTitle" layoutX="308.0" layoutY="67.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #1's Name" style="-fx-font-size: 20; -fx-background-color: transparent;" />
    <TextField fx:id="rightTitle" layoutX="704.0" layoutY="67.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #2's Name" style="-fx-font-size: 20; -fx-background-color: transparent;" />
    <TextField fx:id="appTitle" layoutX="427.0" layoutY="27.0" prefHeight="46.0" prefWidth="396.0" promptText="Enter Title of Venn Diagram" style="-fx-font-size: 25; -fx-background-color: transparent;" />
-   <TextField fx:id="sideAdded" editable="false" layoutX="1004.0" layoutY="857.0" style="-fx-font-size: 20; -fx-background-color: transparent;" />
+   <TextField fx:id="sideAdded" editable="false" layoutX="992.0" layoutY="836.0" style="-fx-font-size: 20; -fx-background-color: transparent;" />
    <ToggleButton fx:id="toggle" layoutX="14.0" layoutY="41.0" mnemonicParsing="false" onAction="#toggleDrawer" style="-fx-font-size: 18;" text="SHOW" />
-   <Label fx:id="sideLabel" layoutX="1048.0" layoutY="845.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added" />
+   <Label fx:id="sideLabel" layoutX="1048.0" layoutY="797.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added" />
 </AnchorPane>

@@ -946,7 +946,7 @@ public class ShapeSceneController implements Initializable {
 		FadeTransition ft = new FadeTransition(Duration.millis(1000), this.navBox);
 		if (!toggle.isSelected()) {// NAV SHOULD BE VISIBLE
 			// System.out.println("I was selected!");
-			this.toggle.setStyle("-fx-background-color:#FF69B4"); // pinkish
+			this.toggle.setStyle("-fx-background-color:#FF69B4; -fx-font-size:18px;"); // pinkish
 			this.toggle.setText("SHOW");
 			ft.setFromValue(1.0);
 			ft.setToValue(0.0);
@@ -988,7 +988,7 @@ public class ShapeSceneController implements Initializable {
 			// System.out.println("I was not selected!");
 			this.navBox.setVisible(true);
 
-			this.toggle.setStyle("-fx-background-color:#E0FFFF"); // blueish
+			this.toggle.setStyle("-fx-background-color:#E0FFFF;-fx-font-size:18px;"); // blueish
 			this.toggle.setText("HIDE");
 			ft.setFromValue(0);
 			ft.setToValue(1);
@@ -1082,7 +1082,7 @@ public class ShapeSceneController implements Initializable {
 
 			this.extra1Slider = new Slider();
 			this.extra1Slider.setMin(225);
-			this.extra1Slider.setMax(275);
+			this.extra1Slider.setMax(250);
 			this.extra1Slider.setMinHeight(Control.USE_COMPUTED_SIZE);
 			this.extra1Slider.setMinWidth(Control.USE_COMPUTED_SIZE);
 			this.extra1Slider.prefWidth(178);
