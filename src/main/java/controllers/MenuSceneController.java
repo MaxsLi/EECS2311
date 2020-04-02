@@ -22,10 +22,10 @@ import java.util.ResourceBundle;
 public class MenuSceneController implements Initializable {
 
 	@FXML
-	private Button createNewBtn;
+	private Button createNewBttn;
 
 	@FXML
-	private Button getExistingBtn;
+	private Button getExistingBttn;
 
 	// Reference to the Main Application
 	private MainApp mainApp;
@@ -91,6 +91,27 @@ public class MenuSceneController implements Initializable {
 			 mainApp.switchScene("load", selectedFile);
 		 }
 		 
+	}
+	
+	@FXML
+	private void createGlow() {
+		createNewBttn.setStyle("-fx-border-color:#00ffc3; -fx-border-width:5px;");
+	}
+	
+	@FXML
+	private void createNoGlow() {
+		createNewBttn.setStyle("-fx-border-color:black;");
+	}
+	
+	
+	@FXML
+	private void existingGlow() {
+		getExistingBttn.setStyle("-fx-border-color:#3d4490; -fx-border-width:5px;");
+	}
+	
+	@FXML
+	private void existingNoGlow() {
+		getExistingBttn.setStyle("-fx-border-color:black;");
 	}
 
 	/**
