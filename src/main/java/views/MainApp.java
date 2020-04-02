@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
@@ -48,6 +49,7 @@ public class MainApp extends Application {
 
 		Scene scene = new Scene(this.rootLayout);
 		
+	
 		MainApp.primaryStage.setScene(scene);
 		MainApp.primaryStage.sizeToScene();
 		MainApp.primaryStage.setTitle(APP_TITLE);
@@ -60,8 +62,7 @@ public class MainApp extends Application {
 
 		// Maximizes the stage immediately on Launch
 		MainApp.primaryStage.setMaximized(true);
-		
-		
+
 		// Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
 			if (shapeSceneCont != null) {
@@ -101,6 +102,7 @@ public class MainApp extends Application {
 		this.rootLayout.setTop(this.menuBar);
 		menuBarCont = loader1.getController();
 		menuBarCont.setMainApp(this);
+		//menuBarCont.addKeyShortcuts();
 	}
 
 	/**
@@ -160,6 +162,10 @@ public class MainApp extends Application {
 
 	public MenuSceneController getMenuSceneCont() {
 		return this.menuSceneCont;
+	}
+
+	public MenuBarController getMenuBarCont() {
+		return menuBarCont;
 	}
 
 	/**
