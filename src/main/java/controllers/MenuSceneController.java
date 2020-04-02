@@ -1,13 +1,17 @@
 package controllers;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.util.Duration;
 import views.MainApp;
 
 import java.io.File;
@@ -25,6 +29,12 @@ public class MenuSceneController implements Initializable {
 
 	// Reference to the Main Application
 	private MainApp mainApp;
+	
+	@FXML
+	private Circle leftCircle;
+	
+	@FXML
+	private Circle rightCircle;
 
 	/**
 	 * The constructor. The constructor is called before the initialize() method.
@@ -89,6 +99,36 @@ public class MenuSceneController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		TranslateTransition translateLeft = new TranslateTransition();
+		TranslateTransition translateRight = new TranslateTransition();
+		
+		
+		FadeTransition ftLeft = new FadeTransition(Duration.millis(3000), this.leftCircle);
+		ftLeft.setFromValue(0);
+		ftLeft.setToValue(0.6);
+		ftLeft.setAutoReverse(true);
+		
+		FadeTransition ftRight = new FadeTransition(Duration.millis(3000), this.rightCircle);
+		ftRight.setFromValue(0);
+		ftRight.setToValue(0.6);
+		ftRight.setAutoReverse(true);
+	
+		translateLeft.setByX(197);
+		translateRight.setByX(-198);
+	
+		translateLeft.setDuration(Duration.millis(2500));
+		translateRight.setDuration(Duration.millis(2500));
+	
+		translateLeft.setAutoReverse(true);
+		translateRight.setAutoReverse(true);
+		
+		translateLeft.setNode(this.leftCircle);
+		translateRight.setNode(this.rightCircle);
+		
+		translateLeft.play();
+		translateRight.play();
+		ftLeft.play();
+		ftRight.play();
 
 	}
 
