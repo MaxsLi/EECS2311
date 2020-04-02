@@ -24,7 +24,7 @@
                </stops>
             </LinearGradient>
          </fill></Circle>
-      <Button fx:id="getExistingBttn" layoutX="703.0" layoutY="419.0" mnemonicParsing="false" onAction="#getExisting" onMouseEntered="#existingGlow" onMouseExited="#existingNoGlow" prefHeight="79.0" prefWidth="205.0" text="Get Existing">
+      <Button fx:id="getExistingBttn" blendMode="DIFFERENCE" layoutX="703.0" layoutY="419.0" mnemonicParsing="false" onAction="#getExisting" onMouseEntered="#existingGlow" onMouseExited="#existingNoGlow" prefHeight="79.0" prefWidth="205.0" style="-fx-background-radius: 50;" text="Get Existing">
          <font>
             <Font name="Rockwell" size="28.0" />
          </font>
@@ -38,7 +38,7 @@
                </stops>
             </LinearGradient>
          </fill></Circle>
-      <Button fx:id="createNewBttn" layoutX="343.0" layoutY="419.0" mnemonicParsing="false" onAction="#createNew" onMouseEntered="#createGlow" onMouseExited="#createNoGlow" prefHeight="79.0" prefWidth="205.0" text="Create New">
+      <Button fx:id="createNewBttn" blendMode="DIFFERENCE" layoutX="343.0" layoutY="419.0" mnemonicParsing="false" onAction="#createNew" onMouseEntered="#createGlow" onMouseExited="#createNoGlow" prefHeight="79.0" prefWidth="205.0" style="-fx-background-radius: 50px;" text="Create New">
          <font>
             <Font size="28.0" />
          </font>

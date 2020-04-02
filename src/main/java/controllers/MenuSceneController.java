@@ -95,23 +95,23 @@ public class MenuSceneController implements Initializable {
 	
 	@FXML
 	private void createGlow() {
-		createNewBttn.setStyle("-fx-border-color:#00ffc3; -fx-border-width:5px;");
+		createNewBttn.setStyle("-fx-background-color:#c98b8b; -fx-border-width:5px;-fx-background-radius:50px;");
 	}
 	
 	@FXML
 	private void createNoGlow() {
-		createNewBttn.setStyle("-fx-border-color:black;");
+		createNewBttn.setStyle("-fx-border-color:black;-fx-background-radius:50px;");
 	}
 	
 	
 	@FXML
 	private void existingGlow() {
-		getExistingBttn.setStyle("-fx-border-color:#3d4490; -fx-border-width:5px;");
+		getExistingBttn.setStyle("-fx-background-color:#00ffc3; -fx-border-width:5px;-fx-background-radius:50px;");
 	}
 	
 	@FXML
 	private void existingNoGlow() {
-		getExistingBttn.setStyle("-fx-border-color:black;");
+		getExistingBttn.setStyle("-fx-border-color:black;-fx-background-radius:50px;");
 	}
 
 	/**
