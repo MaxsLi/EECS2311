@@ -126,12 +126,12 @@ public class MenuSceneController implements Initializable {
 		
 		FadeTransition ftLeft = new FadeTransition(Duration.millis(3000), this.leftCircle);
 		ftLeft.setFromValue(0);
-		ftLeft.setToValue(0.6);
+		ftLeft.setToValue(1);
 		ftLeft.setAutoReverse(true);
 		
 		FadeTransition ftRight = new FadeTransition(Duration.millis(3000), this.rightCircle);
 		ftRight.setFromValue(0);
-		ftRight.setToValue(0.6);
+		ftRight.setToValue(1);
 		ftRight.setAutoReverse(true);
 	
 		translateLeft.setByX(197);
