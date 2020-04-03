@@ -247,14 +247,15 @@ public class ShapeSceneController implements Initializable {
 	private double orgSceneY;
 	private double orgTranslateX;
 	private double orgTranslateY;
-	
+
 	/**
-	 * An array containing possible locations for a new textfield to be placed on the scene when entered
+	 * An array containing possible locations for a new textfield to be placed on
+	 * the scene when entered
 	 */
-	private Point2D[] textFieldPointLocations = {new Point2D(-375, -375), new Point2D(-375, -325), new Point2D(-375, -275), 
-			new Point2D(-375, -225), new Point2D(-375, -175), new Point2D(-375, -125), new Point2D(-375, -75), new Point2D(-375, -25)};
+	private Point2D[] textFieldPointLocations = { new Point2D(-375, -375), new Point2D(-375, -325),
+			new Point2D(-375, -275), new Point2D(-375, -225), new Point2D(-375, -175), new Point2D(-375, -125),
+			new Point2D(-375, -75), new Point2D(-375, -25) };
 	public int textFieldPointLocationsIndex = 0;
-	
 
 	static Color LEFTCIRCLECOLOR = Color.valueOf("#ff8a8a");
 	static Color RIGHTCIRCLECOLOR = Color.valueOf("#a7ff8f");
@@ -303,9 +304,9 @@ public class ShapeSceneController implements Initializable {
 			newTextField.setEditable(false);
 			newTextField.setTranslateX(textFieldPointLocations[textFieldPointLocationsIndex].getX());
 			newTextField.setTranslateY(textFieldPointLocations[textFieldPointLocationsIndex].getY());
-			
+
 			adjustNewTextLocation();
-			
+
 			newTextField.setStyle("-fx-background-color:transparent; -fx-font-size:18px; ");
 
 			newTextField.setMinWidth(Control.USE_PREF_SIZE);
@@ -314,8 +315,8 @@ public class ShapeSceneController implements Initializable {
 
 			this.addDragEvent(newTextField);
 			this.addContext(newTextField);
-			
-			if(!this.itemList.getItems().contains(newText)) {
+
+			if (!this.itemList.getItems().contains(newText)) {
 				this.itemList.getItems().add(newText);
 			}
 
@@ -326,11 +327,11 @@ public class ShapeSceneController implements Initializable {
 			this.diagramText.clear();
 		}
 	}
-	
+
 	private void adjustNewTextLocation() {
 		this.textFieldPointLocationsIndex = (this.textFieldPointLocationsIndex + 1) % textFieldPointLocations.length;
 	}
-	
+
 	private void resetTextFieldPointLocationsIndex() {
 		this.textFieldPointLocationsIndex = 0;
 	}
@@ -391,7 +392,7 @@ public class ShapeSceneController implements Initializable {
 
 			textField.setTranslateX(newTranslateX);
 			textField.setTranslateY(newTranslateY);
-			
+
 			resetTextFieldPointLocationsIndex();
 
 		});
@@ -1132,9 +1133,9 @@ public class ShapeSceneController implements Initializable {
 
 		if (ShapeSceneController.EXTRA_CIRCLE_ADDED) {
 			ContextMenu extraContext = new ContextMenu();
-			MenuItem extraHoverToggle = new MenuItem("Toggle Left Circle Hover");
+			MenuItem extraHoverToggle = new MenuItem("Toggle Bottom Circle Hover");
 			MenuItem extraDelete = new MenuItem("Delete All");
-			
+
 			extraContext.getItems().addAll(extraHoverToggle, extraDelete);
 
 			extraHoverToggle.setOnAction(new EventHandler<ActionEvent>() {
@@ -1165,8 +1166,7 @@ public class ShapeSceneController implements Initializable {
 					extraContext.show(extraCircle, event.getScreenX(), event.getScreenY());
 				}
 			});
-			
-			
+
 		}
 
 	}
@@ -1467,12 +1467,14 @@ public class ShapeSceneController implements Initializable {
 			extraCircle.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent e) {
-					extraCircle.setStyle("-fx-stroke:#"
-							+ exrtra1ColorHover.getValue().toString().substring(2,
-									exrtra1ColorHover.getValue().toString().length() - 2)
-							+ ";" + " -fx-stroke-width: 5;");
+					if (ShapeSceneController.EXTRA_CIRCLE_HOVER) {
+						extraCircle.setStyle("-fx-stroke:#"
+								+ exrtra1ColorHover.getValue().toString().substring(2,
+										exrtra1ColorHover.getValue().toString().length() - 2)
+								+ ";" + " -fx-stroke-width: 5;");
 
-					mainScene.setCursor(Cursor.HAND);
+						mainScene.setCursor(Cursor.HAND);
+					}
 				}
 			});
 
