@@ -40,7 +40,7 @@
          </fill></Circle>
       <Button fx:id="createNewBttn" blendMode="DIFFERENCE" layoutX="343.0" layoutY="419.0" mnemonicParsing="false" onAction="#createNew" onMouseEntered="#createGlow" onMouseExited="#createNoGlow" prefHeight="79.0" prefWidth="205.0" style="-fx-background-radius: 50px;" text="Create New">
          <font>
-            <Font size="28.0" />
+            <Font name="Rockwell" size="28.0" />
          </font>
       </Button>
    </children>
