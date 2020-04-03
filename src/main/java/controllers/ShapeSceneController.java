@@ -287,10 +287,14 @@ public class ShapeSceneController implements Initializable {
 
 			newTextField.setEditable(false);
 			newTextField.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
+			newTextField.setStyle("-fx-background-color:transparent; -fx-font-size:18px; ");
+			
+			
+			newTextField.setMinWidth(Control.USE_PREF_SIZE);
+			newTextField.setPrefWidth(Control.USE_COMPUTED_SIZE);
+			newTextField.setMaxWidth(Control.USE_PREF_SIZE);
 
-			this.addAutoResize(newTextField);
 
-			newTextField.setStyle("-fx-background-color:transparent; -fx-border-color:red; ");
 
 			this.addDragEvent(newTextField);
 			this.addContext(newTextField);
@@ -473,12 +477,12 @@ public class ShapeSceneController implements Initializable {
 	 *
 	 * @param textField the TextField to be added
 	 */
-	private void addAutoResize(TextField textField) {
-		textField.textProperty().addListener((ob, o, n) -> {
-			// expand the textfield
-			textField.setMaxWidth(TextUtils.computeTextWidth(textField.getFont(), textField.getText(), 0.0D) + 20);
-		});
-	}
+//	private void addAutoResize(TextField textField) {
+//		textField.textProperty().addListener((ob, o, n) -> {
+//			// expand the textfield
+//			textField.setMaxWidth(TextUtils.computeTextWidth(textField.getFont(), textField.getText(), 0.0D) + 20);
+//		});
+//	}
 
 	/**
 	 * A Method that loads all comma delimited rows from save.csv and puts them on
@@ -602,7 +606,9 @@ public class ShapeSceneController implements Initializable {
 
 				lineCounter++;
 				tf = new TextField();
-				this.addAutoResize(tf);
+				tf.setMinWidth(Control.USE_PREF_SIZE);
+				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
+				tf.setMaxWidth(Control.USE_PREF_SIZE);
 				this.addContext(tf);
 				tf.setText(parts[0]); // parts[0] is the text column of the line
 				tf.setEditable(false);
@@ -617,7 +623,7 @@ public class ShapeSceneController implements Initializable {
 					tf.setTranslateY(textFieldY);
 					stackPane.getChildren().add(tf);
 					this.vennSet.add(tf);
-					tf.setStyle("-fx-background-color:transparent; -fx-border-color:red; ");
+					tf.setStyle("-fx-background-color:transparent; -fx-font-size:18px; ");
 
 					// System.out.println(parts[3]);
 
@@ -976,7 +982,9 @@ public class ShapeSceneController implements Initializable {
 						int newFont = ((int)Math.round((double)newValue));
 						String font = "" + newFont;
 						tf.setStyle("-fx-font-size:" + font + "px;-fx-background-color:transparent;");
-						tf.setMinWidth((TextUtils.computeTextWidth(tf.getFont(), tf.getText(), 0.0D) + 40));
+						tf.setMinWidth(Control.USE_PREF_SIZE);
+						tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
+						tf.setMaxWidth(Control.USE_PREF_SIZE);
 					}
 				}
 			}
@@ -994,7 +1002,9 @@ public class ShapeSceneController implements Initializable {
 						int newFont = ((int)Math.round((double)newValue));
 						String font = "" + newFont;
 						tf.setStyle("-fx-font-size:" + font + "px;-fx-background-color:transparent;");
-						tf.setMinWidth((TextUtils.computeTextWidth(tf.getFont(), tf.getText(), 0.0D) + 40));
+						tf.setMinWidth(Control.USE_PREF_SIZE);
+						tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
+						tf.setMaxWidth(Control.USE_PREF_SIZE);
 					}
 				}
 			}
@@ -1010,7 +1020,9 @@ public class ShapeSceneController implements Initializable {
 				int newFont = ((int)Math.round((double)this.rightFontSlider.getValue()));
 				String newColor = this.rightTextColor.getValue().toString().substring(2, rightTextColor.getValue().toString().length() - 2);
 				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #" + newColor + ";");
-				tf.setMinWidth((TextUtils.computeTextWidth(tf.getFont(), tf.getText(), 0.0D) + 40));
+				tf.setMinWidth(Control.USE_PREF_SIZE);
+				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
+				tf.setMaxWidth(Control.USE_PREF_SIZE);
 			}
 		}
 	}
@@ -1022,7 +1034,9 @@ public class ShapeSceneController implements Initializable {
 				int newFont = ((int)Math.round((double)this.leftFontSlider.getValue()));
 				String newColor = this.leftTextColor.getValue().toString().substring(2, leftTextColor.getValue().toString().length() - 2);
 				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #" + newColor + ";");
-				tf.setMinWidth((TextUtils.computeTextWidth(tf.getFont(), tf.getText(), 0.0D) + 40));
+				tf.setMinWidth(Control.USE_PREF_SIZE);
+				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
+				tf.setMaxWidth(Control.USE_PREF_SIZE);
 			}
 		}
 	}
@@ -1308,12 +1322,6 @@ public class ShapeSceneController implements Initializable {
 
 		}
 		
-//		private Label textProperties = new Label("Text Properties");
-//		private Label fontSize = new Label("Font Size");
-//		private HBox sliderBox;
-//		private Label extraTextColor = new Label("Text Color");
-// 		private Slider extraFontSlider;
-		
 
 		this.textProperties.setStyle("-fx-font-size:15px;");
 		this.scrollBox.getChildren().add(this.textProperties);
@@ -1331,12 +1339,34 @@ public class ShapeSceneController implements Initializable {
 		this.extraFontSlider = new Slider();
 		this.extraFontSlider.setMin(11);
 		this.extraFontSlider.setMax(25);
+		this.extraFontSlider.setShowTickLabels(true);
+		this.extraFontSlider.setSnapToTicks(true);
 		this.extraFontSlider.setMinHeight(Control.USE_COMPUTED_SIZE);
 		this.extraFontSlider.setMinWidth(Control.USE_COMPUTED_SIZE);
 		this.extraFontSlider.prefWidth(178);
 		this.extraFontSlider.prefHeight(24);
 		this.extraFontSlider.setMaxHeight(Control.USE_PREF_SIZE);
 		this.extraFontSlider.setMaxWidth(Control.USE_PREF_SIZE);
+		
+		extraFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, //
+					Number oldValue, Number newValue) {
+
+				//rightFontTextField.setText(((double) newValue) + "");
+				for(TextField tf: tfLocations.keySet()) {
+					if(tfLocations.get(tf).equals(Location.BOTTOM)) {
+						int newFont = ((int)Math.round((double)newValue));
+						String font = "" + newFont;
+						tf.setStyle("-fx-font-size:" + font + "px;-fx-background-color:transparent;");
+						tf.setMinWidth(Control.USE_PREF_SIZE);
+						tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
+						tf.setMaxWidth(Control.USE_PREF_SIZE);
+					}
+				}
+			}
+		});
 		
 		this.sliderBox.getChildren().add(this.extraFontSlider);
 		HBox.setMargin(this.extraFontSlider, new Insets(5, 0, 0, 50));
@@ -1350,6 +1380,25 @@ public class ShapeSceneController implements Initializable {
 		this.extraTextColorPicker.setMinWidth(137);
 		this.extraTextColorPicker.setMaxHeight(28);
 		this.extraTextColorPicker.setMaxWidth(137);
+		
+		
+		extraTextColorPicker.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				for(TextField tf: tfLocations.keySet()) {
+					if(tfLocations.get(tf).equals(Location.BOTTOM)) {
+						int newFont = ((int)Math.round((double)extraFontSlider.getValue()));
+						String newColor = extraTextColorPicker.getValue().toString().substring(2, leftTextColor.getValue().toString().length() - 2);
+						tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #" + newColor + ";");
+						tf.setMinWidth(Control.USE_PREF_SIZE);
+						tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
+						tf.setMaxWidth(Control.USE_PREF_SIZE);
+					}
+				}
+			}
+		});
+		
+		
 		
 		this.scrollBox.getChildren().add(this.extraTextColorPicker);
 		VBox.setMargin(this.extraTextColorPicker, new Insets(10, 0, 0, 50));
