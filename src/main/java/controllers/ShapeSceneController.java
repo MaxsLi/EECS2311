@@ -35,8 +35,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.BlendMode;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -64,6 +66,10 @@ public class ShapeSceneController implements Initializable {
 	public static boolean REMIND_OUTOF_BOUNDS = true;
 
 	public static boolean REMIND_EMPTY_TEXTFIELD = true;
+
+	private static boolean LEFT_CIRCLE_HOVER = true;
+	private static boolean RIGHT_CIRCLE_HOVER = true;
+	private static boolean EXTRA_CIRCLE_HOVER = true;
 
 	@FXML
 	public Label sideLabel;
@@ -201,6 +207,7 @@ public class ShapeSceneController implements Initializable {
 	private ColorPicker rightTextColor;
 
 	// -----------------------Extra Circle #1's Properties May or may not be needed
+	private Circle extraCircle;
 	private Slider extra1Slider;
 	private ColorPicker extra1Color;
 	private Label extra1Label = new Label("Circle 3");
@@ -215,7 +222,7 @@ public class ShapeSceneController implements Initializable {
 	private Label extraTextColor = new Label("Text Color");
 	private Slider extraFontSlider;
 	private ColorPicker extraTextColorPicker;
-	
+
 	public static boolean EXTRA_CIRCLE_ADDED = false;
 	// --------------------------------------
 
@@ -240,6 +247,15 @@ public class ShapeSceneController implements Initializable {
 	private double orgSceneY;
 	private double orgTranslateX;
 	private double orgTranslateY;
+
+	/**
+	 * An array containing possible locations for a new textfield to be placed on
+	 * the scene when entered
+	 */
+	private Point2D[] textFieldPointLocations = { new Point2D(-375, -375), new Point2D(-375, -325),
+			new Point2D(-375, -275), new Point2D(-375, -225), new Point2D(-375, -175), new Point2D(-375, -125),
+			new Point2D(-375, -75), new Point2D(-375, -25) };
+	public int textFieldPointLocationsIndex = 0;
 
 	static Color LEFTCIRCLECOLOR = Color.valueOf("#ff8a8a");
 	static Color RIGHTCIRCLECOLOR = Color.valueOf("#a7ff8f");
@@ -286,20 +302,23 @@ public class ShapeSceneController implements Initializable {
 			TextField newTextField = new TextField();
 
 			newTextField.setEditable(false);
-			newTextField.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(), 1, 1);
+			newTextField.setTranslateX(textFieldPointLocations[textFieldPointLocationsIndex].getX());
+			newTextField.setTranslateY(textFieldPointLocations[textFieldPointLocationsIndex].getY());
+
+			adjustNewTextLocation();
+
 			newTextField.setStyle("-fx-background-color:transparent; -fx-font-size:18px; ");
-			
-			
+
 			newTextField.setMinWidth(Control.USE_PREF_SIZE);
 			newTextField.setPrefWidth(Control.USE_COMPUTED_SIZE);
 			newTextField.setMaxWidth(Control.USE_PREF_SIZE);
 
-
-
 			this.addDragEvent(newTextField);
 			this.addContext(newTextField);
 
-			this.itemList.getItems().add(newText);
+			if (!this.itemList.getItems().contains(newText)) {
+				this.itemList.getItems().add(newText);
+			}
 
 			newTextField.setText(newText);
 			this.stackPane.getChildren().add(newTextField);
@@ -307,6 +326,14 @@ public class ShapeSceneController implements Initializable {
 			this.sideAdded.clear();
 			this.diagramText.clear();
 		}
+	}
+
+	private void adjustNewTextLocation() {
+		this.textFieldPointLocationsIndex = (this.textFieldPointLocationsIndex + 1) % textFieldPointLocations.length;
+	}
+
+	private void resetTextFieldPointLocationsIndex() {
+		this.textFieldPointLocationsIndex = 0;
 	}
 
 	@FXML
@@ -352,6 +379,7 @@ public class ShapeSceneController implements Initializable {
 			textField.toFront();
 
 		});
+		
 
 		/*
 		 * On Mouse Drag Moves the TextField Around the Screen
@@ -365,6 +393,8 @@ public class ShapeSceneController implements Initializable {
 
 			textField.setTranslateX(newTranslateX);
 			textField.setTranslateY(newTranslateY);
+
+			resetTextFieldPointLocationsIndex();
 
 		});
 
@@ -461,13 +491,51 @@ public class ShapeSceneController implements Initializable {
 		ContextMenu context = new ContextMenu();
 		MenuItem delete = new MenuItem("Delete");
 		MenuItem edit = new MenuItem("Edit");
+		MenuItem addDescription = new MenuItem("Add Longer Description");
 		context.getItems().add(delete);
 		context.getItems().add(edit);
+		context.getItems().add(addDescription);
 		textField.setContextMenu(context);
 
-		delete.setOnAction((event) -> stackPane.getChildren().remove(textField));
+		delete.setOnAction((event) -> deleteSpecficText(textField));
 
 		edit.setOnAction((event) -> textField.setEditable(true));
+		
+		addDescription.setOnAction((event) -> addLongerDescription(textField));
+		
+		
+
+	}
+	
+	private void addLongerDescription(TextField tf) {
+		TextInputDialog dialog = new TextInputDialog("Longer Description here...");
+		dialog.setTitle("Add Description");
+		dialog.setHeaderText("Add A longer Description to Textfield");
+		dialog.setContentText("Description: ");
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+		    Tooltip tt = new Tooltip(result.get());
+		    Tooltip.install(tf, tt);
+		}
+		else {
+			return;
+		}
+	}
+
+	private void deleteSpecficText(TextField tf) {
+		String contents = tf.getText();
+		stackPane.getChildren().remove(tf);
+		for (int i = 0; i < this.vennSet.size(); i++) {
+			if (this.vennSet.get(i) == tf) {
+				this.vennSet.remove(i);
+			}
+		}
+
+		if (!itemList.getItems().contains(contents)) {
+			itemList.getItems().add(contents);
+		}
 
 	}
 
@@ -880,11 +948,11 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	public void startHoverLeft() {
-		leftCircle.setStyle("-fx-stroke:#"
-				+ leftHoverColor.getValue().toString().substring(2, leftHoverColor.getValue().toString().length() - 2)
-				+ ";" + " -fx-stroke-width: 5;");
-		this.mainScene.setCursor(Cursor.HAND);
-
+		if (ShapeSceneController.LEFT_CIRCLE_HOVER) {
+			leftCircle.setStyle("-fx-stroke:#" + leftHoverColor.getValue().toString().substring(2,
+					leftHoverColor.getValue().toString().length() - 2) + ";" + " -fx-stroke-width: 5;");
+			this.mainScene.setCursor(Cursor.HAND);
+		}
 	}
 
 	public void endHoverLeft() {
@@ -893,10 +961,14 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	public void startHoverRight() {
-		rightCircle.setStyle("-fx-stroke:#"
-				+ rightHoverColor.getValue().toString().substring(2, rightHoverColor.getValue().toString().length() - 2)
-				+ ";" + " -fx-stroke-width: 5;");
-		this.mainScene.setCursor(Cursor.HAND);
+		if (ShapeSceneController.RIGHT_CIRCLE_HOVER) {
+			rightCircle
+					.setStyle("-fx-stroke:#"
+							+ rightHoverColor.getValue().toString().substring(2,
+									rightHoverColor.getValue().toString().length() - 2)
+							+ ";" + " -fx-stroke-width: 5;");
+			this.mainScene.setCursor(Cursor.HAND);
+		}
 	}
 
 	public void endHoverRight() {
@@ -938,9 +1010,11 @@ public class ShapeSceneController implements Initializable {
 		this.toggle.setStyle("-fx-background-color:#FF69B4");
 
 		initSliders();
-		
+
 		this.leftColorPicker.setValue(Color.valueOf(ShapeSceneController.DEFAULT_LEFTCIRCLE_COLOR));
 		this.rightColorPicker.setValue(Color.valueOf(ShapeSceneController.DEFAULT_RIGHTCIRCLE_COLOR));
+
+		initCircleContext();
 
 	}
 
@@ -969,17 +1043,16 @@ public class ShapeSceneController implements Initializable {
 
 		// Adding Listener to value property.
 		leftFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
-		
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, //
 					Number oldValue, Number newValue) {
 
 //				leftFontTextField.setText(((double) newValue) + "");
-				//System.out.println(tfLocations.toString());
-				for(TextField tf: tfLocations.keySet()) {
-					if(tfLocations.get(tf).equals(Location.LEFT)) {
-						int newFont = ((int)Math.round((double)newValue));
+				// System.out.println(tfLocations.toString());
+				for (TextField tf : tfLocations.keySet()) {
+					if (tfLocations.get(tf).equals(Location.LEFT)) {
+						int newFont = ((int) Math.round((double) newValue));
 						String font = "" + newFont;
 						tf.setStyle("-fx-font-size:" + font + "px;-fx-background-color:transparent;");
 						tf.setMinWidth(Control.USE_PREF_SIZE);
@@ -989,17 +1062,17 @@ public class ShapeSceneController implements Initializable {
 				}
 			}
 		});
-		
+
 		rightFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, //
 					Number oldValue, Number newValue) {
 
-				//rightFontTextField.setText(((double) newValue) + "");
-				for(TextField tf: tfLocations.keySet()) {
-					if(tfLocations.get(tf).equals(Location.RIGHT)) {
-						int newFont = ((int)Math.round((double)newValue));
+				// rightFontTextField.setText(((double) newValue) + "");
+				for (TextField tf : tfLocations.keySet()) {
+					if (tfLocations.get(tf).equals(Location.RIGHT)) {
+						int newFont = ((int) Math.round((double) newValue));
 						String font = "" + newFont;
 						tf.setStyle("-fx-font-size:" + font + "px;-fx-background-color:transparent;");
 						tf.setMinWidth(Control.USE_PREF_SIZE);
@@ -1009,38 +1082,175 @@ public class ShapeSceneController implements Initializable {
 				}
 			}
 		});
-		
 
 	}
-	
+
+	private void initCircleContext() {
+		ContextMenu leftContext = new ContextMenu();
+		ContextMenu rightContext = new ContextMenu();
+
+		MenuItem leftHoverToggle = new MenuItem("Toggle Left Circle Hover");
+		MenuItem leftDelete = new MenuItem("Delete All");
+		MenuItem rightHoverToggle = new MenuItem("Toggle Right Circle Hover");
+		MenuItem rightDelete = new MenuItem("Delete All");
+
+		leftHoverToggle.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				if (ShapeSceneController.LEFT_CIRCLE_HOVER) {
+					ShapeSceneController.LEFT_CIRCLE_HOVER = false;
+				} else {
+					ShapeSceneController.LEFT_CIRCLE_HOVER = true;
+				}
+			}
+		});
+
+		rightHoverToggle.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				if (ShapeSceneController.RIGHT_CIRCLE_HOVER) {
+					ShapeSceneController.RIGHT_CIRCLE_HOVER = false;
+				} else {
+					ShapeSceneController.RIGHT_CIRCLE_HOVER = true;
+				}
+			}
+		});
+
+		leftDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				deleteAllLeft();
+			}
+		});
+
+		rightDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				deleteAllRight();
+			}
+		});
+
+		leftContext.getItems().addAll(leftHoverToggle, leftDelete);
+		rightContext.getItems().addAll(rightHoverToggle, rightDelete);
+
+		leftCircle.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+
+			@Override
+			public void handle(ContextMenuEvent event) {
+
+				leftContext.show(leftCircle, event.getScreenX(), event.getScreenY());
+			}
+		});
+
+		rightCircle.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+
+			@Override
+			public void handle(ContextMenuEvent event) {
+
+				rightContext.show(rightCircle, event.getScreenX(), event.getScreenY());
+			}
+		});
+
+		if (ShapeSceneController.EXTRA_CIRCLE_ADDED) {
+			ContextMenu extraContext = new ContextMenu();
+			MenuItem extraHoverToggle = new MenuItem("Toggle Bottom Circle Hover");
+			MenuItem extraDelete = new MenuItem("Delete All");
+
+			extraContext.getItems().addAll(extraHoverToggle, extraDelete);
+
+			extraHoverToggle.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					if (ShapeSceneController.EXTRA_CIRCLE_HOVER) {
+						ShapeSceneController.EXTRA_CIRCLE_HOVER = false;
+					} else {
+						ShapeSceneController.EXTRA_CIRCLE_HOVER = true;
+					}
+				}
+			});
+
+			extraDelete.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					deleteAllExtra();
+				}
+			});
+
+			extraCircle.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+
+				@Override
+				public void handle(ContextMenuEvent event) {
+
+					extraContext.show(extraCircle, event.getScreenX(), event.getScreenY());
+				}
+			});
+
+		}
+
+	}
+
+	private void deleteAllLeft() {
+		for (TextField tf : tfLocations.keySet()) {
+			if (tfLocations.get(tf) == Location.LEFT) {
+				deleteSpecficText(tf);
+			}
+		}
+	}
+
+	private void deleteAllRight() {
+		for (TextField tf : tfLocations.keySet()) {
+			if (tfLocations.get(tf) == Location.RIGHT) {
+				deleteSpecficText(tf);
+			}
+		}
+	}
+
+	private void deleteAllExtra() {
+		for (TextField tf : tfLocations.keySet()) {
+			if (tfLocations.get(tf) == Location.BOTTOM) {
+				deleteSpecficText(tf);
+			}
+		}
+	}
+
 	@FXML
 	private void changeRightTextColor() {
-		for(TextField tf: tfLocations.keySet()) {
-			if(tfLocations.get(tf).equals(Location.RIGHT)) {
-				int newFont = ((int)Math.round((double)this.rightFontSlider.getValue()));
-				String newColor = this.rightTextColor.getValue().toString().substring(2, rightTextColor.getValue().toString().length() - 2);
-				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #" + newColor + ";");
+		for (TextField tf : tfLocations.keySet()) {
+			if (tfLocations.get(tf).equals(Location.RIGHT)) {
+				int newFont = ((int) Math.round((double) this.rightFontSlider.getValue()));
+				String newColor = this.rightTextColor.getValue().toString().substring(2,
+						rightTextColor.getValue().toString().length() - 2);
+				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
+						+ newColor + ";");
 				tf.setMinWidth(Control.USE_PREF_SIZE);
 				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
 				tf.setMaxWidth(Control.USE_PREF_SIZE);
 			}
 		}
 	}
-	
+
 	@FXML
 	private void changeLeftTextColor() {
-		for(TextField tf: tfLocations.keySet()) {
-			if(tfLocations.get(tf).equals(Location.LEFT)) {
-				int newFont = ((int)Math.round((double)this.leftFontSlider.getValue()));
-				String newColor = this.leftTextColor.getValue().toString().substring(2, leftTextColor.getValue().toString().length() - 2);
-				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #" + newColor + ";");
+		for (TextField tf : tfLocations.keySet()) {
+			if (tfLocations.get(tf).equals(Location.LEFT)) {
+				int newFont = ((int) Math.round((double) this.leftFontSlider.getValue()));
+				String newColor = this.leftTextColor.getValue().toString().substring(2,
+						leftTextColor.getValue().toString().length() - 2);
+				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
+						+ newColor + ";");
 				tf.setMinWidth(Control.USE_PREF_SIZE);
 				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
 				tf.setMaxWidth(Control.USE_PREF_SIZE);
 			}
 		}
 	}
-	
+
 //	@FXML
 //	private void setRightFontSlider() {
 //		try {
@@ -1204,6 +1414,8 @@ public class ShapeSceneController implements Initializable {
 
 			Circle extraCircle = new Circle(225);
 
+			this.extraCircle = extraCircle;
+
 			this.vennShape.add(extraCircle);
 			extraCircle.setOpacity(0.6);
 
@@ -1279,12 +1491,14 @@ public class ShapeSceneController implements Initializable {
 			extraCircle.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent e) {
-					extraCircle.setStyle("-fx-stroke:#"
-							+ exrtra1ColorHover.getValue().toString().substring(2,
-									exrtra1ColorHover.getValue().toString().length() - 2)
-							+ ";" + " -fx-stroke-width: 5;");
+					if (ShapeSceneController.EXTRA_CIRCLE_HOVER) {
+						extraCircle.setStyle("-fx-stroke:#"
+								+ exrtra1ColorHover.getValue().toString().substring(2,
+										exrtra1ColorHover.getValue().toString().length() - 2)
+								+ ";" + " -fx-stroke-width: 5;");
 
-					mainScene.setCursor(Cursor.HAND);
+						mainScene.setCursor(Cursor.HAND);
+					}
 				}
 			});
 
@@ -1321,21 +1535,20 @@ public class ShapeSceneController implements Initializable {
 			alert.showAndWait();
 
 		}
-		
 
 		this.textProperties.setStyle("-fx-font-size:15px;");
 		this.scrollBox.getChildren().add(this.textProperties);
 
 		VBox.setMargin(this.textProperties, new Insets(10, 0, 0, 30));
-		
+
 		this.extraFontSize.setStyle("-fx-font-size:12px;");
 		this.scrollBox.getChildren().add(this.extraFontSize);
 		VBox.setMargin(this.extraFontSize, new Insets(10, 0, 0, 50));
-		
+
 		sliderBox = new HBox();
-		
+
 		this.scrollBox.getChildren().add(this.sliderBox);
-		
+
 		this.extraFontSlider = new Slider();
 		this.extraFontSlider.setMin(11);
 		this.extraFontSlider.setMax(25);
@@ -1347,17 +1560,17 @@ public class ShapeSceneController implements Initializable {
 		this.extraFontSlider.prefHeight(24);
 		this.extraFontSlider.setMaxHeight(Control.USE_PREF_SIZE);
 		this.extraFontSlider.setMaxWidth(Control.USE_PREF_SIZE);
-		
+
 		extraFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, //
 					Number oldValue, Number newValue) {
 
-				//rightFontTextField.setText(((double) newValue) + "");
-				for(TextField tf: tfLocations.keySet()) {
-					if(tfLocations.get(tf).equals(Location.BOTTOM)) {
-						int newFont = ((int)Math.round((double)newValue));
+				// rightFontTextField.setText(((double) newValue) + "");
+				for (TextField tf : tfLocations.keySet()) {
+					if (tfLocations.get(tf).equals(Location.BOTTOM)) {
+						int newFont = ((int) Math.round((double) newValue));
 						String font = "" + newFont;
 						tf.setStyle("-fx-font-size:" + font + "px;-fx-background-color:transparent;");
 						tf.setMinWidth(Control.USE_PREF_SIZE);
@@ -1367,29 +1580,30 @@ public class ShapeSceneController implements Initializable {
 				}
 			}
 		});
-		
+
 		this.sliderBox.getChildren().add(this.extraFontSlider);
 		HBox.setMargin(this.extraFontSlider, new Insets(5, 0, 0, 50));
-		
+
 		this.extraTextColor.setStyle("-fx-font-size:12px;");
 		this.scrollBox.getChildren().add(this.extraTextColor);
 		VBox.setMargin(this.extraTextColor, new Insets(10, 0, 0, 50));
-		
+
 		this.extraTextColorPicker = new ColorPicker();
 		this.extraTextColorPicker.setMinHeight(28);
 		this.extraTextColorPicker.setMinWidth(137);
 		this.extraTextColorPicker.setMaxHeight(28);
 		this.extraTextColorPicker.setMaxWidth(137);
-		
-		
+
 		extraTextColorPicker.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				for(TextField tf: tfLocations.keySet()) {
-					if(tfLocations.get(tf).equals(Location.BOTTOM)) {
-						int newFont = ((int)Math.round((double)extraFontSlider.getValue()));
-						String newColor = extraTextColorPicker.getValue().toString().substring(2, leftTextColor.getValue().toString().length() - 2);
-						tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #" + newColor + ";");
+				for (TextField tf : tfLocations.keySet()) {
+					if (tfLocations.get(tf).equals(Location.BOTTOM)) {
+						int newFont = ((int) Math.round((double) extraFontSlider.getValue()));
+						String newColor = extraTextColorPicker.getValue().toString().substring(2,
+								leftTextColor.getValue().toString().length() - 2);
+						tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
+								+ newColor + ";");
 						tf.setMinWidth(Control.USE_PREF_SIZE);
 						tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
 						tf.setMaxWidth(Control.USE_PREF_SIZE);
@@ -1397,12 +1611,11 @@ public class ShapeSceneController implements Initializable {
 				}
 			}
 		});
-		
-		
-		
+
 		this.scrollBox.getChildren().add(this.extraTextColorPicker);
 		VBox.setMargin(this.extraTextColorPicker, new Insets(10, 0, 0, 50));
-		
+
+		initCircleContext();
 	}
 
 	@FXML
