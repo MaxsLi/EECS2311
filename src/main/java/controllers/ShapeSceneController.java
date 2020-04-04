@@ -19,6 +19,7 @@ import java.util.ResourceBundle;
 
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -62,6 +63,7 @@ public class ShapeSceneController implements Initializable {
 	private final static String DEFAULT_RIGHTCIRCLE_COLOR = "#a0522d";
 	private final static String DEFAULT_EXTRACIRCLE_COLOR = "#9ACD32";
 	private final static String DEFAULT_TITLE_COLOR = "#000000";
+	
 
 	public static boolean REMIND_OUTOF_BOUNDS = true;
 
@@ -70,12 +72,14 @@ public class ShapeSceneController implements Initializable {
 	private static boolean LEFT_CIRCLE_HOVER = true;
 	private static boolean RIGHT_CIRCLE_HOVER = true;
 	private static boolean EXTRA_CIRCLE_HOVER = true;
+	
+	protected static boolean NAV_IS_SHOWING = false;
 
 	@FXML
 	public Label sideLabel;
 
 	@FXML
-	private AnchorPane mainScene;
+	protected AnchorPane mainScene;
 
 	@FXML
 	private StackPane stackPane;
@@ -205,6 +209,9 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private ColorPicker rightTextColor;
+	
+	@FXML
+	private Button testModeBttn;
 
 	// -----------------------Extra Circle #1's Properties May or may not be needed
 	private Circle extraCircle;
@@ -786,8 +793,7 @@ public class ShapeSceneController implements Initializable {
 				if (result.isPresent()) {
 					titleOfApp = result.get();
 				} else {
-					Date today = new Date();
-					titleOfApp = "untitledVC:Made on[" + today.toString() + "]";
+					return;
 				}
 			} else {
 				titleOfApp = this.currentFileName;
@@ -1319,7 +1325,9 @@ public class ShapeSceneController implements Initializable {
 		TranslateTransition translateMainTitle = new TranslateTransition();
 
 		FadeTransition ft = new FadeTransition(Duration.millis(1000), this.navBox);
-		if (!toggle.isSelected()) {// NAV SHOULD BE VISIBLE
+		if (!toggle.isSelected()) {
+			ShapeSceneController.NAV_IS_SHOWING = false;
+			// NAV SHOULD BE VISIBLE
 			// System.out.println("I was selected!");
 			this.toggle.setStyle("-fx-background-color:#FF69B4; -fx-font-size:18px;"); // pinkish
 			this.toggle.setText("SHOW");
@@ -1359,7 +1367,9 @@ public class ShapeSceneController implements Initializable {
 			translateMainTitle.play();
 			this.navBox.setVisible(false);
 
-		} else if (toggle.isSelected()) {// NAV SHOULD BE INVISIBLE
+		} else if (toggle.isSelected()) {
+			ShapeSceneController.NAV_IS_SHOWING = true;
+			// NAV SHOULD BE INVISIBLE
 			// System.out.println("I was not selected!");
 			this.navBox.setVisible(true);
 
@@ -1734,6 +1744,29 @@ public class ShapeSceneController implements Initializable {
 			alert.setContentText("User Manual could not be opened.");
 			alert.showAndWait();
 
+		}
+	}
+	
+	@FXML
+	private void goTestMode() throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("Scene Switch");
+		alert.setContentText("Are you sure you would like to go into test mode? Any Unsaved Changes will be lost.");
+
+		ButtonType yes = new ButtonType("Yes");
+		ButtonType goBack = new ButtonType("Go Back");
+
+		alert.getButtonTypes().setAll(yes, goBack);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == yes) {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/fxml/testMode.fxml"));
+
+			MainApp.primaryStage.setScene(new Scene(loader.load()));
+		} else {
+			return;
 		}
 	}
 
