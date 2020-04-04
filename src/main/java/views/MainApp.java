@@ -2,6 +2,8 @@ package views;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
+
 import controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
@@ -19,7 +22,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 
 public class MainApp extends Application {
 
@@ -44,13 +46,12 @@ public class MainApp extends Application {
 
 		this.loadMenuScene();
 		this.loadMenubar();
-		
+
 		Parent root = menuPane;
 		Scene scene = new Scene(root);
-		
-	
+
 		MainApp.primaryStage.setScene(scene);
-		//MainApp.primaryStage.sizeToScene();
+		// MainApp.primaryStage.sizeToScene();
 		MainApp.primaryStage.setTitle(APP_TITLE);
 		MainApp.primaryStage.getIcons().add(new Image("/images/logo.png"));
 
@@ -60,24 +61,45 @@ public class MainApp extends Application {
 		MainApp.primaryStage.show();
 
 		// Maximizes the stage immediately on Launch
-		//MainApp.primaryStage.setMaximized(true);
+		// MainApp.primaryStage.setMaximized(true);
 
 		// Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
-			if (shapeSceneCont != null) {
-				try {
-				shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
-				}
-				catch(NullPointerException NPE) {
-					System.out.println("Thank You for Using Venn Create! (Exception)");
-					//NPE.printStackTrace();
+			if (ShapeSceneController.APPLICATION_IS_SAVED == false) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Confirmation Dialog");
+				alert.setHeaderText("Application Not Saved");
+				alert.setContentText("Changes have been made since last save, would you like to save the program?");
+
+				ButtonType save = new ButtonType("Save");
+				ButtonType dontSave = new ButtonType("Dont Save");
+
+				alert.getButtonTypes().setAll(save, dontSave);
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == save) {
+					if (shapeSceneCont != null) {
+						try {
+							shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
+						} catch (NullPointerException NPE) {
+							System.out.println("Thank You for Using Venn Create! (Exception)");
+							// NPE.printStackTrace();
+						}
+						e.consume();
+						MenuBarController.closeProgram(e);
+					}
+				} else {
+					e.consume();
+					MenuBarController.closeProgram(e);
 				}
 			}
-			e.consume();
-			MenuBarController.closeProgram(e);
+			else {
+				e.consume();
+				MenuBarController.closeProgram(e);
+			}
 		});
-	}
 
+	}
 
 	/**
 	 * A Method to parse the menuBar.fxml file and turn it into java code
@@ -90,7 +112,7 @@ public class MainApp extends Application {
 		this.menuBar = loader1.load();
 		menuBarCont = loader1.getController();
 		menuBarCont.setMainApp(this);
-		//menuBarCont.addKeyShortcuts();
+		// menuBarCont.addKeyShortcuts();
 	}
 
 	/**
@@ -103,7 +125,6 @@ public class MainApp extends Application {
 		this.loader.setLocation(getClass().getResource("/fxml/shapeScene.fxml"));
 
 		this.vennPane = loader.load();
-
 
 		shapeSceneCont = loader.getController();
 		shapeSceneCont.setMainApp(this);
@@ -124,13 +145,13 @@ public class MainApp extends Application {
 		} else if (sceneNew.equals("load")) {
 			loadShapeScene();
 			shapeSceneCont.loadVenn(file);
-			
-			 File currentDir = file.getParentFile();
-			 
-			 if( ! currentDir.exists()) {
-				 currentDir = new File(System.getProperty("user.home"));
-			 }
-			
+
+			File currentDir = file.getParentFile();
+
+			if (!currentDir.exists()) {
+				currentDir = new File(System.getProperty("user.home"));
+			}
+
 			if (currentDir.list().length == 0) {
 				loadMenuScene();
 				Alert alert = new Alert(AlertType.WARNING);
@@ -141,7 +162,7 @@ public class MainApp extends Application {
 			}
 		}
 	}
-	
+
 	public ShapeSceneController getShapeSceneController() {
 		return this.shapeSceneCont;
 	}
@@ -166,5 +187,5 @@ public class MainApp extends Application {
 		menuSceneCont = loader.getController();
 		menuSceneCont.setMainApp(this);
 	}
-	
+
 }

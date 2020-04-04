@@ -19,6 +19,7 @@ import java.util.ResourceBundle;
 
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -62,6 +63,7 @@ public class ShapeSceneController implements Initializable {
 	private final static String DEFAULT_RIGHTCIRCLE_COLOR = "#a0522d";
 	private final static String DEFAULT_EXTRACIRCLE_COLOR = "#9ACD32";
 	private final static String DEFAULT_TITLE_COLOR = "#000000";
+	
 
 	public static boolean REMIND_OUTOF_BOUNDS = true;
 
@@ -70,12 +72,16 @@ public class ShapeSceneController implements Initializable {
 	private static boolean LEFT_CIRCLE_HOVER = true;
 	private static boolean RIGHT_CIRCLE_HOVER = true;
 	private static boolean EXTRA_CIRCLE_HOVER = true;
+	
+	protected static boolean NAV_IS_SHOWING = false;
+	
+	public static boolean APPLICATION_IS_SAVED = true;
 
 	@FXML
 	public Label sideLabel;
 
 	@FXML
-	private AnchorPane mainScene;
+	protected AnchorPane mainScene;
 
 	@FXML
 	private StackPane stackPane;
@@ -205,6 +211,15 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private ColorPicker rightTextColor;
+	
+	@FXML
+	private Button testModeBttn;
+	
+	@FXML
+	private MenuItem exportJPG;
+	
+	@FXML
+	private MenuItem exportPNG;
 
 	// -----------------------Extra Circle #1's Properties May or may not be needed
 	private Circle extraCircle;
@@ -326,7 +341,21 @@ public class ShapeSceneController implements Initializable {
 			this.sideAdded.clear();
 			this.diagramText.clear();
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
+	
+	private void changesMade() {
+		if(ShapeSceneController.APPLICATION_IS_SAVED) {
+			MainApp.primaryStage.setTitle("VennCreate - Saved");
+		}
+		else {
+			MainApp.primaryStage.setTitle("VennCreate - Unsaved");
+		}
+	}
+	
+	
 
 	private void adjustNewTextLocation() {
 		this.textFieldPointLocationsIndex = (this.textFieldPointLocationsIndex + 1) % textFieldPointLocations.length;
@@ -395,6 +424,9 @@ public class ShapeSceneController implements Initializable {
 			textField.setTranslateY(newTranslateY);
 
 			resetTextFieldPointLocationsIndex();
+			
+			ShapeSceneController.APPLICATION_IS_SAVED = false;
+			changesMade();
 
 		});
 
@@ -478,6 +510,16 @@ public class ShapeSceneController implements Initializable {
 			}
 
 		});
+		
+		textField.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+
+			textField.setEditable(false);
+
+		});
+		
+		
+		
+		
 
 	}
 
@@ -536,6 +578,9 @@ public class ShapeSceneController implements Initializable {
 		if (!itemList.getItems().contains(contents)) {
 			itemList.getItems().add(contents);
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 
 	}
 
@@ -786,8 +831,7 @@ public class ShapeSceneController implements Initializable {
 				if (result.isPresent()) {
 					titleOfApp = result.get();
 				} else {
-					Date today = new Date();
-					titleOfApp = "untitledVC:Made on[" + today.toString() + "]";
+					return;
 				}
 			} else {
 				titleOfApp = this.currentFileName;
@@ -876,6 +920,9 @@ public class ShapeSceneController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = true;
+		changesMade();
 
 	}
 
@@ -932,6 +979,9 @@ public class ShapeSceneController implements Initializable {
 	 */
 	public void changeLeftColor() {
 		leftCircle.setFill(leftColorPicker.getValue());
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	/**
@@ -939,12 +989,18 @@ public class ShapeSceneController implements Initializable {
 	 */
 	public void changeRightColor() {
 		rightCircle.setFill(rightColorPicker.getValue());
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	public void changebackgroundColor() {
 		mainScene.setStyle("-fx-background-color: #"
 				+ backgroundColor.getValue().toString().substring(2, backgroundColor.getValue().toString().length() - 2)
 				+ ";");
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	public void startHoverLeft() {
@@ -986,6 +1042,9 @@ public class ShapeSceneController implements Initializable {
 		rightTitle.setStyle("-fx-background-color: transparent;\n-fx-text-fill: #"
 				+ titleColors.getValue().toString().substring(2, titleColors.getValue().toString().length() - 2) + ";"
 				+ "-fx-font-size:20px;");
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	/**
@@ -1085,7 +1144,7 @@ public class ShapeSceneController implements Initializable {
 
 	}
 
-	private void initCircleContext() {
+	protected void initCircleContext() {
 		ContextMenu leftContext = new ContextMenu();
 		ContextMenu rightContext = new ContextMenu();
 
@@ -1201,6 +1260,9 @@ public class ShapeSceneController implements Initializable {
 				deleteSpecficText(tf);
 			}
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	private void deleteAllRight() {
@@ -1209,6 +1271,9 @@ public class ShapeSceneController implements Initializable {
 				deleteSpecficText(tf);
 			}
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	private void deleteAllExtra() {
@@ -1217,6 +1282,9 @@ public class ShapeSceneController implements Initializable {
 				deleteSpecficText(tf);
 			}
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	@FXML
@@ -1319,7 +1387,9 @@ public class ShapeSceneController implements Initializable {
 		TranslateTransition translateMainTitle = new TranslateTransition();
 
 		FadeTransition ft = new FadeTransition(Duration.millis(1000), this.navBox);
-		if (!toggle.isSelected()) {// NAV SHOULD BE VISIBLE
+		if (!toggle.isSelected()) {
+			ShapeSceneController.NAV_IS_SHOWING = false;
+			// NAV SHOULD BE VISIBLE
 			// System.out.println("I was selected!");
 			this.toggle.setStyle("-fx-background-color:#FF69B4; -fx-font-size:18px;"); // pinkish
 			this.toggle.setText("SHOW");
@@ -1359,7 +1429,9 @@ public class ShapeSceneController implements Initializable {
 			translateMainTitle.play();
 			this.navBox.setVisible(false);
 
-		} else if (toggle.isSelected()) {// NAV SHOULD BE INVISIBLE
+		} else if (toggle.isSelected()) {
+			ShapeSceneController.NAV_IS_SHOWING = true;
+			// NAV SHOULD BE INVISIBLE
 			// System.out.println("I was not selected!");
 			this.navBox.setVisible(true);
 
@@ -1616,6 +1688,9 @@ public class ShapeSceneController implements Initializable {
 		VBox.setMargin(this.extraTextColorPicker, new Insets(10, 0, 0, 50));
 
 		initCircleContext();
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	@FXML
@@ -1647,6 +1722,9 @@ public class ShapeSceneController implements Initializable {
 		} else {
 			return;
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = true;
+		changesMade();
 	}
 
 	@FXML
@@ -1685,6 +1763,8 @@ public class ShapeSceneController implements Initializable {
 				alert1.setContentText("Please Chose Correct CSV and try again");
 				alert1.showAndWait();
 			} else {
+				ShapeSceneController.APPLICATION_IS_SAVED = true;
+				changesMade();
 				mainApp.switchScene("load", selectedFile);
 			}
 		} else {
@@ -1735,6 +1815,39 @@ public class ShapeSceneController implements Initializable {
 			alert.showAndWait();
 
 		}
+	}
+	
+	@FXML
+	private void goTestMode() throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("Scene Switch");
+		alert.setContentText("Are you sure you would like to go into test mode? Any Unsaved Changes will be lost.");
+
+		ButtonType yes = new ButtonType("Yes");
+		ButtonType goBack = new ButtonType("Go Back");
+
+		alert.getButtonTypes().setAll(yes, goBack);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == yes) {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/fxml/testMode.fxml"));
+
+			MainApp.primaryStage.setScene(new Scene(loader.load()));
+		} else {
+			return;
+		}
+	}
+	
+	@FXML
+	private void exportJPG() {
+		
+	}
+	
+	@FXML
+	private void exportPNG() {
+		
 	}
 
 }
