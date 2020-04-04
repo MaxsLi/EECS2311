@@ -34,8 +34,8 @@
                <SeparatorMenuItem mnemonicParsing="false" />
                <Menu mnemonicParsing="false" text="Export As...">
                   <items>
-                     <MenuItem mnemonicParsing="false" text="JPG" />
-                     <MenuItem mnemonicParsing="false" text="PNG" />
+                     <MenuItem fx:id="exportJPG" mnemonicParsing="false" onAction="#exportJPG" text="JPG" />
+                     <MenuItem fx:id="exportPNG" mnemonicParsing="false" onAction="#exportPNG" text="PNG" />
                   </items>
                </Menu>
             </items>

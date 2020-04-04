@@ -27,20 +27,6 @@
    <VBox fx:id="navBox" alignment="TOP_CENTER" layoutX="-353.0" layoutY="83.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="791.0" prefWidth="353.0" spacing="10.0" style="-fx-background-color: #DEB887; -fx-border-color: black; -fx-border-width: 2;">
       <children>
          <Label alignment="TOP_CENTER" prefHeight="32.0" prefWidth="222.0" style="-fx-font-size: 20;" text="VennCreate Nav Bar" />
-         <HBox prefHeight="44.0" prefWidth="353.0">
-            <children>
-               <TextField fx:id="diagramText" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#addTextToDiagram" prefHeight="43.0" prefWidth="250.0" style="-fx-font-size: 20;">
-                  <HBox.margin>
-                     <Insets left="10.0" />
-                  </HBox.margin>
-               </TextField>
-               <Button fx:id="addBttn" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#addTextToDiagram" prefHeight="44.0" prefWidth="80.0" text="Add">
-                  <HBox.margin>
-                     <Insets left="10.0" right="5.0" />
-                  </HBox.margin>
-               </Button>
-            </children>
-         </HBox>
          <ListView fx:id="itemList" prefHeight="249.0" prefWidth="353.0" />
          <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="273.0">
             <opaqueInsets>

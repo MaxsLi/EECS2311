@@ -74,6 +74,8 @@ public class ShapeSceneController implements Initializable {
 	private static boolean EXTRA_CIRCLE_HOVER = true;
 	
 	protected static boolean NAV_IS_SHOWING = false;
+	
+	public static boolean APPLICATION_IS_SAVED = true;
 
 	@FXML
 	public Label sideLabel;
@@ -212,6 +214,12 @@ public class ShapeSceneController implements Initializable {
 	
 	@FXML
 	private Button testModeBttn;
+	
+	@FXML
+	private MenuItem exportJPG;
+	
+	@FXML
+	private MenuItem exportPNG;
 
 	// -----------------------Extra Circle #1's Properties May or may not be needed
 	private Circle extraCircle;
@@ -333,7 +341,21 @@ public class ShapeSceneController implements Initializable {
 			this.sideAdded.clear();
 			this.diagramText.clear();
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
+	
+	private void changesMade() {
+		if(ShapeSceneController.APPLICATION_IS_SAVED) {
+			MainApp.primaryStage.setTitle("VennCreate - Saved");
+		}
+		else {
+			MainApp.primaryStage.setTitle("VennCreate - Unsaved");
+		}
+	}
+	
+	
 
 	private void adjustNewTextLocation() {
 		this.textFieldPointLocationsIndex = (this.textFieldPointLocationsIndex + 1) % textFieldPointLocations.length;
@@ -402,6 +424,9 @@ public class ShapeSceneController implements Initializable {
 			textField.setTranslateY(newTranslateY);
 
 			resetTextFieldPointLocationsIndex();
+			
+			ShapeSceneController.APPLICATION_IS_SAVED = false;
+			changesMade();
 
 		});
 
@@ -485,6 +510,16 @@ public class ShapeSceneController implements Initializable {
 			}
 
 		});
+		
+		textField.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+
+			textField.setEditable(false);
+
+		});
+		
+		
+		
+		
 
 	}
 
@@ -543,6 +578,9 @@ public class ShapeSceneController implements Initializable {
 		if (!itemList.getItems().contains(contents)) {
 			itemList.getItems().add(contents);
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 
 	}
 
@@ -882,6 +920,9 @@ public class ShapeSceneController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = true;
+		changesMade();
 
 	}
 
@@ -938,6 +979,9 @@ public class ShapeSceneController implements Initializable {
 	 */
 	public void changeLeftColor() {
 		leftCircle.setFill(leftColorPicker.getValue());
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	/**
@@ -945,12 +989,18 @@ public class ShapeSceneController implements Initializable {
 	 */
 	public void changeRightColor() {
 		rightCircle.setFill(rightColorPicker.getValue());
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	public void changebackgroundColor() {
 		mainScene.setStyle("-fx-background-color: #"
 				+ backgroundColor.getValue().toString().substring(2, backgroundColor.getValue().toString().length() - 2)
 				+ ";");
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	public void startHoverLeft() {
@@ -992,6 +1042,9 @@ public class ShapeSceneController implements Initializable {
 		rightTitle.setStyle("-fx-background-color: transparent;\n-fx-text-fill: #"
 				+ titleColors.getValue().toString().substring(2, titleColors.getValue().toString().length() - 2) + ";"
 				+ "-fx-font-size:20px;");
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	/**
@@ -1091,7 +1144,7 @@ public class ShapeSceneController implements Initializable {
 
 	}
 
-	private void initCircleContext() {
+	protected void initCircleContext() {
 		ContextMenu leftContext = new ContextMenu();
 		ContextMenu rightContext = new ContextMenu();
 
@@ -1207,6 +1260,9 @@ public class ShapeSceneController implements Initializable {
 				deleteSpecficText(tf);
 			}
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	private void deleteAllRight() {
@@ -1215,6 +1271,9 @@ public class ShapeSceneController implements Initializable {
 				deleteSpecficText(tf);
 			}
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	private void deleteAllExtra() {
@@ -1223,6 +1282,9 @@ public class ShapeSceneController implements Initializable {
 				deleteSpecficText(tf);
 			}
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	@FXML
@@ -1626,6 +1688,9 @@ public class ShapeSceneController implements Initializable {
 		VBox.setMargin(this.extraTextColorPicker, new Insets(10, 0, 0, 50));
 
 		initCircleContext();
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		changesMade();
 	}
 
 	@FXML
@@ -1657,6 +1722,9 @@ public class ShapeSceneController implements Initializable {
 		} else {
 			return;
 		}
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = true;
+		changesMade();
 	}
 
 	@FXML
@@ -1695,6 +1763,8 @@ public class ShapeSceneController implements Initializable {
 				alert1.setContentText("Please Chose Correct CSV and try again");
 				alert1.showAndWait();
 			} else {
+				ShapeSceneController.APPLICATION_IS_SAVED = true;
+				changesMade();
 				mainApp.switchScene("load", selectedFile);
 			}
 		} else {
@@ -1768,6 +1838,16 @@ public class ShapeSceneController implements Initializable {
 		} else {
 			return;
 		}
+	}
+	
+	@FXML
+	private void exportJPG() {
+		
+	}
+	
+	@FXML
+	private void exportPNG() {
+		
 	}
 
 }

@@ -1,8 +1,13 @@
 package controllers;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -16,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import models.Location;
 import models.VennSet;
 import models.VennShape;
 import views.MainApp;
@@ -24,6 +30,8 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	
 	@FXML
 	private Button importTxtBttn;
+	
+	Map<String, Location> correctAns = new HashMap<>();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -69,8 +77,32 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			);
 		
 		File selectedFile = fileChooser.showOpenDialog(MainApp.primaryStage);
+		boolean successfullyImported = false;
 		
+		if(selectedFile == null) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning Dialog");
+			alert.setHeaderText("Error Importing File");
+			alert.setContentText("Please Import a .txt or .csv file and try again");
+
+			alert.showAndWait();
+		}
+		else {
+			successfullyImported = true;
+			
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(selectedFile));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if(successfullyImported) {
+			
 		super.mainScene.getChildren().remove(importTxtBttn);
+		
+		}
 		
 	}
 	
