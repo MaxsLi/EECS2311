@@ -40,6 +40,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -76,6 +77,8 @@ public class ShapeSceneController implements Initializable {
 	protected static boolean NAV_IS_SHOWING = false;
 	
 	public static boolean APPLICATION_IS_SAVED = true;
+	
+	public static boolean ANIMATION_DONE = true;
 
 	@FXML
 	public Label sideLabel;
@@ -84,13 +87,13 @@ public class ShapeSceneController implements Initializable {
 	protected AnchorPane mainScene;
 
 	@FXML
-	private StackPane stackPane;
+	protected StackPane stackPane;
 
 	@FXML
-	private Circle leftCircle;
+	protected Circle leftCircle;
 
 	@FXML
-	private Circle rightCircle;
+	protected Circle rightCircle;
 
 	@FXML
 	private Button addBttn;
@@ -105,21 +108,21 @@ public class ShapeSceneController implements Initializable {
 	private TextField diagramText;
 
 	@FXML
-	private TextField appTitle;
+	protected TextField appTitle;
 
 	@FXML
-	private ColorPicker leftColorPicker;
+	protected ColorPicker leftColorPicker;
 
 	@FXML
-	private ColorPicker rightColorPicker;
+	protected ColorPicker rightColorPicker;
 
 	@FXML
-	private ContextMenu textFieldContext;
+	protected ContextMenu textFieldContext;
 
 	@FXML
-	private TextField sideAdded;
+	protected TextField sideAdded;
 
-	private MainApp mainApp;
+	protected MainApp mainApp;
 
 	private String currentFileName;
 
@@ -132,111 +135,111 @@ public class ShapeSceneController implements Initializable {
 	private TextField rightTitle;
 
 	@FXML
-	private ToggleButton toggle;
+	protected ToggleButton toggle;
 
 	@FXML
-	private ListView<String> itemList;
+	protected ListView<String> itemList;
 
 	@FXML
-	private ColorPicker backgroundColor;
+	protected ColorPicker backgroundColor;
 
 	@FXML
-	private ColorPicker titleColors;
+	protected ColorPicker titleColors;
 
 	@FXML
-	private Slider leftSlider;
+	protected Slider leftSlider;
 
 	@FXML
-	private Slider rightSlider;
+	protected Slider rightSlider;
 
 	@FXML
-	private ColorPicker leftHoverColor;
+	protected ColorPicker leftHoverColor;
 
 	@FXML
-	private ColorPicker rightHoverColor;
+	protected ColorPicker rightHoverColor;
 
 	@FXML
-	private ButtonBar listBttns;
+	protected ButtonBar listBttns;
 
 	@FXML
-	private Button clearListBttn;
+	protected Button clearListBttn;
 
 	@FXML
-	private Button eraseItemBttn;
+	protected Button eraseItemBttn;
 
 	@FXML
-	private Button createItemBttn;
+	protected Button createItemBttn;
 
 	@FXML
-	private Button removeItemButton;
+	protected Button removeItemButton;
 
 	@FXML
-	private Button addCircleBttn;
+	protected Button addCircleBttn;
 
 	@FXML
-	private VBox navBox;
+	protected VBox navBox;
 
 	@FXML
-	private TitledPane appearancePane;
+	protected TitledPane appearancePane;
 
 	@FXML
-	private VBox scrollBox;
+	protected VBox scrollBox;
 
 	@FXML
-	private MenuItem createNewVenn;
+	protected MenuItem createNewVenn;
 
 	@FXML
-	private MenuItem openMenuItem;
+	protected MenuItem openMenuItem;
 
 	@FXML
-	private MenuItem addCircleMenuItem;
+	protected MenuItem addCircleMenuItem;
 
 	@FXML
-	private MenuItem aboutItem;
+	protected MenuItem aboutItem;
 
 	@FXML
-	private Slider leftFontSlider;
+	protected Slider leftFontSlider;
 
 //	@FXML
 //	private TextField leftFontTextField;
 
 	@FXML
-	private Slider rightFontSlider;
+	protected Slider rightFontSlider;
 
 //	@FXML
 //	private TextField rightFontTextField;
 
 	@FXML
-	private ColorPicker leftTextColor;
+	protected ColorPicker leftTextColor;
 
 	@FXML
-	private ColorPicker rightTextColor;
+	protected ColorPicker rightTextColor;
 	
 	@FXML
-	private Button testModeBttn;
+	protected Button testModeBttn;
 	
 	@FXML
-	private MenuItem exportJPG;
+	protected MenuItem exportJPG;
 	
 	@FXML
-	private MenuItem exportPNG;
+	protected MenuItem exportPNG;
 
 	// -----------------------Extra Circle #1's Properties May or may not be needed
-	private Circle extraCircle;
-	private Slider extra1Slider;
-	private ColorPicker extra1Color;
-	private Label extra1Label = new Label("Circle 3");
-	private Label extra1LabelColor = new Label("Extra Circle #1 Color");
-	private Label extra1LabelSize = new Label("Extra Circle #1 Size");
-	private Label extra1HoverLabel = new Label("Hover Color");
-	private ColorPicker exrtra1ColorHover;
-	private Separator extra1Seperator;
-	private Label textProperties = new Label("Text Properties");
-	private Label extraFontSize = new Label("Font Size");
-	private HBox sliderBox;
-	private Label extraTextColor = new Label("Text Color");
-	private Slider extraFontSlider;
-	private ColorPicker extraTextColorPicker;
+	protected Circle extraCircle;
+	protected Slider extra1Slider;
+	protected ColorPicker extra1Color;
+	protected Label extra1Label = new Label("Circle 3");
+	protected Label extra1LabelColor = new Label("Extra Circle #1 Color");
+	protected Label extra1LabelSize = new Label("Extra Circle #1 Size");
+	protected Label extra1HoverLabel = new Label("Hover Color");
+	protected ColorPicker exrtra1ColorHover;
+	protected Separator extra1Seperator;
+	protected Label textProperties = new Label("Text Properties");
+	protected Label extraFontSize = new Label("Font Size");
+	protected HBox sliderBox;
+	protected Label extraTextColor = new Label("Text Color");
+	protected Slider extraFontSlider;
+	protected ColorPicker extraTextColorPicker;
 
 	public static boolean EXTRA_CIRCLE_ADDED = false;
 	// --------------------------------------
@@ -244,9 +247,9 @@ public class ShapeSceneController implements Initializable {
 	/**
 	 * An Set of `TextLabel`s
 	 */
-	private VennSet vennSet;
+	protected VennSet vennSet;
 
-	private HashMap<TextField, Location> tfLocations = new HashMap<>();
+	protected HashMap<TextField, Location> tfLocations = new HashMap<>();
 
 	/**
 	 * A static variable to allow the user to choice if they want to continue to be
@@ -256,18 +259,18 @@ public class ShapeSceneController implements Initializable {
 	/**
 	 * An Set of `Shape`s
 	 */
-	private VennShape vennShape;
+	protected VennShape vennShape;
 
-	private double orgSceneX;
-	private double orgSceneY;
-	private double orgTranslateX;
-	private double orgTranslateY;
+	protected double orgSceneX;
+	protected double orgSceneY;
+	protected double orgTranslateX;
+	protected double orgTranslateY;
 
 	/**
 	 * An array containing possible locations for a new textfield to be placed on
 	 * the scene when entered
 	 */
-	private Point2D[] textFieldPointLocations = { new Point2D(-375, -375), new Point2D(-375, -325),
+	protected Point2D[] textFieldPointLocations = { new Point2D(-375, -375), new Point2D(-375, -325),
 			new Point2D(-375, -275), new Point2D(-375, -225), new Point2D(-375, -175), new Point2D(-375, -125),
 			new Point2D(-375, -75), new Point2D(-375, -25) };
 	public int textFieldPointLocationsIndex = 0;
@@ -357,23 +360,24 @@ public class ShapeSceneController implements Initializable {
 	
 	
 
-	private void adjustNewTextLocation() {
+	protected void adjustNewTextLocation() {
 		this.textFieldPointLocationsIndex = (this.textFieldPointLocationsIndex + 1) % textFieldPointLocations.length;
 	}
 
-	private void resetTextFieldPointLocationsIndex() {
+	protected void resetTextFieldPointLocationsIndex() {
 		this.textFieldPointLocationsIndex = 0;
 	}
 
 	@FXML
-	private void createItem() {
+	protected void createItem() {
+		if(itemList.getItems().isEmpty()) return;
 		String newItem = itemList.getSelectionModel().getSelectedItem();
 		diagramText.setText(newItem);
 		addTextToDiagram();
 	}
 
 	@FXML
-	private void clearList() {
+	protected void clearList() {
 		try {
 			this.itemList.getItems().remove(0, this.itemList.getItems().size());
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -382,7 +386,7 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	@FXML
-	private void eraseItem() {
+	protected void eraseItem() {
 		try {
 			int index = itemList.getSelectionModel().getSelectedIndex();
 			itemList.getItems().remove(index);
@@ -396,7 +400,7 @@ public class ShapeSceneController implements Initializable {
 	 * 
 	 * @param textField the TextField to be added
 	 */
-	private void addDragEvent(TextField textField) {
+	protected void addDragEvent(TextField textField) {
 		textField.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
 			this.diagramText.clear();
@@ -529,7 +533,7 @@ public class ShapeSceneController implements Initializable {
 	 * 
 	 * @param textField the TextField to be added
 	 */
-	private void addContext(TextField textField) {
+	protected void addContext(TextField textField) {
 		ContextMenu context = new ContextMenu();
 		MenuItem delete = new MenuItem("Delete");
 		MenuItem edit = new MenuItem("Edit");
@@ -549,7 +553,7 @@ public class ShapeSceneController implements Initializable {
 
 	}
 	
-	private void addLongerDescription(TextField tf) {
+	protected void addLongerDescription(TextField tf) {
 		TextInputDialog dialog = new TextInputDialog("Longer Description here...");
 		dialog.setTitle("Add Description");
 		dialog.setHeaderText("Add A longer Description to Textfield");
@@ -566,7 +570,7 @@ public class ShapeSceneController implements Initializable {
 		}
 	}
 
-	private void deleteSpecficText(TextField tf) {
+	protected void deleteSpecficText(TextField tf) {
 		String contents = tf.getText();
 		stackPane.getChildren().remove(tf);
 		for (int i = 0; i < this.vennSet.size(); i++) {
@@ -1074,6 +1078,7 @@ public class ShapeSceneController implements Initializable {
 		this.rightColorPicker.setValue(Color.valueOf(ShapeSceneController.DEFAULT_RIGHTCIRCLE_COLOR));
 
 		initCircleContext();
+		
 
 	}
 
@@ -1254,7 +1259,7 @@ public class ShapeSceneController implements Initializable {
 
 	}
 
-	private void deleteAllLeft() {
+	protected void deleteAllLeft() {
 		for (TextField tf : tfLocations.keySet()) {
 			if (tfLocations.get(tf) == Location.LEFT) {
 				deleteSpecficText(tf);
@@ -1265,7 +1270,7 @@ public class ShapeSceneController implements Initializable {
 		changesMade();
 	}
 
-	private void deleteAllRight() {
+	protected void deleteAllRight() {
 		for (TextField tf : tfLocations.keySet()) {
 			if (tfLocations.get(tf) == Location.RIGHT) {
 				deleteSpecficText(tf);
@@ -1276,7 +1281,7 @@ public class ShapeSceneController implements Initializable {
 		changesMade();
 	}
 
-	private void deleteAllExtra() {
+	protected void deleteAllExtra() {
 		for (TextField tf : tfLocations.keySet()) {
 			if (tfLocations.get(tf) == Location.BOTTOM) {
 				deleteSpecficText(tf);
@@ -1288,7 +1293,7 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	@FXML
-	private void changeRightTextColor() {
+	protected void changeRightTextColor() {
 		for (TextField tf : tfLocations.keySet()) {
 			if (tfLocations.get(tf).equals(Location.RIGHT)) {
 				int newFont = ((int) Math.round((double) this.rightFontSlider.getValue()));
@@ -1304,7 +1309,7 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	@FXML
-	private void changeLeftTextColor() {
+	protected void changeLeftTextColor() {
 		for (TextField tf : tfLocations.keySet()) {
 			if (tfLocations.get(tf).equals(Location.LEFT)) {
 				int newFont = ((int) Math.round((double) this.leftFontSlider.getValue()));
@@ -1318,6 +1323,7 @@ public class ShapeSceneController implements Initializable {
 			}
 		}
 	}
+	
 
 //	@FXML
 //	private void setRightFontSlider() {
@@ -1378,7 +1384,8 @@ public class ShapeSceneController implements Initializable {
 	 * A method to Translate items on screen
 	 */
 	@FXML
-	private void toggleDrawer() {
+	protected void toggleDrawer() {
+		toggle.setDisable(true);
 		this.toggle.setStyle("-fx-font-size:18");
 		TranslateTransition translate = new TranslateTransition();
 		TranslateTransition translateStk = new TranslateTransition();
@@ -1409,18 +1416,26 @@ public class ShapeSceneController implements Initializable {
 			translateRightTitle.setDuration(Duration.millis(1000));
 			translateMainTitle.setDuration(Duration.millis(1000));
 
-			translate.setAutoReverse(true);
-			translateStk.setAutoReverse(true);
-			translateLeftTitle.setAutoReverse(true);
-			translateRightTitle.setAutoReverse(true);
-			translateMainTitle.setAutoReverse(true);
+			translate.setAutoReverse(false);
+			translateStk.setAutoReverse(false);
+			translateLeftTitle.setAutoReverse(false);
+			translateRightTitle.setAutoReverse(false);
+			translateMainTitle.setAutoReverse(false);
 
 			translate.setNode(this.navBox);
 			translateStk.setNode(this.stackPane);
 			translateLeftTitle.setNode(this.leftTitle);
 			translateRightTitle.setNode(this.rightTitle);
 			translateMainTitle.setNode(this.appTitle);
-
+			
+			translate.setCycleCount(1);
+			translateStk.setCycleCount(1);
+			translateLeftTitle.setCycleCount(1);
+			translateRightTitle.setCycleCount(1);
+			translateMainTitle.setCycleCount(1);
+			
+			translate.setOnFinished(evt -> toggle.setDisable(false));
+			
 			ft.play();
 			translate.play();
 			translateStk.play();
@@ -1428,8 +1443,10 @@ public class ShapeSceneController implements Initializable {
 			translateRightTitle.play();
 			translateMainTitle.play();
 			this.navBox.setVisible(false);
+	
 
-		} else if (toggle.isSelected()) {
+		} else if (toggle.isSelected()) {  
+			
 			ShapeSceneController.NAV_IS_SHOWING = true;
 			// NAV SHOULD BE INVISIBLE
 			// System.out.println("I was not selected!");
@@ -1453,24 +1470,33 @@ public class ShapeSceneController implements Initializable {
 			translateRightTitle.setDuration(Duration.millis(1000));
 			translateMainTitle.setDuration(Duration.millis(1000));
 
-			translate.setAutoReverse(true);
-			translateStk.setAutoReverse(true);
-			translateLeftTitle.setAutoReverse(true);
-			translateRightTitle.setAutoReverse(true);
-			translateMainTitle.setAutoReverse(true);
+			translate.setAutoReverse(false);
+			translateStk.setAutoReverse(false);
+			translateLeftTitle.setAutoReverse(false);
+			translateRightTitle.setAutoReverse(false);
+			translateMainTitle.setAutoReverse(false);
 
 			translate.setNode(this.navBox);
 			translateStk.setNode(this.stackPane);
 			translateLeftTitle.setNode(this.leftTitle);
 			translateRightTitle.setNode(this.rightTitle);
 			translateMainTitle.setNode(this.appTitle);
-
+			
+			translate.setCycleCount(1);
+			translateStk.setCycleCount(1);
+			translateLeftTitle.setCycleCount(1);
+			translateRightTitle.setCycleCount(1);
+			translateMainTitle.setCycleCount(1);
+			
+			translate.setOnFinished(evt -> toggle.setDisable(false));
+			
 			ft.play();
 			translate.play();
 			translateStk.play();
 			translateLeftTitle.play();
 			translateRightTitle.play();
 			translateMainTitle.play();
+		
 		}
 
 	}
@@ -1694,17 +1720,17 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	@FXML
-	private void undo(ActionEvent e) {
+	protected void undo(ActionEvent e) {
 		// shapeSceneCont.undo();
 	}
 
 	@FXML
-	private void redo(ActionEvent e) {
+	protected void redo(ActionEvent e) {
 		// shapeSceneCont.redo();
 	}
 
 	@FXML
-	private void createNew() throws IOException {
+	protected void createNew() throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Confirmation Dialog");
 		alert.setHeaderText("Create New Venn Diagram");

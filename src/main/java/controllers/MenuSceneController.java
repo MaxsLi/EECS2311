@@ -35,6 +35,9 @@ public class MenuSceneController implements Initializable {
 	
 	@FXML
 	private Circle rightCircle;
+	
+	@FXML
+	private Button testModeBttn;
 
 	/**
 	 * The constructor. The constructor is called before the initialize() method.
@@ -113,6 +116,23 @@ public class MenuSceneController implements Initializable {
 	private void existingNoGlow() {
 		getExistingBttn.setStyle("-fx-border-color:black;-fx-background-radius:50px;");
 	}
+	
+	@FXML
+	private void testModeGlow() {
+		testModeBttn.setStyle("-fx-background-color:#cc16dd; -fx-border-width:5px;-fx-background-radius:50px;");
+	}
+	
+	@FXML
+	private void testModeNoGlow() {
+		testModeBttn.setStyle("-fx-border-color:black;-fx-background-radius:50px;");
+	}
+	
+	@FXML
+	private void goTestMode() throws IOException {
+		mainApp.switchScene("testMode", null); //null should be a file
+	}
+	
+	
 
 	/**
 	 * Initializes the controller class. This method is automatically called after
