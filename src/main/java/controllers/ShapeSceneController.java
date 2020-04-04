@@ -379,6 +379,7 @@ public class ShapeSceneController implements Initializable {
 			textField.toFront();
 
 		});
+		
 
 		/*
 		 * On Mouse Drag Moves the TextField Around the Screen
@@ -490,14 +491,37 @@ public class ShapeSceneController implements Initializable {
 		ContextMenu context = new ContextMenu();
 		MenuItem delete = new MenuItem("Delete");
 		MenuItem edit = new MenuItem("Edit");
+		MenuItem addDescription = new MenuItem("Add Longer Description");
 		context.getItems().add(delete);
 		context.getItems().add(edit);
+		context.getItems().add(addDescription);
 		textField.setContextMenu(context);
 
 		delete.setOnAction((event) -> deleteSpecficText(textField));
 
 		edit.setOnAction((event) -> textField.setEditable(true));
+		
+		addDescription.setOnAction((event) -> addLongerDescription(textField));
+		
+		
 
+	}
+	
+	private void addLongerDescription(TextField tf) {
+		TextInputDialog dialog = new TextInputDialog("Longer Description here...");
+		dialog.setTitle("Add Description");
+		dialog.setHeaderText("Add A longer Description to Textfield");
+		dialog.setContentText("Description: ");
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+		    Tooltip tt = new Tooltip(result.get());
+		    Tooltip.install(tf, tt);
+		}
+		else {
+			return;
+		}
 	}
 
 	private void deleteSpecficText(TextField tf) {
