@@ -1524,6 +1524,7 @@ public class ShapeSceneController implements Initializable {
 			translateLeftTitle.play();
 			translateRightTitle.play();
 			translateMainTitle.play();
+			 
 		
 		}
 
