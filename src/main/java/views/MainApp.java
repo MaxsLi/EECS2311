@@ -35,6 +35,7 @@ public class MainApp extends Application {
 	private MenuSceneController menuSceneCont;
 	private MenuBarController menuBarCont;
 	private ShapeSceneController shapeSceneCont;
+	private TestModeController testModeCont;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -130,6 +131,17 @@ public class MainApp extends Application {
 		shapeSceneCont.setMainApp(this);
 		MainApp.primaryStage.setScene(new Scene(this.vennPane));
 	}
+	
+	public void loadTestMode() throws IOException {
+		this.loader = new FXMLLoader();
+		this.loader.setLocation(getClass().getResource("/fxml/testMode.fxml"));
+
+		this.vennPane = loader.load();
+
+		testModeCont = loader.getController();
+		testModeCont.setMainApp(this);
+		MainApp.primaryStage.setScene(new Scene(this.vennPane));
+	}
 
 	/**
 	 * A Method that switches the scene on the mainStage
@@ -142,7 +154,11 @@ public class MainApp extends Application {
 			loadMenuScene();
 		} else if (sceneNew.equals("shapeScene")) {
 			loadShapeScene();
-		} else if (sceneNew.equals("load")) {
+		} 
+		else if(sceneNew.equals("testMode")) {
+			loadTestMode();
+		}
+		else if (sceneNew.equals("load")) {
 			loadShapeScene();
 			shapeSceneCont.loadVenn(file);
 
@@ -161,6 +177,7 @@ public class MainApp extends Application {
 				alert.showAndWait();
 			}
 		}
+	
 	}
 
 	public ShapeSceneController getShapeSceneController() {

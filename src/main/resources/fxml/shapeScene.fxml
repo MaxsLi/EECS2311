@@ -28,9 +28,9 @@
       <menus>
          <Menu mnemonicParsing="false" text="File">
             <items>
-               <MenuItem fx:id="createNewVenn" mnemonicParsing="false" onAction="#createNew" text="New" />
-               <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openExisting" text="Open..." />
-               <MenuItem mnemonicParsing="false" onAction="#saveVennBttn" text="Save" />
+               <MenuItem fx:id="createNewVenn" mnemonicParsing="false" onAction="#createNew" text="New (CTRL+N)" />
+               <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openExisting" text="Open (CTRL+O)" />
+               <MenuItem mnemonicParsing="false" onAction="#saveVennBttn" text="Save (CTRL + S)" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <Menu mnemonicParsing="false" text="Export As...">
                   <items>
@@ -42,8 +42,8 @@
          </Menu>
          <Menu mnemonicParsing="false" text="Edit">
             <items>
-               <MenuItem fx:id="undoBtn" mnemonicParsing="false" onAction="#undo" text="Undo" />
-               <MenuItem fx:id="redoBtn" mnemonicParsing="false" onAction="#redo" text="Redo" />
+               <MenuItem fx:id="undoBtn" mnemonicParsing="false" onAction="#undo" text="Undo (CTRL + Z)" />
+               <MenuItem fx:id="redoBtn" mnemonicParsing="false" onAction="#redo" text="Redo (CTRL + Y)" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <MenuItem mnemonicParsing="false" text="Delete Selected Item(s)" />
             </items>
