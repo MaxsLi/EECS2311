@@ -31,9 +31,9 @@
       <menus>
          <Menu mnemonicParsing="false" text="File">
             <items>
-               <MenuItem fx:id="createNewVenn" mnemonicParsing="false" onAction="#createNew" text="New (CTRL+N)" />
-               <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openExisting" text="Open (CTRL+O)" />
-               <MenuItem mnemonicParsing="false" onAction="#saveVennBttn" text="Save (CTRL + S)" />
+               <MenuItem fx:id="createNewVenn" mnemonicParsing="false" onAction="#createNew" text="New" />
+               <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openExisting" text="Open" />
+               <MenuItem mnemonicParsing="false" onAction="#saveVennBttn" text="Save" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <Menu mnemonicParsing="false" text="Export As...">
                   <items>
@@ -45,8 +45,8 @@
          </Menu>
          <Menu mnemonicParsing="false" text="Edit">
             <items>
-               <MenuItem fx:id="undoBtn" mnemonicParsing="false" onAction="#undo" text="Undo (CTRL + Z)" />
-               <MenuItem fx:id="redoBtn" mnemonicParsing="false" onAction="#redo" text="Redo (CTRL + Y)" />
+               <MenuItem fx:id="undoBtn" mnemonicParsing="false" onAction="#undo" text="Undo" />
+               <MenuItem fx:id="redoBtn" mnemonicParsing="false" onAction="#redo" text="Redo" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <MenuItem mnemonicParsing="false" text="Delete Selected Item(s)" />
             </items>
@@ -326,7 +326,6 @@
    <TextField fx:id="appTitle" layoutX="427.0" layoutY="27.0" prefHeight="46.0" prefWidth="396.0" promptText="Enter Title of Venn Diagram" style="-fx-font-size: 25; -fx-background-color: transparent;" />
    <TextField fx:id="sideAdded" editable="false" layoutX="992.0" layoutY="836.0" style="-fx-font-size: 20; -fx-background-color: transparent;" />
    <ToggleButton fx:id="toggle" layoutX="14.0" layoutY="41.0" mnemonicParsing="false" onAction="#toggleDrawer" style="-fx-font-size: 18;" text="SHOW" />
-   <Label fx:id="sideLabel" layoutX="1048.0" layoutY="797.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added" />
    <HBox fx:id="saveBox" layoutX="1250.0" layoutY="40.0" prefHeight="100.0" prefWidth="273.0">
       <children>
          <Label prefHeight="107.0" prefWidth="176.0" style="-fx-background-color: White; -fx-font-family: Rockwell; -fx-font-size: 35;" text="File Saved" textFill="#09d710">
