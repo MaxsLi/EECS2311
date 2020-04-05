@@ -31,6 +31,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -50,6 +51,9 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	
 	@FXML
 	Text text;
+	
+	@FXML
+	private ToggleButton toggleTimeBttn;
 	
 	Timeline timeline;
 	
@@ -81,6 +85,10 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		ft.setCycleCount(100);
 		ft.setAutoReverse(true);
 		ft.play();
+		
+		text.setVisible(false);
+		TEST_HAS_STARTED = false;
+		toggle.setDisable(true);
 
 	}
 
@@ -169,11 +177,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 						rightTitle.setText(st);
 					}
 					else if(lineCount == 4 && numOfCircles == 3) {
-						Label circleLabel = new Label(st);
-						circleLabel.setStyle("-fx-font-size:15px;");
-						circleLabel.setLayoutX(1032);
-						circleLabel.setLayoutY(751);
-						mainScene.getChildren().add(circleLabel);
+						extraTitle.setText(st);
 					}
 					else {	// lineCount > 4
 						String[] parts = st.split(",");
@@ -320,7 +324,10 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.setAutoReverse(false);
 		TEST_HAS_STARTED = true;
+		toggle.setDisable(false);
 		timeline.play();
+		
+	
 	
 	}
 	
@@ -340,6 +347,9 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	
 	@FXML
 	void submitResults(){
+		if(!TEST_HAS_STARTED) { //If test hasn't started return
+			return;
+		}
 		timeline.pause();
 		if(this.vennSet.size() != this.elementsImported) { // the user hasnt dragged all the elements, there is still stuff to do
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -412,12 +422,9 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == yes){
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/fxml/testMode.fxml"));
-
-			MainApp.primaryStage.setScene(new Scene(loader.load()));
+			mainApp.switchScene("testMode", null); //null should be a file
 		} else if (result.get() == noExitTestMode) {
-			super.createNew();
+			createNew();
 		} else if (result.get() == noExitApplication) {
 		    MainApp.primaryStage.close();
 		} 
@@ -436,9 +443,11 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	
 	@Override
 	protected void createItem() {
+		if(itemList.getSelectionModel().isEmpty()) return;
 		if(itemList.getItems().isEmpty()) return;
 		String newItem = itemList.getSelectionModel().getSelectedItem();
 		addTextToDiagram(newItem);
+		if(itemList.getItems().isEmpty()) createItemBttn.setDisable(true);
 	}
 	
 	
@@ -627,6 +636,21 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	
 	}
 	
+	@Override
+	public void saveVenn(ArrayList<TextField> write) {
+		//Test Mode Shouldnt be able to be saved so do nothing
+	}
+	
+	@Override
+	public void saveVennBttn() {
+		saveVenn(null); //Test Mode has no saving feature
+	}
+	
+	@Override
+	protected void createNew() throws IOException {
+			mainApp.switchScene("shapeScene", null);
+	}
+	
 	@FXML
 	private void exitTest() throws IOException {
 		if(TEST_HAS_STARTED) {
@@ -651,6 +675,17 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		}
 		else
 		mainApp.switchScene("shapeScene", null);
+	}
+	
+	@FXML
+	private void toggleTimer() {
+		
+		if(this.text.isVisible()) {
+			text.setVisible(false);
+		}
+		else {
+			text.setVisible(true);
+		}
 	}
 
 }

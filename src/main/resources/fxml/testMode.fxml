@@ -26,7 +26,7 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="mainScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="931.0" prefWidth="1250.0" style="-fx-background-color: #d9d9d9;" stylesheets="@../css/shapeScene.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TestModeController">
-   <VBox fx:id="navBox" alignment="TOP_CENTER" layoutX="-353.0" layoutY="83.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="791.0" prefWidth="353.0" spacing="10.0" style="-fx-background-color: #DEB887; -fx-border-color: black; -fx-border-width: 2;">
+   <VBox fx:id="navBox" alignment="TOP_CENTER" layoutX="-353.0" layoutY="88.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="791.0" prefWidth="353.0" spacing="10.0" style="-fx-background-color: #DEB887; -fx-border-color: black; -fx-border-width: 2;">
       <children>
          <Label alignment="TOP_CENTER" prefHeight="32.0" prefWidth="222.0" style="-fx-font-size: 20;" text="VennCreate Nav Bar" />
          <ListView fx:id="itemList" prefHeight="249.0" prefWidth="353.0" />
@@ -37,9 +37,7 @@
             <children>
                <ButtonBar prefHeight="46.0" prefWidth="359.0" HBox.hgrow="ALWAYS">
                  <buttons>
-                   <Button fx:id="clearListBttn" mnemonicParsing="false" onAction="#clearList" text="Clear List" />
-                     <Button fx:id="eraseItemBttn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#eraseItem" prefHeight="29.0" prefWidth="155.0" text="Erase Item" />
-                     <Button fx:id="createItemBttn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createItem" prefHeight="29.0" text="Create Item" />
+                     <Button fx:id="createItemBttn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createItem" prefHeight="29.0" prefWidth="273.0" text="Create Item" />
                  </buttons>
                </ButtonBar>
             </children>
@@ -224,6 +222,20 @@
                </ScrollPane>
             </content>
          </TitledPane>
+         <Label text="Quick Actions">
+            <font>
+               <Font size="26.0" />
+            </font>
+         </Label>
+         <HBox prefHeight="66.0" prefWidth="349.0">
+            <children>
+               <ToggleButton fx:id="toggleTimeBttn" mnemonicParsing="false" onAction="#toggleTimer" prefHeight="60.0" prefWidth="349.0" text="Show Timer">
+                  <font>
+                     <Font size="25.0" />
+                  </font>
+               </ToggleButton>
+            </children>
+         </HBox>
       </children>
    </VBox>
    <StackPane fx:id="stackPane" layoutX="169.0" layoutY="113.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="740.0" prefWidth="947.0">

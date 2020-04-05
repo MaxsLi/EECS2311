@@ -15,7 +15,7 @@
             <Font name="Papyrus" size="96.0" />
          </font>
       </Label>
-      <Circle fx:id="rightCircle" blendMode="MULTIPLY" layoutX="996.0" layoutY="459.0" radius="250.0" stroke="BLACK" strokeType="INSIDE">
+      <Circle fx:id="rightCircle" blendMode="MULTIPLY" layoutX="1000.0" layoutY="459.0" radius="250.0" stroke="BLACK" strokeType="INSIDE">
          <fill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -29,7 +29,7 @@
             <Font name="Rockwell" size="28.0" />
          </font>
       </Button>
-      <Circle fx:id="leftCircle" blendMode="MULTIPLY" layoutX="256.0" layoutY="461.0" radius="250.0" stroke="BLACK" strokeType="INSIDE">
+      <Circle fx:id="leftCircle" blendMode="MULTIPLY" layoutX="250.0" layoutY="459.0" radius="250.0" stroke="BLACK" strokeType="INSIDE">
          <fill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
