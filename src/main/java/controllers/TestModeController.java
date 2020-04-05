@@ -29,6 +29,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -55,6 +56,8 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	int mins = 0, secs = 0, millis = 0;
 	
 	int elementsImported;
+	
+	public static boolean TEST_HAS_STARTED = false;
 
 	public static final String LEFT = "left";
 	public static final String RIGHT = "right";
@@ -97,6 +100,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 		File selectedFile = fileChooser.showOpenDialog(MainApp.primaryStage);
 		boolean successfullyImported = false;
+		
 
 		if (selectedFile == null) {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -107,7 +111,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			alert.showAndWait();
 		} else {
 			successfullyImported = true;
-
+			fileChooser.setInitialDirectory(selectedFile.getParentFile());
 			readAndParseTXT(selectedFile);
 			startTestMode();
 		}
@@ -154,7 +158,24 @@ public class TestModeController extends ShapeSceneController implements Initiali
 							super.addCircle();
 						}
 
-					} else {	// lineCount > 0
+					}
+					else if(lineCount == 1) {
+						appTitle.setText(st);
+					}
+					else if(lineCount == 2) {
+						leftTitle.setText(st);
+					}
+					else if(lineCount == 3) {
+						rightTitle.setText(st);
+					}
+					else if(lineCount == 4 && numOfCircles == 3) {
+						Label circleLabel = new Label(st);
+						circleLabel.setStyle("-fx-font-size:15px;");
+						circleLabel.setLayoutX(1032);
+						circleLabel.setLayoutY(751);
+						mainScene.getChildren().add(circleLabel);
+					}
+					else {	// lineCount > 4
 						String[] parts = st.split(",");
 						if (checkLine(parts)) {
 							if (assignLocation(parts[0], parts[1]) == true) {
@@ -298,6 +319,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.setAutoReverse(false);
+		TEST_HAS_STARTED = true;
 		timeline.play();
 	
 	}
@@ -425,6 +447,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		if ((text.isEmpty() || text.trim().equals(""))) {
 
 			if (REMIND_EMPTY_TEXTFIELD) {
+
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Confirmation Dialog");
 				alert.setHeaderText("Empty TextField");
@@ -601,10 +624,33 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 		});
 		
-		
-		
-		
+	
+	}
+	
+	@FXML
+	private void exitTest() throws IOException {
+		if(TEST_HAS_STARTED) {
+			timeline.pause();
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText("Test In Progress");
+			alert.setContentText("Your test is current in progress, are you sure you would like to quit?");
 
+			ButtonType yes = new ButtonType("Yes");
+			ButtonType cancel = new ButtonType("Cancel");
+
+			alert.getButtonTypes().setAll(yes, cancel);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == yes) {
+				mainApp.switchScene("shapeScene", null);
+			} else {
+				timeline.play();
+				return;
+			}
+		}
+		else
+		mainApp.switchScene("shapeScene", null);
 	}
 
 }

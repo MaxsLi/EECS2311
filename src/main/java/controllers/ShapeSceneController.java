@@ -129,10 +129,10 @@ public class ShapeSceneController implements Initializable {
 	private File currentFile;
 
 	@FXML
-	private TextField leftTitle;
+	protected TextField leftTitle;
 
 	@FXML
-	private TextField rightTitle;
+	protected TextField rightTitle;
 
 	@FXML
 	protected ToggleButton toggle;
