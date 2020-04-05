@@ -26,18 +26,17 @@ public class DragCommand implements Command{
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		shapesceneController.moveTextField(textField, offsetX, offsetY);
+//		shapesceneController.moveTextField(textField, offsetX, offsetY);
 	}
 	@Override
 	public void undo() {
 		// TODO Auto-generated method stub
-		shapesceneController.moveTextField(textField, origPosX, origPosY);
-		
+//		shapesceneController.moveTextField(textField, origPosX, origPosY);
 	}
 	@Override
 	public void redo() {
 		// TODO Auto-generated method stub
 		execute();
-		shapesceneController.getLocation(textField);
+//		shapesceneController.getLocation(textField);
 	}
 }

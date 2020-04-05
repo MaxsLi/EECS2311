@@ -2,6 +2,8 @@ package views;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
+
 import controllers.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,15 +12,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 
 public class MainApp extends Application {
 
@@ -26,13 +29,13 @@ public class MainApp extends Application {
 
 	public static Stage primaryStage;
 	private AnchorPane vennPane;
-	private BorderPane rootLayout;
 	private MenuBar menuBar;
 	private FXMLLoader loader;
-	private BorderPane menuPane;
+	private AnchorPane menuPane;
 	private MenuSceneController menuSceneCont;
 	private MenuBarController menuBarCont;
 	private ShapeSceneController shapeSceneCont;
+	private TestModeController testModeCont;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -42,50 +45,61 @@ public class MainApp extends Application {
 	public void start(Stage primaryStage) throws IOException {
 		MainApp.primaryStage = primaryStage;
 
-		this.loadRootLayout();
 		this.loadMenuScene();
 		this.loadMenubar();
 
-		Scene scene = new Scene(this.rootLayout);
+		Parent root = menuPane;
+		Scene scene = new Scene(root);
 
 		MainApp.primaryStage.setScene(scene);
-		MainApp.primaryStage.sizeToScene();
+		// MainApp.primaryStage.sizeToScene();
 		MainApp.primaryStage.setTitle(APP_TITLE);
 		MainApp.primaryStage.getIcons().add(new Image("/images/logo.png"));
 
-		MainApp.primaryStage.setMinWidth(primaryStage.getWidth());
-		MainApp.primaryStage.setMinHeight(primaryStage.getHeight());
+		MainApp.primaryStage.setMaxWidth(1250);
+		MainApp.primaryStage.setMaxHeight(917);
 
 		MainApp.primaryStage.show();
 
 		// Maximizes the stage immediately on Launch
-		MainApp.primaryStage.setMaximized(true);
+		// MainApp.primaryStage.setMaximized(true);
 
 		// Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
-			if (shapeSceneCont != null) {
-				try {
-				shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
-				}
-				catch(NullPointerException NPE) {
-					System.out.println("Thank You for Using Venn Create! (Exception)");
-					NPE.printStackTrace();
+			if (ShapeSceneController.APPLICATION_IS_SAVED == false) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Confirmation Dialog");
+				alert.setHeaderText("Application Not Saved");
+				alert.setContentText("Changes have been made since last save, would you like to save the program?");
+
+				ButtonType save = new ButtonType("Save");
+				ButtonType dontSave = new ButtonType("Dont Save");
+
+				alert.getButtonTypes().setAll(save, dontSave);
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == save) {
+					if (shapeSceneCont != null) {
+						try {
+							shapeSceneCont.saveVenn(shapeSceneCont.getTextFields());
+						} catch (NullPointerException NPE) {
+							System.out.println("Thank You for Using Venn Create! (Exception)");
+							// NPE.printStackTrace();
+						}
+						e.consume();
+						MenuBarController.closeProgram(e);
+					}
+				} else {
+					e.consume();
+					MenuBarController.closeProgram(e);
 				}
 			}
-			e.consume();
-			MenuBarController.closeProgram(e);
+			else {
+				e.consume();
+				MenuBarController.closeProgram(e);
+			}
 		});
-	}
 
-	/**
-	 * A Method to parse the rootLayout.fxml file and turn it into java code
-	 * 
-	 * @throws IOException
-	 */
-	public void loadRootLayout() throws IOException {
-		this.loader = new FXMLLoader();
-		this.loader.setLocation(getClass().getResource("/fxml/rootLayout.fxml"));
-		this.rootLayout = loader.load();
 	}
 
 	/**
@@ -97,10 +111,9 @@ public class MainApp extends Application {
 		FXMLLoader loader1 = new FXMLLoader();
 		loader1.setLocation(getClass().getResource("/fxml/menuBar.fxml"));
 		this.menuBar = loader1.load();
-		this.rootLayout.setTop(this.menuBar);
 		menuBarCont = loader1.getController();
 		menuBarCont.setMainApp(this);
-	
+		// menuBarCont.addKeyShortcuts();
 	}
 
 	/**
@@ -111,15 +124,23 @@ public class MainApp extends Application {
 	public void loadShapeScene() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("/fxml/shapeScene.fxml"));
-		// this.vennPane = (StackPane) loader.load();
-
-		// this.rootLayout.setCenter(this.vennPane);
 
 		this.vennPane = loader.load();
 
-		rootLayout.setCenter(this.addZoomPane(this.vennPane)); // make the center of the Menubar Scene to the rootLayout
 		shapeSceneCont = loader.getController();
 		shapeSceneCont.setMainApp(this);
+		MainApp.primaryStage.setScene(new Scene(this.vennPane));
+	}
+	
+	public void loadTestMode() throws IOException {
+		this.loader = new FXMLLoader();
+		this.loader.setLocation(getClass().getResource("/fxml/testMode.fxml"));
+
+		this.vennPane = loader.load();
+
+		testModeCont = loader.getController();
+		testModeCont.setMainApp(this);
+		MainApp.primaryStage.setScene(new Scene(this.vennPane));
 	}
 
 	/**
@@ -133,16 +154,20 @@ public class MainApp extends Application {
 			loadMenuScene();
 		} else if (sceneNew.equals("shapeScene")) {
 			loadShapeScene();
-		} else if (sceneNew.equals("load")) {
+		} 
+		else if(sceneNew.equals("testMode")) {
+			loadTestMode();
+		}
+		else if (sceneNew.equals("load")) {
 			loadShapeScene();
 			shapeSceneCont.loadVenn(file);
-			
-			 File currentDir = file.getParentFile();
-			 
-			 if( ! currentDir.exists()) {
-				 currentDir = new File(System.getProperty("user.home"));
-			 }
-			
+
+			File currentDir = file.getParentFile();
+
+			if (!currentDir.exists()) {
+				currentDir = new File(System.getProperty("user.home"));
+			}
+
 			if (currentDir.list().length == 0) {
 				loadMenuScene();
 				Alert alert = new Alert(AlertType.WARNING);
@@ -152,8 +177,9 @@ public class MainApp extends Application {
 				alert.showAndWait();
 			}
 		}
-	}
 	
+	}
+
 	public ShapeSceneController getShapeSceneController() {
 		return this.shapeSceneCont;
 	}
@@ -175,16 +201,8 @@ public class MainApp extends Application {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("/fxml/menuScene.fxml"));
 		this.menuPane = loader.load();
-		rootLayout.setCenter(this.addZoomPane(this.menuPane));
 		menuSceneCont = loader.getController();
 		menuSceneCont.setMainApp(this);
 	}
 
-	private VBox addZoomPane(Node node) {
-		Parent zoomPane = new ZoomPane(new Group(node)).getParent();
-		VBox layout = new VBox();
-		layout.getChildren().setAll(zoomPane);
-		VBox.setVgrow(zoomPane, Priority.ALWAYS);
-		return layout;
-	}
 }

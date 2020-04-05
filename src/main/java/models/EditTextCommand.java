@@ -18,13 +18,13 @@ public class EditTextCommand implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		shapesceneController.setText(textField, newText);
+//		shapesceneController.setText(textField, newText);
 	}
 	@Override
 	public void undo() {
 		// TODO Auto-generated method stub
 		this.newText=textField.getText();
-		shapesceneController.setText(textField, oldText);
+//		shapesceneController.setText(textField, oldText);
 		
 	}
 	@Override
