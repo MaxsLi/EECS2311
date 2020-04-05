@@ -1,6 +1,7 @@
 package controllers;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -154,8 +155,8 @@ public class MenuSceneController implements Initializable {
 		ftRight.setToValue(1);
 		ftRight.setAutoReverse(true);
 	
-		translateLeft.setByX(197);
-		translateRight.setByX(-198);
+		translateLeft.setByX(200);
+		translateRight.setByX(-200);
 	
 		translateLeft.setDuration(Duration.millis(2500));
 		translateRight.setDuration(Duration.millis(2500));
@@ -165,6 +166,10 @@ public class MenuSceneController implements Initializable {
 		
 		translateLeft.setNode(this.leftCircle);
 		translateRight.setNode(this.rightCircle);
+		
+		translateLeft.setCycleCount(Timeline.INDEFINITE);
+		translateRight.setCycleCount(Timeline.INDEFINITE);
+		
 		
 		translateLeft.play();
 		translateRight.play();

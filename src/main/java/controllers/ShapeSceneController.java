@@ -223,6 +223,9 @@ public class ShapeSceneController implements Initializable {
 	
 	@FXML
 	protected MenuItem exportPNG;
+	
+	@FXML
+	protected HBox saveBox;
 
 	// -----------------------Extra Circle #1's Properties May or may not be needed
 	protected Circle extraCircle;
@@ -240,6 +243,7 @@ public class ShapeSceneController implements Initializable {
 	protected Label extraTextColor = new Label("Text Color");
 	protected Slider extraFontSlider;
 	protected ColorPicker extraTextColorPicker;
+	protected TextField extraTitle;
 
 	public static boolean EXTRA_CIRCLE_ADDED = false;
 	// --------------------------------------
@@ -927,12 +931,31 @@ public class ShapeSceneController implements Initializable {
 		
 		ShapeSceneController.APPLICATION_IS_SAVED = true;
 		changesMade();
+		playSaveAnimation();
 
 	}
 
 	@FXML
 	public void saveVennBttn() {
 		saveVenn(this.getTextFields());
+	}
+	
+	private void playSaveAnimation() {
+		TranslateTransition translate = new TranslateTransition();
+
+			translate.setByX(-350);
+
+			translate.setDuration(Duration.millis(1750));
+		
+			translate.setAutoReverse(true);
+		
+			translate.setNode(this.saveBox);
+		
+			translate.setCycleCount(2);
+
+			translate.play();
+		
+		
 	}
 
 	/**
@@ -1081,7 +1104,10 @@ public class ShapeSceneController implements Initializable {
 		
 
 	}
-
+	
+	/**
+	 * A Method that lets the sliders listen for changes and act accordingly
+	 */
 	private void initSliders() {
 		// Adding Listener to value property.
 		leftSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -1149,6 +1175,9 @@ public class ShapeSceneController implements Initializable {
 
 	}
 
+	/**
+	 * A Method that adds the rightClick option to all circles in the Scene
+	 */
 	protected void initCircleContext() {
 		ContextMenu leftContext = new ContextMenu();
 		ContextMenu rightContext = new ContextMenu();
@@ -1510,6 +1539,7 @@ public class ShapeSceneController implements Initializable {
 		if (!EXTRA_CIRCLE_ADDED) {
 			ShapeSceneController.EXTRA_CIRCLE_ADDED = true;
 
+			//--------------------------Circle Starting to be added
 			Circle extraCircle = new Circle(225);
 
 			this.extraCircle = extraCircle;
@@ -1521,9 +1551,20 @@ public class ShapeSceneController implements Initializable {
 			extraCircle.setFill(Color.valueOf("#9ACD32"));
 
 			this.stackPane.getChildren().add(extraCircle);
+			
 
 			StackPane.setMargin(extraCircle, new Insets(250, 0, 0, 0));
+			//-------Circle Done Added
+			
+			//----TextField extraTitle starting to be added
+			extraTitle = new TextField();
+			extraTitle.setLayoutX(1000);
+			extraTitle.setLayoutY(751);
+			extraTitle.setStyle("-fx-font-size:20px;-fx-background-color: transparent;");
+			mainScene.getChildren().add(extraTitle);
+			//------
 
+			//---Label Starting to be Added
 			this.extra1Label.setStyle("-fx-font-size:15px;");
 			this.scrollBox.getChildren().add(this.extra1Label);
 
@@ -1532,7 +1573,10 @@ public class ShapeSceneController implements Initializable {
 			this.extra1LabelColor.setStyle("-fx-font-size:12px;");
 			this.scrollBox.getChildren().add(this.extra1LabelColor);
 			VBox.setMargin(this.extra1LabelColor, new Insets(10, 0, 0, 50));
+			//----Label Finished Adding
 
+			
+			//---Color Picker starting to be added
 			this.extra1Color = new ColorPicker();
 			this.extra1Color.setValue(Color.valueOf(ShapeSceneController.DEFAULT_EXTRACIRCLE_COLOR));
 			this.extra1Color.setMinHeight(28);
@@ -1550,12 +1594,19 @@ public class ShapeSceneController implements Initializable {
 			this.scrollBox.getChildren().add(this.extra1Color);
 
 			VBox.setMargin(this.extra1Color, new Insets(10, 0, 0, 50));
-
+			//------Color picker done being added
+			
+			
+			//---Label Starting to be added
 			this.scrollBox.getChildren().add(this.extra1LabelSize);
 			this.extra1LabelSize.setStyle("-fx-font-size:12px;");
 
 			VBox.setMargin(this.extra1LabelSize, new Insets(10, 0, 0, 50));
-
+			//---Label Done being added
+			
+			
+			
+			//----Slider Starting to be added
 			this.extra1Slider = new Slider();
 			this.extra1Slider.setMin(225);
 			this.extra1Slider.setMax(250);
@@ -1568,11 +1619,16 @@ public class ShapeSceneController implements Initializable {
 
 			this.scrollBox.getChildren().add(this.extra1Slider);
 			VBox.setMargin(this.extra1Slider, new Insets(5, 0, 0, 50));
-
+			//-----Slider done being added
+			
+			
+			//-------Label Starting to be added
 			this.extra1HoverLabel.setStyle("-fx-font-size:12px;");
 			this.scrollBox.getChildren().add(this.extra1HoverLabel);
 			VBox.setMargin(this.extra1HoverLabel, new Insets(10, 0, 0, 50));
+			//------Label done being added
 
+			//-----Color picker starting to be added
 			this.exrtra1ColorHover = new ColorPicker();
 			this.exrtra1ColorHover.setMinHeight(28);
 			this.exrtra1ColorHover.setMinWidth(137);
@@ -1621,6 +1677,9 @@ public class ShapeSceneController implements Initializable {
 
 			this.scrollBox.getChildren().add(this.exrtra1ColorHover);
 			VBox.setMargin(this.exrtra1ColorHover, new Insets(10, 0, 0, 50));
+			//-------------------Color picker done being added
+			
+			
 
 			for (TextField t : this.vennSet) {
 				t.toFront();
@@ -1633,20 +1692,30 @@ public class ShapeSceneController implements Initializable {
 			alert.showAndWait();
 
 		}
-
+		
+		//---Label starting to be added
 		this.textProperties.setStyle("-fx-font-size:15px;");
 		this.scrollBox.getChildren().add(this.textProperties);
 
 		VBox.setMargin(this.textProperties, new Insets(10, 0, 0, 30));
-
+		//---Label done being added
+		
+		
+		//-----Label starting to be added
 		this.extraFontSize.setStyle("-fx-font-size:12px;");
 		this.scrollBox.getChildren().add(this.extraFontSize);
 		VBox.setMargin(this.extraFontSize, new Insets(10, 0, 0, 50));
-
+		//----Label done being added
+		
+		
+		//----HBox starting to be added
 		sliderBox = new HBox();
 
 		this.scrollBox.getChildren().add(this.sliderBox);
-
+		//---HBox done being added
+		
+		
+		//-------Slider starting to be added
 		this.extraFontSlider = new Slider();
 		this.extraFontSlider.setMin(11);
 		this.extraFontSlider.setMax(25);
@@ -1681,11 +1750,17 @@ public class ShapeSceneController implements Initializable {
 
 		this.sliderBox.getChildren().add(this.extraFontSlider);
 		HBox.setMargin(this.extraFontSlider, new Insets(5, 0, 0, 50));
-
+		//----Slider done being added
+		
+		
+		//---Label starting to be added
 		this.extraTextColor.setStyle("-fx-font-size:12px;");
 		this.scrollBox.getChildren().add(this.extraTextColor);
 		VBox.setMargin(this.extraTextColor, new Insets(10, 0, 0, 50));
+		//---Label done being added
 
+		
+		//----Color picker starting to be added
 		this.extraTextColorPicker = new ColorPicker();
 		this.extraTextColorPicker.setMinHeight(28);
 		this.extraTextColorPicker.setMinWidth(137);
@@ -1712,12 +1787,14 @@ public class ShapeSceneController implements Initializable {
 
 		this.scrollBox.getChildren().add(this.extraTextColorPicker);
 		VBox.setMargin(this.extraTextColorPicker, new Insets(10, 0, 0, 50));
+		//----Color picker done being added
 
 		initCircleContext();
 		
 		ShapeSceneController.APPLICATION_IS_SAVED = false;
 		changesMade();
 	}
+	
 
 	@FXML
 	protected void undo(ActionEvent e) {
