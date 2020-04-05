@@ -62,7 +62,7 @@ public class ShapeSceneController implements Initializable {
 	private final static String DEFAULT_BACKGROUND_COLOR = "#F5DEB3";
 	private final static String DEFAULT_LEFTCIRCLE_COLOR = "#87ceeb";
 	private final static String DEFAULT_RIGHTCIRCLE_COLOR = "#a0522d";
-	private final static String DEFAULT_EXTRACIRCLE_COLOR = "#9ACD32";
+	protected final static String DEFAULT_EXTRACIRCLE_COLOR = "#9ACD32";
 	private final static String DEFAULT_TITLE_COLOR = "#000000";
 	
 
@@ -72,7 +72,7 @@ public class ShapeSceneController implements Initializable {
 
 	private static boolean LEFT_CIRCLE_HOVER = true;
 	private static boolean RIGHT_CIRCLE_HOVER = true;
-	private static boolean EXTRA_CIRCLE_HOVER = true;
+	protected static boolean EXTRA_CIRCLE_HOVER = true;
 	
 	protected static boolean NAV_IS_SHOWING = false;
 	
@@ -80,8 +80,6 @@ public class ShapeSceneController implements Initializable {
 	
 	public static boolean ANIMATION_DONE = true;
 
-	@FXML
-	public Label sideLabel;
 
 	@FXML
 	protected AnchorPane mainScene;
@@ -1088,6 +1086,7 @@ public class ShapeSceneController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		this.vennShape = new VennShape(this.leftCircle, this.rightCircle);
 		this.vennSet = new VennSet(this.vennShape);
+		ShapeSceneController.EXTRA_CIRCLE_ADDED = false;
 
 		// this.drawerHolder.setSidePane(this.navBox);
 		this.navBox.setVisible(false);
