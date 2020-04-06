@@ -94,7 +94,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	    FadeTransition ft = new FadeTransition(Duration.millis(1000), this.importTxtBttn);  
 	  	ft.setFromValue(0);
 		ft.setToValue(1.0);
-		ft.setCycleCount(100);
+		ft.setCycleCount(Timeline.INDEFINITE);
 		ft.setAutoReverse(true);
 		ft.play();
 		
@@ -703,7 +703,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	@Override
 	public void addCircle() {
 		if (!EXTRA_CIRCLE_ADDED) {
-			ShapeSceneController.EXTRA_CIRCLE_ADDED = true;
+			ShapeSceneController.EXTRA_CIRCLE_ADDED = false;
 
 			//--------------------------Circle Starting to be added
 			Circle extraCircle = new Circle(225);

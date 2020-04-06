@@ -288,7 +288,6 @@
    <TextField fx:id="appTitle" layoutX="427.0" layoutY="27.0" prefHeight="46.0" prefWidth="396.0" promptText="Enter Title of Venn Diagram" style="-fx-font-size: 25; -fx-background-color: transparent;" />
    <TextField fx:id="sideAdded" editable="false" layoutX="992.0" layoutY="836.0" style="-fx-font-size: 20; -fx-background-color: transparent;" />
    <ToggleButton fx:id="toggle" layoutX="14.0" layoutY="41.0" mnemonicParsing="false" onAction="#toggleDrawer" style="-fx-font-size: 18;" text="SHOW" />
-   <Label fx:id="sideLabel" layoutX="1048.0" layoutY="797.0" prefHeight="26.0" prefWidth="136.0" text="  Side Added" />
    <Button fx:id="exitTestBttn" layoutX="1123.0" layoutY="32.0" mnemonicParsing="false" onAction="#exitTest" prefHeight="39.0" prefWidth="122.0" style="-fx-font-size: 20;" text="Exit Test" textFill="RED" />
    <Button fx:id="submitBttn" layoutX="1123.0" layoutY="91.0" mnemonicParsing="false" onAction="#submitResults" prefHeight="39.0" prefWidth="122.0" style="-fx-font-size: 20;" text="Submit " textFill="GREEN" />
    <Text fx:id="text" layoutX="1032.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" textAlignment="CENTER" wrappingWidth="208.41015625">
