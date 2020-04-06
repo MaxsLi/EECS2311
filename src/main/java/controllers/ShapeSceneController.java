@@ -63,6 +63,9 @@ public class ShapeSceneController implements Initializable {
 	private final static String DEFAULT_LEFTCIRCLE_COLOR = "#87ceeb";
 	private final static String DEFAULT_RIGHTCIRCLE_COLOR = "#a0522d";
 	protected final static String DEFAULT_EXTRACIRCLE_COLOR = "#9ACD32";
+	protected final static String DEFAULT_LEFT_HOVER_COLOR = "#1a3399";
+	protected final static String DEFAULT_RIGHT_HOVER_COLOR = "#990000";
+	protected final static String DEFAULT_EXTRA_HOVER_COLOR = "#ffff4d";
 	private final static String DEFAULT_TITLE_COLOR = "#000000";
 	
 
@@ -352,11 +355,16 @@ public class ShapeSceneController implements Initializable {
 	}
 	
 	private void changesMade() {
+		String filename = this.currentFileName;
+		if(filename == null) {
+			filename = "Untitled";
+		}
+		
 		if(ShapeSceneController.APPLICATION_IS_SAVED) {
-			MainApp.primaryStage.setTitle("VennCreate - Saved");
+			MainApp.primaryStage.setTitle(filename + " - Saved");
 		}
 		else {
-			MainApp.primaryStage.setTitle("VennCreate - Unsaved");
+			MainApp.primaryStage.setTitle(filename + " - UnSaved");
 		}
 	}
 	
@@ -1068,6 +1076,12 @@ public class ShapeSceneController implements Initializable {
 				+ titleColors.getValue().toString().substring(2, titleColors.getValue().toString().length() - 2) + ";"
 				+ "-fx-font-size:20px;");
 		
+		if(ShapeSceneController.EXTRA_CIRCLE_ADDED) {
+			extraTitle.setStyle("-fx-background-color: transparent;\n-fx-text-fill: #"
+					+ titleColors.getValue().toString().substring(2, titleColors.getValue().toString().length() - 2) + ";"
+					+ "-fx-font-size:20px;");
+		}
+		
 		ShapeSceneController.APPLICATION_IS_SAVED = false;
 		changesMade();
 	}
@@ -1098,6 +1112,9 @@ public class ShapeSceneController implements Initializable {
 
 		this.leftColorPicker.setValue(Color.valueOf(ShapeSceneController.DEFAULT_LEFTCIRCLE_COLOR));
 		this.rightColorPicker.setValue(Color.valueOf(ShapeSceneController.DEFAULT_RIGHTCIRCLE_COLOR));
+		
+		this.leftHoverColor.setValue(Color.valueOf(ShapeSceneController.DEFAULT_LEFT_HOVER_COLOR));
+		this.rightHoverColor.setValue(Color.valueOf(ShapeSceneController.DEFAULT_RIGHT_HOVER_COLOR));
 
 		initCircleContext();
 		
@@ -1538,6 +1555,7 @@ public class ShapeSceneController implements Initializable {
 	public void addCircle() {
 		if (!EXTRA_CIRCLE_ADDED) {
 			ShapeSceneController.EXTRA_CIRCLE_ADDED = true;
+			
 
 			//--------------------------Circle Starting to be added
 			Circle extraCircle = new Circle(225);
@@ -1634,6 +1652,8 @@ public class ShapeSceneController implements Initializable {
 			this.exrtra1ColorHover.setMinWidth(137);
 			this.exrtra1ColorHover.setMaxHeight(28);
 			this.exrtra1ColorHover.setMaxWidth(137);
+			
+			this.exrtra1ColorHover.setValue(Color.valueOf(ShapeSceneController.DEFAULT_EXTRA_HOVER_COLOR));
 
 			exrtra1ColorHover.setOnAction(new EventHandler<ActionEvent>() {
 				@Override

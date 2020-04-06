@@ -80,16 +80,16 @@
             </children>
          </HBox>
          <ListView fx:id="itemList" prefHeight="249.0" prefWidth="353.0" />
-         <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="273.0">
+         <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="341.0" VBox.vgrow="ALWAYS">
             <opaqueInsets>
                <Insets />
             </opaqueInsets>
             <children>
-               <ButtonBar prefHeight="46.0" prefWidth="359.0" HBox.hgrow="ALWAYS">
+               <ButtonBar prefHeight="48.0" prefWidth="292.0" HBox.hgrow="ALWAYS">
                  <buttons>
                    <Button fx:id="clearListBttn" mnemonicParsing="false" onAction="#clearList" text="Clear List" />
                      <Button fx:id="eraseItemBttn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#eraseItem" prefHeight="29.0" prefWidth="155.0" text="Erase Item" />
-                     <Button fx:id="createItemBttn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#createItem" prefHeight="29.0" text="Create Item" />
+                     <Button fx:id="createItemBttn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="67.0" mnemonicParsing="false" onAction="#createItem" prefHeight="29.0" prefWidth="169.0" text="Create Item" />
                  </buttons>
                </ButtonBar>
             </children>

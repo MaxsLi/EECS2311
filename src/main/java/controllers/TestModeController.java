@@ -703,7 +703,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	@Override
 	public void addCircle() {
 		if (!EXTRA_CIRCLE_ADDED) {
-			ShapeSceneController.EXTRA_CIRCLE_ADDED = true;
+			ShapeSceneController.EXTRA_CIRCLE_ADDED = false;
 
 			//--------------------------Circle Starting to be added
 			Circle extraCircle = new Circle(225);
