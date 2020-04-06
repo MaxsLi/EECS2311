@@ -3,29 +3,23 @@ package models;
 import controllers.ShapeSceneController;
 import javafx.scene.control.TextField;
 
-public class EditTextCommand implements Command {
+public class DeleteCommand implements Command {
 
 	private ShapeSceneController shapesceneController;
 	private TextField textField;
-	private String oldText;
-	private String newText;
-	public EditTextCommand(ShapeSceneController shapeSceneController, TextField textField, String oldText) {
+	public DeleteCommand(ShapeSceneController shapeSceneController, TextField textField) {
 		this.shapesceneController=shapeSceneController;
 		this.textField=textField;
-		this.oldText=oldText;
 	}
-
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		shapesceneController.setText(textField, newText);
+		shapesceneController.deleteSpecficText(textField);
 	}
 	@Override
 	public void undo() {
 		// TODO Auto-generated method stub
-		this.newText=textField.getText();
-		shapesceneController.setText(textField, oldText);
-		
+		shapesceneController.addTextField(textField.getText(),textField);
 	}
 	@Override
 	public void redo() {

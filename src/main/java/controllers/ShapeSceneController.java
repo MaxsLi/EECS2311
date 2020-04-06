@@ -17,6 +17,10 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.sound.midi.VoiceStatus;
+
+import org.junit.platform.commons.function.Try;
+
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -40,6 +44,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -52,7 +59,12 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
+import models.AddCommand;
+import models.Command;
+import models.DragCommand;
+import models.EditTextCommand;
 import models.Location;
+import models.UndoRedoManager;
 import models.VennSet;
 import models.VennShape;
 import utilities.TextUtils;
@@ -198,6 +210,12 @@ public class ShapeSceneController implements Initializable {
 	protected MenuItem aboutItem;
 
 	@FXML
+	private MenuItem undoBtn;
+	
+	@FXML
+	private MenuItem redoBtn;
+	
+	@FXML
 	protected Slider leftFontSlider;
 
 //	@FXML
@@ -223,7 +241,7 @@ public class ShapeSceneController implements Initializable {
 	
 	@FXML
 	protected MenuItem exportPNG;
-
+	
 	// -----------------------Extra Circle #1's Properties May or may not be needed
 	protected Circle extraCircle;
 	protected Slider extra1Slider;
@@ -265,7 +283,13 @@ public class ShapeSceneController implements Initializable {
 	protected double orgSceneY;
 	protected double orgTranslateX;
 	protected double orgTranslateY;
-
+	
+	private UndoRedoManager undoRedoManager;
+	
+	private DragCommand dragCommand;
+	
+	private boolean init;
+	
 	/**
 	 * An array containing possible locations for a new textfield to be placed on
 	 * the scene when entered
@@ -284,6 +308,21 @@ public class ShapeSceneController implements Initializable {
 
 	public static final String COMMA = ",";
 
+	private void addKeyShortcuts() {
+	 mainApp.primaryStage.getScene().setOnKeyPressed(e->{
+	 if (e.isControlDown()&&e.getCode()==KeyCode.Z) {
+	 this.undo();
+	 }
+	 else if (e.isControlDown()&&e.isShiftDown()&&e.getCode()==KeyCode.Y) {
+	 this.redo();
+	 }
+	 });
+	undoBtn.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
+	redoBtn.setAccelerator(
+			new KeyCodeCombination(KeyCode.Y, KeyCodeCombination.SHIFT_DOWN, KeyCodeCombination.CONTROL_DOWN));
+}
+
+	
 	/**
 	 * On click, creates a textArea which can be dragged into Respective Circle
 	 */
@@ -319,34 +358,41 @@ public class ShapeSceneController implements Initializable {
 
 			TextField newTextField = new TextField();
 
-			newTextField.setEditable(false);
-			newTextField.setTranslateX(textFieldPointLocations[textFieldPointLocationsIndex].getX());
-			newTextField.setTranslateY(textFieldPointLocations[textFieldPointLocationsIndex].getY());
-
-			adjustNewTextLocation();
-
-			newTextField.setStyle("-fx-background-color:transparent; -fx-font-size:18px; ");
-
-			newTextField.setMinWidth(Control.USE_PREF_SIZE);
-			newTextField.setPrefWidth(Control.USE_COMPUTED_SIZE);
-			newTextField.setMaxWidth(Control.USE_PREF_SIZE);
-
-			this.addDragEvent(newTextField);
-			this.addContext(newTextField);
-
-			if (!this.itemList.getItems().contains(newText)) {
-				this.itemList.getItems().add(newText);
-			}
-
-			newTextField.setText(newText);
-			this.stackPane.getChildren().add(newTextField);
-			this.vennSet.add(newTextField);
-			this.sideAdded.clear();
-			this.diagramText.clear();
+			Command a=new AddCommand(this, newTextField);
+			undoRedoManager.addCommand(a);
+			addTextField(newText, newTextField);
 		}
 		
 		ShapeSceneController.APPLICATION_IS_SAVED = false;
 		changesMade();
+	}
+
+	public TextField addTextField(String newText, TextField newTextField) {
+		newTextField.setEditable(false);
+		newTextField.setTranslateX(textFieldPointLocations[textFieldPointLocationsIndex].getX());
+		newTextField.setTranslateY(textFieldPointLocations[textFieldPointLocationsIndex].getY());
+
+		adjustNewTextLocation();
+
+		newTextField.setStyle("-fx-background-color:transparent; -fx-font-size:18px; ");
+
+		newTextField.setMinWidth(Control.USE_PREF_SIZE);
+		newTextField.setPrefWidth(Control.USE_COMPUTED_SIZE);
+		newTextField.setMaxWidth(Control.USE_PREF_SIZE);
+
+		this.addDragEvent(newTextField);
+		this.addContext(newTextField);
+
+		if (!this.itemList.getItems().contains(newText)) {
+			this.itemList.getItems().add(newText);
+		}
+
+		newTextField.setText(newText);
+		this.stackPane.getChildren().add(newTextField);
+		this.vennSet.add(newTextField);
+		this.sideAdded.clear();
+		this.diagramText.clear();
+		return newTextField;
 	}
 	
 	private void changesMade() {
@@ -375,7 +421,7 @@ public class ShapeSceneController implements Initializable {
 		diagramText.setText(newItem);
 		addTextToDiagram();
 	}
-
+	
 	@FXML
 	protected void clearList() {
 		try {
@@ -395,12 +441,32 @@ public class ShapeSceneController implements Initializable {
 		}
 	}
 
+	public void eraseItem(String text) {
+		try {
+			int index=-1;
+			boolean found=false;
+			for (int i = 0; i < itemList.getItems().size()&&!found; i++) {
+				if (itemList.getItems().get(i).equals(text)) {
+					index=i;
+					found=true;
+				}
+			}
+			itemList.getItems().remove(index);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return;
+		}
+	}
+	
+	public void addItem(String newString) {
+		itemList.getItems().add(newString);
+	}
 	/**
 	 * Adds Drag Events to created TextFields
 	 * 
 	 * @param textField the TextField to be added
 	 */
 	protected void addDragEvent(TextField textField) {
+		
 		textField.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 
 			this.diagramText.clear();
@@ -410,7 +476,7 @@ public class ShapeSceneController implements Initializable {
 			orgTranslateY = textField.getTranslateY();
 
 			textField.toFront();
-
+			dragCommand=new DragCommand(this, textField, orgTranslateX, orgTranslateY);
 		});
 		
 
@@ -424,13 +490,10 @@ public class ShapeSceneController implements Initializable {
 			double newTranslateX = orgTranslateX + offsetX;
 			double newTranslateY = orgTranslateY + offsetY;
 
-			textField.setTranslateX(newTranslateX);
-			textField.setTranslateY(newTranslateY);
-
-			resetTextFieldPointLocationsIndex();
+			dragCommand.setOffsetX(newTranslateX);
+			dragCommand.setOffsetY(newTranslateY);
 			
-			ShapeSceneController.APPLICATION_IS_SAVED = false;
-			changesMade();
+			dragCommand.execute();
 
 		});
 
@@ -444,74 +507,8 @@ public class ShapeSceneController implements Initializable {
 		 * intersectionSet
 		 */
 		textField.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-			Location textBoxLocation;
-
-			try {
-				textBoxLocation = this.vennSet.getLocation(textField);
-			} catch (Exception exception) {
-				if (REMIND_OUTOF_BOUNDS) {
-					Alert alert = new Alert(AlertType.CONFIRMATION);
-					alert.setTitle("Confirmation Dialog");
-					alert.setHeaderText("TextField Out of Bounds");
-					alert.setContentText("Please place the textfield within the bounds of the circle." + "\n"
-							+ "Would you like to be reminded of this again?");
-
-					ButtonType remindMe = new ButtonType("Remind Me");
-					ButtonType dontRemindMe = new ButtonType("Do not Remind Me");
-
-					alert.getButtonTypes().setAll(remindMe, dontRemindMe);
-
-					Optional<ButtonType> result = alert.showAndWait();
-					if (result.get() == remindMe) {
-						REMIND_OUTOF_BOUNDS = true;
-					} else {
-						REMIND_OUTOF_BOUNDS = false;
-					}
-
-				}
-				return;
-			}
-
-			if (textBoxLocation == Location.INTERSECTING_ALL) {
-				sideAdded.setText("Intersecting All Circles!");
-				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
-				tfLocations.put(textField, Location.INTERSECTING_ALL);
-			}
-
-			else if (textBoxLocation == Location.INTERSECTING_BOTTOM_LEFT) {
-				sideAdded.setText("Intersecting Left & Bottom!");
-				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
-				tfLocations.put(textField, Location.INTERSECTING_BOTTOM_LEFT);
-			} else if (textBoxLocation == Location.INTERSECTING_LEFT_RIGHT) {
-				sideAdded.setText("Intersecting Left & Right!");
-				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
-				tfLocations.put(textField, Location.INTERSECTING_LEFT_RIGHT);
-			} else if (textBoxLocation == Location.INTERSECTING_BOTTOM_RIGHT) {
-				sideAdded.setText("Intersecting Right & Bottom!");
-				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
-				tfLocations.put(textField, Location.INTERSECTING_BOTTOM_RIGHT);
-			}
-
-			else if (textBoxLocation == Location.LEFT) {
-				sideAdded.setText("Left!");
-				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 18px;-fx-background-color:transparent;");
-				tfLocations.put(textField, Location.LEFT);
-			} else if (textBoxLocation == Location.RIGHT) {
-				sideAdded.setText("Right!");
-				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
-				tfLocations.put(textField, Location.RIGHT);
-			} else if (textBoxLocation == Location.BOTTOM) {
-				sideAdded.setText("Bottom!");
-				sideAdded.setEditable(false);
-				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
-				tfLocations.put(textField, Location.BOTTOM);
-			}
+		
+			undoRedoManager.addCommand(dragCommand);
 
 		});
 		
@@ -525,6 +522,94 @@ public class ShapeSceneController implements Initializable {
 		
 		
 
+	}
+
+
+	public void getLocation(TextField textField) {
+		Location textBoxLocation;
+
+		try {
+			textBoxLocation = this.vennSet.getLocation(textField);
+			
+		} catch (Exception exception) {
+			if (REMIND_OUTOF_BOUNDS) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Confirmation Dialog");
+				alert.setHeaderText("TextField Out of Bounds");
+				alert.setContentText("Please place the textfield within the bounds of the circle." + "\n"
+						+ "Would you like to be reminded of this again?");
+
+				ButtonType remindMe = new ButtonType("Remind Me");
+				ButtonType dontRemindMe = new ButtonType("Do not Remind Me");
+
+				alert.getButtonTypes().setAll(remindMe, dontRemindMe);
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == remindMe) {
+					REMIND_OUTOF_BOUNDS = true;
+				} else {
+					REMIND_OUTOF_BOUNDS = false;
+				}
+
+			}
+			return;
+		}
+
+		if (textBoxLocation == Location.INTERSECTING_ALL) {
+			sideAdded.setText("Intersecting All Circles!");
+			sideAdded.setEditable(false);
+			sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
+			tfLocations.put(textField, Location.INTERSECTING_ALL);
+		}
+
+		else if (textBoxLocation == Location.INTERSECTING_BOTTOM_LEFT) {
+			sideAdded.setText("Intersecting Left & Bottom!");
+			sideAdded.setEditable(false);
+			sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
+			tfLocations.put(textField, Location.INTERSECTING_BOTTOM_LEFT);
+		} else if (textBoxLocation == Location.INTERSECTING_LEFT_RIGHT) {
+			sideAdded.setText("Intersecting Left & Right!");
+			sideAdded.setEditable(false);
+			sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
+			tfLocations.put(textField, Location.INTERSECTING_LEFT_RIGHT);
+		} else if (textBoxLocation == Location.INTERSECTING_BOTTOM_RIGHT) {
+			sideAdded.setText("Intersecting Right & Bottom!");
+			sideAdded.setEditable(false);
+			sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
+			tfLocations.put(textField, Location.INTERSECTING_BOTTOM_RIGHT);
+		}
+
+		else if (textBoxLocation == Location.LEFT) {
+			sideAdded.setText("Left!");
+			sideAdded.setEditable(false);
+			sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 18px;-fx-background-color:transparent;");
+			tfLocations.put(textField, Location.LEFT);
+		} else if (textBoxLocation == Location.RIGHT) {
+			sideAdded.setText("Right!");
+			sideAdded.setEditable(false);
+			sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
+			tfLocations.put(textField, Location.RIGHT);
+		} else if (textBoxLocation == Location.BOTTOM) {
+			sideAdded.setText("Bottom!");
+			sideAdded.setEditable(false);
+			sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
+			tfLocations.put(textField, Location.BOTTOM);
+		}
+	}
+
+
+	public void moveTextField(TextField textField, double newTranslateX, double newTranslateY) {
+	
+		textField.setTranslateX(newTranslateX);
+		textField.setTranslateY(newTranslateY);
+
+		resetTextFieldPointLocationsIndex();
+		
+		ShapeSceneController.APPLICATION_IS_SAVED = false;
+		
+		getLocation(textField);
+		
+		changesMade();
 	}
 
 	/**
@@ -543,7 +628,11 @@ public class ShapeSceneController implements Initializable {
 		context.getItems().add(addDescription);
 		textField.setContextMenu(context);
 
-		delete.setOnAction((event) -> deleteSpecficText(textField));
+		delete.setOnAction((event) -> {
+			
+			
+			
+		});
 
 		edit.setOnAction((event) -> textField.setEditable(true));
 		
@@ -570,7 +659,7 @@ public class ShapeSceneController implements Initializable {
 		}
 	}
 
-	protected void deleteSpecficText(TextField tf) {
+	public void deleteSpecficText(TextField tf) {
 		String contents = tf.getText();
 		stackPane.getChildren().remove(tf);
 		for (int i = 0; i < this.vennSet.size(); i++) {
@@ -1080,6 +1169,17 @@ public class ShapeSceneController implements Initializable {
 		initCircleContext();
 		
 
+		this.undoRedoManager=new UndoRedoManager();
+
+		init=true;
+		leftTitle.focusedProperty().addListener((observable, oldValue, newValue)->{
+			if (newValue&&init) {
+				leftTitle.getParent().requestFocus();;
+				init=false;
+			}
+		});
+		addKeyShortcuts();
+		addTitleListeners();
 	}
 
 	private void initSliders() {
@@ -1720,13 +1820,35 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	@FXML
-	protected void undo(ActionEvent e) {
-		// shapeSceneCont.undo();
+	protected void addTitleListeners() {
+		appTitle.addEventHandler(MouseEvent.MOUSE_PRESSED,e->{
+			Command a=new EditTextCommand(this, appTitle, appTitle.getText());
+			undoRedoManager.addCommand(a);
+			
+		});
+		
+		leftTitle.addEventHandler(MouseEvent.MOUSE_PRESSED,e->{
+			Command a=new EditTextCommand(this, leftTitle, leftTitle.getText());
+			undoRedoManager.addCommand(a);
+			
+		});
+		
+		rightTitle.addEventHandler(MouseEvent.MOUSE_PRESSED,e->{
+			Command a=new EditTextCommand(this, rightTitle, rightTitle.getText());
+			undoRedoManager.addCommand(a);
+			
+		});
+	}
+	
+	@FXML
+	protected void undo() {
+		undoRedoManager.undo();
+		
 	}
 
 	@FXML
-	protected void redo(ActionEvent e) {
-		// shapeSceneCont.redo();
+	protected void redo() {
+		undoRedoManager.redo();
 	}
 
 	@FXML
@@ -1873,6 +1995,13 @@ public class ShapeSceneController implements Initializable {
 	
 	@FXML
 	private void exportPNG() {
+		
+	}
+
+
+	public void setText(TextField textField, String newText) {
+		// TODO Auto-generated method stub
+		textField.setText(newText);
 		
 	}
 
