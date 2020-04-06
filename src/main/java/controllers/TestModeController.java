@@ -94,7 +94,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	    FadeTransition ft = new FadeTransition(Duration.millis(1000), this.importTxtBttn);  
 	  	ft.setFromValue(0);
 		ft.setToValue(1.0);
-		ft.setCycleCount(100);
+		ft.setCycleCount(Timeline.INDEFINITE);
 		ft.setAutoReverse(true);
 		ft.play();
 		
