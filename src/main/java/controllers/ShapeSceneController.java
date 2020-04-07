@@ -67,6 +67,7 @@ public class ShapeSceneController implements Initializable {
 	protected final static String DEFAULT_RIGHT_HOVER_COLOR = "#990000";
 	protected final static String DEFAULT_EXTRA_HOVER_COLOR = "#ffff4d";
 	private final static String DEFAULT_TITLE_COLOR = "#000000";
+	protected static int NUM_OF_CIRCLES = 2;
 	
 
 	public static boolean REMIND_OUTOF_BOUNDS = true;
@@ -255,6 +256,7 @@ public class ShapeSceneController implements Initializable {
 	protected VennSet vennSet;
 
 	protected HashMap<TextField, Location> tfLocations = new HashMap<>();
+	private HashMap<TextField, String> tooltipHolder = new HashMap<>(); //A hashmap that holds the longer descriptions of text if necessary
 
 	/**
 	 * A static variable to allow the user to choice if they want to continue to be
@@ -572,6 +574,7 @@ public class ShapeSceneController implements Initializable {
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()){
+			tooltipHolder.put(tf, result.get());
 		    Tooltip tt = new Tooltip(result.get());
 		    Tooltip.install(tf, tt);
 		}
@@ -616,6 +619,14 @@ public class ShapeSceneController implements Initializable {
 	 * the screen
 	 */
 	public void loadVenn(File fileToLoad) {
+		int appTitleCol = 0;
+		int leftTitleCol = 1;
+		int rightTitleCol = 2;
+		int leftCircelColorCol = 3;
+		int rightCircleColorCol = 4;
+		int mainSceneColorCol = 5;
+		int titleTextColorCol = 6;
+		int numOfCirclesCol = 7;
 
 		try {
 
@@ -640,23 +651,23 @@ public class ShapeSceneController implements Initializable {
 
 				// System.out.println(Arrays.toString(firstLineInfo));
 
-				this.appTitle.setText(firstLineInfo[0]);
-				this.leftTitle.setText(firstLineInfo[1]);
-				this.rightTitle.setText(firstLineInfo[2]);
+				this.appTitle.setText(firstLineInfo[appTitleCol]);
+				this.leftTitle.setText(firstLineInfo[leftTitleCol]);
+				this.rightTitle.setText(firstLineInfo[rightTitleCol]);
 
-				if (firstLineInfo[3].equals("0xffffffff")) {
+				if (firstLineInfo[leftCircelColorCol].equals("0xffffffff")) {
 					this.leftCircle.setFill(Color.valueOf(ShapeSceneController.DEFAULT_LEFTCIRCLE_COLOR));
 				} else {
 					this.leftCircle.setFill(Paint.valueOf(firstLineInfo[3]));
 				}
 
-				if (firstLineInfo[4].equals("0xffffffff")) {
+				if (firstLineInfo[rightCircleColorCol].equals("0xffffffff")) {
 					this.rightCircle.setFill(Color.valueOf(ShapeSceneController.DEFAULT_RIGHTCIRCLE_COLOR));
 				} else {
 					this.rightCircle.setFill(Paint.valueOf(firstLineInfo[4]));
 				}
 
-				if (firstLineInfo[5].equals("0xffffffff")) {
+				if (firstLineInfo[mainSceneColorCol].equals("0xffffffff")) {
 					this.mainScene
 							.setStyle("-fx-background-color:" + ShapeSceneController.DEFAULT_BACKGROUND_COLOR + ";");
 				} else {
@@ -664,7 +675,7 @@ public class ShapeSceneController implements Initializable {
 							.substring(2, Paint.valueOf(firstLineInfo[5]).toString().length() - 2) + ";");
 				}
 
-				if (firstLineInfo[6].equals("0xffffffff")) {
+				if (firstLineInfo[titleTextColorCol].equals("0xffffffff")) {
 					this.appTitle.setStyle("-fx-text-fill:" + ShapeSceneController.DEFAULT_TITLE_COLOR + ";"
 							+ "-fx-background-color: transparent; -fx-font-size:25px;");
 					this.leftTitle.setStyle("-fx-text-fill:" + ShapeSceneController.DEFAULT_TITLE_COLOR + ";"
@@ -686,6 +697,9 @@ public class ShapeSceneController implements Initializable {
 							+ ";" + "-fx-background-color: transparent;-fx-font-size:20px;");
 
 				}
+				if(firstLineInfo[numOfCirclesCol].equals("3")) {
+					addCircle();
+				}
 				// System.out.println(lineCounter);
 
 				lineCounter++;
@@ -700,33 +714,6 @@ public class ShapeSceneController implements Initializable {
 			}
 
 			while ((s = br.readLine()) != null) {
-				if (lineCounter == 1) { // Make sure to not touch first Line
-					try {
-						String[] firstLineInfo = s.split(COMMA);
-
-						// System.out.println(Arrays.toString(firstLineInfo));
-
-						this.appTitle.setText(firstLineInfo[0]);
-						this.leftTitle.setText(firstLineInfo[1]);
-						this.rightTitle.setText(firstLineInfo[2]);
-						this.leftCircle.setFill(Paint.valueOf(firstLineInfo[3]));
-						this.rightCircle.setFill(Paint.valueOf(firstLineInfo[4]));
-
-						// System.out.println("The line number is: " + lineCounter);
-
-						lineCounter++;
-						continue;
-
-					} catch (IllegalArgumentException ex) {
-						Alert alert = new Alert(AlertType.WARNING);
-						alert.setTitle("Warning Dialog");
-						alert.setHeaderText("Trouble Parsing First Line");
-						alert.setContentText(
-								"There is something wrong with the first line of the CSV File, and cannot be parsed");
-						alert.showAndWait();
-					}
-
-				}
 				parts = s.split(COMMA);
 
 				// System.out.println("The line number is: " + lineCounter);
@@ -737,15 +724,22 @@ public class ShapeSceneController implements Initializable {
 				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
 				tf.setMaxWidth(Control.USE_PREF_SIZE);
 				this.addContext(tf);
-				tf.setText(parts[0]); // parts[0] is the text column of the line
+				tf.setText(parts[0]);// parts[0] is the text column of the line
+				
+				if(!parts[1].equals("")) {
+					Tooltip tt = new Tooltip(parts[1]);
+					Tooltip.install(tf, tt);
+				}
+				
+				
 				tf.setEditable(false);
 				tf.resizeRelocate(0, 0, 1, 1);
 				tf.resize(50, 50);
 
 				try {
 
-					double textFieldX = Double.parseDouble(parts[1]);
-					double textFieldY = Double.parseDouble(parts[2]);
+					double textFieldX = Double.parseDouble(parts[2]);
+					double textFieldY = Double.parseDouble(parts[3]);
 					tf.setTranslateX(textFieldX);
 					tf.setTranslateY(textFieldY);
 					stackPane.getChildren().add(tf);
@@ -786,8 +780,12 @@ public class ShapeSceneController implements Initializable {
 			}
 			fr.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Warning Dialog");
+			alert.setHeaderText("Oops, Something went seriously wrong :(");
+			alert.setContentText(
+					"Something went wrong with trying to parse your CSV file, please make sure they abide VennCreates standards and try again");
+			alert.showAndWait();
 		}
 	}
 
@@ -821,7 +819,7 @@ public class ShapeSceneController implements Initializable {
 		 */
 		String firstLine = appSaver.attrAppTitle + COMMA + appSaver.attrLeftTitle + COMMA + appSaver.attrRightTitle
 				+ COMMA + appSaver.attrLeftColor.toString() + COMMA + appSaver.attrRightColor.toString() + COMMA
-				+ appSaver.attrSceneColor.toString() + COMMA + appSaver.attrTitleColor.toString() + COMMA
+				+ appSaver.attrSceneColor.toString() + COMMA + appSaver.attrTitleColor.toString() + COMMA + ShapeSceneController.NUM_OF_CIRCLES + COMMA
 				+ "<---DO NOT MODIFY THIS LINE" + "\n" + dummyLine;
 
 		try {
@@ -918,7 +916,14 @@ public class ShapeSceneController implements Initializable {
 				try { // If Nothing Was Added on GetExisting, the program crashes, this is so it
 						// doesn't crash
 						// System.out.println(this.vennSet.getLocation(textField)));
-					pw.println(textField.getText() + COMMA + textField.getTranslateX() + COMMA
+					String longerDescription = null;
+					if(tooltipHolder.containsKey(textField)) {
+						longerDescription = tooltipHolder.get(textField);
+					}
+					else {
+						longerDescription = "";
+					}
+					pw.println(textField.getText() + COMMA + longerDescription + COMMA + textField.getTranslateX() + COMMA
 							+ textField.getTranslateY() + COMMA + this.vennSet.getLocation(textField));
 
 					writeIndexer++;
@@ -1555,6 +1560,7 @@ public class ShapeSceneController implements Initializable {
 	public void addCircle() {
 		if (!EXTRA_CIRCLE_ADDED) {
 			ShapeSceneController.EXTRA_CIRCLE_ADDED = true;
+			ShapeSceneController.NUM_OF_CIRCLES++;
 			
 
 			//--------------------------Circle Starting to be added
