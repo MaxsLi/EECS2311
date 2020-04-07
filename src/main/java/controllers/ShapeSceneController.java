@@ -291,8 +291,8 @@ public class ShapeSceneController implements Initializable {
 			new Point2D(-375, -75), new Point2D(-375, -25), new Point2D(-375, 25), new Point2D(-375, 75), new Point2D(-375, 125) };
 	public int textFieldPointLocationsIndex = 0;
 
-	static Color LEFTCIRCLECOLOR = Color.valueOf("#ff8a8a");
-	static Color RIGHTCIRCLECOLOR = Color.valueOf("#a7ff8f");
+	public static Color LEFTCIRCLECOLOR = Color.valueOf("#ff8a8a");
+	public static Color RIGHTCIRCLECOLOR = Color.valueOf("#a7ff8f");
 
 	public ShapeSceneController() {
 		// Note that function `initialize` will do the init
@@ -1744,7 +1744,7 @@ public class ShapeSceneController implements Initializable {
 			alert.setContentText("Support for a third circle has been added in the Apperance pane.");
 			alert.showAndWait();
 
-		}
+		
 		
 		//---Label starting to be added
 		this.textProperties.setStyle("-fx-font-size:15px;");
@@ -1846,6 +1846,7 @@ public class ShapeSceneController implements Initializable {
 		
 		ShapeSceneController.APPLICATION_IS_SAVED = false;
 		changesMade();
+		}
 	}
 	
 
