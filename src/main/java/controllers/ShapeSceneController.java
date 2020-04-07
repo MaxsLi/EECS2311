@@ -714,34 +714,6 @@ public class ShapeSceneController implements Initializable {
 			}
 
 			while ((s = br.readLine()) != null) {
-//				if (lineCounter == 1) {// Make sure to not touch first Line
-//					System.out.println("IM IN HERE BABYYYYY");
-//					try {
-//						String[] firstLineInfo = s.split(COMMA);
-//
-//						// System.out.println(Arrays.toString(firstLineInfo));
-//
-//						this.appTitle.setText(firstLineInfo[0]);
-//						this.leftTitle.setText(firstLineInfo[1]);
-//						this.rightTitle.setText(firstLineInfo[2]);
-//						this.leftCircle.setFill(Paint.valueOf(firstLineInfo[3]));
-//						this.rightCircle.setFill(Paint.valueOf(firstLineInfo[4]));
-//
-//						// System.out.println("The line number is: " + lineCounter);
-//
-//						lineCounter++;
-//						continue;
-//
-//					} catch (IllegalArgumentException ex) {
-//						Alert alert = new Alert(AlertType.WARNING);
-//						alert.setTitle("Warning Dialog");
-//						alert.setHeaderText("Trouble Parsing First Line");
-//						alert.setContentText(
-//								"There is something wrong with the first line of the CSV File, and cannot be parsed");
-//						alert.showAndWait();
-//					}
-//
-//				}
 				parts = s.split(COMMA);
 
 				// System.out.println("The line number is: " + lineCounter);
