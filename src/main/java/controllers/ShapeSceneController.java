@@ -102,6 +102,9 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private Button saveBttn;
+	
+	@FXML
+	private Button loadBttn;
 
 	@FXML
 	private Button removeButton;
@@ -221,6 +224,12 @@ public class ShapeSceneController implements Initializable {
 	protected Button testModeBttn;
 	
 	@FXML
+	protected Button undoBttn;
+	
+	@FXML
+	protected Button redoBttn;
+	
+	@FXML
 	protected MenuItem exportJPG;
 	
 	@FXML
@@ -279,7 +288,7 @@ public class ShapeSceneController implements Initializable {
 	 */
 	protected Point2D[] textFieldPointLocations = { new Point2D(-375, -375), new Point2D(-375, -325),
 			new Point2D(-375, -275), new Point2D(-375, -225), new Point2D(-375, -175), new Point2D(-375, -125),
-			new Point2D(-375, -75), new Point2D(-375, -25) };
+			new Point2D(-375, -75), new Point2D(-375, -25), new Point2D(-375, 25), new Point2D(-375, 75), new Point2D(-375, 125) };
 	public int textFieldPointLocationsIndex = 0;
 
 	static Color LEFTCIRCLECOLOR = Color.valueOf("#ff8a8a");
@@ -658,21 +667,21 @@ public class ShapeSceneController implements Initializable {
 				if (firstLineInfo[leftCircelColorCol].equals("0xffffffff")) {
 					this.leftCircle.setFill(Color.valueOf(ShapeSceneController.DEFAULT_LEFTCIRCLE_COLOR));
 				} else {
-					this.leftCircle.setFill(Paint.valueOf(firstLineInfo[3]));
+					this.leftCircle.setFill(Paint.valueOf(firstLineInfo[leftCircelColorCol]));
 				}
 
 				if (firstLineInfo[rightCircleColorCol].equals("0xffffffff")) {
 					this.rightCircle.setFill(Color.valueOf(ShapeSceneController.DEFAULT_RIGHTCIRCLE_COLOR));
 				} else {
-					this.rightCircle.setFill(Paint.valueOf(firstLineInfo[4]));
+					this.rightCircle.setFill(Paint.valueOf(firstLineInfo[rightCircleColorCol]));
 				}
 
 				if (firstLineInfo[mainSceneColorCol].equals("0xffffffff")) {
 					this.mainScene
 							.setStyle("-fx-background-color:" + ShapeSceneController.DEFAULT_BACKGROUND_COLOR + ";");
 				} else {
-					this.mainScene.setStyle("-fx-background-color:#" + Paint.valueOf(firstLineInfo[5]).toString()
-							.substring(2, Paint.valueOf(firstLineInfo[5]).toString().length() - 2) + ";");
+					this.mainScene.setStyle("-fx-background-color:#" + Paint.valueOf(firstLineInfo[mainSceneColorCol]).toString()
+							.substring(2, Paint.valueOf(firstLineInfo[mainSceneColorCol]).toString().length() - 2) + ";");
 				}
 
 				if (firstLineInfo[titleTextColorCol].equals("0xffffffff")) {
@@ -684,16 +693,16 @@ public class ShapeSceneController implements Initializable {
 							+ "-fx-background-color: transparent;-fx-font-size:20px;");
 				} else {
 					this.appTitle.setStyle("-fx-text-fill:#"
-							+ Paint.valueOf(firstLineInfo[6]).toString().substring(2,
-									Paint.valueOf(firstLineInfo[6]).toString().length() - 2)
+							+ Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().substring(2,
+									Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().length() - 2)
 							+ ";" + "-fx-background-color: transparent; -fx-font-size:25px;");
 					this.leftTitle.setStyle("-fx-text-fill:#"
-							+ Paint.valueOf(firstLineInfo[6]).toString().substring(2,
-									Paint.valueOf(firstLineInfo[6]).toString().length() - 2)
+							+ Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().substring(2,
+									Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().length() - 2)
 							+ ";" + "-fx-background-color: transparent;-fx-font-size:20px;");
 					this.rightTitle.setStyle("-fx-text-fill:#"
-							+ Paint.valueOf(firstLineInfo[6]).toString().substring(2,
-									Paint.valueOf(firstLineInfo[6]).toString().length() - 2)
+							+ Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().substring(2,
+									Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().length() - 2)
 							+ ";" + "-fx-background-color: transparent;-fx-font-size:20px;");
 
 				}
@@ -808,10 +817,10 @@ public class ShapeSceneController implements Initializable {
 	public void saveVenn(ArrayList<TextField> write) {
 		AppAttributes appSaver = new AppAttributes(this.appTitle.getText(), this.leftTitle.getText(),
 				this.rightTitle.getText(), this.leftCircle.getFill(), this.rightCircle.getFill(),
-				this.backgroundColor.getValue(), this.titleColors.getValue());
+				this.backgroundColor.getValue(), this.titleColors.getValue(), ShapeSceneController.NUM_OF_CIRCLES);
 
-		String dummyLine = "TEXT COLUMN" + COMMA + "TextField X Coor" + COMMA + "TextField Y Coor" + COMMA
-				+ "Location of TextField" + COMMA + "<--DO NOT MODIFY THIS LINE"; // Program not reading Line two,
+		String dummyLine = "TEXT COLUMN" + COMMA + "Additional Description" + COMMA + "TextField X Coor" + COMMA
+				+ "TextField Y Coor" + COMMA + "Location of TextField" + COMMA + "<------DO NOT MODIFY THIS LINE"; //Program not reading line two
 		// adding dummyLine
 
 		/*
@@ -895,6 +904,7 @@ public class ShapeSceneController implements Initializable {
 				alertError.setContentText("The File You want to write to by Closing this window"
 						+ ", is open in another process. Please Close that File before trying to close this window.");
 				alertError.showAndWait();
+				return;
 
 			}
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -935,9 +945,13 @@ public class ShapeSceneController implements Initializable {
 			}
 			pw.close();
 			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			Alert alertWarn = new Alert(AlertType.WARNING);
+			alertWarn.setTitle("WARNING");
+			alertWarn.setHeaderText("An Unexpected Error Occured");
+			alertWarn.setContentText(
+					"Please Make sure the file you are trying to save to is not open in another process and try again");
+			alertWarn.showAndWait();
 		}
 		
 		ShapeSceneController.APPLICATION_IS_SAVED = true;
@@ -948,7 +962,17 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	public void saveVennBttn() {
+		try {
 		saveVenn(this.getTextFields());
+		}
+		catch(Exception NPE) {
+			Alert alertWarn = new Alert(AlertType.WARNING);
+			alertWarn.setTitle("WARNING");
+			alertWarn.setHeaderText("An Unexpected Error Occured");
+			alertWarn.setContentText(
+					"Please Make sure the file you are trying to save to is not open in another process and try again");
+			alertWarn.showAndWait();
+		}
 	}
 	
 	private void playSaveAnimation() {
@@ -981,9 +1005,10 @@ public class ShapeSceneController implements Initializable {
 		Paint attrRightColor = rightCircle.getFill();
 		Paint attrSceneColor = backgroundColor.getValue();
 		Paint attrTitleColor = titleColors.getValue();
+		int numOfCircle = ShapeSceneController.NUM_OF_CIRCLES;
 
 		public AppAttributes(String attributeAppTitle, String leftTitle, String rightTitle, Paint leftColor,
-				Paint rightColor, Paint attrSceneColor, Paint attrTitleColor) {
+				Paint rightColor, Paint attrSceneColor, Paint attrTitleColor, int numOfCircles) {
 			super();
 			if (this.attrAppTitle.trim().isEmpty()) {
 				this.attrAppTitle = "DefaultTitle";
@@ -1007,6 +1032,7 @@ public class ShapeSceneController implements Initializable {
 			this.attrRightColor = rightColor;
 			this.attrSceneColor = backgroundColor.getValue();
 			this.attrLeftColor = titleColors.getValue();
+			this.numOfCircle = ShapeSceneController.NUM_OF_CIRCLES;
 
 		}
 
@@ -1585,6 +1611,7 @@ public class ShapeSceneController implements Initializable {
 			extraTitle.setLayoutX(1000);
 			extraTitle.setLayoutY(751);
 			extraTitle.setStyle("-fx-font-size:20px;-fx-background-color: transparent;");
+			extraTitle.setPromptText("Diagram #3's Name");
 			mainScene.getChildren().add(extraTitle);
 			//------
 
