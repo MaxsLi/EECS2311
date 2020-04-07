@@ -32,6 +32,7 @@ public class DragCommand implements Command{
 	public void undo() {
 		// TODO Auto-generated method stub
 		shapesceneController.moveTextField(textField, origPosX, origPosY);
+		shapesceneController.getLocation(textField);
 	}
 	@Override
 	public void redo() {

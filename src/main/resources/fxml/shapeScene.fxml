@@ -42,7 +42,7 @@
          </Menu>
          <Menu mnemonicParsing="false" text="Edit">
             <items>
-               <MenuItem fx:id="undoBtn" mnemonicParsing="false" onAction="#undo" text="Undo (CTRL + Z)" />
+               <MenuItem fx:id="undoBtn" mnemonicParsing="false" onAction="#undo" text="Undo" />
                <MenuItem fx:id="redoBtn" mnemonicParsing="false" onAction="#redo" text="Redo" />
                <SeparatorMenuItem mnemonicParsing="false" />
                <MenuItem mnemonicParsing="false" text="Delete Selected Item(s)" />

@@ -508,6 +508,7 @@ public class ShapeSceneController implements Initializable {
 		 */
 		textField.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
 		
+			getLocation(textField);
 			undoRedoManager.addCommand(dragCommand);
 
 		});
@@ -607,7 +608,7 @@ public class ShapeSceneController implements Initializable {
 		
 		ShapeSceneController.APPLICATION_IS_SAVED = false;
 		
-		getLocation(textField);
+		
 		
 		changesMade();
 	}
@@ -739,7 +740,7 @@ public class ShapeSceneController implements Initializable {
 					this.mainScene
 							.setStyle("-fx-background-color:" + ShapeSceneController.DEFAULT_BACKGROUND_COLOR + ";");
 				} else {
-					this.mainScene.setStyle("-fx-background-color:#" + Paint.valueOf(firstLineInfo[5]).toString()
+			 		this.mainScene.setStyle("-fx-background-color:#" + Paint.valueOf(firstLineInfo[5]).toString()
 							.substring(2, Paint.valueOf(firstLineInfo[5]).toString().length() - 2) + ";");
 				}
 
@@ -1169,19 +1170,30 @@ public class ShapeSceneController implements Initializable {
 		initCircleContext();
 		
 
-		this.undoRedoManager=new UndoRedoManager();
+		this.undoRedoManager=new UndoRedoManager(this);
 
 		init=true;
 		leftTitle.focusedProperty().addListener((observable, oldValue, newValue)->{
 			if (newValue&&init) {
-				leftTitle.getParent().requestFocus();;
+				leftTitle.getParent().requestFocus();
 				init=false;
 			}
 		});
 		addKeyShortcuts();
 		addTitleListeners();
+		undoBtn(false);
+		redoBtn(false);
 	}
 
+	public void undoBtn(boolean set) {
+		
+		undoBtn.setDisable(!set);
+	}
+	
+	public void redoBtn(boolean set) {
+		
+		redoBtn.setDisable(!set);
+	}
 	private void initSliders() {
 		// Adding Listener to value property.
 		leftSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -1196,7 +1208,7 @@ public class ShapeSceneController implements Initializable {
 
 		// Adding Listener to value property.
 		rightSlider.valueProperty().addListener(new ChangeListener<Number>() {
-
+ 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, //
 					Number oldValue, Number newValue) {
@@ -1250,7 +1262,7 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	protected void initCircleContext() {
-		ContextMenu leftContext = new ContextMenu();
+		 ContextMenu leftContext = new ContextMenu();
 		ContextMenu rightContext = new ContextMenu();
 
 		MenuItem leftHoverToggle = new MenuItem("Toggle Left Circle Hover");
@@ -1756,7 +1768,7 @@ public class ShapeSceneController implements Initializable {
 		this.extraFontSlider.setMinWidth(Control.USE_COMPUTED_SIZE);
 		this.extraFontSlider.prefWidth(178);
 		this.extraFontSlider.prefHeight(24);
-		this.extraFontSlider.setMaxHeight(Control.USE_PREF_SIZE);
+		this .extraFontSlider.setMaxHeight(Control.USE_PREF_SIZE);
 		this.extraFontSlider.setMaxWidth(Control.USE_PREF_SIZE);
 
 		extraFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -1843,12 +1855,22 @@ public class ShapeSceneController implements Initializable {
 	@FXML
 	protected void undo() {
 		undoRedoManager.undo();
+		resetFocus();
 		
+	}
+
+
+	private void resetFocus() {
+		if (leftTitle.isFocused()||appTitle.isFocused()||rightTitle.isFocused()) {
+			appTitle.getParent().requestFocus();
+			
+		}
 	}
 
 	@FXML
 	protected void redo() {
 		undoRedoManager.redo();
+		resetFocus();
 	}
 
 	@FXML
