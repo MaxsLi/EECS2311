@@ -101,6 +101,8 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		text.setVisible(false);
 		TEST_HAS_STARTED = false;
 		toggle.setDisable(true);
+		super.initSliders();
+		super.initColorPickers();
 
 	}
 
@@ -625,16 +627,19 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(textField, Location.LEFT);
+				changeLeftTextColor();
 			} else if (textBoxLocation == Location.RIGHT) {
 				sideAdded.setText("Right!");
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(textField, Location.RIGHT);
+				changeRightTextColor();
 			} else if (textBoxLocation == Location.BOTTOM) {
 				sideAdded.setText("Bottom!");
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(textField, Location.BOTTOM);
+				changeExtraTextColor();
 			}
 
 		});
