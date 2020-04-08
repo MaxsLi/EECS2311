@@ -1424,6 +1424,13 @@ public class ShapeSceneController implements Initializable {
 		}
 	}
 	
+	private void deleteExtraCircle() {
+		if(ShapeSceneController.EXTRA_CIRCLE_ADDED) {
+			this.stackPane.getChildren().remove(this.extraCircle);
+			this.scrollBox.getChildren().remove(32, this.scrollBox.getChildren().size());
+		}
+	}
+	
 
 //	@FXML
 //	private void setRightFontSlider() {
@@ -1861,6 +1868,7 @@ public class ShapeSceneController implements Initializable {
 		ShapeSceneController.APPLICATION_IS_SAVED = false;
 		changesMade();
 		}
+		
 	}
 	
 	protected void changeExtraTextColor() {
