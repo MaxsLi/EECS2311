@@ -2017,10 +2017,7 @@ public class ShapeSceneController implements Initializable {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == yes) {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/fxml/testMode.fxml"));
-
-			MainApp.primaryStage.setScene(new Scene(loader.load()));
+			mainApp.switchScene("testMode", null); //null should be a file
 		} else {
 			return;
 		}
