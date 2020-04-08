@@ -67,6 +67,9 @@ public class ShapeSceneController implements Initializable {
 	protected final static String DEFAULT_RIGHT_HOVER_COLOR = "#990000";
 	protected final static String DEFAULT_EXTRA_HOVER_COLOR = "#ffff4d";
 	private final static String DEFAULT_TITLE_COLOR = "#000000";
+	private final static String DEFAULT_LEFTTEXT_COLOR = "#000000";
+	private final static String DEFAULT_RIGHTTEXT_COLOR = "#000000";
+	private final static String DEFAULT_EXTRATEXT_COLOR = "#000000";
 	protected static int NUM_OF_CIRCLES = 2;
 	
 
@@ -522,16 +525,19 @@ public class ShapeSceneController implements Initializable {
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(textField, Location.LEFT);
+				changeLeftTextColor();
 			} else if (textBoxLocation == Location.RIGHT) {
 				sideAdded.setText("Right!");
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(textField, Location.RIGHT);
+				changeRightTextColor();
 			} else if (textBoxLocation == Location.BOTTOM) {
 				sideAdded.setText("Bottom!");
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(textField, Location.BOTTOM);
+				changeExtraTextColor();
 			}
 
 		});
@@ -1141,15 +1147,25 @@ public class ShapeSceneController implements Initializable {
 
 		initSliders();
 
+		initColorPickers();
+		initCircleContext();
+		
+
+	}
+	
+	protected void initColorPickers() {
+		this.backgroundColor.setValue(Color.valueOf(DEFAULT_BACKGROUND_COLOR));
+		this.titleColors.setValue(Color.valueOf(DEFAULT_TITLE_COLOR));
+		this.leftTextColor.setValue(Color.valueOf(DEFAULT_LEFTTEXT_COLOR));
+		this.rightTextColor.setValue(Color.valueOf(DEFAULT_RIGHTTEXT_COLOR));
+		
+		
+		
 		this.leftColorPicker.setValue(Color.valueOf(ShapeSceneController.DEFAULT_LEFTCIRCLE_COLOR));
 		this.rightColorPicker.setValue(Color.valueOf(ShapeSceneController.DEFAULT_RIGHTCIRCLE_COLOR));
 		
 		this.leftHoverColor.setValue(Color.valueOf(ShapeSceneController.DEFAULT_LEFT_HOVER_COLOR));
 		this.rightHoverColor.setValue(Color.valueOf(ShapeSceneController.DEFAULT_RIGHT_HOVER_COLOR));
-
-		initCircleContext();
-		
-
 	}
 	
 	/**
@@ -1219,6 +1235,12 @@ public class ShapeSceneController implements Initializable {
 				}
 			}
 		});
+		
+		leftSlider.setValue(leftSlider.getMin());
+		rightSlider.setValue(rightSlider.getMin());
+		leftFontSlider.setValue(leftFontSlider.getMin());
+		rightFontSlider.setValue(rightFontSlider.getMin());
+		
 
 	}
 
@@ -1819,22 +1841,12 @@ public class ShapeSceneController implements Initializable {
 		this.extraTextColorPicker.setMinWidth(137);
 		this.extraTextColorPicker.setMaxHeight(28);
 		this.extraTextColorPicker.setMaxWidth(137);
+		this.extraTextColorPicker.setValue(Color.valueOf(DEFAULT_EXTRATEXT_COLOR)); //Which is black as well
 
 		extraTextColorPicker.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				for (TextField tf : tfLocations.keySet()) {
-					if (tfLocations.get(tf).equals(Location.BOTTOM)) {
-						int newFont = ((int) Math.round((double) extraFontSlider.getValue()));
-						String newColor = extraTextColorPicker.getValue().toString().substring(2,
-								leftTextColor.getValue().toString().length() - 2);
-						tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
-								+ newColor + ";");
-						tf.setMinWidth(Control.USE_PREF_SIZE);
-						tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
-						tf.setMaxWidth(Control.USE_PREF_SIZE);
-					}
-				}
+				changeExtraTextColor();
 			}
 		});
 
@@ -1846,6 +1858,21 @@ public class ShapeSceneController implements Initializable {
 		
 		ShapeSceneController.APPLICATION_IS_SAVED = false;
 		changesMade();
+		}
+	}
+	
+	protected void changeExtraTextColor() {
+		for (TextField tf : tfLocations.keySet()) {
+			if (tfLocations.get(tf).equals(Location.BOTTOM)) {
+				int newFont = ((int) Math.round((double) extraFontSlider.getValue()));
+				String newColor = extraTextColorPicker.getValue().toString().substring(2,
+						leftTextColor.getValue().toString().length() - 2);
+				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
+						+ newColor + ";");
+				tf.setMinWidth(Control.USE_PREF_SIZE);
+				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
+				tf.setMaxWidth(Control.USE_PREF_SIZE);
+			}
 		}
 	}
 	
