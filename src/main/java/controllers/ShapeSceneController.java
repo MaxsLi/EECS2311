@@ -339,16 +339,18 @@ public class ShapeSceneController implements Initializable {
 			TextField newTextField = new TextField();
 
 			newTextField.setEditable(false);
-			newTextField.setTranslateX(textFieldPointLocations[textFieldPointLocationsIndex].getX());
-			newTextField.setTranslateY(textFieldPointLocations[textFieldPointLocationsIndex].getY());
 
 			adjustNewTextLocation();
 
 			newTextField.setStyle("-fx-background-color:transparent; -fx-font-size:18px; ");
-
-			newTextField.setMinWidth(Control.USE_PREF_SIZE);
+			
+			newTextField.setText(newText);
 			newTextField.setPrefWidth(Control.USE_COMPUTED_SIZE);
+			newTextField.setMinWidth(Control.USE_PREF_SIZE);
 			newTextField.setMaxWidth(Control.USE_PREF_SIZE);
+			newTextField.setTranslateX(textFieldPointLocations[textFieldPointLocationsIndex].getX());
+			newTextField.setTranslateY(textFieldPointLocations[textFieldPointLocationsIndex].getY());
+			
 
 			this.addDragEvent(newTextField);
 			this.addContext(newTextField);
@@ -357,7 +359,7 @@ public class ShapeSceneController implements Initializable {
 				this.itemList.getItems().add(newText);
 			}
 
-			newTextField.setText(newText);
+			
 			this.stackPane.getChildren().add(newTextField);
 			this.vennSet.add(newTextField);
 			this.sideAdded.clear();
@@ -1171,7 +1173,7 @@ public class ShapeSceneController implements Initializable {
 	/**
 	 * A Method that lets the sliders listen for changes and act accordingly
 	 */
-	private void initSliders() {
+	protected void initSliders() {
 		// Adding Listener to value property.
 		leftSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
