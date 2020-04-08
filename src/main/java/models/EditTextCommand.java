@@ -20,6 +20,7 @@ public class EditTextCommand implements Command {
 		// TODO Auto-generated method stub
 		shapesceneController.setText(textField, newText);
 	}
+	
 	@Override
 	public void undo() {
 		// TODO Auto-generated method stub

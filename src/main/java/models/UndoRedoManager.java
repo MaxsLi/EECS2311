@@ -17,7 +17,6 @@ public class UndoRedoManager {
 	}
 	
 	public void addCommand(Command a) {
-		
 		undoStack.push(a);
 		redoStack.clear();
 		shapeSceneController.undoBtn(true);
