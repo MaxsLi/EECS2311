@@ -16,6 +16,22 @@ public class EditHoverColorCommand implements Command {
 		this.newColor=newColor;
 	}
 
+	public EditHoverColorCommand(ShapeSceneController shapesceneController) {
+		this.shapesceneController = shapesceneController;
+	}
+
+	public void setCircle(Circle circle) {
+		this.circle = circle;
+	}
+
+	public void setOldColor(String oldColor) {
+		this.oldColor = oldColor;
+	}
+
+	public void setNewColor(String newColor) {
+		this.newColor = newColor;
+	}
+
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub

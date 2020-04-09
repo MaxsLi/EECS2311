@@ -12,15 +12,13 @@ public class AddCircleCommand implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		shapeSceneController.addCircle();
-		
-		
+		shapeSceneController.addThirdCircle();
 	}
 
 	@Override
 	public void undo() {
 		// TODO Auto-generated method stub
-		
+		shapeSceneController.deleteExtraCircle();
 	}
 
 	@Override

@@ -19,6 +19,23 @@ public class EditCircleColorCommand implements Command {
 		this.newColor=newColor;
 	}
 
+	public EditCircleColorCommand(ShapeSceneController shapesceneController) {
+		this.shapesceneController = shapesceneController;
+	}
+
+	public void setCircle(Circle circle) {
+		this.circle = circle;
+	}
+
+	public void setOldColor(Paint oldColor) {
+		this.oldColor = oldColor;
+	}
+
+
+	public void setNewColor(Paint newColor) {
+		this.newColor = newColor;
+	}
+
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub

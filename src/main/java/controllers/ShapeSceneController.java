@@ -60,6 +60,7 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
+import models.AddCircleCommand;
 import models.AddCommand;
 import models.AddTooltipCommand;
 import models.Command;
@@ -277,7 +278,7 @@ public class ShapeSceneController implements Initializable {
 	protected Label extra1LabelColor = new Label("Extra Circle #1 Color");
 	protected Label extra1LabelSize = new Label("Extra Circle #1 Size");
 	protected Label extra1HoverLabel = new Label("Hover Color");
-	protected ColorPicker exrtra1ColorHover;
+	protected ColorPicker extra1ColorHover;
 	protected Separator extra1Seperator;
 	protected Label textProperties = new Label("Text Properties");
 	protected Label extraFontSize = new Label("Font Size");
@@ -331,7 +332,7 @@ public class ShapeSceneController implements Initializable {
 	
 	private String leftHover;
 	private String rightHover;
-	
+	private String extraHover;
 	/**
 	 * An array containing possible locations for a new textfield to be placed on
 	 * the scene when entered
@@ -1222,6 +1223,10 @@ public class ShapeSceneController implements Initializable {
 			rightCircle.setFill(newColor);
 			rightColorPicker.setValue((Color) newColor);
 		}
+		else if (circle.equals(extraCircle)) {
+			extraCircle.setFill(newColor);
+			extra1Color.setValue((Color) newColor);
+		}
 	}
 	public void changebackgroundColor() {
 		String newStyle="-fx-background-color: #"+ backgroundColor.getValue().toString().substring(2, backgroundColor.getValue().toString().length() - 2)+ ";";
@@ -1276,6 +1281,10 @@ public class ShapeSceneController implements Initializable {
 			rightHover=color;
 			rightHoverColor.setValue(Color.web(color));
 		}
+		else if (circle.equals(extraCircle)) {
+			extraHover=color;
+			extra1ColorHover.setValue(Color.web(color));
+		}
 	}
 
 	public void changeRightHoverColor() {
@@ -1301,6 +1310,9 @@ public class ShapeSceneController implements Initializable {
 		appTitle.setStyle("-fx-background-color: transparent;\n-fx-text-fill: #"+newColor+";-fx-font-size:25px;");
 		leftTitle.setStyle("-fx-background-color: transparent;\n-fx-text-fill: #"+newColor+";-fx-font-size:20px;");
 		rightTitle.setStyle("-fx-background-color: transparent;\n-fx-text-fill: #"+newColor+";-fx-font-size:20px;");
+		if (EXTRA_CIRCLE_ADDED) {
+			extraTitle.setStyle("-fx-background-color: transparent;\n-fx-text-fill: #"+newColor+";-fx-font-size:20px;");
+		}
 		titleColors.setValue(Color.web(newColor));
 	}
 	/**
@@ -1449,8 +1461,8 @@ public class ShapeSceneController implements Initializable {
 		
 		leftSlider.setValue(leftSlider.getMin());
 		rightSlider.setValue(rightSlider.getMin());
-		leftFontSlider.setValue(leftFontSlider.getMin());
-		rightFontSlider.setValue(rightFontSlider.getMin());
+//		leftFontSlider.setValue(leftFontSlider.getMin());
+//		rightFontSlider.setValue(rightFontSlider.getMin());
 		
 
 	}
@@ -1710,11 +1722,21 @@ public class ShapeSceneController implements Initializable {
 				tf.setMaxWidth(Control.USE_PREF_SIZE);
 				leftColorPicker.setValue(Color.web("#"+newColor));
 			}
+			else if (location.equals(Location.BOTTOM)&&tfLocations.get(tf).equals(Location.BOTTOM)) {
+				newFont = ((int) Math.round((double) this.extraFontSlider.getValue()));
+				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
+						+ newColor + ";");
+				tf.setMinWidth(Control.USE_PREF_SIZE);
+				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
+				tf.setMaxWidth(Control.USE_PREF_SIZE);
+				extraTextColorPicker.setValue(Color.web("#"+newColor));
+			}
 		}
+		
 	}
 
 	
-	private void deleteExtraCircle() {
+	public void deleteExtraCircle() {
 		if(ShapeSceneController.EXTRA_CIRCLE_ADDED) {
 			this.stackPane.getChildren().remove(this.extraCircle);
 			this.scrollBox.getChildren().remove(32, this.scrollBox.getChildren().size());
@@ -1938,7 +1960,10 @@ public class ShapeSceneController implements Initializable {
 	 */
 	public void addCircle() {
 	if (!EXTRA_CIRCLE_ADDED) {
-		addThirdCircle();
+		AddCircleCommand a=new AddCircleCommand(this);
+		undoRedoManager.addCommand(a);
+		a.execute();
+				
 	}
 		
 	}
@@ -1972,7 +1997,13 @@ public class ShapeSceneController implements Initializable {
 			extraTitle.setLayoutY(751);
 			extraTitle.setStyle("-fx-font-size:20px;-fx-background-color: transparent;");
 			extraTitle.setPromptText("Diagram #3's Name");
+			extraTitle.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
+				Command a=new EditTextCommand(this, extraTitle, extraTitle.getText());
+				undoRedoManager.addCommand(a);
+			});
+			setTitleColor(titleColors.getValue().toString().substring(2, titleColors.getValue().toString().length() - 2));
 			mainScene.getChildren().add(extraTitle);
+			
 			//------
 
 			//---Label Starting to be Added
@@ -1995,10 +2026,15 @@ public class ShapeSceneController implements Initializable {
 			this.extra1Color.setMaxHeight(28);
 			this.extra1Color.setMaxWidth(137);
 
+			EditCircleColorCommand editCircleColorCommand=new EditCircleColorCommand(this);
 			extra1Color.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					extraCircle.setFill(extra1Color.getValue());
+					editCircleColorCommand.setCircle(extraCircle);
+					editCircleColorCommand.setNewColor(extra1Color.getValue());
+					editCircleColorCommand.setOldColor(extraCircle.getFill());
+					undoRedoManager.addCommand(editCircleColorCommand);
+					editCircleColorCommand.execute();
 				}
 			});
 
@@ -2040,29 +2076,32 @@ public class ShapeSceneController implements Initializable {
 			//------Label done being added
 
 			//-----Color picker starting to be added
-			this.exrtra1ColorHover = new ColorPicker();
-			this.exrtra1ColorHover.setMinHeight(28);
-			this.exrtra1ColorHover.setMinWidth(137);
-			this.exrtra1ColorHover.setMaxHeight(28);
-			this.exrtra1ColorHover.setMaxWidth(137);
+			this.extra1ColorHover = new ColorPicker();
+			this.extra1ColorHover.setMinHeight(28);
+			this.extra1ColorHover.setMinWidth(137);
+			this.extra1ColorHover.setMaxHeight(28);
+			this.extra1ColorHover.setMaxWidth(137);
 			
-			this.exrtra1ColorHover.setValue(Color.valueOf(ShapeSceneController.DEFAULT_EXTRA_HOVER_COLOR));
-
-			exrtra1ColorHover.setOnAction(new EventHandler<ActionEvent>() {
+			setCircleHover(DEFAULT_EXTRA_HOVER_COLOR, extraCircle);
+			EditHoverColorCommand editHoverColorCommand=new EditHoverColorCommand(this);
+			extra1ColorHover.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
-					extraCircle.setFill(extra1Color.getValue());
+					String oldHover=extraHover;
+					String newHover="#"+extra1ColorHover.getValue().toString().substring(2, extra1ColorHover.getValue().toString().length() - 2);
+					editHoverColorCommand.setCircle(extraCircle);
+					editHoverColorCommand.setOldColor(oldHover);
+					editHoverColorCommand.setNewColor(newHover);
+					undoRedoManager.addCommand(editHoverColorCommand);
+					editHoverColorCommand.execute();
 				}
 			});
-
+		
 			extraCircle.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent e) {
 					if (ShapeSceneController.EXTRA_CIRCLE_HOVER) {
-						extraCircle.setStyle("-fx-stroke:#"
-								+ exrtra1ColorHover.getValue().toString().substring(2,
-										exrtra1ColorHover.getValue().toString().length() - 2)
-								+ ";" + " -fx-stroke-width: 5;");
+						extraCircle.setStyle("-fx-stroke:"  + extraHover + ";" + " -fx-stroke-width: 5;");
 
 						mainScene.setCursor(Cursor.HAND);
 					}
@@ -2088,8 +2127,8 @@ public class ShapeSceneController implements Initializable {
 				}
 			});
 
-			this.scrollBox.getChildren().add(this.exrtra1ColorHover);
-			VBox.setMargin(this.exrtra1ColorHover, new Insets(10, 0, 0, 50));
+			this.scrollBox.getChildren().add(this.extra1ColorHover);
+			VBox.setMargin(this.extra1ColorHover, new Insets(10, 0, 0, 50));
 			//-------------------Color picker done being added
 			
 			
@@ -2197,18 +2236,11 @@ public class ShapeSceneController implements Initializable {
 		
 	
 	protected void changeExtraTextColor() {
-		for (TextField tf : tfLocations.keySet()) {
-			if (tfLocations.get(tf).equals(Location.BOTTOM)) {
-				int newFont = ((int) Math.round((double) extraFontSlider.getValue()));
-				String newColor = extraTextColorPicker.getValue().toString().substring(2,
-						leftTextColor.getValue().toString().length() - 2);
-				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
-						+ newColor + ";");
-				tf.setMinWidth(Control.USE_PREF_SIZE);
-				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
-				tf.setMaxWidth(Control.USE_PREF_SIZE);
-			}
-		}
+		String oldColor=getColor(Location.BOTTOM);
+		String newColor=extraTextColorPicker.getValue().toString().substring(2, extraTextColorPicker.getValue().toString().length()-2);
+		EditTextColorCommand a=new EditTextColorCommand(this, Location.BOTTOM, oldColor, newColor);
+		undoRedoManager.addCommand(a);
+		a.execute();
 	}
 	
 
@@ -2242,7 +2274,7 @@ public class ShapeSceneController implements Initializable {
 
 
 	private void resetFocus() {
-		if (leftTitle.isFocused()||appTitle.isFocused()||rightTitle.isFocused()) {
+		if (leftTitle.isFocused()||appTitle.isFocused()||rightTitle.isFocused()||(EXTRA_CIRCLE_ADDED&&extraTitle.isFocused())) {
 			appTitle.getParent().requestFocus();
 			
 		}
