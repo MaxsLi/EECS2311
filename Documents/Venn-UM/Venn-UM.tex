@@ -1,0 +1,156 @@
+% !TEX encoding = UTF-8
+\documentclass[fontsize=12pt,paper=letter,twoside]{scrartcl}
+% Various imports and themes
+\input{sty/defns.tex} 
+\usepackage{pdfpages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title and Authors
+\newcommand{\mytitle}{
+	EECS2311-W20 Project: Venn Create\\ User Manual
+}
+\ihead[]{\small \mytitle}
+\title{\mytitle}
+\author{
+	Chidalu Agbakwa (216337784) \and
+	Jihal Patel (216376436) 	\and
+	Shangru Li (214488993) 		\and
+	Robert Suwary (215446016)
+}
+% Display a given date or no date
+\date{\today}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Revisions}
+\begin{tabular}{|l|l|p{3in}|}
+	\hline
+	Date & Revision& Description \\ 
+	\hline
+	09 February 2020 
+	& 1.0       
+	& Initial release of this document\\ 
+	\hline
+	23 February 2020
+	& 1.1
+	& Updated for Save/Load feature\\
+	\hline
+\end{tabular}
+\bigskip\bigskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\vspace*{2in}
+\begin{center}
+	\huge{\textbf{User Manual}:\\ Venn Create}
+\end{center}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+%\listoftables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Introduction}
+Welcome to Venn Create - a desktop application that can draw customizable
+Venn diagrams.
+
+Venn Create enables user to easily create Venn diagrams with customized
+labels, in different size and shape. Which can be used to compare and
+contrast two or more objects, events, people, or concepts. Clearly
+illustrating the differences and similarities between different entities
+and all of this, with ZERO cost.
+
+Venn Create provides a user-friendly interface, so that new users will
+be able to use the application with minimum efforts. In addition,
+the application provides essential functionalities, such as export/import
+existing Venn diagrams, printing and customized theming.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Get Started}
+
+Venn Create provides an intuitive interface and strive to deliver the best user experience.
+
+\subsection{Introduction Interface}
+
+ After user opens the application, the introduction interface will display:
+
+\begin{figure}[hbt]
+	\begin{mdframed}
+		\includegraphics[width=\textwidth]{images/intro-screenshot.png}
+	\end{mdframed}
+	\caption{Introduction Interface}
+\end{figure}
+
+On the top left corner there are three options on the menu bar:
+
+\begin{itemize}
+	\item[] {
+		\textbf{File}: Operation regarding the file, currently, close the application.
+	}
+	\item[] {
+	 	\textbf{Insert}: Add a new circle to the diagram (currently disabled).
+	}
+	\item[] {
+		\textbf{Help}: Open this user manual.
+	}
+\end{itemize}
+	
+In the middle, there are two buttons. \textbf{Create New} will allow user
+to create a new Venn diagram. \textbf{Get Existing} will enable user to
+load an existing Venn diagram to the application.
+
+\subsection{Main Interface}
+
+If user chose to create a new Venn diagrams, the application will switch to the main interface:
+
+\begin{figure}[hbt]
+	\begin{mdframed}
+		\includegraphics[width=\textwidth]{images/main-screenshot.png}
+	\end{mdframed}
+	\caption{Main Interface}
+\end{figure}
+
+On top, user can customize the title of the current Venn diagram, and the
+name of either diagrams.
+
+On the side of the diagrams, user can customize the colour of the diagram
+py using a colour picker.
+
+At the bottom left there is a indicator for which side of the diagram the label
+is in.
+
+Bottom centre is a text area for putting text for new labels.
+
+Then bottom right, clicking the add button will add the text to the diagram.
+And the save button will save the current diagram to a .csv file.
+
+When a user attempts to close the application, the application will also
+warn the user to save the progress to a file. In case for future loading.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage 
+\section{Using the Software}
+
+After getting acquainted with the basic user interface of the software.
+User can explore the product and create customized Venn diagram. Here is an example usage:
+
+\textbf{\begin{figure}[hbt]
+		\begin{mdframed}
+			\includegraphics[width=\textwidth]{images/usage1-screenshot.png}
+		\end{mdframed}
+		\caption{Example Usage}
+\end{figure}}
+
+In this use case, user named the left diagram "Diagram 1" and the right diagram "Diagram 2".
+
+Furthermore, user has already added two text label on the Venn diagrams. Note that, after each text label been added, user can drag it to anywhere on the workplace.
+
+If user wish to add more text label, one can input the content of the new label and click `Add` button. Then drag the new label anywhere needed.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document} 	
+
