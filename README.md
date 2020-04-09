@@ -5,9 +5,7 @@
 A desktop app that can draw customizable [Venn diagrams](https://en.wikipedia.org/wiki/Venn_diagram).
 
 ## Getting Started
-
-To get started simply download the latest realease of VennCreate from https://github.com/MaxsLi/VennCreate/releases.
-in terminal type the commands java -jar VennCreate.jar to launch the program, you may then Create a New VennDiagram.
+Follow the installation intructions below, when installed and on the home page as shown above, click `Create New` to start a new VennCreate Project.
 
 ### Retrieve an Existing Project
 On the home menu showed above, click "Get Existing". Your file explorer will then be opened and you may search for an existing venn diagram.
