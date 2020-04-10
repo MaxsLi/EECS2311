@@ -2612,12 +2612,16 @@ public class ShapeSceneController implements Initializable {
             String format = "jpg";
             String fileName = "PartialScreenshot." + format;
             
+            Rectangle captureRect;
+            
             if(ShapeSceneController.NAV_IS_SHOWING) {
-            	toggleDrawer();
+            	toggle.fire();
+            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+460, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-468, (int)MainApp.primaryStage.getScene().getHeight()-200);
+            } else {
+            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+200, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-300, (int)MainApp.primaryStage.getScene().getHeight()-200);
             }
             
             //Rectangle captureRect = new Rectangle((int)mainApp.primaryStage.getScene().getX(), (int)mainApp.primaryStage.getScene().getY(), (int)mainApp.primaryStage.getScene().getWidth(), (int)mainApp.primaryStage.getScene().getHeight());
-            Rectangle captureRect = new Rectangle((int)MainApp.primaryStage.getX(), (int)MainApp.primaryStage.getY(), (int)MainApp.primaryStage.getScene().getWidth(), (int)MainApp.primaryStage.getScene().getHeight());
             BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
             ImageIO.write(screenFullImage, format, new File(fileName));
              
