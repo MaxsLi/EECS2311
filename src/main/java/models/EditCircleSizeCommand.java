@@ -9,25 +9,22 @@ public class EditCircleSizeCommand implements Command{
 	private Circle circle;
 	private double oldSize;
 	private double newSize;
-	public EditCircleSizeCommand(ShapeSceneController shapeSceneController) {
+	public EditCircleSizeCommand(ShapeSceneController shapeSceneController, Circle circle, double oldSize, double newSize) {
 		this.shapesceneController=shapeSceneController;
-	}
-
-
-	public void setCircle(Circle circle) {
 		this.circle = circle;
+		this.oldSize=oldSize;
+		this.newSize=newSize;
 	}
-
-
-	public void setOldSize(double oldSize) {
-		this.oldSize = oldSize;
-	}
-
-
-	public void setNewSize(double newSize) {
-		this.newSize = newSize;
-	}
-
+//
+//	public void setOldSize(double oldSize) {
+//		this.oldSize = oldSize;
+//	}
+//
+//
+//	public void setNewSize(double newSize) {
+//		this.newSize = newSize;
+//	}
+//
 
 	@Override
 	public void execute() {

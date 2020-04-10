@@ -314,6 +314,20 @@ public class ShapeSceneController implements Initializable {
 	protected double orgTranslateX;
 	protected double orgTranslateY;
 	
+	//size of left circle
+	private double leftCircleSize;
+	//size of right circle
+	private double rightCircleSize;
+	//size of extra circle
+	private double extraCircleSize;
+	
+	//size of left circle text
+	private double leftTextSize;
+	//size of right circle text
+	private double rightTextSize;
+	//size of extra circle text
+	private double extraTextSize;
+	
 	private UndoRedoManager undoRedoManager;
 	
 	private DragCommand dragCommand;
@@ -322,9 +336,9 @@ public class ShapeSceneController implements Initializable {
 	
 	private EditTextCommand editTextCommand;
 	
-	private EditCircleSizeCommand editCircleSizeCommand;
+//	private EditCircleSizeCommand editLeftCircleSizeCommand;
 	
-	private EditTextSizeCommand editTextSizeCommand;
+//	private EditTextSizeCommand editTextSizeCommand;
 	
 	private boolean init;
 	
@@ -1394,88 +1408,178 @@ public class ShapeSceneController implements Initializable {
 	protected void initSliders() {
 
 		// Adding Listener to value property.
-	
-		editCircleSizeCommand=new EditCircleSizeCommand(this);
-		editTextSizeCommand=new EditTextSizeCommand(this);
-		leftSlider.valueProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, //
-					Number oldValue, Number newValue) {
-
-				editCircleSizeCommand.setCircle(leftCircle);
-				editCircleSizeCommand.setOldSize((double) oldValue);
-				editCircleSizeCommand.setNewSize((double) newValue);
-				undoRedoManager.addCommand(editCircleSizeCommand);
-				editCircleSizeCommand.execute();
-			}
-		});
-
-		// Adding Listener to value property.
-		rightSlider.valueProperty().addListener(new ChangeListener<Number>() {
- 
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, //
-					Number oldValue, Number newValue) {
-
-				editCircleSizeCommand.setCircle(rightCircle);
-				editCircleSizeCommand.setOldSize((double) oldValue);
-				editCircleSizeCommand.setNewSize((double) newValue);
-				undoRedoManager.addCommand(editCircleSizeCommand);
-				editCircleSizeCommand.execute();
-			}
-		});
-
-		// Adding Listener to value property.
-		leftFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, //
-					Number oldValue, Number newValue) {
-
-//				leftFontTextField.setText(((double) newValue) + "");
-				// System.out.println(tfLocations.toString());
-				editTextSizeCommand.setLocation(Location.LEFT);
-				editTextSizeCommand.setOldSize((double) oldValue);
-				editTextSizeCommand.setNewSize((double) newValue);
-				undoRedoManager.addCommand(editTextSizeCommand);
-				editTextSizeCommand.execute();
-			}
-		});
-
-		rightFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, //
-					Number oldValue, Number newValue) {
-
+//		leftSlider.valueProperty().addListener(new ChangeListener<Number>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, //
+//					Number oldValue, Number newValue) {
+//
+//			
+//				
+//			}
+//		});
+		leftSlider.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
+			leftCircleSize=leftCircle.getRadius();
+			if (e.getX()!=leftSlider.getValue()) {
+				//clicked random spot
+				circleSliderAction(leftCircle);
 				
-				// rightFontTextField.setText(((double) newValue) + "");
-				editTextSizeCommand.setLocation(Location.RIGHT);
-				editTextSizeCommand.setOldSize((double) oldValue);
-				editTextSizeCommand.setNewSize((double) newValue);
-				undoRedoManager.addCommand(editTextSizeCommand);
-				editTextSizeCommand.execute();
 			}
+			
+				leftCircleSize=leftSlider.getValue();
+			
 		});
+		
+		leftSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->{
+			circleSliderAction(leftCircle);
+			
+		});
+		
+		leftSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e->{
+			leftCircleSize=leftCircle.getRadius();
+		});
+		
+//		// Adding Listener to value property.
+//		rightSlider.valueProperty().addListener(new ChangeListener<Number>() {
+// 
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, //
+//					Number oldValue, Number newValue) {
+//
+//				System.out.println(oldValue);
+//				editCircleSizeCommand.setOldSize(rightCircle.getRadius());
+//				editCircleSizeCommand.setNewSize((double) newValue); 
+//				undoRedoManager.addCommand(editCircleSizeCommand);
+//				editCircleSizeCommand.execute();
+//				
+//			}
+//		});
+		
+
+		rightSlider.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
+			rightCircleSize=rightCircle.getRadius();
+			if (e.getX()!=rightSlider.getValue()) {
+				//clicked random spot
+				circleSliderAction(rightCircle);
+				
+			}
+			
+				rightCircleSize=rightCircle.getRadius();
+			
+		});
+		
+		rightSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->{
+			circleSliderAction(rightCircle);
+			
+		});
+		
+		rightSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e->{
+			rightCircleSize=rightCircle.getRadius();
+		});
+		// Adding Listener to value property.
+//		leftFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, //
+//					Number oldValue, Number newValue) {
+//
+//				leftFontTextField.setText(((double) newValue) + "");
+//				 System.out.println(tfLocations.toString());
+//				editTextSizeCommand.setLocation(Location.LEFT);
+//				editTextSizeCommand.setOldSize((double) oldValue);
+//				editTextSizeCommand.setNewSize((double) newValue);
+//				undoRedoManager.addCommand(editTextSizeCommand);
+//				editTextSizeCommand.execute();
+//				
+//			}
+//		});
+
+		leftFontSlider.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
+			leftTextSize=getTextSize(Location.LEFT);
+			if (e.getX()!=leftFontSlider.getValue()) {
+				fontSliderAction(Location.LEFT);
+			}
+			leftTextSize=getTextSize(Location.LEFT);
+		});
+		leftFontSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->{
+			fontSliderAction(Location.LEFT);
+		});
+		
+		leftFontSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e->{
+			leftTextSize=getTextSize(Location.LEFT);
+		});
+		rightFontSlider.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
+			rightTextSize=getTextSize(Location.RIGHT);
+			if (e.getX()!=rightFontSlider.getValue()) {
+				fontSliderAction(Location.RIGHT);
+			}
+			rightTextSize=getTextSize(Location.RIGHT);
+		});
+		rightFontSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->{
+			fontSliderAction(Location.RIGHT);
+		});
+		rightFontSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e->{
+			rightTextSize=getTextSize(Location.RIGHT);
+		});
+	//	editRightTextSizeCommand.setOldSize(rightFontSlider.getValue());
+//		rightFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, //
+//					Number oldValue, Number newValue) {
+//
+//				
+//				 rightFontTextField.setText(((double) newValue) + "");
+//				editTextSizeCommand.setLocation(Location.RIGHT);
+//				editTextSizeCommand.setOldSize((double) oldValue);
+//				editTextSizeCommand.setNewSize((double) newValue);
+//				undoRedoManager.addCommand(editTextSizeCommand);
+//				editTextSizeCommand.execute();
+//				
+//			}
+//		});
 		
 		leftSlider.setValue(leftSlider.getMin());
 		rightSlider.setValue(rightSlider.getMin());
+		leftTextSize=leftFontSlider.getValue();
+		rightTextSize=rightFontSlider.getValue();
 //		leftFontSlider.setValue(leftFontSlider.getMin());
 //		rightFontSlider.setValue(rightFontSlider.getMin());
 		
 
 	}
 
+
+	private void circleSliderAction(Circle circle) {
+		EditCircleSizeCommand editCircleSizeCommand;
+		if (circle.equals(leftCircle)) {
+			editCircleSizeCommand = new EditCircleSizeCommand(this, circle, leftCircleSize, leftSlider.getValue());
+		}
+		else if (circle.equals(rightCircle)) {
+			editCircleSizeCommand = new EditCircleSizeCommand(this, circle, rightCircleSize, rightSlider.getValue());
+		}
+		else if (circle.equals(extraCircle)) {
+			editCircleSizeCommand = new EditCircleSizeCommand(this, circle, rightCircleSize, extra1Slider.getValue());
+		}
+		else {
+			return;
+		}
+		undoRedoManager.addCommand(editCircleSizeCommand);
+		editCircleSizeCommand.execute();
+	}
+
 	public void changeCircleSize(double newSize, Circle circle) {
 		if (circle.equals(leftCircle)) {
 			leftCircle.setRadius(newSize);
-		//	leftSlider.setValue(newSize);
-		//	leftSlider.v
+			leftSlider.setValue(newSize);
 		}
 		else if (circle.equals(rightCircle)) {
 			rightCircle.setRadius(newSize);
-	//		rightSlider.setValue(newSize);
+			rightSlider.setValue(newSize);
+		}
+		else if (circle.equals(extraCircle)) {
+			extraCircle.setRadius(newSize);
+			extra1Slider.setValue(newSize);
 		}
 	}
 	
@@ -1490,6 +1594,44 @@ public class ShapeSceneController implements Initializable {
 				tf.setMaxWidth(Control.USE_PREF_SIZE);
 			}
 		}
+		if (location.equals(Location.LEFT)) {
+			//leftTextSize=newSize;
+			leftFontSlider.setValue(newSize);
+		}
+		else if (location.equals(Location.RIGHT)) {
+			//rightTextSize=newSize;
+			rightFontSlider.setValue(newSize);
+		}
+		else if (location.equals(Location.BOTTOM)) {
+			//extraTextSize=newSize;
+			extraFontSlider.setValue(newSize);
+		}
+	}
+	private int getTextSize(Location location) {
+		if (!(tfLocations.isEmpty())) {
+			for (TextField tf : tfLocations.keySet()) {
+				if (tfLocations.get(tf).equals(location)) {
+					return Integer.parseInt(tf.getStyle().substring(14, 16));
+				}
+			}
+		}
+		return -1;
+	}
+	private void fontSliderAction(Location location) {
+		EditTextSizeCommand editTextSizeCommand;
+		if (location.equals(Location.LEFT)) {
+			editTextSizeCommand=new EditTextSizeCommand(this, location, leftTextSize, leftFontSlider.getValue());
+		} else if(location.equals(Location.RIGHT)){
+			editTextSizeCommand=new EditTextSizeCommand(this, location, rightTextSize, rightFontSlider.getValue());
+		}
+		else if (location.equals(Location.BOTTOM)) {
+			editTextSizeCommand=new EditTextSizeCommand(this, location, extraTextSize, extraFontSlider.getValue());
+		}
+		else {
+			return;
+		}
+		undoRedoManager.addCommand(editTextSizeCommand);
+		editTextSizeCommand.execute();
 	}
 	/**
 	 * A Method that adds the rightClick option to all circles in the Scene
@@ -1702,11 +1844,11 @@ public class ShapeSceneController implements Initializable {
 		return color;
 	}
 	public void setTextColor(String newColor, Location location) {
-		int newFont;
+		//int newFont;
 		for (TextField tf : tfLocations.keySet()) {
 			if (location.equals(Location.RIGHT)&&tfLocations.get(tf).equals(Location.RIGHT)) {
-				newFont = ((int) Math.round((double) this.rightFontSlider.getValue()));
-				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
+			//	newFont = ((int) Math.round((double) this.rightFontSlider.getValue()));
+				tf.setStyle("-fx-font-size:" + (int) Math.round(rightTextSize) + "px;-fx-background-color:transparent;-fx-text-fill: #"
 						+ newColor + ";");
 				tf.setMinWidth(Control.USE_PREF_SIZE);
 				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
@@ -1714,8 +1856,8 @@ public class ShapeSceneController implements Initializable {
 				rightColorPicker.setValue(Color.web("#"+newColor));
 			}
 			else if (location.equals(Location.LEFT)&&tfLocations.get(tf).equals(Location.LEFT)) {
-				newFont = ((int) Math.round((double) this.leftFontSlider.getValue()));
-				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
+			//	newFont = ((int) Math.round((double) this.leftFontSlider.getValue()));
+				tf.setStyle("-fx-font-size:" + (int) Math.round(leftTextSize) + "px;-fx-background-color:transparent;-fx-text-fill: #"
 						+ newColor + ";");
 				tf.setMinWidth(Control.USE_PREF_SIZE);
 				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
@@ -1723,8 +1865,8 @@ public class ShapeSceneController implements Initializable {
 				leftColorPicker.setValue(Color.web("#"+newColor));
 			}
 			else if (location.equals(Location.BOTTOM)&&tfLocations.get(tf).equals(Location.BOTTOM)) {
-				newFont = ((int) Math.round((double) this.extraFontSlider.getValue()));
-				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
+			//	newFont = ((int) Math.round((double) this.extraFontSlider.getValue()));
+				tf.setStyle("-fx-font-size:" + (int) Math.round(extraTextSize) + "px;-fx-background-color:transparent;-fx-text-fill: #"
 						+ newColor + ";");
 				tf.setMinWidth(Control.USE_PREF_SIZE);
 				tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
@@ -1747,19 +1889,19 @@ public class ShapeSceneController implements Initializable {
 		
 		Location location=tfLocations.get(tf);
 	    String newColor;
-	    int newFont;
 	    if(location!=null) {
 			if (location.equals(Location.LEFT)) {
-				newFont = ((int) Math.round((double) this.leftFontSlider.getValue()));
+				
 				newColor= this.leftTextColor.getValue().toString().substring(2,leftTextColor.getValue().toString().length() - 2);
-				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
-						+ newColor + ";");
+				tf.setStyle("-fx-font-size:" + (int) Math.round(leftTextSize) + "px;-fx-background-color:transparent;-fx-text-fill: #" + newColor + ";");
 			}
 			else if (location.equals(Location.RIGHT)) {
-				 newFont = ((int) Math.round((double) this.rightFontSlider.getValue()));
 				 newColor= this.rightTextColor.getValue().toString().substring(2,rightTextColor.getValue().toString().length() - 2);
-				tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
-						+ newColor + ";");
+				tf.setStyle("-fx-font-size:" + (int) Math.round(rightTextSize) + "px;-fx-background-color:transparent;-fx-text-fill: #" + newColor + ";");
+			}
+			else if (location.equals(Location.BOTTOM)) {
+				 newColor= this.extraTextColorPicker.getValue().toString().substring(2,extraTextColorPicker.getValue().toString().length() - 2);
+				tf.setStyle("-fx-font-size:" + (int) Math.round(extraTextSize) + "px;-fx-background-color:transparent;-fx-text-fill: #" + newColor + ";");
 			}
 			else {
 				tf.setStyle("-fx-font-size:25px;-fx-background-color:transparent;-fx-text-fill:#000000;");
@@ -2117,16 +2259,37 @@ public class ShapeSceneController implements Initializable {
 				}
 			});
 
-			extra1Slider.valueProperty().addListener(new ChangeListener<Number>() {
+//			extra1Slider.valueProperty().addListener(new ChangeListener<Number>() {
+//
+//				@Override
+//				public void changed(ObservableValue<? extends Number> observable, //
+//						Number oldValue, Number newValue) {
+//
+//					extraCircle.setRadius((double) newValue);
+//				}
+//			});
 
-				@Override
-				public void changed(ObservableValue<? extends Number> observable, //
-						Number oldValue, Number newValue) {
-
-					extraCircle.setRadius((double) newValue);
+			extra1Slider.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
+				extraCircleSize=extraCircle.getRadius();
+				if (e.getX()!=extra1Slider.getValue()) {
+					//clicked random spot
+					circleSliderAction(extraCircle);
+					
 				}
+				
+					extraCircleSize=extra1Slider.getValue();
+				
 			});
-
+			
+			extra1Slider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->{
+				circleSliderAction(extraCircle);
+				
+			});
+			
+			extra1Slider.addEventHandler(MouseEvent.MOUSE_RELEASED, e->{
+				extraCircleSize=extraCircle.getRadius();
+			});
+			
 			this.scrollBox.getChildren().add(this.extra1ColorHover);
 			VBox.setMargin(this.extra1ColorHover, new Insets(10, 0, 0, 50));
 			//-------------------Color picker done being added
@@ -2178,6 +2341,8 @@ public class ShapeSceneController implements Initializable {
 		this.extraFontSlider.prefHeight(24);
 		this .extraFontSlider.setMaxHeight(Control.USE_PREF_SIZE);
 		this.extraFontSlider.setMaxWidth(Control.USE_PREF_SIZE);
+		extraFontSlider.setValue(extraFontSlider.getMax());
+		extraTextSize=extraFontSlider.getValue();
 
 //		extraFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
 //
@@ -2199,6 +2364,20 @@ public class ShapeSceneController implements Initializable {
 //			}
 //		});
 
+		extraFontSlider.addEventHandler(MouseEvent.MOUSE_PRESSED, e->{
+			extraTextSize=getTextSize(Location.BOTTOM);
+			if (e.getX()!=extra1Slider.getValue()) {
+				fontSliderAction(Location.BOTTOM);
+			}
+			extraTextSize=getTextSize(Location.BOTTOM);
+		});
+		extraFontSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e->{
+			fontSliderAction(Location.BOTTOM);
+		});
+		extraFontSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e->{
+			extraTextSize=getTextSize(Location.BOTTOM);
+		});
+		
 		this.sliderBox.getChildren().add(this.extraFontSlider);
 		HBox.setMargin(this.extraFontSlider, new Insets(5, 0, 0, 50));
 		//----Slider done being added
