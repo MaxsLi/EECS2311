@@ -1,20 +1,14 @@
 ﻿# EECS2311 Software Development Project
 
 ## Description
-
+![image](https://user-images.githubusercontent.com/50505942/78942724-3fa2db80-7a88-11ea-8fea-98502d0e1811.png)
 A desktop app that can draw customizable [Venn diagrams](https://en.wikipedia.org/wiki/Venn_diagram).
 
 ## Getting Started
+Follow the installation intructions below, when installed and on the home page as shown above, click `Create New` to start a new VennCreate Project.
 
-To use our application first you much launch it. To do so, head to the exact path Venn/src/main/java/views/MainApp.java
-
-Click "Create New" to create a new Venn Diagram. Fill out all information and you work will be automatically saved to a CSV File with a name of your choice.
-
-### Retrieving Your Saved Diagrams
-
-To retrieve a previously worked on application, run MainApp.java and click "Retrieve Existing" and select an Existing project.
-
-Previous Projects can also be opened in any CSV Editor like excel by heading to VennCreate/src/main/java/resources/
+### Retrieve an Existing Project
+On the home menu showed above, click "Get Existing". Your file explorer will then be opened and you may search for an existing venn diagram.
 
 ## Folder Structure
 * [[VennCreate]](/)
