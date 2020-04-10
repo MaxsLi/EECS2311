@@ -800,13 +800,13 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			//------Label done being added
 
 			//-----Color picker starting to be added
-			this.exrtra1ColorHover = new ColorPicker();
-			this.exrtra1ColorHover.setMinHeight(28);
-			this.exrtra1ColorHover.setMinWidth(137);
-			this.exrtra1ColorHover.setMaxHeight(28);
-			this.exrtra1ColorHover.setMaxWidth(137);
+			this.extra1ColorHover = new ColorPicker();
+			this.extra1ColorHover.setMinHeight(28);
+			this.extra1ColorHover.setMinWidth(137);
+			this.extra1ColorHover.setMaxHeight(28);
+			this.extra1ColorHover.setMaxWidth(137);
 
-			exrtra1ColorHover.setOnAction(new EventHandler<ActionEvent>() {
+			extra1ColorHover.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
 					extraCircle.setFill(extra1Color.getValue());
@@ -818,8 +818,8 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				public void handle(MouseEvent e) {
 					if (ShapeSceneController.EXTRA_CIRCLE_HOVER) {
 						extraCircle.setStyle("-fx-stroke:#"
-								+ exrtra1ColorHover.getValue().toString().substring(2,
-										exrtra1ColorHover.getValue().toString().length() - 2)
+								+ extra1ColorHover.getValue().toString().substring(2,
+										extra1ColorHover.getValue().toString().length() - 2)
 								+ ";" + " -fx-stroke-width: 5;");
 
 						mainScene.setCursor(Cursor.HAND);
@@ -846,8 +846,8 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				}
 			});
 
-			this.scrollBox.getChildren().add(this.exrtra1ColorHover);
-			VBox.setMargin(this.exrtra1ColorHover, new Insets(10, 0, 0, 50));
+			this.scrollBox.getChildren().add(this.extra1ColorHover);
+			VBox.setMargin(this.extra1ColorHover, new Insets(10, 0, 0, 50));
 			//-------------------Color picker done being added
 			
 			
