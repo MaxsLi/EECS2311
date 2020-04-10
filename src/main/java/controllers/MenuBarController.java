@@ -1,21 +1,30 @@
 package controllers;
 
+import java.awt.AWTException;
 import java.awt.Desktop;
+import java.awt.Robot;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
+
 import views.MainApp;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.WritableImage;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.shape.Ellipse;
+import java.awt.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.WindowEvent;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -37,6 +46,7 @@ public class MenuBarController {
 
 	@FXML
 	private MenuItem addCircleMenuItem;
+	
 
 //	 Undo/redo
 //	@FXML
@@ -212,6 +222,24 @@ public class MenuBarController {
 
 		shapeSceneCont = mainApp.getShapeSceneController();
 		shapeSceneCont.addCircle();
+	}
+	
+	@FXML
+	private void JPG(ActionEvent e) {
+		System.out.println("Click Detected");
+		try {
+            Robot robot = new Robot();
+            String format = "jpg";
+            String fileName = "PartialScreenshot." + format;
+             
+            Rectangle captureRect = new Rectangle((int)mainApp.primaryStage.getScene().getX(), (int)mainApp.primaryStage.getScene().getY(), (int)mainApp.primaryStage.getScene().getWidth(), (int)mainApp.primaryStage.getScene().getHeight());
+            BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
+            ImageIO.write(screenFullImage, format, new File(fileName));
+             
+            System.out.println("A partial screenshot saved!");
+        } catch (AWTException | IOException ex) {
+            System.err.println(ex);
+        }
 	}
 
 }
