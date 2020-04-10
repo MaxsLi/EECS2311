@@ -1,6 +1,10 @@
 package controllers;
 
+import java.awt.AWTException;
 import java.awt.Desktop;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,6 +21,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
 import javax.sound.midi.VoiceStatus;
 
 import org.junit.platform.commons.function.Try;
@@ -2601,7 +2606,25 @@ public class ShapeSceneController implements Initializable {
 	
 	@FXML
 	private void exportJPG() {
-		
+		System.out.println("Click Detected");
+		try {
+            Robot robot = new Robot();
+            String format = "jpg";
+            String fileName = "PartialScreenshot." + format;
+            
+            if(ShapeSceneController.NAV_IS_SHOWING) {
+            	toggleDrawer();
+            }
+            
+            //Rectangle captureRect = new Rectangle((int)mainApp.primaryStage.getScene().getX(), (int)mainApp.primaryStage.getScene().getY(), (int)mainApp.primaryStage.getScene().getWidth(), (int)mainApp.primaryStage.getScene().getHeight());
+            Rectangle captureRect = new Rectangle((int)MainApp.primaryStage.getX(), (int)MainApp.primaryStage.getY(), (int)MainApp.primaryStage.getScene().getWidth(), (int)MainApp.primaryStage.getScene().getHeight());
+            BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
+            ImageIO.write(screenFullImage, format, new File(fileName));
+             
+            System.out.println("A partial screenshot saved!");
+        } catch (AWTException | IOException ex) {
+            System.err.println(ex);
+        }
 	}
 	
 	@FXML
@@ -2615,7 +2638,7 @@ public class ShapeSceneController implements Initializable {
 		textField.setText(newText);
 		
 	}
-
+	
 }
 
 /**

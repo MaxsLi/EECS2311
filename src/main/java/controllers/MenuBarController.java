@@ -231,7 +231,7 @@ public class MenuBarController {
             Robot robot = new Robot();
             String format = "jpg";
             String fileName = "PartialScreenshot." + format;
-             
+
             Rectangle captureRect = new Rectangle((int)mainApp.primaryStage.getScene().getX(), (int)mainApp.primaryStage.getScene().getY(), (int)mainApp.primaryStage.getScene().getWidth(), (int)mainApp.primaryStage.getScene().getHeight());
             BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
             ImageIO.write(screenFullImage, format, new File(fileName));
