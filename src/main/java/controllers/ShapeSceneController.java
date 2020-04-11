@@ -747,10 +747,12 @@ public class ShapeSceneController implements Initializable {
 
 	public void addTooltip(TextField tf, Tooltip tt) {
 		Tooltip.install(tf, tt);
+		tooltipHolder.put(tf, tt.getText());
 	}
 	
 	public void removeTooltip(TextField tf) {
 		Tooltip.uninstall(tf, tf.getTooltip());
+		tooltipHolder.remove(tf);
 	}
 
 	public void deleteSpecficText(TextField tf) {
@@ -978,9 +980,6 @@ public class ShapeSceneController implements Initializable {
 	 *              save.csv file
 	 */
 	public void saveVenn(ArrayList<TextField> write) {
-		AppAttributes appSaver = new AppAttributes(this.appTitle.getText(), this.leftTitle.getText(),
-				this.rightTitle.getText(), this.leftCircle.getFill(), this.rightCircle.getFill(),
-				this.backgroundColor.getValue(), this.titleColors.getValue(), ShapeSceneController.NUM_OF_CIRCLES);
 
 		String dummyLine = "TEXT COLUMN" + COMMA + "Additional Description" + COMMA + "TextField X Coor" + COMMA
 				+ "TextField Y Coor" + COMMA + "Location of TextField" + COMMA + "<------DO NOT MODIFY THIS LINE"; //Program not reading line two
@@ -989,9 +988,9 @@ public class ShapeSceneController implements Initializable {
 		/*
 		 * Set the First Line of the CSV File Accordingly
 		 */
-		String firstLine = appSaver.attrAppTitle + COMMA + appSaver.attrLeftTitle + COMMA + appSaver.attrRightTitle
-				+ COMMA + appSaver.attrLeftColor.toString() + COMMA + appSaver.attrRightColor.toString() + COMMA
-				+ appSaver.attrSceneColor.toString() + COMMA + appSaver.attrTitleColor.toString() + COMMA + ShapeSceneController.NUM_OF_CIRCLES + COMMA
+		String firstLine = this.appTitle.getText() + COMMA + this.leftTitle.getText() + COMMA + this.rightTitle.getText()
+				+ COMMA + this.leftColorPicker.getValue().toString() + COMMA + this.rightColorPicker.getValue().toString() + COMMA
+				+ this.backgroundColor.getValue().toString() + COMMA + this.titleColors.getValue().toString() + COMMA + ShapeSceneController.NUM_OF_CIRCLES + COMMA
 				+ "<---DO NOT MODIFY THIS LINE" + "\n" + dummyLine;
 
 		try {
@@ -1154,51 +1153,6 @@ public class ShapeSceneController implements Initializable {
 			translate.play();
 		
 		
-	}
-
-	/**
-	 * An Object to store All important Details on an App Instance
-	 *
-	 */
-	private class AppAttributes {
-		String attrAppTitle = appTitle.getText();
-		String attrLeftTitle = leftTitle.getText();
-		String attrRightTitle = rightTitle.getText();
-		Paint attrLeftColor = leftCircle.getFill();
-		Paint attrRightColor = rightCircle.getFill();
-		Paint attrSceneColor = backgroundColor.getValue();
-		Paint attrTitleColor = titleColors.getValue();
-		int numOfCircle = ShapeSceneController.NUM_OF_CIRCLES;
-
-		public AppAttributes(String attributeAppTitle, String leftTitle, String rightTitle, Paint leftColor,
-				Paint rightColor, Paint attrSceneColor, Paint attrTitleColor, int numOfCircles) {
-			super();
-			if (this.attrAppTitle.trim().isEmpty()) {
-				this.attrAppTitle = "DefaultTitle";
-			} else {
-				this.attrAppTitle = attributeAppTitle;
-			}
-
-			if (this.attrLeftTitle.trim().isEmpty()) {
-				this.attrLeftTitle = "DefaultLeftTitle";
-			} else {
-				this.attrLeftTitle = leftTitle;
-			}
-
-			if (this.attrRightTitle.trim().isEmpty()) {
-				this.attrRightTitle = "DefaultRightTitle";
-			} else {
-				this.attrRightTitle = rightTitle;
-			}
-
-			this.attrLeftColor = leftColor;
-			this.attrRightColor = rightColor;
-			this.attrSceneColor = backgroundColor.getValue();
-			this.attrLeftColor = titleColors.getValue();
-			this.numOfCircle = ShapeSceneController.NUM_OF_CIRCLES;
-
-		}
-
 	}
 
 	/**
@@ -1374,8 +1328,8 @@ public class ShapeSceneController implements Initializable {
 		setTitleColor(DEFAULT_TITLE_COLOR.substring(1));
 		leftTextColor.setValue(Color.web("#000000"));
 		rightTextColor.setValue(Color.web("#000000"));
-		setCircleHover("#FFFFFF", leftCircle);
-		setCircleHover("#FFFFFF", rightCircle);
+		setCircleHover(DEFAULT_LEFT_HOVER_COLOR, leftCircle);
+		setCircleHover(DEFAULT_RIGHT_HOVER_COLOR, rightCircle);
 	}
 	public void undoBtn(boolean set) {
 		
@@ -2617,145 +2571,3 @@ public class ShapeSceneController implements Initializable {
 	}
 
 }
-
-/**
- * Undo/redo private Stack<Command> undoStack; private Stack<Command> redoStack;
- * 
- * public void addText(TextField newTextField) {
- * 
- * Point2D.Double position=new Point2D.Double(leftCircle.getCenterX(),
- * leftCircle.getCenterY()); position=getFreePos(position);
- * 
- * newTextField.setEditable(false);
- * newTextField.resizeRelocate(leftCircle.getCenterX(), leftCircle.getCenterY(),
- * 1, 1);
- * 
- * this.addDragEvent(newTextField); this.addContext(newTextField);
- * 
- * newTextField.setTranslateX(position.getX());
- * newTextField.setTranslateY(position.getY());
- * this.stackPane.getChildren().add(newTextField);
- * this.vennSet.add(newTextField); this.sideAdded.clear(); } // Gets the first
- * possible free positon for the Textbox // @param p the center of circles
- * private Point2D.Double getFreePos(Point2D.Double p) { //keep track of even
- * odd so every other textbox goes above int j=0; for (int i = 0; i <
- * vennSet.size(); i++) { double x=vennSet.get(i).getTranslateX(); double
- * y=vennSet.get(i).getTranslateY(); if (x==p.getX()&&y==p.getY()&&(j%2)==0) {
- * p.y+=(j+1)*vennSet.get(i).getHeight(); j++; } else if
- * (x==p.getX()&&y==p.getY()) { p.y-=(j+1)*vennSet.get(i).getHeight(); j++; } }
- * 
- * return p; } public void removeTextField(TextField textField) {
- * stackPane.getChildren().remove(textField); } public void setText(TextField
- * textField, String text) { textField.setText(text); }
- * 
- * // On click, creates a textArea which can be dragged into Respective Circle
- * public void addTextToDiagram() { if (this.diagramText.getText().isEmpty() ||
- * this.diagramText.getText().trim().equals("")) { Alert alert = new
- * Alert(AlertType.WARNING); alert.setTitle("Warning Dialog");
- * alert.setHeaderText("Empty TextField"); alert.setContentText("Please enter
- * some Text to the TextField under the Venn Diagram"); alert.showAndWait();
- * 
- * } else { TextField newTextField=new TextField();
- * this.addAutoResize(newTextField);
- * newTextField.setText(this.diagramText.getText()); Command a=new
- * AddCommand(this, newTextField); redoStack.clear(); a.execute();
- * undoStack.push(a); } }
- * 
- * public void undo() { if (!(undoStack.empty())) { Command a=undoStack.pop();
- * a.undo(); redoStack.push(a); } }
- * 
- * public void redo() { if (!(redoStack.empty())) { Command a=redoStack.pop();
- * a.redo(); undoStack.push(a); } }
- * 
- * public void moveTextField(TextField textField, double offsetX, double
- * offsetY) { double newTranslateX = orgTranslateX + offsetX; double
- * newTranslateY = orgTranslateY + offsetY;
- * 
- * textField.setTranslateX(newTranslateX);
- * textField.setTranslateY(newTranslateY); }
- * 
- * // Adds Drag Events to created TextFields // @param textField the TextField
- * to be added private DragCommand drag; private void addDragEvent(TextField
- * textField) {
- * 
- * textField.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
- * 
- * this.diagramText.clear(); orgSceneX = e.getSceneX(); orgSceneY =
- * e.getSceneY(); orgTranslateX = textField.getTranslateX(); orgTranslateY =
- * textField.getTranslateY();
- * 
- * textField.toFront(); drag=new DragCommand(this, textField, orgTranslateX,
- * orgTranslateY);
- * 
- * });
- * 
- * // On Mouse Drag Moves the TextField Around the Screen
- * textField.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
- * 
- * double offsetX = e.getSceneX() - orgSceneX; double offsetY = e.getSceneY() -
- * orgSceneY; drag.setOffsetX(offsetX); drag.setOffsetY(offsetY);
- * drag.execute(); });
- * 
- * // On Mouse Release Calculates Distances with circles. to determine where
- * this // circle has been placed // // Uses Basic Distance Between point
- * calculations to do so // // Stores the string contents of the textField in
- * leftSet, rightSet or // intersectionSet //
- * textField.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
- * drag.setOffsetX(textField.getTranslateX());
- * drag.setOffsetY(textField.getTranslateY()); redoStack.clear();
- * undoStack.push(drag); getLocation(textField); });
- * 
- * }
- * 
- * public void getLocation(TextField textField) { Location textBoxLocation;
- * 
- * try { textBoxLocation = this.vennSet.getLocation(textField); } catch
- * (Exception exception) { Alert alert = new Alert(AlertType.WARNING);
- * alert.setTitle("Warning Dialog"); alert.setHeaderText("TextField Out of
- * Bounds"); alert.setContentText( "Please place the label inside the one of the
- * shape."); alert.showAndWait(); return; } }
- * 
- * private void addContext(TextField textField) {
- * 
- * delete.setOnAction((event) ->{ RemoveCommand remove=new RemoveCommand(this,
- * textField); redoStack.clear(); undoStack.push(remove); remove.execute();
- * 
- * });
- * 
- * edit.setOnAction((event) -> { EditTextCommand e=new EditTextCommand(this,
- * textField, textField.getText()); redoStack.clear(); undoStack.push(e);
- * textField.setEditable(true);
- * 
- * });
- * 
- * }
- * 
- * private void setTitleBoxes() {
- * 
- * appTitle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> { EditTextCommand
- * edit=new EditTextCommand(this, appTitle, appTitle.getText());
- * redoStack.clear(); undoStack.push(edit); });
- * 
- * leftTitle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> { EditTextCommand
- * edit=new EditTextCommand(this, leftTitle, leftTitle.getText());
- * redoStack.clear(); undoStack.push(edit);
- * 
- * });
- * 
- * rightTitle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> { EditTextCommand
- * edit=new EditTextCommand(this, rightTitle, rightTitle.getText());
- * redoStack.clear(); undoStack.push(edit); }); }
- * 
- * public void changeLeftColor() { EditColorCommand edit=new
- * EditColorCommand(this, leftCircle, leftCircle.getFill(),
- * leftColorPicker.getValue()); undoStack.push(edit); edit.execute(); }
- * 
- * public void changeRightColor() { EditColorCommand edit=new
- * EditColorCommand(this, rightCircle, rightCircle.getFill(),
- * rightColorPicker.getValue()); undoStack.push(edit); edit.execute(); }
- * 
- * @Override public void initialize(URL location, ResourceBundle resources) {
- *           this.vennShape = new VennShape(this.leftCircle, this.rightCircle);
- *           this.vennSet = new VennSet(this.vennShape); this.undoStack=new
- *           Stack<>(); this.redoStack=new Stack<>(); this.setTitleBoxes(); } }
- */
