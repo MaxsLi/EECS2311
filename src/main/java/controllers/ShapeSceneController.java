@@ -366,16 +366,18 @@ public class ShapeSceneController implements Initializable {
 	public static final String COMMA = ",";
 
 	private void addKeyShortcuts() {
-		mainApp.primaryStage.getScene().setOnKeyPressed(e -> {
-			if (e.isControlDown() && e.getCode() == KeyCode.Z) {
-				this.undo();
-			} else if (e.isControlDown() && e.isShiftDown() && e.getCode() == KeyCode.Y) {
-				this.redo();
-			}
-		});
+//		mainApp.primaryStage.getScene().setOnKeyPressed(e -> {
+//			if (e.isControlDown() && e.getCode() == KeyCode.Z) {
+//				this.undo();
+//			} else if (e.isControlDown() && e.isShiftDown() && e.getCode() == KeyCode.Y) {
+//				this.redo();
+//			}
+//		});
 		undoBtn.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
-		redoBtn.setAccelerator(
-				new KeyCodeCombination(KeyCode.Y, KeyCodeCombination.SHIFT_DOWN, KeyCodeCombination.CONTROL_DOWN));
+		redoBtn.setAccelerator(new KeyCodeCombination(KeyCode.Y, KeyCodeCombination.SHIFT_DOWN, KeyCodeCombination.CONTROL_DOWN));
+		createNewVenn.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
+		openMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
+		
 	}
 
 	/**
