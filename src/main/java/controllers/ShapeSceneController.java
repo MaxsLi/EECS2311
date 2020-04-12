@@ -2606,11 +2606,21 @@ public class ShapeSceneController implements Initializable {
 	
 	@FXML
 	private void exportJPG() {
-		System.out.println("Click Detected");
+		FileChooser fc = new FileChooser();
+		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg"));
+		fc.setInitialFileName("VennDiagram");
+		File file = fc.showSaveDialog(null);
+		
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
+		
+		if(file != null) {
 		try {
             Robot robot = new Robot();
             String format = "jpg";
-            String fileName = "PartialScreenshot." + format;
             
             Rectangle captureRect;
             
@@ -2621,19 +2631,48 @@ public class ShapeSceneController implements Initializable {
             	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+200, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-300, (int)MainApp.primaryStage.getScene().getHeight()-200);
             }
             
-            //Rectangle captureRect = new Rectangle((int)mainApp.primaryStage.getScene().getX(), (int)mainApp.primaryStage.getScene().getY(), (int)mainApp.primaryStage.getScene().getWidth(), (int)mainApp.primaryStage.getScene().getHeight());
             BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
-            ImageIO.write(screenFullImage, format, new File(fileName));
+            ImageIO.write(screenFullImage, format, file);
              
-            System.out.println("A partial screenshot saved!");
         } catch (AWTException | IOException ex) {
             System.err.println(ex);
         }
+		}
 	}
 	
 	@FXML
 	private void exportPNG() {
+		FileChooser fc = new FileChooser();
+		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
+		fc.setInitialFileName("VennDiagram");
+		File file = fc.showSaveDialog(null);
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
 		
+		if(file != null) {
+		try {
+            Robot robot = new Robot();
+            String format = "png";
+            
+            Rectangle captureRect;
+            
+            if(ShapeSceneController.NAV_IS_SHOWING) {
+            	toggle.fire();
+            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+460, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-468, (int)MainApp.primaryStage.getScene().getHeight()-200);
+            } else {
+            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+200, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-300, (int)MainApp.primaryStage.getScene().getHeight()-200);
+            }
+            BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
+            ImageIO.write(screenFullImage, format, file);
+             
+        } catch (AWTException | IOException ex) {
+            System.err.println(ex);
+        }
+		}
 	}
 
 
