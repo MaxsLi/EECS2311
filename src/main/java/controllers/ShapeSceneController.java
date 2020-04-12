@@ -1,6 +1,10 @@
 package controllers;
 
+import java.awt.AWTException;
 import java.awt.Desktop;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,6 +21,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
 import javax.sound.midi.VoiceStatus;
 
 import org.junit.platform.commons.function.Try;
@@ -2556,12 +2561,73 @@ public class ShapeSceneController implements Initializable {
 
 	@FXML
 	private void exportJPG() {
-
+		FileChooser fc = new FileChooser();
+		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg"));
+		fc.setInitialFileName("VennDiagram");
+		File file = fc.showSaveDialog(null);
+		
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
+		
+		if(file != null) {
+		try {
+            Robot robot = new Robot();
+            String format = "jpg";
+            
+            Rectangle captureRect;
+            
+            if(ShapeSceneController.NAV_IS_SHOWING) {
+            	toggle.fire();
+            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+460, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-468, (int)MainApp.primaryStage.getScene().getHeight()-200);
+            } else {
+            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+200, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-300, (int)MainApp.primaryStage.getScene().getHeight()-200);
+            }
+            
+            BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
+            ImageIO.write(screenFullImage, format, file);
+             
+        } catch (AWTException | IOException ex) {
+            System.err.println(ex);
+        }
+		}
 	}
-
+	
 	@FXML
 	private void exportPNG() {
+		FileChooser fc = new FileChooser();
+		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("png files (*.png)", "*.png"));
+		fc.setInitialFileName("VennDiagram");
+		File file = fc.showSaveDialog(null);
 
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
+		
+		if(file != null) {
+		try {
+            Robot robot = new Robot();
+            String format = "png";
+            
+            Rectangle captureRect;
+            
+            if(ShapeSceneController.NAV_IS_SHOWING) {
+            	toggle.fire();
+            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+460, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-468, (int)MainApp.primaryStage.getScene().getHeight()-200);
+            } else {
+            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+200, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-300, (int)MainApp.primaryStage.getScene().getHeight()-200);
+            }
+            BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
+            ImageIO.write(screenFullImage, format, file);
+             
+        } catch (AWTException | IOException ex) {
+            System.err.println(ex);
+        }
+		}
 	}
 
 	public void setText(TextField textField, String newText) {
