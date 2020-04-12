@@ -2567,7 +2567,7 @@ public class ShapeSceneController implements Initializable {
 		File file = fc.showSaveDialog(null);
 		
         try {
-            Thread.sleep(100);
+            Thread.sleep(200);
         } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
         }
@@ -2603,7 +2603,7 @@ public class ShapeSceneController implements Initializable {
 		File file = fc.showSaveDialog(null);
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(200);
         } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
         }
