@@ -93,15 +93,15 @@ public class ZoomPane {
 		double scrollYOffset = scrollOffset.getY();
 		double extraWidth = scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
 		if (extraWidth > 0) {
-			double halfWidth = scroller.getViewportBounds().getWidth() / 2 ;
-			double newScrollXOffset = (scaleFactor - 1) *  halfWidth + scaleFactor * scrollXOffset;
+			double halfWidth = scroller.getViewportBounds().getWidth() / 2;
+			double newScrollXOffset = (scaleFactor - 1) * halfWidth + scaleFactor * scrollXOffset;
 			scroller.setHvalue(scroller.getHmin() + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
 		} else {
 			scroller.setHvalue(scroller.getHmin());
 		}
 		double extraHeight = scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
 		if (extraHeight > 0) {
-			double halfHeight = scroller.getViewportBounds().getHeight() / 2 ;
+			double halfHeight = scroller.getViewportBounds().getHeight() / 2;
 			double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
 			scroller.setVvalue(scroller.getVmin() + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
 		} else {

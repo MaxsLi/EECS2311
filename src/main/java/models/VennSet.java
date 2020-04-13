@@ -1,32 +1,31 @@
 package models;
 
+import controllers.ShapeSceneController;
 import javafx.geometry.Point2D;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 
-import controllers.ShapeSceneController;
-
 public class VennSet extends ArrayList<TextField> {
 
-	private VennShape vennShape;
+	private final VennShape vennShape;
 
 	public VennSet(VennShape vennShape) {
 		this.vennShape = vennShape;
 	}
 
 	public Location getLocation(TextField textField) throws Exception {
-		Circle leftCircle = (Circle)this.vennShape.getLeftShape();
-		Circle rightCircle = (Circle)this.vennShape.getRightShape();
+		Circle leftCircle = (Circle) this.vennShape.getLeftShape();
+		Circle rightCircle = (Circle) this.vennShape.getRightShape();
 		Circle extraCircle;
-		
-		
+
+
 		Point2D leftCenter = leftCircle.localToParent(leftCircle.getCenterX(), leftCircle.getCenterY());
 		Point2D rightCenter = rightCircle.localToParent(rightCircle.getCenterX(), rightCircle.getCenterY());
 		Point2D extraCenter;
-		
-		
+
+
 		double leftRadius = leftCircle.getRadius();
 		double rightRadius = rightCircle.getRadius();
 		double extraCircleRadius = 0;
@@ -38,30 +37,25 @@ public class VennSet extends ArrayList<TextField> {
 		double distanceToRight = textFieldLocation.distance(rightCenter);
 		double distanceToBottom = 0;
 
-		
-		
-		if(ShapeSceneController.EXTRA_CIRCLE_ADDED) {
-			 extraCircle = (Circle)this.vennShape.getBottomShape();
-			 extraCenter = extraCircle.localToParent(extraCircle.getCenterX(), extraCircle.getCenterY());
-			 extraCircleRadius = extraCircle.getRadius();
-			 distanceToBottom = textFieldLocation.distance(extraCenter);
+
+		if (ShapeSceneController.EXTRA_CIRCLE_ADDED) {
+			extraCircle = (Circle) this.vennShape.getBottomShape();
+			extraCenter = extraCircle.localToParent(extraCircle.getCenterX(), extraCircle.getCenterY());
+			extraCircleRadius = extraCircle.getRadius();
+			distanceToBottom = textFieldLocation.distance(extraCenter);
 		}
-		
-		 
-		if(ShapeSceneController.EXTRA_CIRCLE_ADDED && 
+
+
+		if (ShapeSceneController.EXTRA_CIRCLE_ADDED &&
 				distanceToBottom <= extraCircleRadius && distanceToLeft <= leftRadius && distanceToRight <= rightRadius) {
 			return Location.INTERSECTING_ALL;
-		}
-		else if (ShapeSceneController.EXTRA_CIRCLE_ADDED && 
+		} else if (ShapeSceneController.EXTRA_CIRCLE_ADDED &&
 				distanceToBottom <= extraCircleRadius && distanceToLeft <= leftRadius) {
 			return Location.INTERSECTING_BOTTOM_LEFT;
-		}
-		else if(ShapeSceneController.EXTRA_CIRCLE_ADDED && 
+		} else if (ShapeSceneController.EXTRA_CIRCLE_ADDED &&
 				distanceToBottom <= extraCircleRadius && distanceToRight <= rightRadius) {
 			return Location.INTERSECTING_BOTTOM_RIGHT;
-		}
-		
-		else if(ShapeSceneController.EXTRA_CIRCLE_ADDED && 
+		} else if (ShapeSceneController.EXTRA_CIRCLE_ADDED &&
 				distanceToLeft <= leftRadius && distanceToRight <= rightRadius) {
 			return Location.INTERSECTING_LEFT_RIGHT;
 		}
@@ -85,13 +79,9 @@ public class VennSet extends ArrayList<TextField> {
 		 */
 		else if (distanceToRight <= rightRadius) {
 			return Location.RIGHT;
-		}
-		
-		else if(ShapeSceneController.EXTRA_CIRCLE_ADDED) {
+		} else if (ShapeSceneController.EXTRA_CIRCLE_ADDED) {
 			return Location.BOTTOM;
-		}
-
-		else {
+		} else {
 			throw new Exception("Invalid location");
 		}
 	}

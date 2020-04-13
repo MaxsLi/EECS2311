@@ -11,6 +11,7 @@ public class TextUtils {
 	static final double DEFAULT_LINE_SPACING;
 	static final String DEFAULT_TEXT;
 	static final TextBoundsType DEFAULT_BOUNDS_TYPE;
+
 	static {
 		helper = new Text();
 		DEFAULT_WRAPPING_WIDTH = helper.getWrappingWidth();

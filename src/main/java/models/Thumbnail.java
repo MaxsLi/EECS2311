@@ -1,13 +1,11 @@
 package models;
 
-import java.util.Date;
-
 import javafx.scene.image.Image;
+
+import java.util.Date;
 
 /**
  * This is a Class to represent a Thumbnail Slot in "Get Recent Venn Diagrams"
- * 
- *
  */
 public class Thumbnail {
 
@@ -18,7 +16,7 @@ public class Thumbnail {
 	private String rightCircleName;
 
 	public Thumbnail(Image imageOfVenn, Date dateCreated, String titleOfProject, String leftCircleName,
-			String rightCircleName) {
+					 String rightCircleName) {
 		super();
 		this.imageOfVenn = imageOfVenn;
 		this.dateCreated = dateCreated;

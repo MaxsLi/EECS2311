@@ -4,16 +4,17 @@ import controllers.ShapeSceneController;
 
 public class EditBackgroundColorCommand implements Command {
 
-	
-	private ShapeSceneController shapesceneController;
-	private String oldStyle;
-	private String newStyle;
+
+	private final ShapeSceneController shapesceneController;
+	private final String oldStyle;
+	private final String newStyle;
+
 	public EditBackgroundColorCommand(ShapeSceneController shapeSceneController, String oldStyle, String newStyle) {
-		this.shapesceneController=shapeSceneController;
-		this.oldStyle=oldStyle;
-		this.newStyle=newStyle;
+		this.shapesceneController = shapeSceneController;
+		this.oldStyle = oldStyle;
+		this.newStyle = newStyle;
 	}
-	
+
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub

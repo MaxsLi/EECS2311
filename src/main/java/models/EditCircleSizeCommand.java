@@ -3,17 +3,18 @@ package models;
 import controllers.ShapeSceneController;
 import javafx.scene.shape.Circle;
 
-public class EditCircleSizeCommand implements Command{
+public class EditCircleSizeCommand implements Command {
 
-	private ShapeSceneController shapesceneController;
-	private Circle circle;
-	private double oldSize;
-	private double newSize;
+	private final ShapeSceneController shapesceneController;
+	private final Circle circle;
+	private final double oldSize;
+	private final double newSize;
+
 	public EditCircleSizeCommand(ShapeSceneController shapeSceneController, Circle circle, double oldSize, double newSize) {
-		this.shapesceneController=shapeSceneController;
+		this.shapesceneController = shapeSceneController;
 		this.circle = circle;
-		this.oldSize=oldSize;
-		this.newSize=newSize;
+		this.oldSize = oldSize;
+		this.newSize = newSize;
 	}
 //
 //	public void setOldSize(double oldSize) {
@@ -31,12 +32,14 @@ public class EditCircleSizeCommand implements Command{
 		// TODO Auto-generated method stub
 		shapesceneController.changeCircleSize(newSize, circle);
 	}
+
 	@Override
 	public void undo() {
 		// TODO Auto-generated method stub
 		shapesceneController.changeCircleSize(oldSize, circle);
-		
+
 	}
+
 	@Override
 	public void redo() {
 		// TODO Auto-generated method stub

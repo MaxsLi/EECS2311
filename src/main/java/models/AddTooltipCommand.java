@@ -6,16 +6,17 @@ import javafx.scene.control.Tooltip;
 
 public class AddTooltipCommand implements Command {
 
-	private String text;
-	private TextField textField;
-	private ShapeSceneController shapeSceneController;
-	
+	private final String text;
+	private final TextField textField;
+	private final ShapeSceneController shapeSceneController;
+
 	public AddTooltipCommand(ShapeSceneController shapeSceneController, String text, TextField textField) {
 		// TODO Auto-generated constructor stub
-		this.text=text;
-		this.textField=textField;
-		this.shapeSceneController=shapeSceneController;
+		this.text = text;
+		this.textField = textField;
+		this.shapeSceneController = shapeSceneController;
 	}
+
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub

@@ -1,20 +1,20 @@
 package models;
 
 import controllers.ShapeSceneController;
-import javafx.scene.control.TextField;
 
 public class EditTitleCommand implements Command {
 
-	
-	private ShapeSceneController shapesceneController;
-	private String oldColor;
-	private String newColor;
+
+	private final ShapeSceneController shapesceneController;
+	private final String oldColor;
+	private final String newColor;
+
 	public EditTitleCommand(ShapeSceneController shapeSceneController, String oldColor, String newColor) {
-		this.shapesceneController=shapeSceneController;
-		this.oldColor=oldColor;
-		this.newColor=newColor;
+		this.shapesceneController = shapeSceneController;
+		this.oldColor = oldColor;
+		this.newColor = newColor;
 	}
-	
+
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub

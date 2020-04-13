@@ -2,8 +2,9 @@ package tests;
 
 import javafx.scene.shape.Circle;
 import models.VennShape;
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class VennShapeTest {
 
@@ -27,7 +28,7 @@ public class VennShapeTest {
 //	public void testRightCircle() {
 //		assertEquals(this.vennShape.getRightShape(), this.rightCircle);
 //	}
-	
+
 	@Test
 	public void testRightCircle() {
 		assertEquals(true, true);

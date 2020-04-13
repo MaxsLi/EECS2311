@@ -1,33 +1,12 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.testfx.api.FxAssert;
-import org.testfx.api.FxRobot;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.ApplicationTest;
-
 import controllers.ShapeSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point2D;
-import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
@@ -37,7 +16,16 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import models.VennSet;
 import models.VennShape;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit.ApplicationTest;
 import views.MainApp;
+
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ShapeSceneControllerTest extends ApplicationTest {
 
@@ -104,10 +92,8 @@ class ShapeSceneControllerTest extends ApplicationTest {
 	 * An Set of `Shape`s
 	 */
 	public VennShape vennShape;
-
-	ShapeSceneController controller;
-
 	public TextField randomTF;
+	ShapeSceneController controller;
 
 //	@BeforeEach
 //	public void setUpClass() throws Exception {
@@ -122,18 +108,18 @@ class ShapeSceneControllerTest extends ApplicationTest {
 	/* This operation comes from ApplicationTest and loads the GUI to test. */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		  Parent shapeScene = FXMLLoader.load(getClass().getResource("shapeScene.fxml"));
-		  primaryStage.setScene(new Scene(shapeScene));
-		  primaryStage.show();
-		  primaryStage.toFront();
+		Parent shapeScene = FXMLLoader.load(getClass().getResource("shapeScene.fxml"));
+		primaryStage.setScene(new Scene(shapeScene));
+		primaryStage.show();
+		primaryStage.toFront();
 	}
 
 
-    /* Just a shortcut to retrieve widgets in the GUI. */
-    public <T extends Node> T find(final String query) {
-        /** TestFX provides many operations to retrieve elements from the loaded GUI. */
-        return lookup(query).query();
-    }
+	/* Just a shortcut to retrieve widgets in the GUI. */
+	public <T extends Node> T find(final String query) {
+		/** TestFX provides many operations to retrieve elements from the loaded GUI. */
+		return lookup(query).query();
+	}
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -154,8 +140,8 @@ class ShapeSceneControllerTest extends ApplicationTest {
 	public void tearDown() throws Exception {
 		/* Close the window. It will be re-opened at the next test. */
 		FxToolkit.hideStage();
-		release(new KeyCode[] {});
-		release(new MouseButton[] {});
+		release(new KeyCode[]{});
+		release(new MouseButton[]{});
 	}
 
 	@Test
@@ -287,7 +273,6 @@ class ShapeSceneControllerTest extends ApplicationTest {
 		write("Benefits");
 
 		assertEquals(leftTitle.getText(), "Benefits");
-
 
 
 	}
