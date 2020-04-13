@@ -16,7 +16,7 @@ public class ShapeSceneMain extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		Parent mainNode = FXMLLoader.load(getClass().getResource("shapeScene.fxml"));
+		Parent mainNode = FXMLLoader.load(getClass().getResource("/fxml/shapeScene.fxml"));
 		primaryStage.setScene(new Scene(mainNode));
 		primaryStage.show();
 		primaryStage.toFront();

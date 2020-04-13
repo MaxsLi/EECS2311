@@ -30,6 +30,7 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import models.*;
+import models.commands.*;
 import views.MainApp;
 
 import javax.imageio.ImageIO;

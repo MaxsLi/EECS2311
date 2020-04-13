@@ -1,24 +1,23 @@
-package models;
+package models.commands;
 
 import controllers.ShapeSceneController;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class EditCircleColorCommand implements Command {
+public class EditHoverColorCommand implements Command {
 
 	private final ShapeSceneController shapesceneController;
 	private Circle circle;
-	private Paint oldColor;
-	private Paint newColor;
+	private String oldColor;
+	private String newColor;
 
-	public EditCircleColorCommand(ShapeSceneController shapeSceneController, Circle circle, Paint oldColor, Paint newColor) {
+	public EditHoverColorCommand(ShapeSceneController shapeSceneController, Circle circle, String oldColor, String newColor) {
 		this.shapesceneController = shapeSceneController;
 		this.circle = circle;
 		this.oldColor = oldColor;
 		this.newColor = newColor;
 	}
 
-	public EditCircleColorCommand(ShapeSceneController shapesceneController) {
+	public EditHoverColorCommand(ShapeSceneController shapesceneController) {
 		this.shapesceneController = shapesceneController;
 	}
 
@@ -26,25 +25,24 @@ public class EditCircleColorCommand implements Command {
 		this.circle = circle;
 	}
 
-	public void setOldColor(Paint oldColor) {
+	public void setOldColor(String oldColor) {
 		this.oldColor = oldColor;
 	}
 
-
-	public void setNewColor(Paint newColor) {
+	public void setNewColor(String newColor) {
 		this.newColor = newColor;
 	}
 
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		shapesceneController.changeCircleColor(newColor, circle);
+		shapesceneController.setCircleHover(newColor, circle);
 	}
 
 	@Override
 	public void undo() {
 		// TODO Auto-generated method stub
-		shapesceneController.changeCircleColor(oldColor, circle);
+		shapesceneController.setCircleHover(oldColor, circle);
 
 	}
 

@@ -1,17 +1,16 @@
-package models;
+package models.commands;
 
 import controllers.ShapeSceneController;
 
-public class EditTextColorCommand implements Command {
+public class EditTitleCommand implements Command {
+
 
 	private final ShapeSceneController shapesceneController;
-	private final Location location;
 	private final String oldColor;
 	private final String newColor;
 
-	public EditTextColorCommand(ShapeSceneController shapeSceneController, Location location, String oldColor, String newColor) {
+	public EditTitleCommand(ShapeSceneController shapeSceneController, String oldColor, String newColor) {
 		this.shapesceneController = shapeSceneController;
-		this.location = location;
 		this.oldColor = oldColor;
 		this.newColor = newColor;
 	}
@@ -19,14 +18,13 @@ public class EditTextColorCommand implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		shapesceneController.setTextColor(newColor, location);
+		shapesceneController.setTitleColor(newColor);
 	}
 
 	@Override
 	public void undo() {
 		// TODO Auto-generated method stub
-		shapesceneController.setTextColor(oldColor, location);
-
+		shapesceneController.setTitleColor(oldColor);
 	}
 
 	@Override
@@ -34,4 +32,5 @@ public class EditTextColorCommand implements Command {
 		// TODO Auto-generated method stub
 		execute();
 	}
+
 }

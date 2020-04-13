@@ -1,6 +1,7 @@
-package models;
+package models.commands;
 
 import controllers.ShapeSceneController;
+import models.Location;
 
 public class EditTextSizeCommand implements Command {
 

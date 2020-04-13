@@ -1,6 +1,7 @@
 package models;
 
 import controllers.ShapeSceneController;
+import models.commands.Command;
 
 import java.util.Stack;
 

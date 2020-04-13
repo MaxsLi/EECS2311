@@ -1,4 +1,4 @@
-package models;
+package models.commands;
 
 import controllers.ShapeSceneController;
 import javafx.scene.shape.Circle;
