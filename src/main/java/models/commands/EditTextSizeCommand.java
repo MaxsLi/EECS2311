@@ -19,20 +19,17 @@ public class EditTextSizeCommand implements Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		shapesceneController.changeTextSize(newSize, location);
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
 		shapesceneController.changeTextSize(oldSize, location);
 
 	}
 
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
 		execute();
 	}
 }

@@ -19,21 +19,18 @@ public class DeleteCommand implements Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		shapesceneController.deleteSpecficText(textField);
 		shapesceneController.eraseItem(textField.getText());
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
 		shapesceneController.addTextField(textField.getText(), textField, posX, posY);
 
 	}
 
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
 		execute();
 	}
 }

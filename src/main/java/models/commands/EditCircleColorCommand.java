@@ -37,20 +37,17 @@ public class EditCircleColorCommand implements Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		shapesceneController.changeCircleColor(newColor, circle);
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
 		shapesceneController.changeCircleColor(oldColor, circle);
 
 	}
 
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
 		execute();
 	}
 }

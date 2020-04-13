@@ -1,6 +1,5 @@
 package tests;
 
-import controllers.ShapeSceneController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,14 +13,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import models.VennSet;
-import models.VennShape;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
-import views.MainApp;
 
 import java.io.IOException;
 
@@ -71,34 +67,11 @@ class ShapeSceneControllerTest extends ApplicationTest {
 	@FXML
 	public TextField sideAdded;
 
-	public MainApp mainApp;
-
-	public String currentFileName;
-
 	@FXML
 	public TextField leftTitle;
 
 	@FXML
 	public TextField rightTitle;
-
-	/**
-	 * An Set of `TextLabel`s
-	 */
-	public VennSet vennSet;
-
-	public Parent shapeScene;
-
-	/**
-	 * An Set of `Shape`s
-	 */
-	public VennShape vennShape;
-	public TextField randomTF;
-	ShapeSceneController controller;
-
-//	@BeforeEach
-//	public void setUpClass() throws Exception {
-//		ApplicationTest.launch(MainApp.class);
-//	}
 
 	@BeforeEach
 	public void setUpClass() throws Exception {
@@ -117,12 +90,12 @@ class ShapeSceneControllerTest extends ApplicationTest {
 
 	/* Just a shortcut to retrieve widgets in the GUI. */
 	public <T extends Node> T find(final String query) {
-		/** TestFX provides many operations to retrieve elements from the loaded GUI. */
+		/* TestFX provides many operations to retrieve elements from the loaded GUI. */
 		return lookup(query).query();
 	}
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	public void setUp() {
 		diagramText = find("#diagramText");
 		appTitle = find("#appTitle");
 		leftTitle = find("#leftTitle");
@@ -133,7 +106,6 @@ class ShapeSceneControllerTest extends ApplicationTest {
 		rightCircle = find("#rightCircle");
 		leftColorPicker = find("#leftColorPicker");
 		rightColorPicker = find("#rightColorPicker");
-
 	}
 
 	@AfterEach

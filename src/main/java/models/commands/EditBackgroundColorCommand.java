@@ -17,19 +17,16 @@ public class EditBackgroundColorCommand implements Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		shapesceneController.setBackgrondColor(newStyle);
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
 		shapesceneController.setBackgrondColor(oldStyle);
 	}
 
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
 		execute();
 	}
 

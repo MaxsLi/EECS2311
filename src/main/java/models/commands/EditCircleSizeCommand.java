@@ -16,33 +16,20 @@ public class EditCircleSizeCommand implements Command {
 		this.oldSize = oldSize;
 		this.newSize = newSize;
 	}
-//
-//	public void setOldSize(double oldSize) {
-//		this.oldSize = oldSize;
-//	}
-//
-//
-//	public void setNewSize(double newSize) {
-//		this.newSize = newSize;
-//	}
-//
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		shapesceneController.changeCircleSize(newSize, circle);
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
 		shapesceneController.changeCircleSize(oldSize, circle);
 
 	}
 
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
 		execute();
 	}
 }

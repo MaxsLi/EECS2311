@@ -17,19 +17,16 @@ public class EditTitleCommand implements Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		shapesceneController.setTitleColor(newColor);
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
 		shapesceneController.setTitleColor(oldColor);
 	}
 
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
 		execute();
 	}
 

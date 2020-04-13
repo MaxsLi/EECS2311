@@ -11,7 +11,6 @@ public class DeleteAllCommand implements Command {
 	private ArrayList<DeleteCommand> deleteCommands;
 
 	public DeleteAllCommand(ShapeSceneController shapeSceneController) {
-		// TODO Auto-generated constructor stub
 		this.shapeSceneController = shapeSceneController;
 
 	}
@@ -25,7 +24,6 @@ public class DeleteAllCommand implements Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		for (DeleteCommand deleteCommand : deleteCommands) {
 			deleteCommand.execute();
 		}
@@ -33,7 +31,6 @@ public class DeleteAllCommand implements Command {
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
 		for (DeleteCommand deleteCommand : deleteCommands) {
 			deleteCommand.undo();
 		}
@@ -41,7 +38,6 @@ public class DeleteAllCommand implements Command {
 
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
 		execute();
 	}
 

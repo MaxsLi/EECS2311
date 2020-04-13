@@ -29,7 +29,10 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
-import models.*;
+import models.Location;
+import models.UndoRedoManager;
+import models.VennSet;
+import models.VennShape;
 import models.commands.*;
 import views.MainApp;
 
@@ -146,12 +149,12 @@ public class ShapeSceneController implements Initializable {
 	@FXML
 	protected ColorPicker rightTextColor;
 
-//	@FXML
+	//	@FXML
 //	private TextField leftFontTextField;
 	@FXML
 	protected Button testModeBttn;
 
-//	@FXML
+	//	@FXML
 //	private TextField rightFontTextField;
 	@FXML
 	protected Button undoBttn;
@@ -237,7 +240,7 @@ public class ShapeSceneController implements Initializable {
 
 //	private EditCircleSizeCommand editLeftCircleSizeCommand;
 
-//	private EditTextSizeCommand editTextSizeCommand;
+	//	private EditTextSizeCommand editTextSizeCommand;
 	// size of extra circle text
 	private double extraTextSize;
 	private UndoRedoManager undoRedoManager;

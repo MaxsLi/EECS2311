@@ -11,7 +11,6 @@ public class AddTooltipCommand implements Command {
 	private final ShapeSceneController shapeSceneController;
 
 	public AddTooltipCommand(ShapeSceneController shapeSceneController, String text, TextField textField) {
-		// TODO Auto-generated constructor stub
 		this.text = text;
 		this.textField = textField;
 		this.shapeSceneController = shapeSceneController;
@@ -19,19 +18,16 @@ public class AddTooltipCommand implements Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
 		shapeSceneController.addTooltip(textField, new Tooltip(text));
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
 		shapeSceneController.removeTooltip(textField);
 	}
 
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
 		execute();
 	}
 
