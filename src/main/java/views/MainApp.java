@@ -63,7 +63,7 @@ public class MainApp extends Application {
 
 		// Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
-			if (ShapeSceneController.APPLICATION_IS_SAVED == false) {
+			if (!ShapeSceneController.APPLICATION_IS_SAVED) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Confirmation Dialog");
 				alert.setHeaderText("Application Not Saved");
