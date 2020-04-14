@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2019.4.25)  24 JAN 2020 20:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/W32TeX) (preloaded format=pdflatex 2019.4.25)  13 APR 2020 21:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1338,12 +1338,12 @@ Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 25.
+LaTeX Font Info:    Try loading font information for U+msa on input line 26.
 
 (e:/Application/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 25.
+LaTeX Font Info:    Try loading font information for U+msb on input line 26.
 
 (e:/Application/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1375,54 +1375,61 @@ Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
 [4]
+<images/context-diagram.png, id=68, 533.995pt x 533.995pt>
+File: images/context-diagram.png Graphic file (type png)
+<use images/context-diagram.png>
+Package pdftex.def Info: images/context-diagram.png  used on input line 46.
+(pdftex.def)             Requested size: 443.57848pt x 443.5987pt.
+
 Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
-[5]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 75.
- (e:/Application/texlive/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 75.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 76.
-
-(e:/Application/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
+[5 <./images/context-diagram.png>]
 Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
 [6]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 70.
+ (e:/Application/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 70.
+
 Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
 [7]
-Package mdframed Info: mdframed works in twoside mode on input line 94.
-<images/use-case-diagram.png, id=75, 945.5325pt x 764.8575pt>
-File: images/use-case-diagram.png Graphic file (type png)
-<use images/use-case-diagram.png>
-Package pdftex.def Info: images/use-case-diagram.png  used on input line 94.
-(pdftex.def)             Requested size: 422.77849pt x 342.00026pt.
-Package mdframed Info: mdframed inside float 
- mdframed uses option nobreak mdframed on input line 95.
-Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 95.
-
-Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+Overfull \hbox (29.58888pt too wide) in paragraph at lines 85--85
+[]
+ []
 
 
-[8 <./images/use-case-diagram.png>]
-Overfull \hbox (2.8415pt too wide) in paragraph at lines 104--136
-[][] 
+Underfull \hbox (badness 10000) in paragraph at lines 85--85
+
  []
 
 
 Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
-[9]
-Overfull \hbox (2.8415pt too wide) in paragraph at lines 143--174
+[8]
+Package mdframed Info: mdframed works in twoside mode on input line 93.
+<images/use-case-diagram.png, id=90, 944.52875pt x 763.85374pt>
+File: images/use-case-diagram.png Graphic file (type png)
+<use images/use-case-diagram.png>
+Package pdftex.def Info: images/use-case-diagram.png  used on input line 93.
+(pdftex.def)             Requested size: 422.77849pt x 341.91275pt.
+Package mdframed Info: mdframed inside float 
+ mdframed uses option nobreak mdframed on input line 94.
+Package mdframed Info: mdframed inside a box 
+ mdframed uses option nobreak mdframed on input line 94.
+
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[9 <./images/use-case-diagram.png>]
+Overfull \hbox (2.8415pt too wide) in paragraph at lines 103--134
 [][] 
  []
 
@@ -1431,13 +1438,8 @@ Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
 [10]
-Underfull \hbox (badness 10000) in paragraph at lines 181--181
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 181--181
-[]\OT1/cmr/m/n/10 Traceability ref-er-
+Overfull \hbox (2.8415pt too wide) in paragraph at lines 141--173
+[][] 
  []
 
 
@@ -1445,23 +1447,8 @@ Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
 [11]
-Underfull \hbox (badness 10000) in paragraph at lines 189--189
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 189--189
-[]\OT1/cmr/m/n/10 Traceability ref-er-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 192--192
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 192--192
-[]\OT1/cmr/m/n/10 Traceability ref-er-
+Overfull \hbox (20.61961pt too wide) in paragraph at lines 180--212
+[][] 
  []
 
 
@@ -1469,63 +1456,265 @@ Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
 [12]
-<images/user-interface.png, id=112, 982.42032pt x 662.475pt>
-File: images/user-interface.png Graphic file (type png)
-<use images/user-interface.png>
-Package pdftex.def Info: images/user-interface.png  used on input line 201.
-(pdftex.def)             Requested size: 443.57848pt x 299.11174pt.
+Overfull \hbox (2.8415pt too wide) in paragraph at lines 219--252
+[][] 
+ []
+
 
 Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
-[13 <./images/user-interface.png>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 259--259
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 259--259
+[]\OT1/cmr/m/n/10 Traceability ref-er-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 262--262
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 262--262
+[]\OT1/cmr/m/n/10 Traceability ref-er-
+ []
 
 
 Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
 [14]
+Underfull \hbox (badness 10000) in paragraph at lines 270--270
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 270--270
+[]\OT1/cmr/m/n/10 Traceability ref-er-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--273
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 273--273
+[]\OT1/cmr/m/n/10 Traceability ref-er-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 276--276
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 276--276
+[]\OT1/cmr/m/n/10 Traceability ref-er-
+ []
+
+
+Underfull \hbox (badness 3724) in paragraph at lines 279--279
+[]\OT1/cmr/m/n/12 User shall be able to im-port
+ []
+
+
+Underfull \hbox (badness 1655) in paragraph at lines 279--279
+\OT1/cmr/m/n/12 ex-ist-ing Venn di-a-grams from a
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 279--279
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 279--279
+[]\OT1/cmr/m/n/10 Traceability ref-er-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 282--282
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 282--282
+[]\OT1/cmr/m/n/10 Traceability ref-
+ []
+
+
+Underfull \hbox (badness 5403) in paragraph at lines 282--282
+\OT1/cmr/m/n/10 er-ence: see New
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 285--285
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 285--285
+[]\OT1/cmr/m/n/10 Traceability ref-
+ []
+
+
+Underfull \hbox (badness 5403) in paragraph at lines 285--285
+\OT1/cmr/m/n/10 er-ence: see New
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 288--288
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 288--288
+[]\OT1/cmr/m/n/10 Traceability ref-er-
+ []
+
+
+Underfull \hbox (badness 5667) in paragraph at lines 288--288
+\OT1/cmr/m/n/10 ence: see Stake-
+ []
+
+
 Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
 [15]
+Underfull \hbox (badness 4927) in paragraph at lines 291--291
+[]\OT1/cmr/m/n/12 The soft-ware must sup-port a
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--291
+[]\OT1/cmr/m/n/10 Traceability ref-er-
+ []
+
+
+Underfull \hbox (badness 5667) in paragraph at lines 291--291
+\OT1/cmr/m/n/10 ence: see Stake-
+ []
+
+
 Overfull \vbox (10.97498pt too high) has occurred while \output is active []
 
 
 [16]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 296.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 296.
+<images/user-interface.png, id=158, 930.47626pt x 685.05937pt>
+File: images/user-interface.png Graphic file (type png)
+<use images/user-interface.png>
+Package pdftex.def Info: images/user-interface.png  used on input line 300.
+(pdftex.def)             Requested size: 443.57848pt x 326.57733pt.
+
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[17 <./images/user-interface.png>]
+<images/user-interface-normal.png, id=164, 930.47626pt x 685.05937pt>
+File: images/user-interface-normal.png Graphic file (type png)
+<use images/user-interface-normal.png>
+Package pdftex.def Info: images/user-interface-normal.png  used on input line 3
+13.
+(pdftex.def)             Requested size: 443.57848pt x 326.57733pt.
+
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[18 <./images/user-interface-normal.png>]
+<images/user-interface-test-mode.png, id=170, 930.47626pt x 685.05937pt>
+File: images/user-interface-test-mode.png Graphic file (type png)
+<use images/user-interface-test-mode.png>
+Package pdftex.def Info: images/user-interface-test-mode.png  used on input lin
+e 326.
+(pdftex.def)             Requested size: 443.57848pt x 326.57733pt.
+
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[19 <./images/user-interface-test-mode.png>]
+Overfull \hbox (10.35637pt too wide) in paragraph at lines 338--346
+ [][] 
+ []
+
+
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[20]
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[21]
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[22]
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[23]
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[24]
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[25]
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[26]
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[27]
+Overfull \vbox (10.97498pt too high) has occurred while \output is active []
+
+
+[28]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 580.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 580.
  (./Venn-RD.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 296.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 296.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 580.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 580.
 Package rerunfilecheck Info: File `Venn-RD.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 34971 strings out of 492616
- 652037 string characters out of 6129451
- 838120 words of memory out of 5000000
- 38345 multiletter control sequences out of 15000+600000
- 543872 words of font info for 66 fonts, out of 8000000 for 9000
+ 34997 strings out of 492616
+ 652515 string characters out of 6129451
+ 842120 words of memory out of 5000000
+ 38333 multiletter control sequences out of 15000+600000
+ 543357 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 81i,12n,77p,9107b,1065s stack positions out of 5000i,500n,10000p,200000b,80000s
-{e:/Application/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}<e:/Applicatio
-n/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><e:/Application/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><e:/Application/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><e:/Application/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><e:/Application/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><e:/Application/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><e:/Application/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb><e:/Application/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><e:/Application/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><e:/Application/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmti12.pfb><e:/Application/texlive/texmf-dis
-t/fonts/type1/urw/courier/ucrr8a.pfb>
-Output written on Venn-RD.pdf (16 pages, 220396 bytes).
+ 81i,12n,77p,9107b,1066s stack positions out of 5000i,500n,10000p,200000b,80000s
+<e:/Application/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+<e:/Application/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb>
+<e:/Application/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><e:
+/Application/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><e:/Ap
+plication/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><e:/Appli
+cation/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb><e:/Applica
+tion/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb><e:/Applicati
+on/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><e:/Applicati
+on/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><e:/Application
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on Venn-RD.pdf (28 pages, 371170 bytes).
 PDF statistics:
- 212 PDF objects out of 1000 (max. 8388607)
- 177 compressed objects within 2 object streams
- 48 named destinations out of 1000 (max. 500000)
- 95 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 311 PDF objects out of 1000 (max. 8388607)
+ 258 compressed objects within 3 object streams
+ 88 named destinations out of 1000 (max. 500000)
+ 126 words of extra memory for PDF output out of 10000 (max. 10000000)
 

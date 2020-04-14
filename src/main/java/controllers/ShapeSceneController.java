@@ -1,276 +1,169 @@
 package controllers;
 
-import java.awt.AWTException;
-import java.awt.Desktop;
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-import javax.imageio.ImageIO;
-import javax.sound.midi.VoiceStatus;
-
-import org.junit.platform.commons.function.Try;
-import org.junit.runner.Request;
-
-import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import views.MainApp;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.BlendMode;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
-import models.AddCircleCommand;
-import models.AddCommand;
-import models.AddTooltipCommand;
-import models.Command;
-import models.DeleteAllCommand;
-import models.DeleteCommand;
-import models.DragCommand;
-import models.EditBackgroundColorCommand;
-import models.EditCircleColorCommand;
-import models.EditCircleSizeCommand;
-import models.EditHoverColorCommand;
-import models.EditTextColorCommand;
-import models.EditTextCommand;
-import models.EditTextSizeCommand;
-import models.EditTitleCommand;
 import models.Location;
 import models.UndoRedoManager;
 import models.VennSet;
 import models.VennShape;
-import utilities.TextUtils;
+import models.commands.*;
+import views.MainApp;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class ShapeSceneController implements Initializable {
 
-	private final static String DEFAULT_BACKGROUND_COLOR = "#F5DEB3";
-	private final static String DEFAULT_LEFTCIRCLE_COLOR = "#87ceeb";
-	private final static String DEFAULT_RIGHTCIRCLE_COLOR = "#a0522d";
+	public static final String COMMA = ",";
 	protected final static String DEFAULT_EXTRACIRCLE_COLOR = "#9ACD32";
 	protected final static String DEFAULT_LEFT_HOVER_COLOR = "#1a3399";
 	protected final static String DEFAULT_RIGHT_HOVER_COLOR = "#990000";
 	protected final static String DEFAULT_EXTRA_HOVER_COLOR = "#ffff4d";
+	private final static String DEFAULT_BACKGROUND_COLOR = "#F5DEB3";
+	private final static String DEFAULT_LEFTCIRCLE_COLOR = "#87ceeb";
+	private final static String DEFAULT_RIGHTCIRCLE_COLOR = "#a0522d";
 	private final static String DEFAULT_TITLE_COLOR = "#000000";
 	private final static String DEFAULT_LEFTTEXT_COLOR = "#000000";
 	private final static String DEFAULT_RIGHTTEXT_COLOR = "#000000";
 	private final static String DEFAULT_EXTRATEXT_COLOR = "#000000";
-	protected static int NUM_OF_CIRCLES = 2;
-
 	public static boolean REMIND_OUTOF_BOUNDS = true;
 
 	public static boolean REMIND_EMPTY_TEXTFIELD = true;
-
+	public static boolean APPLICATION_IS_SAVED = true;
+	public static boolean ANIMATION_DONE = true;
+	public static boolean EXTRA_CIRCLE_ADDED = false;
+	public static Color LEFTCIRCLECOLOR = Color.valueOf("#ff8a8a");
+	public static Color RIGHTCIRCLECOLOR = Color.valueOf("#a7ff8f");
+	protected static int NUM_OF_CIRCLES = 2;
+	protected static boolean EXTRA_CIRCLE_HOVER = true;
+	protected static boolean NAV_IS_SHOWING = false;
 	private static boolean LEFT_CIRCLE_HOVER = true;
 	private static boolean RIGHT_CIRCLE_HOVER = true;
-	protected static boolean EXTRA_CIRCLE_HOVER = true;
-
-	protected static boolean NAV_IS_SHOWING = false;
-
-	public static boolean APPLICATION_IS_SAVED = true;
-
-	public static boolean ANIMATION_DONE = true;
-
+	private final HashMap<TextField, String> tooltipHolder = new HashMap<>(); // A hashmap that holds the longer descriptions
+	public int textFieldPointLocationsIndex = 0;
 	@FXML
 	protected AnchorPane mainScene;
-
 	@FXML
 	protected StackPane stackPane;
-
 	@FXML
 	protected Circle leftCircle;
-
 	@FXML
 	protected Circle rightCircle;
-
-	@FXML
-	private Button addBttn;
-
-	@FXML
-	private Button saveBttn;
-
-	@FXML
-	private Button loadBttn;
-
-	@FXML
-	private Button removeButton;
-
-	@FXML
-	private TextField diagramText;
-
 	@FXML
 	protected TextField appTitle;
-
 	@FXML
 	protected ColorPicker leftColorPicker;
-
 	@FXML
 	protected ColorPicker rightColorPicker;
-
 	@FXML
 	protected ContextMenu textFieldContext;
-
 	@FXML
 	protected TextField sideAdded;
-
 	protected MainApp mainApp;
-
-	private String currentFileName;
-
-	private File currentFile;
-
 	@FXML
 	protected TextField leftTitle;
-
 	@FXML
 	protected TextField rightTitle;
-
 	@FXML
 	protected ToggleButton toggle;
-
 	@FXML
 	protected ListView<String> itemList;
-
 	@FXML
 	protected ColorPicker backgroundColor;
-
 	@FXML
 	protected ColorPicker titleColors;
-
 	@FXML
 	protected Slider leftSlider;
-
 	@FXML
 	protected Slider rightSlider;
-
 	@FXML
 	protected ColorPicker leftHoverColor;
-
 	@FXML
 	protected ColorPicker rightHoverColor;
-
 	@FXML
 	protected ButtonBar listBttns;
-
 	@FXML
 	protected Button clearListBttn;
-
 	@FXML
 	protected Button eraseItemBttn;
-
 	@FXML
 	protected Button createItemBttn;
-
 	@FXML
 	protected Button removeItemButton;
-
 	@FXML
 	protected Button addCircleBttn;
-
 	@FXML
 	protected VBox navBox;
-
 	@FXML
 	protected TitledPane appearancePane;
-
 	@FXML
 	protected VBox scrollBox;
-
 	@FXML
 	protected MenuItem createNewVenn;
-
 	@FXML
 	protected MenuItem openMenuItem;
-
 	@FXML
 	protected MenuItem addCircleMenuItem;
-
 	@FXML
 	protected MenuItem aboutItem;
-
-	@FXML
-	private MenuItem undoBtn;
-
-	@FXML
-	private MenuItem redoBtn;
-
 	@FXML
 	protected Slider leftFontSlider;
-
-//	@FXML
-//	private TextField leftFontTextField;
-
 	@FXML
 	protected Slider rightFontSlider;
-
-//	@FXML
-//	private TextField rightFontTextField;
-
 	@FXML
 	protected ColorPicker leftTextColor;
-
 	@FXML
 	protected ColorPicker rightTextColor;
 
+	//	@FXML
+//	private TextField leftFontTextField;
 	@FXML
 	protected Button testModeBttn;
 
+	//	@FXML
+//	private TextField rightFontTextField;
 	@FXML
 	protected Button undoBttn;
-
 	@FXML
 	protected Button redoBttn;
-
 	@FXML
 	protected MenuItem exportJPG;
-
 	@FXML
 	protected MenuItem exportPNG;
-
 	@FXML
 	protected HBox saveBox;
 	// -----------------------Extra Circle #1's Properties May or may not be needed
@@ -290,85 +183,84 @@ public class ShapeSceneController implements Initializable {
 	protected Slider extraFontSlider;
 	protected ColorPicker extraTextColorPicker;
 	protected TextField extraTitle;
-
-	public static boolean EXTRA_CIRCLE_ADDED = false;
-	// --------------------------------------
-
 	/**
 	 * An Set of `TextLabel`s
 	 */
 	protected VennSet vennSet;
-
 	protected HashMap<TextField, Location> tfLocations = new HashMap<>();
-	private HashMap<TextField, String> tooltipHolder = new HashMap<>(); // A hashmap that holds the longer descriptions
-																		// of text if necessary
+	/**
+	 * An Set of `Shape`s
+	 */
+	protected VennShape vennShape;
+	protected double orgSceneX;
+	// --------------------------------------
+	protected double orgSceneY;
+	protected double orgTranslateX;
+	protected double orgTranslateY;
+	// of text if necessary
 
 	/**
 	 * A static variable to allow the user to choice if they want to continue to be
 	 * reminded that they're placing a textfield out of bounds
 	 */
-
 	/**
-	 * An Set of `Shape`s
+	 * An array containing possible locations for a new textfield to be placed on
+	 * the scene when entered
 	 */
-	protected VennShape vennShape;
-
-	protected double orgSceneX;
-	protected double orgSceneY;
-	protected double orgTranslateX;
-	protected double orgTranslateY;
-
+	protected Point2D[] textFieldPointLocations = {new Point2D(-375, -375), new Point2D(-375, -325),
+			new Point2D(-375, -275), new Point2D(-375, -225), new Point2D(-375, -175), new Point2D(-375, -125),
+			new Point2D(-375, -75), new Point2D(-375, -25), new Point2D(-375, 25), new Point2D(-375, 75),
+			new Point2D(-375, 125)};
+	@FXML
+	private Button addBttn;
+	@FXML
+	private Button saveBttn;
+	@FXML
+	private Button loadBttn;
+	@FXML
+	private Button removeButton;
+	@FXML
+	private TextField diagramText;
+	private String currentFileName;
+	private File currentFile;
+	@FXML
+	private MenuItem undoBtn;
+	@FXML
+	private MenuItem redoBtn;
 	// size of left circle
 	private double leftCircleSize;
 	// size of right circle
 	private double rightCircleSize;
 	// size of extra circle
 	private double extraCircleSize;
-
 	// size of left circle text
 	private double leftTextSize;
 	// size of right circle text
 	private double rightTextSize;
-	// size of extra circle text
-	private double extraTextSize;
-
-	private UndoRedoManager undoRedoManager;
-
-	private DragCommand dragCommand;
-
-	private DeleteCommand deleteCommand;
-
-	private EditTextCommand editTextCommand;
 
 //	private EditCircleSizeCommand editLeftCircleSizeCommand;
 
-//	private EditTextSizeCommand editTextSizeCommand;
-
+	//	private EditTextSizeCommand editTextSizeCommand;
+	// size of extra circle text
+	private double extraTextSize;
+	private UndoRedoManager undoRedoManager;
+	private DragCommand dragCommand;
+	private DeleteCommand deleteCommand;
+	private EditTextCommand editTextCommand;
 	private boolean init;
-
 	private boolean isMouse;
-
 	private String leftHover;
 	private String rightHover;
 	private String extraHover;
-	/**
-	 * An array containing possible locations for a new textfield to be placed on
-	 * the scene when entered
-	 */
-	protected Point2D[] textFieldPointLocations = { new Point2D(-375, -375), new Point2D(-375, -325),
-			new Point2D(-375, -275), new Point2D(-375, -225), new Point2D(-375, -175), new Point2D(-375, -125),
-			new Point2D(-375, -75), new Point2D(-375, -25), new Point2D(-375, 25), new Point2D(-375, 75),
-			new Point2D(-375, 125) };
-	public int textFieldPointLocationsIndex = 0;
-
-	public static Color LEFTCIRCLECOLOR = Color.valueOf("#ff8a8a");
-	public static Color RIGHTCIRCLECOLOR = Color.valueOf("#a7ff8f");
 
 	public ShapeSceneController() {
 		// Note that function `initialize` will do the init
 	}
 
-	public static final String COMMA = ",";
+	// Method to close not using menuBar
+	public static void closeProgram(WindowEvent e) {
+		MainApp.primaryStage.close();
+	}
 
 	private void addKeyShortcuts() {
 //		mainApp.primaryStage.getScene().setOnKeyPressed(e -> {
@@ -382,7 +274,7 @@ public class ShapeSceneController implements Initializable {
 		redoBtn.setAccelerator(new KeyCodeCombination(KeyCode.Y, KeyCodeCombination.SHIFT_DOWN, KeyCodeCombination.CONTROL_DOWN));
 		createNewVenn.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
 		openMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
-		
+
 	}
 
 	/**
@@ -405,11 +297,7 @@ public class ShapeSceneController implements Initializable {
 				alert.getButtonTypes().setAll(remindMe, dontRemindMe);
 
 				Optional<ButtonType> result = alert.showAndWait();
-				if (result.get() == remindMe) {
-					REMIND_EMPTY_TEXTFIELD = true;
-				} else {
-					REMIND_EMPTY_TEXTFIELD = false;
-				}
+				REMIND_EMPTY_TEXTFIELD = result.get() == remindMe;
 			}
 
 		} else {
@@ -436,8 +324,7 @@ public class ShapeSceneController implements Initializable {
 				addTextField(first18, newTextField);
 				addTooltip(newTextField, tt);
 
-			}
-			else {
+			} else {
 				TextField newTextField = new TextField();
 
 				Command a = new AddCommand(this, newTextField);
@@ -561,7 +448,7 @@ public class ShapeSceneController implements Initializable {
 
 	/**
 	 * Adds Drag Events to created TextFields
-	 * 
+	 *
 	 * @param textField the TextField to be added
 	 */
 	protected void addDragEvent(TextField textField) {
@@ -598,9 +485,9 @@ public class ShapeSceneController implements Initializable {
 		/*
 		 * On Mouse Release Calculates Distances with circles. to determine where this
 		 * circle has been placed
-		 * 
+		 *
 		 * Uses Basic Distance Between point calculations to do so
-		 * 
+		 *
 		 * Stores the string contents of the textField in leftSet, rightSet or
 		 * intersectionSet
 		 */
@@ -640,11 +527,7 @@ public class ShapeSceneController implements Initializable {
 				alert.getButtonTypes().setAll(remindMe, dontRemindMe);
 
 				Optional<ButtonType> result = alert.showAndWait();
-				if (result.get() == remindMe) {
-					REMIND_OUTOF_BOUNDS = true;
-				} else {
-					REMIND_OUTOF_BOUNDS = false;
-				}
+				REMIND_OUTOF_BOUNDS = result.get() == remindMe;
 
 			}
 			return;
@@ -655,9 +538,7 @@ public class ShapeSceneController implements Initializable {
 			sideAdded.setEditable(false);
 			sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
 			tfLocations.put(textField, Location.INTERSECTING_ALL);
-		}
-
-		else if (textBoxLocation == Location.INTERSECTING_BOTTOM_LEFT) {
+		} else if (textBoxLocation == Location.INTERSECTING_BOTTOM_LEFT) {
 			sideAdded.setText("Intersecting Left & Bottom!");
 			sideAdded.setEditable(false);
 			sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
@@ -672,9 +553,7 @@ public class ShapeSceneController implements Initializable {
 			sideAdded.setEditable(false);
 			sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
 			tfLocations.put(textField, Location.INTERSECTING_BOTTOM_RIGHT);
-		}
-
-		else if (textBoxLocation == Location.LEFT) {
+		} else if (textBoxLocation == Location.LEFT) {
 			sideAdded.setText("Left!");
 			sideAdded.setEditable(false);
 			sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 18px;-fx-background-color:transparent;");
@@ -707,7 +586,7 @@ public class ShapeSceneController implements Initializable {
 	/**
 	 * A Method that gives a right-click feature on each textField added to the
 	 * screen, On right-click of a textfield added, gives a contextMenu
-	 * 
+	 *
 	 * @param textField the TextField to be added
 	 */
 	protected void addContext(TextField textField) {
@@ -766,6 +645,19 @@ public class ShapeSceneController implements Initializable {
 		tooltipHolder.remove(tf);
 	}
 
+	/**
+	 * A Method that gives allows the given TextField auto-resize its width
+	 * according to the content.
+	 *
+	 * @param textField the TextField to be added
+	 */
+//	private void addAutoResize(TextField textField) {
+//		textField.textProperty().addListener((ob, o, n) -> {
+//			// expand the textfield
+//			textField.setMaxWidth(TextUtils.computeTextWidth(textField.getFont(), textField.getText(), 0.0D) + 20);
+//		});
+//	}
+
 	public void deleteSpecficText(TextField tf) {
 		String contents = tf.getText();
 		stackPane.getChildren().remove(tf);
@@ -783,19 +675,6 @@ public class ShapeSceneController implements Initializable {
 		changesMade();
 
 	}
-
-	/**
-	 * A Method that gives allows the given TextField auto-resize its width
-	 * according to the content.
-	 *
-	 * @param textField the TextField to be added
-	 */
-//	private void addAutoResize(TextField textField) {
-//		textField.textProperty().addListener((ob, o, n) -> {
-//			// expand the textfield
-//			textField.setMaxWidth(TextUtils.computeTextWidth(textField.getFont(), textField.getText(), 0.0D) + 20);
-//		});
-//	}
 
 	/**
 	 * A Method that loads all comma delimited rows from save.csv and puts them on
@@ -817,8 +696,8 @@ public class ShapeSceneController implements Initializable {
 			BufferedReader br = new BufferedReader(fr);
 
 			this.currentFileName = fileToLoad.getName().substring(0, fileToLoad.getName().length() - 4); // Cuts off the
-																											// ".csv"
-																											// extension
+			// ".csv"
+			// extension
 
 			this.currentFile = fileToLoad;
 
@@ -858,7 +737,7 @@ public class ShapeSceneController implements Initializable {
 					this.mainScene
 							.setStyle("-fx-background-color:#"
 									+ Paint.valueOf(firstLineInfo[mainSceneColorCol]).toString().substring(2,
-											Paint.valueOf(firstLineInfo[mainSceneColorCol]).toString().length() - 2)
+									Paint.valueOf(firstLineInfo[mainSceneColorCol]).toString().length() - 2)
 									+ ";");
 
 				}
@@ -875,22 +754,22 @@ public class ShapeSceneController implements Initializable {
 							.setStyle(
 									"-fx-text-fill:#"
 											+ Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().substring(2,
-													Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().length()
-															- 2)
+											Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().length()
+													- 2)
 											+ ";" + "-fx-background-color: transparent; -fx-font-size:25px;");
 					this.leftTitle
 							.setStyle(
 									"-fx-text-fill:#"
 											+ Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().substring(2,
-													Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().length()
-															- 2)
+											Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().length()
+													- 2)
 											+ ";" + "-fx-background-color: transparent;-fx-font-size:20px;");
 					this.rightTitle
 							.setStyle(
 									"-fx-text-fill:#"
 											+ Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().substring(2,
-													Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().length()
-															- 2)
+											Paint.valueOf(firstLineInfo[titleTextColorCol]).toString().length()
+													- 2)
 											+ ";" + "-fx-background-color: transparent;-fx-font-size:20px;");
 
 				}
@@ -997,7 +876,7 @@ public class ShapeSceneController implements Initializable {
 
 	/**
 	 * A method that saves all text-fields on scene to a csv file
-	 * 
+	 *
 	 * @param write A List with all the TextFields that are to be written to the
 	 *              save.csv file
 	 */
@@ -1005,10 +884,10 @@ public class ShapeSceneController implements Initializable {
 
 		String dummyLine = "TEXT COLUMN" + COMMA + "Additional Description" + COMMA + "TextField X Coor" + COMMA
 				+ "TextField Y Coor" + COMMA + "Location of TextField" + COMMA + "<------DO NOT MODIFY THIS LINE"; // Program
-																													// not
-																													// reading
-																													// line
-																													// two
+		// not
+		// reading
+		// line
+		// two
 		// adding dummyLine
 
 		/*
@@ -1066,7 +945,7 @@ public class ShapeSceneController implements Initializable {
 				}
 
 				if (this.currentFile != null) { // Throw Alert if Somehow the currentWorking File is Still null, if not
-												// null, write to it
+					// null, write to it
 					fw = new FileWriter(this.currentFile, false);
 
 					// fileChooser.setInitialDirectory(this.currentFile);
@@ -1113,8 +992,8 @@ public class ShapeSceneController implements Initializable {
 				TextField textField = write.get(writeIndexer);
 
 				try { // If Nothing Was Added on GetExisting, the program crashes, this is so it
-						// doesn't crash
-						// System.out.println(this.vennSet.getLocation(textField)));
+					// doesn't crash
+					// System.out.println(this.vennSet.getLocation(textField)));
 					String longerDescription = null;
 					if (tooltipHolder.containsKey(textField)) {
 						longerDescription = tooltipHolder.get(textField);
@@ -1224,7 +1103,7 @@ public class ShapeSceneController implements Initializable {
 		String newStyle = "-fx-background-color: #"
 				+ backgroundColor.getValue().toString().substring(2, backgroundColor.getValue().toString().length() - 2)
 				+ ";";
-		EditBackgroundColorCommand a = new EditBackgroundColorCommand(this, mainScene.getStyle().toString(), newStyle);
+		EditBackgroundColorCommand a = new EditBackgroundColorCommand(this, mainScene.getStyle(), newStyle);
 		undoRedoManager.addCommand(a);
 		a.execute();
 		ShapeSceneController.APPLICATION_IS_SAVED = false;
@@ -1318,7 +1197,7 @@ public class ShapeSceneController implements Initializable {
 
 	/**
 	 * Is called by the main application to give a reference back to itself.
-	 * 
+	 *
 	 * @param mainApp a reference to the mainStage
 	 */
 	public void setMainApp(MainApp mainApp) {
@@ -1399,8 +1278,8 @@ public class ShapeSceneController implements Initializable {
 //			public void changed(ObservableValue<? extends Number> observable, //
 //					Number oldValue, Number newValue) {
 //
-//			
-//				
+//
+//
 //			}
 //		});
 		leftSlider.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
@@ -1426,17 +1305,17 @@ public class ShapeSceneController implements Initializable {
 
 //		// Adding Listener to value property.
 //		rightSlider.valueProperty().addListener(new ChangeListener<Number>() {
-// 
+//
 //			@Override
 //			public void changed(ObservableValue<? extends Number> observable, //
 //					Number oldValue, Number newValue) {
 //
 //				System.out.println(oldValue);
 //				editCircleSizeCommand.setOldSize(rightCircle.getRadius());
-//				editCircleSizeCommand.setNewSize((double) newValue); 
+//				editCircleSizeCommand.setNewSize((double) newValue);
 //				undoRedoManager.addCommand(editCircleSizeCommand);
 //				editCircleSizeCommand.execute();
-//				
+//
 //			}
 //		});
 
@@ -1474,7 +1353,7 @@ public class ShapeSceneController implements Initializable {
 //				editTextSizeCommand.setNewSize((double) newValue);
 //				undoRedoManager.addCommand(editTextSizeCommand);
 //				editTextSizeCommand.execute();
-//				
+//
 //			}
 //		});
 
@@ -1512,14 +1391,14 @@ public class ShapeSceneController implements Initializable {
 //			public void changed(ObservableValue<? extends Number> observable, //
 //					Number oldValue, Number newValue) {
 //
-//				
+//
 //				 rightFontTextField.setText(((double) newValue) + "");
 //				editTextSizeCommand.setLocation(Location.RIGHT);
 //				editTextSizeCommand.setOldSize((double) oldValue);
 //				editTextSizeCommand.setNewSize((double) newValue);
 //				undoRedoManager.addCommand(editTextSizeCommand);
 //				editTextSizeCommand.execute();
-//				
+//
 //			}
 //		});
 
@@ -1609,6 +1488,50 @@ public class ShapeSceneController implements Initializable {
 		editTextSizeCommand.execute();
 	}
 
+//	private void deleteAll(Location location) {
+//		if (location.equals(Location.LEFT)) {
+//			deleteAllLeft();
+//		}
+//		else if (location.equals(Location.RIGHT)) {
+//			deleteAllRight();
+//		}
+//		else if (location.equals(Location.BOTTOM)) {
+//			deleteAllExtra();
+//		}
+//	}
+//	protected void deleteAllLeft() {
+//		for (TextField tf : tfLocations.keySet()) {
+//			if (tfLocations.get(tf) == Location.LEFT) {
+//				deleteSpecficText(tf);
+//			}
+//		}
+//		
+//		ShapeSceneController.APPLICATION_IS_SAVED = false;
+//		changesMade();
+//	}
+//
+//	protected void deleteAllRight() {
+//		for (TextField tf : tfLocations.keySet()) {
+//			if (tfLocations.get(tf) == Location.RIGHT) {
+//				deleteSpecficText(tf);
+//			}
+//		}
+//		
+//		ShapeSceneController.APPLICATION_IS_SAVED = false;
+//		changesMade();
+//	}
+//
+//	protected void deleteAllExtra() {
+//		for (TextField tf : tfLocations.keySet()) {
+//			if (tfLocations.get(tf) == Location.BOTTOM) {
+//				deleteSpecficText(tf);
+//			}
+//		}
+//		
+//		ShapeSceneController.APPLICATION_IS_SAVED = false;
+//		changesMade();
+//	}
+
 	/**
 	 * A Method that adds the rightClick option to all circles in the Scene
 	 */
@@ -1626,11 +1549,7 @@ public class ShapeSceneController implements Initializable {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if (ShapeSceneController.LEFT_CIRCLE_HOVER) {
-					ShapeSceneController.LEFT_CIRCLE_HOVER = false;
-				} else {
-					ShapeSceneController.LEFT_CIRCLE_HOVER = true;
-				}
+				ShapeSceneController.LEFT_CIRCLE_HOVER = !ShapeSceneController.LEFT_CIRCLE_HOVER;
 			}
 		});
 
@@ -1638,11 +1557,7 @@ public class ShapeSceneController implements Initializable {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if (ShapeSceneController.RIGHT_CIRCLE_HOVER) {
-					ShapeSceneController.RIGHT_CIRCLE_HOVER = false;
-				} else {
-					ShapeSceneController.RIGHT_CIRCLE_HOVER = true;
-				}
+				ShapeSceneController.RIGHT_CIRCLE_HOVER = !ShapeSceneController.RIGHT_CIRCLE_HOVER;
 			}
 		});
 
@@ -1710,11 +1625,7 @@ public class ShapeSceneController implements Initializable {
 
 				@Override
 				public void handle(ActionEvent event) {
-					if (ShapeSceneController.EXTRA_CIRCLE_HOVER) {
-						ShapeSceneController.EXTRA_CIRCLE_HOVER = false;
-					} else {
-						ShapeSceneController.EXTRA_CIRCLE_HOVER = true;
-					}
+					ShapeSceneController.EXTRA_CIRCLE_HOVER = !ShapeSceneController.EXTRA_CIRCLE_HOVER;
 				}
 			});
 
@@ -1746,50 +1657,6 @@ public class ShapeSceneController implements Initializable {
 		}
 
 	}
-
-//	private void deleteAll(Location location) {
-//		if (location.equals(Location.LEFT)) {
-//			deleteAllLeft();
-//		}
-//		else if (location.equals(Location.RIGHT)) {
-//			deleteAllRight();
-//		}
-//		else if (location.equals(Location.BOTTOM)) {
-//			deleteAllExtra();
-//		}
-//	}
-//	protected void deleteAllLeft() {
-//		for (TextField tf : tfLocations.keySet()) {
-//			if (tfLocations.get(tf) == Location.LEFT) {
-//				deleteSpecficText(tf);
-//			}
-//		}
-//		
-//		ShapeSceneController.APPLICATION_IS_SAVED = false;
-//		changesMade();
-//	}
-//
-//	protected void deleteAllRight() {
-//		for (TextField tf : tfLocations.keySet()) {
-//			if (tfLocations.get(tf) == Location.RIGHT) {
-//				deleteSpecficText(tf);
-//			}
-//		}
-//		
-//		ShapeSceneController.APPLICATION_IS_SAVED = false;
-//		changesMade();
-//	}
-//
-//	protected void deleteAllExtra() {
-//		for (TextField tf : tfLocations.keySet()) {
-//			if (tfLocations.get(tf) == Location.BOTTOM) {
-//				deleteSpecficText(tf);
-//			}
-//		}
-//		
-//		ShapeSceneController.APPLICATION_IS_SAVED = false;
-//		changesMade();
-//	}
 
 	@FXML
 	protected void changeRightTextColor() {
@@ -1886,16 +1753,6 @@ public class ShapeSceneController implements Initializable {
 		}
 	}
 
-	@FXML
-	protected void changeLeftTextColor() {
-		String oldColor = getColor(Location.LEFT);
-		String newColor = this.leftTextColor.getValue().toString().substring(2,
-				leftTextColor.getValue().toString().length() - 2);
-		EditTextColorCommand a = new EditTextColorCommand(this, Location.LEFT, oldColor, newColor);
-		undoRedoManager.addCommand(a);
-		a.execute();
-	}
-
 //	@FXML
 //	private void setRightFontSlider() {
 //		try {
@@ -1950,6 +1807,16 @@ public class ShapeSceneController implements Initializable {
 //			alert1.showAndWait();
 //		}
 //	}
+
+	@FXML
+	protected void changeLeftTextColor() {
+		String oldColor = getColor(Location.LEFT);
+		String newColor = this.leftTextColor.getValue().toString().substring(2,
+				leftTextColor.getValue().toString().length() - 2);
+		EditTextColorCommand a = new EditTextColorCommand(this, Location.LEFT, oldColor, newColor);
+		undoRedoManager.addCommand(a);
+		a.execute();
+	}
 
 	/**
 	 * A method to Translate items on screen
@@ -2494,11 +2361,6 @@ public class ShapeSceneController implements Initializable {
 		}
 	}
 
-	// Method to close not using menuBar
-	public static void closeProgram(WindowEvent e) {
-		MainApp.primaryStage.close();
-	}
-
 	public void openUserManual() {
 		String currentDir = System.getProperty("user.dir");
 		try {
@@ -2565,36 +2427,36 @@ public class ShapeSceneController implements Initializable {
 		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg"));
 		fc.setInitialFileName("VennDiagram");
 		File file = fc.showSaveDialog(null);
-		
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException ie) {
-            Thread.currentThread().interrupt();
-        }
-		
-		if(file != null) {
+
 		try {
-            Robot robot = new Robot();
-            String format = "jpg";
-            
-            Rectangle captureRect;
-            
-            if(ShapeSceneController.NAV_IS_SHOWING) {
-            	toggle.fire();
-            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+460, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-468, (int)MainApp.primaryStage.getScene().getHeight()-200);
-            } else {
-            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+200, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-300, (int)MainApp.primaryStage.getScene().getHeight()-200);
-            }
-            
-            BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
-            ImageIO.write(screenFullImage, format, file);
-             
-        } catch (AWTException | IOException ex) {
-            System.err.println(ex);
-        }
+			Thread.sleep(300);
+		} catch (InterruptedException ie) {
+			Thread.currentThread().interrupt();
+		}
+
+		if (file != null) {
+			try {
+				Robot robot = new Robot();
+				String format = "jpg";
+
+				Rectangle captureRect;
+
+				if (ShapeSceneController.NAV_IS_SHOWING) {
+					toggle.fire();
+					captureRect = new Rectangle((int) MainApp.primaryStage.getX() + 460, (int) MainApp.primaryStage.getY() + 55, (int) MainApp.primaryStage.getScene().getWidth() - 468, (int) MainApp.primaryStage.getScene().getHeight() - 200);
+				} else {
+					captureRect = new Rectangle((int) MainApp.primaryStage.getX() + 200, (int) MainApp.primaryStage.getY() + 55, (int) MainApp.primaryStage.getScene().getWidth() - 300, (int) MainApp.primaryStage.getScene().getHeight() - 200);
+				}
+
+				BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
+				ImageIO.write(screenFullImage, format, file);
+
+			} catch (AWTException | IOException ex) {
+				System.err.println(ex);
+			}
 		}
 	}
-	
+
 	@FXML
 	private void exportPNG() {
 		FileChooser fc = new FileChooser();
@@ -2602,31 +2464,31 @@ public class ShapeSceneController implements Initializable {
 		fc.setInitialFileName("VennDiagram");
 		File file = fc.showSaveDialog(null);
 
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException ie) {
-            Thread.currentThread().interrupt();
-        }
-		
-		if(file != null) {
 		try {
-            Robot robot = new Robot();
-            String format = "png";
-            
-            Rectangle captureRect;
-            
-            if(ShapeSceneController.NAV_IS_SHOWING) {
-            	toggle.fire();
-            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+460, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-468, (int)MainApp.primaryStage.getScene().getHeight()-200);
-            } else {
-            	captureRect = new Rectangle((int)MainApp.primaryStage.getX()+200, (int)MainApp.primaryStage.getY()+55, (int)MainApp.primaryStage.getScene().getWidth()-300, (int)MainApp.primaryStage.getScene().getHeight()-200);
-            }
-            BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
-            ImageIO.write(screenFullImage, format, file);
-             
-        } catch (AWTException | IOException ex) {
-            System.err.println(ex);
-        }
+			Thread.sleep(300);
+		} catch (InterruptedException ie) {
+			Thread.currentThread().interrupt();
+		}
+
+		if (file != null) {
+			try {
+				Robot robot = new Robot();
+				String format = "png";
+
+				Rectangle captureRect;
+
+				if (ShapeSceneController.NAV_IS_SHOWING) {
+					toggle.fire();
+					captureRect = new Rectangle((int) MainApp.primaryStage.getX() + 460, (int) MainApp.primaryStage.getY() + 55, (int) MainApp.primaryStage.getScene().getWidth() - 468, (int) MainApp.primaryStage.getScene().getHeight() - 200);
+				} else {
+					captureRect = new Rectangle((int) MainApp.primaryStage.getX() + 200, (int) MainApp.primaryStage.getY() + 55, (int) MainApp.primaryStage.getScene().getWidth() - 300, (int) MainApp.primaryStage.getScene().getHeight() - 200);
+				}
+				BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
+				ImageIO.write(screenFullImage, format, file);
+
+			} catch (AWTException | IOException ex) {
+				System.err.println(ex);
+			}
 		}
 	}
 

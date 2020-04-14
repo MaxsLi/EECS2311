@@ -1,24 +1,21 @@
 package controllers;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import views.MainApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.shape.Ellipse;
 import javafx.stage.FileChooser;
-import javafx.stage.WindowEvent;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.WindowEvent;
+import views.MainApp;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
 
 public class MenuBarController {
 
@@ -73,6 +70,11 @@ public class MenuBarController {
 //		shapeSceneCont.redo();
 //	}
 //
+
+	// Method to close not using menuBar
+	public static void closeProgram(WindowEvent e) {
+		MainApp.primaryStage.close();
+	}
 
 	@FXML
 	private void createNew() throws IOException {
@@ -136,11 +138,6 @@ public class MenuBarController {
 		} else {
 			return;
 		}
-	}
-
-	// Method to close not using menuBar
-	public static void closeProgram(WindowEvent e) {
-		MainApp.primaryStage.close();
 	}
 
 	public void setMainApp(MainApp mainApp) {

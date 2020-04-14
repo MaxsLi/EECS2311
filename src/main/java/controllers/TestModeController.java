@@ -1,19 +1,6 @@
 package controllers;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.animation.FadeTransition;
-import javafx.animation.FillTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -21,27 +8,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Control;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -52,27 +28,11 @@ import models.VennSet;
 import models.VennShape;
 import views.MainApp;
 
+import java.io.*;
+import java.net.URL;
+import java.util.*;
+
 public class TestModeController extends ShapeSceneController implements Initializable {
-
-	@FXML
-	private Button importTxtBttn;
-
-	Map<String, Location> correctLocation = new HashMap<>();
-	ArrayList<String> elements = new ArrayList<>();
-	
-	@FXML
-	Text text;
-	
-	@FXML
-	private ToggleButton toggleTimeBttn;
-	
-	Timeline timeline;
-	
-	int mins = 0, secs = 0, millis = 0;
-	
-	int elementsImported;
-	
-	public static boolean TEST_HAS_STARTED = false;
 
 	public static final String LEFT = "left";
 	public static final String RIGHT = "right";
@@ -81,23 +41,34 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	public static final String INTERSECTING_LEFT_RIGHT = "left+right";
 	public static final String INTERSECTING_LEFT_BOTTOM = "left+bottom";
 	public static final String INTERSECTING_RIGHT_BOTTOM = "right+bottom";
-
 	public static final int NO_ELEMENTS_IMPORTED = 0;
+	public static boolean TEST_HAS_STARTED = false;
+	Map<String, Location> correctLocation = new HashMap<>();
+	ArrayList<String> elements = new ArrayList<>();
+	@FXML
+	Text text;
+	Timeline timeline;
+	int mins = 0, secs = 0, millis = 0;
+	int elementsImported;
+	@FXML
+	private Button importTxtBttn;
+	@FXML
+	private ToggleButton toggleTimeBttn;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ShapeSceneController.APPLICATION_IS_SAVED = true; //So it wont ask us to save testModeController if the user closes the window
 		vennShape = new VennShape(this.leftCircle, this.rightCircle);
 		vennSet = new VennSet(this.vennShape);
-	       
-	  
-	    FadeTransition ft = new FadeTransition(Duration.millis(1000), this.importTxtBttn);  
-	  	ft.setFromValue(0);
+
+
+		FadeTransition ft = new FadeTransition(Duration.millis(1000), this.importTxtBttn);
+		ft.setFromValue(0);
 		ft.setToValue(1.0);
 		ft.setCycleCount(Timeline.INDEFINITE);
 		ft.setAutoReverse(true);
 		ft.play();
-		
+
 		text.setVisible(false);
 		TEST_HAS_STARTED = false;
 		toggle.setDisable(true);
@@ -122,7 +93,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 		File selectedFile = fileChooser.showOpenDialog(MainApp.primaryStage);
 		boolean successfullyImported = false;
-		
+
 
 		if (selectedFile == null) {
 			Alert alert = new Alert(AlertType.WARNING);
@@ -148,13 +119,12 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 	/**
 	 * A method that reads are parses the txt file for test mode
-	 * 
+	 *
 	 * @param file - .txt file to be read
 	 * @return - The number of elements text elements sucessfully read (excluding
-	 *         the first line of the txt file which holds the # of circles the user
-	 *         wants) return 0 for no elements sucessfuly read (error) and a number
-	 *         greater than 0 otherwise
-	 * 
+	 * the first line of the txt file which holds the # of circles the user
+	 * wants) return 0 for no elements sucessfuly read (error) and a number
+	 * greater than 0 otherwise
 	 */
 	public int readAndParseTXT(File file) {
 		elementsImported = 0;
@@ -172,28 +142,21 @@ public class TestModeController extends ShapeSceneController implements Initiali
 									+ "\n" + "It should be either 2, or 3.";
 							throwImproperFormatting(message);
 							return TestModeController.NO_ELEMENTS_IMPORTED;
-						}
-						else if(numOfCircles == 2) {
+						} else if (numOfCircles == 2) {
 							//Do nothing
-						}
-						else if(numOfCircles == 3) {
+						} else if (numOfCircles == 3) {
 							addCircle();
 						}
 
-					}
-					else if(lineCount == 1) {
+					} else if (lineCount == 1) {
 						appTitle.setText(st);
-					}
-					else if(lineCount == 2) {
+					} else if (lineCount == 2) {
 						leftTitle.setText(st);
-					}
-					else if(lineCount == 3) {
+					} else if (lineCount == 3) {
 						rightTitle.setText(st);
-					}
-					else if(lineCount == 4 && numOfCircles == 3) {
+					} else if (lineCount == 4 && numOfCircles == 3) {
 						extraTitle.setText(st);
-					}
-					else {	// lineCount > 4
+					} else {    // lineCount > 4
 						String[] parts = st.split(",");
 						if (checkLine(parts)) {
 							if (assignLocation(parts[0], parts[1]) == true) {
@@ -210,17 +173,15 @@ public class TestModeController extends ShapeSceneController implements Initiali
 									+ " plese occur to the VennCreate user manual to see how to address this issue.");
 							return TestModeController.NO_ELEMENTS_IMPORTED;
 						}
-						
+
 					}
 					lineCount++;
 				}
 
-			} 
-			catch (IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} 
-		catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -229,17 +190,14 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	}
 
 	public boolean checkLine(String[] parts) {
-		if (parts.length == 2) { // line was sucessfully read
-			return true;
-		} else {
-			return false;
-		}
+		// line was sucessfully read
+		return parts.length == 2;
 	}
 
 	/**
 	 * A Method process a single line of .txt file and put it in the correctLocation
 	 * hashmap
-	 * 
+	 *
 	 * @param text     the Key portion of the correctLocation hashmap
 	 * @param location the value portion of the hashmap
 	 * @return true if hashmap successfully assigned an element, false otherwise
@@ -282,19 +240,18 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	/**
 	 * Parses a string that represents how many circles the user wants in the test
 	 * mode
-	 * 
+	 *
 	 * @param s the string representation of the int
 	 * @return an int representation of the string, returns 0 if there was an error
-	 *         parsing the string
+	 * parsing the string
 	 */
 	public int getCircleNumber(String s) {
 		int result = 0;
 		try {
 			result = Integer.parseInt(s.trim());
-			if(result == 2 || result == 3) {
-			return result;
-			}
-			else {
+			if (result == 2 || result == 3) {
+				return result;
+			} else {
 				return 0;
 			}
 		} catch (NumberFormatException nfe) {
@@ -310,12 +267,12 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 		alert.showAndWait();
 	}
-	
+
 	public void startTestMode() {
 //		if(NAV_IS_SHOWING == false) {
 //			super.toggleDrawer();
 //		}
-		for(String s: this.elements) {
+		for (String s : this.elements) {
 			itemList.getItems().add(s);
 		}
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -323,16 +280,15 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		alert.setHeaderText("Test Mode Entered");
 		alert.setContentText("Welcome to VennCreate's test mode. In this mode you are able to input a .txt file"
 				+ " with the format specified in VennCreate's user manual, and practice placing the text in the correct location."
-				+ "The timer will constantly be running, so go as fast as possible!");;
+				+ "The timer will constantly be running, so go as fast as possible!");
 
 		alert.showAndWait();
-		
-		
+
 
 		timeline = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-            	change(text);
+				change(text);
 			}
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
@@ -340,131 +296,126 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		TEST_HAS_STARTED = true;
 		toggle.setDisable(false);
 		timeline.play();
-		
-	
-	
+
+
 	}
-	
+
 	void change(Text text) {
-		if(millis == 1000) {
+		if (millis == 1000) {
 			secs++;
 			millis = 0;
 		}
-		if(secs == 60) {
+		if (secs == 60) {
 			mins++;
 			secs = 0;
 		}
-		text.setText((((mins/10) == 0) ? "0" : "") + mins + ":"
-		 + (((secs/10) == 0) ? "0" : "") + secs + ":" 
-			+ (((millis/10) == 0) ? "00" : (((millis/100) == 0) ? "0" : "")) + millis++);
-    }
-	
+		text.setText((((mins / 10) == 0) ? "0" : "") + mins + ":"
+				+ (((secs / 10) == 0) ? "0" : "") + secs + ":"
+				+ (((millis / 10) == 0) ? "00" : (((millis / 100) == 0) ? "0" : "")) + millis++);
+	}
+
 	@FXML
-	void submitResults(){
-		if(!TEST_HAS_STARTED) { //If test hasn't started return
+	void submitResults() {
+		if (!TEST_HAS_STARTED) { //If test hasn't started return
 			return;
 		}
 		timeline.pause();
-		if(this.vennSet.size() != this.elementsImported) { // the user hasnt dragged all the elements, there is still stuff to do
+		if (this.vennSet.size() != this.elementsImported) { // the user hasnt dragged all the elements, there is still stuff to do
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmation Dialog");
 			alert.setHeaderText(null);
-			alert.setContentText("You havent added all the text you imported to the Venn Diagrams. Any Un-imported text will automatically be marked incorrect" 
+			alert.setContentText("You havent added all the text you imported to the Venn Diagrams. Any Un-imported text will automatically be marked incorrect"
 					+ "\n" + "Are you ok with this?");
 
 			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == ButtonType.OK){
-			    int finalScore = calculateScore();
-			    try {
+			if (result.get() == ButtonType.OK) {
+				int finalScore = calculateScore();
+				try {
 					displayFinalResults(finalScore);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
-			    return;
+				return;
+			}
+		} else {
+			int finalScore = calculateScore();
+			try {
+				displayFinalResults(finalScore);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-		else {
-			  int finalScore = calculateScore();
-			    try {
-					displayFinalResults(finalScore);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
 	}
-	
+
 	public int calculateScore() {
 		int score = 0;
-		for(int i = 0; i < this.vennSet.size(); i++) {
-			if(this.correctLocation.get(this.vennSet.get(i).getText()) == super.tfLocations.get(this.vennSet.get(i))) { //if this textfield is in same location as it was in the .txt file score++
+		for (int i = 0; i < this.vennSet.size(); i++) {
+			if (this.correctLocation.get(this.vennSet.get(i).getText()) == super.tfLocations.get(this.vennSet.get(i))) { //if this textfield is in same location as it was in the .txt file score++
 				score++;
 			}
 		}
-		
+
 		return score;
 	}
-	
+
 	public void displayFinalResults(int finalScore) throws IOException {
 		double percent = calculatePercent(finalScore, elementsImported);
 		String title = null;
-		if(percent < 50) {
+		if (percent < 50) {
 			title = "You need some work :(";
-		}
-		else if(percent > 80) {
+		} else if (percent > 80) {
 			title = "Great Work!";
-		}
-		else {
+		} else {
 			title = "You did ok.";
 		}
-		
+
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("VennCreate Test Completed");
 		alert.setHeaderText(title);
-		alert.setContentText("Test Completed." + "\n" + 
-		"Your Score:" + finalScore + "/" + elementsImported + "\n" +
-				"Time Taken: " + text.getText() + " (mins, seconds, miliseconds)" + "\n" 
-		+ "Would you like to play again?");
+		alert.setContentText("Test Completed." + "\n" +
+				"Your Score:" + finalScore + "/" + elementsImported + "\n" +
+				"Time Taken: " + text.getText() + " (mins, seconds, miliseconds)" + "\n"
+				+ "Would you like to play again?");
 
 		ButtonType yes = new ButtonType("Yes");
 		ButtonType noExitTestMode = new ButtonType("No, Exit Test Mode");
 		ButtonType noExitApplication = new ButtonType("No, Exit Application");
-		
+
 		alert.getButtonTypes().setAll(yes, noExitTestMode, noExitApplication);
 
 		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == yes){
+		if (result.get() == yes) {
 			mainApp.switchScene("testMode", null); //null should be a file
 		} else if (result.get() == noExitTestMode) {
 			createNew();
 		} else if (result.get() == noExitApplication) {
-		    MainApp.primaryStage.close();
-		} 
+			MainApp.primaryStage.close();
+		}
 	}
-	
+
 	public double calculatePercent(int finalScore, int elementsImported) {
 		try {
 			double result = (finalScore / elementsImported) * 100;
 			return result;
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			double result = 0;
 			return result;
 		}
 	}
-	
+
 	@Override
 	protected void createItem() {
-		if(itemList.getSelectionModel().isEmpty()) return;
-		if(itemList.getItems().isEmpty()) return;
+		if (itemList.getSelectionModel().isEmpty()) return;
+		if (itemList.getItems().isEmpty()) return;
 		String newItem = itemList.getSelectionModel().getSelectedItem();
 		addTextToDiagram(newItem);
-		if(itemList.getItems().isEmpty()) createItemBttn.setDisable(true);
+		if (itemList.getItems().isEmpty()) createItemBttn.setDisable(true);
 	}
-	
-	
+
+
 	public void addTextToDiagram(String text) {
 
 		if ((text.isEmpty() || text.trim().equals(""))) {
@@ -483,11 +434,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				alert.getButtonTypes().setAll(remindMe, dontRemindMe);
 
 				Optional<ButtonType> result = alert.showAndWait();
-				if (result.get() == remindMe) {
-					REMIND_EMPTY_TEXTFIELD = true;
-				} else {
-					REMIND_EMPTY_TEXTFIELD = false;
-				}
+				REMIND_EMPTY_TEXTFIELD = result.get() == remindMe;
 			}
 
 		} else {
@@ -522,12 +469,10 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			this.sideAdded.clear();
 			this.itemList.getItems().remove(newTextField.getText());
 		}
-		
-		
-		
-		
+
+
 	}
-	
+
 	@Override
 	protected void addDragEvent(TextField textField) {
 		textField.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
@@ -540,7 +485,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			textField.toFront();
 
 		});
-		
+
 
 		/*
 		 * On Mouse Drag Moves the TextField Around the Screen
@@ -563,9 +508,9 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		/*
 		 * On Mouse Release Calculates Distances with circles. to determine where this
 		 * circle has been placed
-		 * 
+		 *
 		 * Uses Basic Distance Between point calculations to do so
-		 * 
+		 *
 		 * Stores the string contents of the textField in leftSet, rightSet or
 		 * intersectionSet
 		 */
@@ -588,11 +533,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 					alert.getButtonTypes().setAll(remindMe, dontRemindMe);
 
 					Optional<ButtonType> result = alert.showAndWait();
-					if (result.get() == remindMe) {
-						REMIND_OUTOF_BOUNDS = true;
-					} else {
-						REMIND_OUTOF_BOUNDS = false;
-					}
+					REMIND_OUTOF_BOUNDS = result.get() == remindMe;
 
 				}
 				return;
@@ -603,9 +544,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(textField, Location.INTERSECTING_ALL);
-			}
-
-			else if (textBoxLocation == Location.INTERSECTING_BOTTOM_LEFT) {
+			} else if (textBoxLocation == Location.INTERSECTING_BOTTOM_LEFT) {
 				sideAdded.setText("Intersecting Left & Bottom!");
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
@@ -620,9 +559,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: purple; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(textField, Location.INTERSECTING_BOTTOM_RIGHT);
-			}
-
-			else if (textBoxLocation == Location.LEFT) {
+			} else if (textBoxLocation == Location.LEFT) {
 				sideAdded.setText("Left!");
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 18px;-fx-background-color:transparent;");
@@ -643,34 +580,34 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			}
 
 		});
-		
+
 		textField.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
 
 			textField.setEditable(false);
 
 		});
-		
-	
+
+
 	}
-	
+
 	@Override
 	public void saveVenn(ArrayList<TextField> write) {
 		//Test Mode Shouldnt be able to be saved so do nothing
 	}
-	
+
 	@Override
 	public void saveVennBttn() {
 		saveVenn(null); //Test Mode has no saving feature
 	}
-	
+
 	@Override
 	protected void createNew() throws IOException {
-			mainApp.switchScene("shapeScene", null);
+		mainApp.switchScene("shapeScene", null);
 	}
-	
+
 	@FXML
 	private void exitTest() throws IOException {
-		if(TEST_HAS_STARTED) {
+		if (TEST_HAS_STARTED) {
 			timeline.pause();
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmation Dialog");
@@ -689,22 +626,16 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				timeline.play();
 				return;
 			}
-		}
-		else
-		mainApp.switchScene("shapeScene", null);
+		} else
+			mainApp.switchScene("shapeScene", null);
 	}
-	
+
 	@FXML
 	private void toggleTimer() {
-		
-		if(this.text.isVisible()) {
-			text.setVisible(false);
-		}
-		else {
-			text.setVisible(true);
-		}
+
+		text.setVisible(!this.text.isVisible());
 	}
-	
+
 	@Override
 	public void addCircle() {
 		if (!EXTRA_CIRCLE_ADDED) {
@@ -722,11 +653,11 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			extraCircle.setFill(Color.valueOf("#9ACD32"));
 
 			this.stackPane.getChildren().add(extraCircle);
-			
+
 
 			StackPane.setMargin(extraCircle, new Insets(250, 0, 0, 0));
 			//-------Circle Done Added
-			
+
 			//----TextField extraTitle starting to be added
 			extraTitle = new TextField();
 			extraTitle.setLayoutX(1000);
@@ -746,7 +677,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			VBox.setMargin(this.extra1LabelColor, new Insets(10, 0, 0, 50));
 			//----Label Finished Adding
 
-			
+
 			//---Color Picker starting to be added
 			this.extra1Color = new ColorPicker();
 			this.extra1Color.setValue(Color.valueOf(ShapeSceneController.DEFAULT_EXTRACIRCLE_COLOR));
@@ -766,17 +697,16 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 			VBox.setMargin(this.extra1Color, new Insets(10, 0, 0, 50));
 			//------Color picker done being added
-			
-			
+
+
 			//---Label Starting to be added
 			this.scrollBox.getChildren().add(this.extra1LabelSize);
 			this.extra1LabelSize.setStyle("-fx-font-size:12px;");
 
 			VBox.setMargin(this.extra1LabelSize, new Insets(10, 0, 0, 50));
 			//---Label Done being added
-			
-			
-			
+
+
 			//----Slider Starting to be added
 			this.extra1Slider = new Slider();
 			this.extra1Slider.setMin(225);
@@ -791,8 +721,8 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			this.scrollBox.getChildren().add(this.extra1Slider);
 			VBox.setMargin(this.extra1Slider, new Insets(5, 0, 0, 50));
 			//-----Slider done being added
-			
-			
+
+
 			//-------Label Starting to be added
 			this.extra1HoverLabel.setStyle("-fx-font-size:12px;");
 			this.scrollBox.getChildren().add(this.extra1HoverLabel);
@@ -819,7 +749,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 					if (ShapeSceneController.EXTRA_CIRCLE_HOVER) {
 						extraCircle.setStyle("-fx-stroke:#"
 								+ extra1ColorHover.getValue().toString().substring(2,
-										extra1ColorHover.getValue().toString().length() - 2)
+								extra1ColorHover.getValue().toString().length() - 2)
 								+ ";" + " -fx-stroke-width: 5;");
 
 						mainScene.setCursor(Cursor.HAND);
@@ -840,7 +770,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 				@Override
 				public void changed(ObservableValue<? extends Number> observable, //
-						Number oldValue, Number newValue) {
+									Number oldValue, Number newValue) {
 
 					extraCircle.setRadius((double) newValue);
 				}
@@ -849,8 +779,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			this.scrollBox.getChildren().add(this.extra1ColorHover);
 			VBox.setMargin(this.extra1ColorHover, new Insets(10, 0, 0, 50));
 			//-------------------Color picker done being added
-			
-			
+
 
 			for (TextField t : this.vennSet) {
 				t.toFront();
@@ -863,29 +792,29 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			alert.showAndWait();
 
 		}
-		
+
 		//---Label starting to be added
 		this.textProperties.setStyle("-fx-font-size:15px;");
 		this.scrollBox.getChildren().add(this.textProperties);
 
 		VBox.setMargin(this.textProperties, new Insets(10, 0, 0, 30));
 		//---Label done being added
-		
-		
+
+
 		//-----Label starting to be added
 		this.extraFontSize.setStyle("-fx-font-size:12px;");
 		this.scrollBox.getChildren().add(this.extraFontSize);
 		VBox.setMargin(this.extraFontSize, new Insets(10, 0, 0, 50));
 		//----Label done being added
-		
-		
+
+
 		//----HBox starting to be added
 		sliderBox = new HBox();
 
 		this.scrollBox.getChildren().add(this.sliderBox);
 		//---HBox done being added
-		
-		
+
+
 		//-------Slider starting to be added
 		this.extraFontSlider = new Slider();
 		this.extraFontSlider.setMin(11);
@@ -903,7 +832,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, //
-					Number oldValue, Number newValue) {
+								Number oldValue, Number newValue) {
 
 				// rightFontTextField.setText(((double) newValue) + "");
 				for (TextField tf : tfLocations.keySet()) {
@@ -922,15 +851,15 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		this.sliderBox.getChildren().add(this.extraFontSlider);
 		HBox.setMargin(this.extraFontSlider, new Insets(5, 0, 0, 50));
 		//----Slider done being added
-		
-		
+
+
 		//---Label starting to be added
 		this.extraTextColor.setStyle("-fx-font-size:12px;");
 		this.scrollBox.getChildren().add(this.extraTextColor);
 		VBox.setMargin(this.extraTextColor, new Insets(10, 0, 0, 50));
 		//---Label done being added
 
-		
+
 		//----Color picker starting to be added
 		this.extraTextColorPicker = new ColorPicker();
 		this.extraTextColorPicker.setMinHeight(28);
@@ -943,7 +872,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			public void handle(ActionEvent e) {
 				for (TextField tf : tfLocations.keySet()) {
 					if (tfLocations.get(tf).equals(Location.BOTTOM)) {
-						int newFont = ((int) Math.round((double) extraFontSlider.getValue()));
+						int newFont = ((int) Math.round(extraFontSlider.getValue()));
 						String newColor = extraTextColorPicker.getValue().toString().substring(2,
 								leftTextColor.getValue().toString().length() - 2);
 						tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"

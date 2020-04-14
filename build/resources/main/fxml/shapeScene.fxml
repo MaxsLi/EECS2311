@@ -160,7 +160,7 @@
                                  <Insets left="50.0" top="10.0" />
                               </VBox.margin>
                            </Label>
-                           <ColorPicker fx:id="leftHoverColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#changeLeftTextColor" prefHeight="28.0" prefWidth="137.0">
+                           <ColorPicker fx:id="leftHoverColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#changeLeftHoverColor" prefHeight="28.0" prefWidth="137.0">
                               <VBox.margin>
                                  <Insets left="50.0" top="10.0" />
                               </VBox.margin>
@@ -229,7 +229,7 @@
                                  <Insets left="50.0" top="10.0" />
                               </VBox.margin>
                            </Label>
-                           <ColorPicker fx:id="rightHoverColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
+                           <ColorPicker fx:id="rightHoverColor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#changeRightHoverColor" prefHeight="28.0" prefWidth="137.0">
                               <VBox.margin>
                                  <Insets left="50.0" top="10.0" />
                               </VBox.margin>
@@ -320,7 +320,7 @@
    <ButtonBar layoutX="877.0" layoutY="812.0" prefHeight="46.0" prefWidth="359.0" />
    <TextField fx:id="leftTitle" layoutX="308.0" layoutY="67.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #1's Name" style="-fx-font-size: 20; -fx-background-color: transparent;" />
    <TextField fx:id="rightTitle" layoutX="704.0" layoutY="67.0" prefHeight="46.0" prefWidth="238.0" promptText="Diagram #2's Name" style="-fx-font-size: 20; -fx-background-color: transparent;" />
-   <TextField fx:id="appTitle" layoutX="427.0" layoutY="27.0" prefHeight="46.0" prefWidth="396.0" promptText="Enter Title of Venn Diagram" style="-fx-font-size: 25; -fx-background-color: transparent;" />
+   <TextField fx:id="appTitle" layoutX="427.0" layoutY="27.0" prefHeight="46.0" prefWidth="396.0" promptText="Enter Title of Venn Diagram"  style="-fx-font-size: 25; -fx-background-color: transparent;" />
    <TextField fx:id="sideAdded" editable="false" layoutX="992.0" layoutY="836.0" style="-fx-font-size: 20; -fx-background-color: transparent;" />
    <ToggleButton fx:id="toggle" layoutX="14.0" layoutY="41.0" mnemonicParsing="false" onAction="#toggleDrawer" style="-fx-font-size: 18;" text="SHOW" />
    <HBox fx:id="saveBox" layoutX="1250.0" layoutY="40.0" prefHeight="100.0" prefWidth="273.0">
