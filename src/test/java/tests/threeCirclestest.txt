@@ -1,0 +1,12 @@
+3
+TestModeTest
+Left Circle
+Right Circle
+Bottom Circle
+foo1, left
+foo2, right
+foo3, bottom
+foo4, left+right
+foo5, left+bottom
+foo6, left+right+bottom
+foo7, right+bottom
