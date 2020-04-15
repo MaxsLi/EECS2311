@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class VennShape extends ArrayList<Shape> {
 
-	public VennShape(Shape ...shape) {
+	public VennShape(Shape... shape) {
 		super.addAll(Arrays.asList(shape));
 	}
 
@@ -18,7 +18,7 @@ public class VennShape extends ArrayList<Shape> {
 	public Shape getRightShape() {
 		return this.get(1);
 	}
-	
+
 	public Shape getBottomShape() {
 		return this.get(2);
 	}

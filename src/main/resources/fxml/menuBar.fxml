@@ -6,7 +6,7 @@
 <?import javafx.scene.control.SeparatorMenuItem ?>
 
 <MenuBar xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuBarController">
-  <Menu mnemonicParsing="false" text="File">
+  <Menu fx:id="file" mnemonicParsing="false" text="File">
     <MenuItem fx:id="createNewVenn" mnemonicParsing="false" onAction="#createNew" text="New" />
     <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openExisting" text="Open..." />
     <MenuItem mnemonicParsing="false" onAction="#saveProgram" text="Save" />
@@ -20,8 +20,8 @@
   </Menu>
   <Menu mnemonicParsing="false" text="Edit">
     <items>
-      <MenuItem mnemonicParsing="false" fx:id="undoBtn" onAction="#undo" text="Undo" />
-      <MenuItem mnemonicParsing="false" fx:id="redoBtn" onAction="#redo" text="Redo" />
+      <MenuItem mnemonicParsing="false" fx:id="undoBtn" text="Undo" />
+      <MenuItem mnemonicParsing="false" fx:id="redoBtn" text="Redo" />
       <SeparatorMenuItem mnemonicParsing="false" />
       <MenuItem mnemonicParsing="false" text="Select All" />
       <MenuItem mnemonicParsing="false" text="Delete Selected Item(s)" />

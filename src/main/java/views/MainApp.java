@@ -1,27 +1,24 @@
 package views;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Optional;
-
-import controllers.*;
+import controllers.MenuBarController;
+import controllers.MenuSceneController;
+import controllers.ShapeSceneController;
+import controllers.TestModeController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
 
 public class MainApp extends Application {
 
@@ -66,7 +63,7 @@ public class MainApp extends Application {
 
 		// Close window properly using consume
 		MainApp.primaryStage.setOnCloseRequest(e -> {
-			if (ShapeSceneController.APPLICATION_IS_SAVED == false) {
+			if (!ShapeSceneController.APPLICATION_IS_SAVED) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Confirmation Dialog");
 				alert.setHeaderText("Application Not Saved");
@@ -93,8 +90,7 @@ public class MainApp extends Application {
 					e.consume();
 					MenuBarController.closeProgram(e);
 				}
-			}
-			else {
+			} else {
 				e.consume();
 				MenuBarController.closeProgram(e);
 			}
@@ -104,7 +100,7 @@ public class MainApp extends Application {
 
 	/**
 	 * A Method to parse the menuBar.fxml file and turn it into java code
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void loadMenubar() throws IOException {
@@ -118,7 +114,7 @@ public class MainApp extends Application {
 
 	/**
 	 * A Method to parse the shapeScene.fxml file and turn it into java code
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void loadShapeScene() throws IOException {
@@ -131,7 +127,7 @@ public class MainApp extends Application {
 		shapeSceneCont.setMainApp(this);
 		MainApp.primaryStage.setScene(new Scene(this.vennPane));
 	}
-	
+
 	public void loadTestMode() throws IOException {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(getClass().getResource("/fxml/testMode.fxml"));
@@ -145,7 +141,7 @@ public class MainApp extends Application {
 
 	/**
 	 * A Method that switches the scene on the mainStage
-	 * 
+	 *
 	 * @param sceneNew A string of the scene to change to
 	 * @throws IOException
 	 */
@@ -154,11 +150,9 @@ public class MainApp extends Application {
 			loadMenuScene();
 		} else if (sceneNew.equals("shapeScene")) {
 			loadShapeScene();
-		} 
-		else if(sceneNew.equals("testMode")) {
+		} else if (sceneNew.equals("testMode")) {
 			loadTestMode();
-		}
-		else if (sceneNew.equals("load")) {
+		} else if (sceneNew.equals("load")) {
 			loadShapeScene();
 			shapeSceneCont.loadVenn(file);
 
@@ -177,7 +171,7 @@ public class MainApp extends Application {
 				alert.showAndWait();
 			}
 		}
-	
+
 	}
 
 	public ShapeSceneController getShapeSceneController() {
@@ -194,7 +188,7 @@ public class MainApp extends Application {
 
 	/**
 	 * A Method to parse the menuScene.fxml file and turn it into java code
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void loadMenuScene() throws IOException {
