@@ -38,6 +38,16 @@ public class MainTest extends ApplicationTest {
 		}
 	}
 
+	protected void enterTestMode() {
+		clickOn((Button) find("#testModeBttn"));
+		while (!MainApp.primaryStage.isFocused()) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException ignored) {
+			}
+		}
+	}
+
 	protected void launchApplication() throws Exception {
 		ApplicationTest.launch(MainApp.class);
 	}

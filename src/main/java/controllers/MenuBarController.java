@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -19,8 +20,12 @@ import java.util.Optional;
 
 public class MenuBarController {
 
+
 	@FXML
 	private MenuItem aboutItem;
+
+	@FXML
+	private Menu file;
 
 	private ShapeSceneController shapeSceneCont;
 
