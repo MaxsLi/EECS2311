@@ -44,17 +44,17 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	public static final int NO_ELEMENTS_IMPORTED = 0;
 	public static boolean TEST_HAS_STARTED = false;
 	Map<String, Location> correctLocation = new HashMap<>();
-	ArrayList<String> elements = new ArrayList<>();
+	public ArrayList<String> elements = new ArrayList<>();
 	@FXML
 	Text text;
 	Timeline timeline;
 	int mins = 0, secs = 0, millis = 0;
-	int elementsImported;
+	public int elementsImported;
 	@FXML
 	private Button importTxtBttn;
 	@FXML
 	private ToggleButton toggleTimeBttn;
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ShapeSceneController.APPLICATION_IS_SAVED = true; //So it wont ask us to save testModeController if the user closes the window
