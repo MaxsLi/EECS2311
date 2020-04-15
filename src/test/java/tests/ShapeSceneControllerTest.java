@@ -26,6 +26,7 @@ class ShapeSceneControllerTest extends MainTest {
 	private Button clearListBttn;
 	private Button eraseItemBttn;
 	private Button createItemBttn;
+	private Button testModeBttn;
 	private StackPane stackPane;
 	private ColorPicker backgroundColor;
 	private ColorPicker titleColors;
@@ -59,6 +60,7 @@ class ShapeSceneControllerTest extends MainTest {
 		clearListBttn = find("#clearListBttn");
 		eraseItemBttn = find("#eraseItemBttn");
 		createItemBttn = find("#createItemBttn");
+		testModeBttn = find("#testModeBttn");
 		stackPane = find("#stackPane");
 		backgroundColor = find("#backgroundColor");
 		mainScene = find("#mainScene");
@@ -168,6 +170,14 @@ class ShapeSceneControllerTest extends MainTest {
 		clickOn(itemList.getItems().get(1).toString());
 		clickOn(createItemBttn);
 		assertEquals(oldSize + 1, stackPane.getChildren().size());
+	}
+
+	@Test
+	public void enterTestModeTest() {
+		toggleNavBar();
+		clickOn(testModeBttn);
+		type(KeyCode.SPACE);
+		assertTrue(true);
 	}
 
 	@Test
@@ -582,4 +592,5 @@ class ShapeSceneControllerTest extends MainTest {
 		clickOn(redoBttn);
 		assertEquals(sideAdded.getText(), "Left!");
 	}
+
 }
