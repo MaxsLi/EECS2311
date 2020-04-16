@@ -12,6 +12,8 @@ On the home menu showed above, click "Get Existing". Your file explorer will the
 
 ## Folder Structure
 * [[VennCreate]](/)
+  * [[build/libs]](/build/libs)
+    * [VennCreate.jar](/build/libs/VennCreate.jar)
   * [[src/main]](/src/main)
     * [[java]](/src/main/java)
       * [[controllers]](/src/main/java/controllers)
