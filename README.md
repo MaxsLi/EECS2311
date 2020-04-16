@@ -1,7 +1,7 @@
 ﻿# EECS2311 Software Development Project
 
 ## Description
-![image](https://user-images.githubusercontent.com/50505942/78942724-3fa2db80-7a88-11ea-8fea-98502d0e1811.png)
+![ezgif com-video-to-gif](https://user-images.githubusercontent.com/50505942/79400126-4a131880-7f53-11ea-99bd-11883d83da3e.gif)
 A desktop app that can draw customizable [Venn diagrams](https://en.wikipedia.org/wiki/Venn_diagram).
 
 ## Getting Started
