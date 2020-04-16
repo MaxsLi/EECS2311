@@ -26,6 +26,10 @@ import javafx.util.Duration;
 import models.Location;
 import models.VennSet;
 import models.VennShape;
+import models.commands.Command;
+import models.commands.EditCircleColorCommand;
+import models.commands.EditHoverColorCommand;
+import models.commands.EditTextCommand;
 import views.MainApp;
 
 import java.io.*;
@@ -642,258 +646,32 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 	@Override
 	public void addCircle() {
-		if (!EXTRA_CIRCLE_ADDED) {
-			ShapeSceneController.EXTRA_CIRCLE_ADDED = false;
+		ShapeSceneController.EXTRA_CIRCLE_ADDED = true;
+		ShapeSceneController.NUM_OF_CIRCLES++;
 
-			//--------------------------Circle Starting to be added
-			Circle extraCircle = new Circle(225);
+		// --------------------------Circle Starting to be added
+		Circle extraCircle = new Circle(225);
 
-			this.extraCircle = extraCircle;
+		this.extraCircle = extraCircle;
 
-			this.vennShape.add(extraCircle);
-			extraCircle.setOpacity(0.6);
+		this.vennShape.add(extraCircle);
+		extraCircle.setOpacity(0.6);
 
-			extraCircle.setBlendMode(BlendMode.MULTIPLY);
-			extraCircle.setFill(Color.valueOf("#9ACD32"));
+		extraCircle.setBlendMode(BlendMode.MULTIPLY);
+		extraCircle.setFill(Color.valueOf("#9ACD32"));
 
-			this.stackPane.getChildren().add(extraCircle);
+		this.stackPane.getChildren().add(extraCircle);
 
+		StackPane.setMargin(extraCircle, new Insets(250, 0, 0, 0));
+		// -------Circle Done Added
 
-			StackPane.setMargin(extraCircle, new Insets(250, 0, 0, 0));
-			//-------Circle Done Added
+		// ----TextField extraTitle starting to be added
+		extraTitle = new TextField();
+		extraTitle.setLayoutX(1050);
+		extraTitle.setLayoutY(751);
+		extraTitle.setStyle("-fx-font-size:20px;-fx-background-color: transparent;");
+		extraTitle.setPromptText("Diagram #3");
 
-			//----TextField extraTitle starting to be added
-			extraTitle = new TextField();
-			extraTitle.setLayoutX(1000);
-			extraTitle.setLayoutY(751);
-			extraTitle.setStyle("-fx-font-size:20px;-fx-background-color: transparent;");
-			mainScene.getChildren().add(extraTitle);
-			//------
-
-			//---Label Starting to be Added
-			this.extra1Label.setStyle("-fx-font-size:15px;");
-			this.scrollBox.getChildren().add(this.extra1Label);
-
-			VBox.setMargin(this.extra1Label, new Insets(10, 0, 0, 30));
-
-			this.extra1LabelColor.setStyle("-fx-font-size:12px;");
-			this.scrollBox.getChildren().add(this.extra1LabelColor);
-			VBox.setMargin(this.extra1LabelColor, new Insets(10, 0, 0, 50));
-			//----Label Finished Adding
-
-
-			//---Color Picker starting to be added
-			this.extra1Color = new ColorPicker();
-			this.extra1Color.setValue(Color.valueOf(ShapeSceneController.DEFAULT_EXTRACIRCLE_COLOR));
-			this.extra1Color.setMinHeight(28);
-			this.extra1Color.setMinWidth(137);
-			this.extra1Color.setMaxHeight(28);
-			this.extra1Color.setMaxWidth(137);
-
-			extra1Color.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent e) {
-					extraCircle.setFill(extra1Color.getValue());
-				}
-			});
-
-			this.scrollBox.getChildren().add(this.extra1Color);
-
-			VBox.setMargin(this.extra1Color, new Insets(10, 0, 0, 50));
-			//------Color picker done being added
-
-
-			//---Label Starting to be added
-			this.scrollBox.getChildren().add(this.extra1LabelSize);
-			this.extra1LabelSize.setStyle("-fx-font-size:12px;");
-
-			VBox.setMargin(this.extra1LabelSize, new Insets(10, 0, 0, 50));
-			//---Label Done being added
-
-
-			//----Slider Starting to be added
-			this.extra1Slider = new Slider();
-			this.extra1Slider.setMin(225);
-			this.extra1Slider.setMax(250);
-			this.extra1Slider.setMinHeight(Control.USE_COMPUTED_SIZE);
-			this.extra1Slider.setMinWidth(Control.USE_COMPUTED_SIZE);
-			this.extra1Slider.prefWidth(178);
-			this.extra1Slider.prefHeight(24);
-			this.extra1Slider.setMaxHeight(Control.USE_PREF_SIZE);
-			this.extra1Slider.setMaxWidth(Control.USE_PREF_SIZE);
-
-			this.scrollBox.getChildren().add(this.extra1Slider);
-			VBox.setMargin(this.extra1Slider, new Insets(5, 0, 0, 50));
-			//-----Slider done being added
-
-
-			//-------Label Starting to be added
-			this.extra1HoverLabel.setStyle("-fx-font-size:12px;");
-			this.scrollBox.getChildren().add(this.extra1HoverLabel);
-			VBox.setMargin(this.extra1HoverLabel, new Insets(10, 0, 0, 50));
-			//------Label done being added
-
-			//-----Color picker starting to be added
-			this.extra1ColorHover = new ColorPicker();
-			this.extra1ColorHover.setMinHeight(28);
-			this.extra1ColorHover.setMinWidth(137);
-			this.extra1ColorHover.setMaxHeight(28);
-			this.extra1ColorHover.setMaxWidth(137);
-
-			extra1ColorHover.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent e) {
-					extraCircle.setFill(extra1Color.getValue());
-				}
-			});
-
-			extraCircle.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent e) {
-					if (ShapeSceneController.EXTRA_CIRCLE_HOVER) {
-						extraCircle.setStyle("-fx-stroke:#"
-								+ extra1ColorHover.getValue().toString().substring(2,
-								extra1ColorHover.getValue().toString().length() - 2)
-								+ ";" + " -fx-stroke-width: 5;");
-
-						mainScene.setCursor(Cursor.HAND);
-					}
-				}
-			});
-
-			extraCircle.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent e) {
-					extraCircle.setStyle("-fx-stroke:black;");
-
-					mainScene.setCursor(Cursor.DEFAULT);
-				}
-			});
-
-			extra1Slider.valueProperty().addListener(new ChangeListener<Number>() {
-
-				@Override
-				public void changed(ObservableValue<? extends Number> observable, //
-									Number oldValue, Number newValue) {
-
-					extraCircle.setRadius((double) newValue);
-				}
-			});
-
-			this.scrollBox.getChildren().add(this.extra1ColorHover);
-			VBox.setMargin(this.extra1ColorHover, new Insets(10, 0, 0, 50));
-			//-------------------Color picker done being added
-
-
-			for (TextField t : this.vennSet) {
-				t.toFront();
-			}
-
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Circle 3 Has Been Addded!");
-			alert.setHeaderText("Success!");
-			alert.setContentText("Support for a third circle has been added in the Apperance pane.");
-			alert.showAndWait();
-
-		}
-
-		//---Label starting to be added
-		this.textProperties.setStyle("-fx-font-size:15px;");
-		this.scrollBox.getChildren().add(this.textProperties);
-
-		VBox.setMargin(this.textProperties, new Insets(10, 0, 0, 30));
-		//---Label done being added
-
-
-		//-----Label starting to be added
-		this.extraFontSize.setStyle("-fx-font-size:12px;");
-		this.scrollBox.getChildren().add(this.extraFontSize);
-		VBox.setMargin(this.extraFontSize, new Insets(10, 0, 0, 50));
-		//----Label done being added
-
-
-		//----HBox starting to be added
-		sliderBox = new HBox();
-
-		this.scrollBox.getChildren().add(this.sliderBox);
-		//---HBox done being added
-
-
-		//-------Slider starting to be added
-		this.extraFontSlider = new Slider();
-		this.extraFontSlider.setMin(11);
-		this.extraFontSlider.setMax(25);
-		this.extraFontSlider.setShowTickLabels(true);
-		this.extraFontSlider.setSnapToTicks(true);
-		this.extraFontSlider.setMinHeight(Control.USE_COMPUTED_SIZE);
-		this.extraFontSlider.setMinWidth(Control.USE_COMPUTED_SIZE);
-		this.extraFontSlider.prefWidth(178);
-		this.extraFontSlider.prefHeight(24);
-		this.extraFontSlider.setMaxHeight(Control.USE_PREF_SIZE);
-		this.extraFontSlider.setMaxWidth(Control.USE_PREF_SIZE);
-
-		extraFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, //
-								Number oldValue, Number newValue) {
-
-				// rightFontTextField.setText(((double) newValue) + "");
-				for (TextField tf : tfLocations.keySet()) {
-					if (tfLocations.get(tf).equals(Location.BOTTOM)) {
-						int newFont = ((int) Math.round((double) newValue));
-						String font = "" + newFont;
-						tf.setStyle("-fx-font-size:" + font + "px;-fx-background-color:transparent;");
-						tf.setMinWidth(Control.USE_PREF_SIZE);
-						tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
-						tf.setMaxWidth(Control.USE_PREF_SIZE);
-					}
-				}
-			}
-		});
-
-		this.sliderBox.getChildren().add(this.extraFontSlider);
-		HBox.setMargin(this.extraFontSlider, new Insets(5, 0, 0, 50));
-		//----Slider done being added
-
-
-		//---Label starting to be added
-		this.extraTextColor.setStyle("-fx-font-size:12px;");
-		this.scrollBox.getChildren().add(this.extraTextColor);
-		VBox.setMargin(this.extraTextColor, new Insets(10, 0, 0, 50));
-		//---Label done being added
-
-
-		//----Color picker starting to be added
-		this.extraTextColorPicker = new ColorPicker();
-		this.extraTextColorPicker.setMinHeight(28);
-		this.extraTextColorPicker.setMinWidth(137);
-		this.extraTextColorPicker.setMaxHeight(28);
-		this.extraTextColorPicker.setMaxWidth(137);
-
-		extraTextColorPicker.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				for (TextField tf : tfLocations.keySet()) {
-					if (tfLocations.get(tf).equals(Location.BOTTOM)) {
-						int newFont = ((int) Math.round(extraFontSlider.getValue()));
-						String newColor = extraTextColorPicker.getValue().toString().substring(2,
-								leftTextColor.getValue().toString().length() - 2);
-						tf.setStyle("-fx-font-size:" + newFont + "px;-fx-background-color:transparent;-fx-text-fill: #"
-								+ newColor + ";");
-						tf.setMinWidth(Control.USE_PREF_SIZE);
-						tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
-						tf.setMaxWidth(Control.USE_PREF_SIZE);
-					}
-				}
-			}
-		});
-
-		this.scrollBox.getChildren().add(this.extraTextColorPicker);
-		VBox.setMargin(this.extraTextColorPicker, new Insets(10, 0, 0, 50));
-		//----Color picker done being added
-
-		initCircleContext();
 	}
 
 }
