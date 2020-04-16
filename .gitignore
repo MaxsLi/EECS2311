@@ -1,5 +1,5 @@
 /.gradle/
 /.idea/
 /bin/
-/build/
-!/build/libs/*
+/build/*
+!/build/libs/

@@ -2,8 +2,6 @@ package controllers;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -16,7 +14,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.BlendMode;
-import javafx.scene.input.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -27,7 +28,6 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import models.Location;
 import models.UndoRedoManager;
@@ -40,6 +40,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,13 +63,9 @@ public class ShapeSceneController implements Initializable {
 	private final static String DEFAULT_RIGHTTEXT_COLOR = "#000000";
 	private final static String DEFAULT_EXTRATEXT_COLOR = "#000000";
 	public static boolean REMIND_OUTOF_BOUNDS = true;
-
 	public static boolean REMIND_EMPTY_TEXTFIELD = true;
 	public static boolean APPLICATION_IS_SAVED = true;
-	public static boolean ANIMATION_DONE = true;
 	public static boolean EXTRA_CIRCLE_ADDED = false;
-	public static Color LEFTCIRCLECOLOR = Color.valueOf("#ff8a8a");
-	public static Color RIGHTCIRCLECOLOR = Color.valueOf("#a7ff8f");
 	protected static int NUM_OF_CIRCLES = 2;
 	protected static boolean EXTRA_CIRCLE_HOVER = true;
 	protected static boolean NAV_IS_SHOWING = false;
@@ -148,14 +146,8 @@ public class ShapeSceneController implements Initializable {
 	protected ColorPicker leftTextColor;
 	@FXML
 	protected ColorPicker rightTextColor;
-
-	//	@FXML
-//	private TextField leftFontTextField;
 	@FXML
 	protected Button testModeBttn;
-
-	//	@FXML
-//	private TextField rightFontTextField;
 	@FXML
 	protected Button undoBttn;
 	@FXML
@@ -175,7 +167,6 @@ public class ShapeSceneController implements Initializable {
 	protected Label extra1LabelSize = new Label("Extra Circle #1 Size");
 	protected Label extra1HoverLabel = new Label("Hover Color");
 	protected ColorPicker extra1ColorHover;
-	protected Separator extra1Seperator;
 	protected Label textProperties = new Label("Text Properties");
 	protected Label extraFontSize = new Label("Font Size");
 	protected HBox sliderBox;
@@ -238,9 +229,6 @@ public class ShapeSceneController implements Initializable {
 	// size of right circle text
 	private double rightTextSize;
 
-//	private EditCircleSizeCommand editLeftCircleSizeCommand;
-
-	//	private EditTextSizeCommand editTextSizeCommand;
 	// size of extra circle text
 	private double extraTextSize;
 	private UndoRedoManager undoRedoManager;
@@ -248,7 +236,6 @@ public class ShapeSceneController implements Initializable {
 	private DeleteCommand deleteCommand;
 	private EditTextCommand editTextCommand;
 	private boolean init;
-	private boolean isMouse;
 	private String leftHover;
 	private String rightHover;
 	private String extraHover;
@@ -257,31 +244,17 @@ public class ShapeSceneController implements Initializable {
 		// Note that function `initialize` will do the init
 	}
 
-	// Method to close not using menuBar
-	public static void closeProgram(WindowEvent e) {
-		MainApp.primaryStage.close();
-	}
-
 	private void addKeyShortcuts() {
-//		mainApp.primaryStage.getScene().setOnKeyPressed(e -> {
-//			if (e.isControlDown() && e.getCode() == KeyCode.Z) {
-//				this.undo();
-//			} else if (e.isControlDown() && e.isShiftDown() && e.getCode() == KeyCode.Y) {
-//				this.redo();
-//			}
-//		});
 		undoBtn.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
 		redoBtn.setAccelerator(new KeyCodeCombination(KeyCode.Y, KeyCodeCombination.SHIFT_DOWN, KeyCodeCombination.CONTROL_DOWN));
 		createNewVenn.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
 		openMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
-
 	}
 
 	/**
 	 * On click, creates a textArea which can be dragged into Respective Circle
 	 */
 	public void addTextToDiagram() {
-
 		if ((this.diagramText.getText().isEmpty() || this.diagramText.getText().trim().equals(""))) {
 
 			if (REMIND_EMPTY_TEXTFIELD) {
@@ -370,7 +343,6 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	public TextField addTextField(String newText, TextField newTextField, double posX, double posY) {
-
 		newTextField.setTranslateX(posX);
 		newTextField.setTranslateY(posY);
 
@@ -411,8 +383,7 @@ public class ShapeSceneController implements Initializable {
 	protected void clearList() {
 		try {
 			this.itemList.getItems().remove(0, this.itemList.getItems().size());
-		} catch (ArrayIndexOutOfBoundsException e) {
-			return;
+		} catch (ArrayIndexOutOfBoundsException ignored) {
 		}
 	}
 
@@ -421,8 +392,7 @@ public class ShapeSceneController implements Initializable {
 		try {
 			int index = itemList.getSelectionModel().getSelectedIndex();
 			itemList.getItems().remove(index);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			return;
+		} catch (ArrayIndexOutOfBoundsException ignored) {
 		}
 	}
 
@@ -437,13 +407,8 @@ public class ShapeSceneController implements Initializable {
 				}
 			}
 			itemList.getItems().remove(index);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			return;
+		} catch (ArrayIndexOutOfBoundsException ignored) {
 		}
-	}
-
-	public void addItem(String newString) {
-		itemList.getItems().add(newString);
 	}
 
 	/**
@@ -499,11 +464,7 @@ public class ShapeSceneController implements Initializable {
 
 		});
 
-		textField.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-
-			textField.setEditable(false);
-
-		});
+		textField.addEventHandler(MouseEvent.MOUSE_EXITED, e -> textField.setEditable(false));
 
 	}
 
@@ -512,7 +473,6 @@ public class ShapeSceneController implements Initializable {
 
 		try {
 			textBoxLocation = this.vennSet.getLocation(textField);
-
 		} catch (Exception exception) {
 			if (REMIND_OUTOF_BOUNDS) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -528,7 +488,6 @@ public class ShapeSceneController implements Initializable {
 
 				Optional<ButtonType> result = alert.showAndWait();
 				REMIND_OUTOF_BOUNDS = result.get() == remindMe;
-
 			}
 			return;
 		}
@@ -629,9 +588,6 @@ public class ShapeSceneController implements Initializable {
 			AddTooltipCommand tooltipCommand = new AddTooltipCommand(this, result.get(), tf);
 			undoRedoManager.addCommand(tooltipCommand);
 			tooltipCommand.execute();
-
-		} else {
-			return;
 		}
 	}
 
@@ -644,19 +600,6 @@ public class ShapeSceneController implements Initializable {
 		Tooltip.uninstall(tf, tf.getTooltip());
 		tooltipHolder.remove(tf);
 	}
-
-	/**
-	 * A Method that gives allows the given TextField auto-resize its width
-	 * according to the content.
-	 *
-	 * @param textField the TextField to be added
-	 */
-//	private void addAutoResize(TextField textField) {
-//		textField.textProperty().addListener((ob, o, n) -> {
-//			// expand the textfield
-//			textField.setMaxWidth(TextUtils.computeTextWidth(textField.getFont(), textField.getText(), 0.0D) + 20);
-//		});
-//	}
 
 	public void deleteSpecficText(TextField tf) {
 		String contents = tf.getText();
@@ -864,12 +807,6 @@ public class ShapeSceneController implements Initializable {
 		}
 	}
 
-	// for tester
-	public void setStackPane(StackPane sp) {
-		this.stackPane = sp;
-
-	}
-
 	public ArrayList<TextField> getTextFields() {
 		return this.vennSet;
 	}
@@ -902,7 +839,7 @@ public class ShapeSceneController implements Initializable {
 		try {
 			String titleOfApp;
 			FileWriter fw = null;
-			FileChooser fileChooser = null;
+			FileChooser fileChooser;
 
 			/*
 			 * Upon Loading a Previous file, this.currentFileName is initialized. If it is
@@ -994,12 +931,8 @@ public class ShapeSceneController implements Initializable {
 				try { // If Nothing Was Added on GetExisting, the program crashes, this is so it
 					// doesn't crash
 					// System.out.println(this.vennSet.getLocation(textField)));
-					String longerDescription = null;
-					if (tooltipHolder.containsKey(textField)) {
-						longerDescription = tooltipHolder.get(textField);
-					} else {
-						longerDescription = "";
-					}
+					String longerDescription;
+					longerDescription = tooltipHolder.getOrDefault(textField, "");
 					pw.println(textField.getText() + COMMA + longerDescription + COMMA + textField.getTranslateX()
 							+ COMMA + textField.getTranslateY() + COMMA + this.vennSet.getLocation(textField));
 
@@ -1231,7 +1164,6 @@ public class ShapeSceneController implements Initializable {
 				init = false;
 			}
 		});
-		isMouse = false;
 		addKeyShortcuts();
 		addTitleListeners();
 		undoBtn(false);
@@ -1271,17 +1203,6 @@ public class ShapeSceneController implements Initializable {
 	 */
 	protected void initSliders() {
 
-		// Adding Listener to value property.
-//		leftSlider.valueProperty().addListener(new ChangeListener<Number>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observable, //
-//					Number oldValue, Number newValue) {
-//
-//
-//
-//			}
-//		});
 		leftSlider.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			leftCircleSize = leftCircle.getRadius();
 			if (e.getX() != leftSlider.getValue()) {
@@ -1294,30 +1215,9 @@ public class ShapeSceneController implements Initializable {
 
 		});
 
-		leftSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-			circleSliderAction(leftCircle);
+		leftSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> circleSliderAction(leftCircle));
 
-		});
-
-		leftSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-			leftCircleSize = leftCircle.getRadius();
-		});
-
-//		// Adding Listener to value property.
-//		rightSlider.valueProperty().addListener(new ChangeListener<Number>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observable, //
-//					Number oldValue, Number newValue) {
-//
-//				System.out.println(oldValue);
-//				editCircleSizeCommand.setOldSize(rightCircle.getRadius());
-//				editCircleSizeCommand.setNewSize((double) newValue);
-//				undoRedoManager.addCommand(editCircleSizeCommand);
-//				editCircleSizeCommand.execute();
-//
-//			}
-//		});
+		leftSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> leftCircleSize = leftCircle.getRadius());
 
 		rightSlider.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			rightCircleSize = rightCircle.getRadius();
@@ -1331,32 +1231,8 @@ public class ShapeSceneController implements Initializable {
 
 		});
 
-		rightSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-			circleSliderAction(rightCircle);
-
-		});
-
-		rightSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-			rightCircleSize = rightCircle.getRadius();
-		});
-		// Adding Listener to value property.
-//		leftFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observable, //
-//					Number oldValue, Number newValue) {
-//
-//				leftFontTextField.setText(((double) newValue) + "");
-//				 System.out.println(tfLocations.toString());
-//				editTextSizeCommand.setLocation(Location.LEFT);
-//				editTextSizeCommand.setOldSize((double) oldValue);
-//				editTextSizeCommand.setNewSize((double) newValue);
-//				undoRedoManager.addCommand(editTextSizeCommand);
-//				editTextSizeCommand.execute();
-//
-//			}
-//		});
-
+		rightSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> circleSliderAction(rightCircle));
+		rightSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> rightCircleSize = rightCircle.getRadius());
 		leftFontSlider.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			leftTextSize = getTextSize(Location.LEFT);
 			if (e.getX() != leftFontSlider.getValue()) {
@@ -1364,13 +1240,8 @@ public class ShapeSceneController implements Initializable {
 			}
 			leftTextSize = getTextSize(Location.LEFT);
 		});
-		leftFontSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-			fontSliderAction(Location.LEFT);
-		});
-
-		leftFontSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-			leftTextSize = getTextSize(Location.LEFT);
-		});
+		leftFontSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> fontSliderAction(Location.LEFT));
+		leftFontSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> leftTextSize = getTextSize(Location.LEFT));
 		rightFontSlider.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			rightTextSize = getTextSize(Location.RIGHT);
 			if (e.getX() != rightFontSlider.getValue()) {
@@ -1378,37 +1249,12 @@ public class ShapeSceneController implements Initializable {
 			}
 			rightTextSize = getTextSize(Location.RIGHT);
 		});
-		rightFontSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-			fontSliderAction(Location.RIGHT);
-		});
-		rightFontSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-			rightTextSize = getTextSize(Location.RIGHT);
-		});
-		// editRightTextSizeCommand.setOldSize(rightFontSlider.getValue());
-//		rightFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observable, //
-//					Number oldValue, Number newValue) {
-//
-//
-//				 rightFontTextField.setText(((double) newValue) + "");
-//				editTextSizeCommand.setLocation(Location.RIGHT);
-//				editTextSizeCommand.setOldSize((double) oldValue);
-//				editTextSizeCommand.setNewSize((double) newValue);
-//				undoRedoManager.addCommand(editTextSizeCommand);
-//				editTextSizeCommand.execute();
-//
-//			}
-//		});
-
+		rightFontSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> fontSliderAction(Location.RIGHT));
+		rightFontSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> rightTextSize = getTextSize(Location.RIGHT));
 		leftSlider.setValue(leftSlider.getMin());
 		rightSlider.setValue(rightSlider.getMin());
 		leftTextSize = leftFontSlider.getValue();
 		rightTextSize = rightFontSlider.getValue();
-//		leftFontSlider.setValue(leftFontSlider.getMin());
-//		rightFontSlider.setValue(rightFontSlider.getMin());
-
 	}
 
 	private void circleSliderAction(Circle circle) {
@@ -1488,50 +1334,6 @@ public class ShapeSceneController implements Initializable {
 		editTextSizeCommand.execute();
 	}
 
-//	private void deleteAll(Location location) {
-//		if (location.equals(Location.LEFT)) {
-//			deleteAllLeft();
-//		}
-//		else if (location.equals(Location.RIGHT)) {
-//			deleteAllRight();
-//		}
-//		else if (location.equals(Location.BOTTOM)) {
-//			deleteAllExtra();
-//		}
-//	}
-//	protected void deleteAllLeft() {
-//		for (TextField tf : tfLocations.keySet()) {
-//			if (tfLocations.get(tf) == Location.LEFT) {
-//				deleteSpecficText(tf);
-//			}
-//		}
-//		
-//		ShapeSceneController.APPLICATION_IS_SAVED = false;
-//		changesMade();
-//	}
-//
-//	protected void deleteAllRight() {
-//		for (TextField tf : tfLocations.keySet()) {
-//			if (tfLocations.get(tf) == Location.RIGHT) {
-//				deleteSpecficText(tf);
-//			}
-//		}
-//		
-//		ShapeSceneController.APPLICATION_IS_SAVED = false;
-//		changesMade();
-//	}
-//
-//	protected void deleteAllExtra() {
-//		for (TextField tf : tfLocations.keySet()) {
-//			if (tfLocations.get(tf) == Location.BOTTOM) {
-//				deleteSpecficText(tf);
-//			}
-//		}
-//		
-//		ShapeSceneController.APPLICATION_IS_SAVED = false;
-//		changesMade();
-//	}
-
 	/**
 	 * A Method that adds the rightClick option to all circles in the Scene
 	 */
@@ -1545,74 +1347,40 @@ public class ShapeSceneController implements Initializable {
 		MenuItem rightDelete = new MenuItem("Delete All");
 
 		DeleteAllCommand deleteAllCommand = new DeleteAllCommand(this);
-		leftHoverToggle.setOnAction(new EventHandler<ActionEvent>() {
+		leftHoverToggle.setOnAction(event -> ShapeSceneController.LEFT_CIRCLE_HOVER = !ShapeSceneController.LEFT_CIRCLE_HOVER);
 
-			@Override
-			public void handle(ActionEvent event) {
-				ShapeSceneController.LEFT_CIRCLE_HOVER = !ShapeSceneController.LEFT_CIRCLE_HOVER;
-			}
-		});
+		rightHoverToggle.setOnAction(event -> ShapeSceneController.RIGHT_CIRCLE_HOVER = !ShapeSceneController.RIGHT_CIRCLE_HOVER);
 
-		rightHoverToggle.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				ShapeSceneController.RIGHT_CIRCLE_HOVER = !ShapeSceneController.RIGHT_CIRCLE_HOVER;
-			}
-		});
-
-		leftDelete.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				ArrayList<TextField> tf = new ArrayList<>();
-				for (TextField textField : tfLocations.keySet()) {
-					if (tfLocations.get(textField).equals(Location.LEFT)) {
-						tf.add(textField);
-					}
+		leftDelete.setOnAction(event -> {
+			ArrayList<TextField> tf = new ArrayList<>();
+			for (TextField textField : tfLocations.keySet()) {
+				if (tfLocations.get(textField).equals(Location.LEFT)) {
+					tf.add(textField);
 				}
-				deleteAllCommand.setTextFields(tf);
-				undoRedoManager.addCommand(deleteAllCommand);
-				deleteAllCommand.execute();
 			}
+			deleteAllCommand.setTextFields(tf);
+			undoRedoManager.addCommand(deleteAllCommand);
+			deleteAllCommand.execute();
 		});
 
-		rightDelete.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				ArrayList<TextField> tf = new ArrayList<>();
-				for (TextField textField : tfLocations.keySet()) {
-					if (tfLocations.get(textField).equals(Location.RIGHT)) {
-						tf.add(textField);
-					}
+		rightDelete.setOnAction(event -> {
+			ArrayList<TextField> tf = new ArrayList<>();
+			for (TextField textField : tfLocations.keySet()) {
+				if (tfLocations.get(textField).equals(Location.RIGHT)) {
+					tf.add(textField);
 				}
-				deleteAllCommand.setTextFields(tf);
-				undoRedoManager.addCommand(deleteAllCommand);
-				deleteAllCommand.execute();
 			}
+			deleteAllCommand.setTextFields(tf);
+			undoRedoManager.addCommand(deleteAllCommand);
+			deleteAllCommand.execute();
 		});
 
 		leftContext.getItems().addAll(leftHoverToggle, leftDelete);
 		rightContext.getItems().addAll(rightHoverToggle, rightDelete);
 
-		leftCircle.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
+		leftCircle.setOnContextMenuRequested(event -> leftContext.show(leftCircle, event.getScreenX(), event.getScreenY()));
 
-			@Override
-			public void handle(ContextMenuEvent event) {
-
-				leftContext.show(leftCircle, event.getScreenX(), event.getScreenY());
-			}
-		});
-
-		rightCircle.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
-
-			@Override
-			public void handle(ContextMenuEvent event) {
-
-				rightContext.show(rightCircle, event.getScreenX(), event.getScreenY());
-			}
-		});
+		rightCircle.setOnContextMenuRequested(event -> rightContext.show(rightCircle, event.getScreenX(), event.getScreenY()));
 
 		if (ShapeSceneController.EXTRA_CIRCLE_ADDED) {
 			ContextMenu extraContext = new ContextMenu();
@@ -1621,38 +1389,21 @@ public class ShapeSceneController implements Initializable {
 
 			extraContext.getItems().addAll(extraHoverToggle, extraDelete);
 
-			extraHoverToggle.setOnAction(new EventHandler<ActionEvent>() {
+			extraHoverToggle.setOnAction(event -> ShapeSceneController.EXTRA_CIRCLE_HOVER = !ShapeSceneController.EXTRA_CIRCLE_HOVER);
 
-				@Override
-				public void handle(ActionEvent event) {
-					ShapeSceneController.EXTRA_CIRCLE_HOVER = !ShapeSceneController.EXTRA_CIRCLE_HOVER;
-				}
-			});
-
-			extraDelete.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					ArrayList<TextField> tf = new ArrayList<>();
-					for (TextField textField : tfLocations.keySet()) {
-						if (tfLocations.get(textField).equals(Location.BOTTOM)) {
-							tf.add(textField);
-						}
+			extraDelete.setOnAction(event -> {
+				ArrayList<TextField> tf = new ArrayList<>();
+				for (TextField textField : tfLocations.keySet()) {
+					if (tfLocations.get(textField).equals(Location.BOTTOM)) {
+						tf.add(textField);
 					}
-					deleteAllCommand.setTextFields(tf);
-					undoRedoManager.addCommand(deleteAllCommand);
-					deleteAllCommand.execute();
 				}
+				deleteAllCommand.setTextFields(tf);
+				undoRedoManager.addCommand(deleteAllCommand);
+				deleteAllCommand.execute();
 			});
 
-			extraCircle.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
-
-				@Override
-				public void handle(ContextMenuEvent event) {
-
-					extraContext.show(extraCircle, event.getScreenX(), event.getScreenY());
-				}
-			});
+			extraCircle.setOnContextMenuRequested(event -> extraContext.show(extraCircle, event.getScreenX(), event.getScreenY()));
 
 		}
 
@@ -1675,7 +1426,7 @@ public class ShapeSceneController implements Initializable {
 
 		for (int i = 0; i < tfLocations.keySet().size() && k == 0; i++) {
 			TextField tf = (TextField) tfLocations.keySet().toArray()[i];
-			if (tfLocations.get(tf).equals(location) && k == 0) {
+			if (tfLocations.get(tf).equals(location)) {
 				for (int j = 0; j < tf.getStyle().length() && k == 0; j++) {
 					if (tf.getStyle().charAt(j) == '#') {
 						k = j;
@@ -1752,61 +1503,6 @@ public class ShapeSceneController implements Initializable {
 			}
 		}
 	}
-
-//	@FXML
-//	private void setRightFontSlider() {
-//		try {
-//			double input = Double.parseDouble(this.rightFontTextField.getText());
-//			if(input > 25) {
-//				input = 25;
-//			}
-//			else if(input < 11) {
-//				input = 11;
-//			}
-//			this.rightFontSlider.setValue(input);
-//			//Fix the width of the textfield
-//			for(TextField tf: tfLocations.keySet()) {
-//				if(tfLocations.get(tf).equals(Location.RIGHT)) {
-//					tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
-//				}
-//			}
-//			
-//		}
-//		catch(NumberFormatException ne) {
-//			Alert alert1 = new Alert(AlertType.WARNING);
-//			alert1.setTitle("Warning Dialog");
-//			alert1.setHeaderText("Invalid Number");
-//			alert1.setContentText("Please Enter A Valid Number in the range [11,25]");
-//			alert1.showAndWait();
-//		}
-//	}
-//	
-//	@FXML
-//	private void setLeftFontSlider() {
-//		try {
-//			double input = Double.parseDouble(this.leftFontTextField.getText());
-//			if(input > 25) {
-//				input = 25;
-//			}
-//			else if(input < 11) {
-//				input = 11;
-//			}
-//			this.leftFontSlider.setValue(input);
-//			//Fix the width of the textfield
-//			for(TextField tf: tfLocations.keySet()) {
-//				if(tfLocations.get(tf).equals(Location.LEFT)) {
-//					tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
-//				}
-//			}
-//		}
-//		catch(Exception ne) {
-//			Alert alert1 = new Alert(AlertType.WARNING);
-//			alert1.setTitle("Warning Dialog");
-//			alert1.setHeaderText("Invalid Number");
-//			alert1.setContentText("Please Enter A Valid Number in the range [11,25]");
-//			alert1.showAndWait();
-//		}
-//	}
 
 	@FXML
 	protected void changeLeftTextColor() {
@@ -1975,10 +1671,10 @@ public class ShapeSceneController implements Initializable {
 
 		// ----TextField extraTitle starting to be added
 		extraTitle = new TextField();
-		extraTitle.setLayoutX(1000);
+		extraTitle.setLayoutX(1050);
 		extraTitle.setLayoutY(751);
 		extraTitle.setStyle("-fx-font-size:20px;-fx-background-color: transparent;");
-		extraTitle.setPromptText("Diagram #3's Name");
+		extraTitle.setPromptText("Diagram #3");
 		extraTitle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			Command a = new EditTextCommand(this, extraTitle, extraTitle.getText());
 			undoRedoManager.addCommand(a);
@@ -2008,15 +1704,12 @@ public class ShapeSceneController implements Initializable {
 		this.extra1Color.setMaxWidth(137);
 
 		EditCircleColorCommand editCircleColorCommand = new EditCircleColorCommand(this);
-		extra1Color.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				editCircleColorCommand.setCircle(extraCircle);
-				editCircleColorCommand.setNewColor(extra1Color.getValue());
-				editCircleColorCommand.setOldColor(extraCircle.getFill());
-				undoRedoManager.addCommand(editCircleColorCommand);
-				editCircleColorCommand.execute();
-			}
+		extra1Color.setOnAction(e -> {
+			editCircleColorCommand.setCircle(extraCircle);
+			editCircleColorCommand.setNewColor(extra1Color.getValue());
+			editCircleColorCommand.setOldColor(extraCircle.getFill());
+			undoRedoManager.addCommand(editCircleColorCommand);
+			editCircleColorCommand.execute();
 		});
 
 		this.scrollBox.getChildren().add(this.extra1Color);
@@ -2061,49 +1754,30 @@ public class ShapeSceneController implements Initializable {
 
 		setCircleHover(DEFAULT_EXTRA_HOVER_COLOR, extraCircle);
 		EditHoverColorCommand editHoverColorCommand = new EditHoverColorCommand(this);
-		extra1ColorHover.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				String oldHover = extraHover;
-				String newHover = "#" + extra1ColorHover.getValue().toString().substring(2,
-						extra1ColorHover.getValue().toString().length() - 2);
-				editHoverColorCommand.setCircle(extraCircle);
-				editHoverColorCommand.setOldColor(oldHover);
-				editHoverColorCommand.setNewColor(newHover);
-				undoRedoManager.addCommand(editHoverColorCommand);
-				editHoverColorCommand.execute();
+		extra1ColorHover.setOnAction(e -> {
+			String oldHover = extraHover;
+			String newHover = "#" + extra1ColorHover.getValue().toString().substring(2,
+					extra1ColorHover.getValue().toString().length() - 2);
+			editHoverColorCommand.setCircle(extraCircle);
+			editHoverColorCommand.setOldColor(oldHover);
+			editHoverColorCommand.setNewColor(newHover);
+			undoRedoManager.addCommand(editHoverColorCommand);
+			editHoverColorCommand.execute();
+		});
+
+		extraCircle.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
+			if (ShapeSceneController.EXTRA_CIRCLE_HOVER) {
+				extraCircle.setStyle("-fx-stroke:" + extraHover + ";" + " -fx-stroke-width: 5;");
+
+				mainScene.setCursor(Cursor.HAND);
 			}
 		});
 
-		extraCircle.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				if (ShapeSceneController.EXTRA_CIRCLE_HOVER) {
-					extraCircle.setStyle("-fx-stroke:" + extraHover + ";" + " -fx-stroke-width: 5;");
+		extraCircle.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
+			extraCircle.setStyle("-fx-stroke:black;");
 
-					mainScene.setCursor(Cursor.HAND);
-				}
-			}
+			mainScene.setCursor(Cursor.DEFAULT);
 		});
-
-		extraCircle.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				extraCircle.setStyle("-fx-stroke:black;");
-
-				mainScene.setCursor(Cursor.DEFAULT);
-			}
-		});
-
-//			extra1Slider.valueProperty().addListener(new ChangeListener<Number>() {
-//
-//				@Override
-//				public void changed(ObservableValue<? extends Number> observable, //
-//						Number oldValue, Number newValue) {
-//
-//					extraCircle.setRadius((double) newValue);
-//				}
-//			});
 
 		extra1Slider.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			extraCircleSize = extraCircle.getRadius();
@@ -2117,14 +1791,9 @@ public class ShapeSceneController implements Initializable {
 
 		});
 
-		extra1Slider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-			circleSliderAction(extraCircle);
+		extra1Slider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> circleSliderAction(extraCircle));
 
-		});
-
-		extra1Slider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-			extraCircleSize = extraCircle.getRadius();
-		});
+		extra1Slider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> extraCircleSize = extraCircle.getRadius());
 
 		this.scrollBox.getChildren().add(this.extra1ColorHover);
 		VBox.setMargin(this.extra1ColorHover, new Insets(10, 0, 0, 50));
@@ -2174,26 +1843,6 @@ public class ShapeSceneController implements Initializable {
 		extraFontSlider.setValue(extraFontSlider.getMax());
 		extraTextSize = extraFontSlider.getValue();
 
-//		extraFontSlider.valueProperty().addListener(new ChangeListener<Number>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observable, //
-//					Number oldValue, Number newValue) {
-//
-//				// rightFontTextField.setText(((double) newValue) + "");
-//				for (TextField tf : tfLocations.keySet()) {
-//					if (tfLocations.get(tf).equals(Location.BOTTOM)) {
-//						int newFont = ((int) Math.round((double) newValue));
-//						String font = "" + newFont;
-//						tf.setStyle("-fx-font-size:" + font + "px;-fx-background-color:transparent;");
-//						tf.setMinWidth(Control.USE_PREF_SIZE);
-//						tf.setPrefWidth(Control.USE_COMPUTED_SIZE);
-//						tf.setMaxWidth(Control.USE_PREF_SIZE);
-//					}
-//				}
-//			}
-//		});
-
 		extraFontSlider.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			extraTextSize = getTextSize(Location.BOTTOM);
 			if (e.getX() != extra1Slider.getValue()) {
@@ -2201,12 +1850,8 @@ public class ShapeSceneController implements Initializable {
 			}
 			extraTextSize = getTextSize(Location.BOTTOM);
 		});
-		extraFontSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> {
-			fontSliderAction(Location.BOTTOM);
-		});
-		extraFontSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> {
-			extraTextSize = getTextSize(Location.BOTTOM);
-		});
+		extraFontSlider.addEventHandler(MouseEvent.MOUSE_DRAGGED, e -> fontSliderAction(Location.BOTTOM));
+		extraFontSlider.addEventHandler(MouseEvent.MOUSE_RELEASED, e -> extraTextSize = getTextSize(Location.BOTTOM));
 
 		this.sliderBox.getChildren().add(this.extraFontSlider);
 		HBox.setMargin(this.extraFontSlider, new Insets(5, 0, 0, 50));
@@ -2225,12 +1870,7 @@ public class ShapeSceneController implements Initializable {
 		this.extraTextColorPicker.setMaxHeight(28);
 		this.extraTextColorPicker.setMaxWidth(137);
 		this.extraTextColorPicker.setValue(Color.valueOf(DEFAULT_EXTRATEXT_COLOR)); // Which is black as well
-		extraTextColorPicker.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				changeExtraTextColor();
-			}
-		});
+		extraTextColorPicker.setOnAction(e -> changeExtraTextColor());
 		this.scrollBox.getChildren().add(this.extraTextColorPicker);
 		VBox.setMargin(this.extraTextColorPicker, new Insets(10, 0, 0, 50));
 		// ----Color picker done being added
@@ -2356,48 +1996,6 @@ public class ShapeSceneController implements Initializable {
 				changesMade();
 				mainApp.switchScene("load", selectedFile);
 			}
-		} else {
-			return;
-		}
-	}
-
-	public void openUserManual() {
-		String currentDir = System.getProperty("user.dir");
-		try {
-			File userManual = new File(currentDir + "\\src\\main\\java\\resources\\Venn-UM.pdf");
-			if (userManual.exists()) {
-				if (Desktop.isDesktopSupported()) {
-					try {
-						Desktop.getDesktop().open(userManual);
-					} catch (IOException e) {
-						Alert alert = new Alert(AlertType.WARNING);
-						alert.setTitle("Warning Dialog");
-						alert.setHeaderText("An Error Occurred");
-						alert.setContentText("User Manual could not be opened.");
-						alert.showAndWait();
-
-					}
-				} else {
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Warning Dialog");
-					alert.setHeaderText("An Error Occurred");
-					alert.setContentText("Desktop is Not Supported!");
-					alert.showAndWait();
-				}
-			} else {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Warning Dialog");
-				alert.setHeaderText("An Error Occurred");
-				alert.setContentText("User Manual Does not Exist!");
-				alert.showAndWait();
-			}
-		} catch (Exception e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Warning Dialog");
-			alert.setHeaderText("An Error Occurred");
-			alert.setContentText("User Manual could not be opened.");
-			alert.showAndWait();
-
 		}
 	}
 
@@ -2416,8 +2014,6 @@ public class ShapeSceneController implements Initializable {
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == yes) {
 			mainApp.switchScene("testMode", null); // null should be a file
-		} else {
-			return;
 		}
 	}
 
@@ -2493,9 +2089,28 @@ public class ShapeSceneController implements Initializable {
 	}
 
 	public void setText(TextField textField, String newText) {
-		// TODO Auto-generated method stub
 		textField.setText(newText);
+	}
 
+	@FXML
+	public void goToUserManual() {
+		if (Desktop.isDesktopSupported()) {
+			try {
+				Desktop.getDesktop().browse(new URI("https://github.com/MaxsLi/VennCreate/blob/master/Documents/Venn-UM.pdf"));
+			} catch (IOException e1) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Warning Dialog");
+				alert.setHeaderText("An Error Occurred");
+				alert.setContentText("User Manual could not be opened.");
+				alert.showAndWait();
+			} catch (URISyntaxException e1) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Warning Dialog");
+				alert.setHeaderText("An Error Occurred");
+				alert.setContentText("User Manual could not be opened.");
+				alert.showAndWait();
+			}
+		}
 	}
 
 }

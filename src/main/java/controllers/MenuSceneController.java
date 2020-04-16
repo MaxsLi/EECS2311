@@ -45,7 +45,6 @@ public class MenuSceneController implements Initializable {
 	 */
 
 	public MenuSceneController() {
-		// this.setMainApp(mainApp);
 
 	}
 
@@ -55,16 +54,8 @@ public class MenuSceneController implements Initializable {
 		mainApp.switchScene("shapeScene", null); //null should be a file
 	}
 
-//	@FXML
-//	private void loadLast() throws IOException {
-//
-//		mainApp.switchScene("load");
-//
-//	}
-
-
 	@FXML
-	private void getExisting(ActionEvent event) throws IOException {
+	private void getExisting() throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
 
@@ -181,7 +172,6 @@ public class MenuSceneController implements Initializable {
 	 */
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
-
 	}
 
 }

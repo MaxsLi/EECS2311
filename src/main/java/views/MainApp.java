@@ -178,6 +178,10 @@ public class MainApp extends Application {
 		return this.shapeSceneCont;
 	}
 
+	public ShapeSceneController getTestModeController() {
+		return this.testModeCont;
+	}
+
 	public MenuSceneController getMenuSceneCont() {
 		return this.menuSceneCont;
 	}

@@ -1,153 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.TextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ColorPicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="791.0" prefWidth="353.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ShapeSceneController ">
-   <children>
-      <Label alignment="TOP_CENTER" prefHeight="32.0" prefWidth="222.0" style="-fx-font-size: 20;" text="VennCreate Nav Bar" />
-      <HBox prefHeight="44.0" prefWidth="353.0">
-         <children>
-            <TextField maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="43.0" prefWidth="250.0">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin></TextField>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="44.0" prefWidth="80.0" text="Add">
-               <HBox.margin>
-                  <Insets left="10.0" />
-               </HBox.margin></Button>
-         </children>
-      </HBox>
-      <ListView prefHeight="249.0" prefWidth="353.0" />
-      <HBox prefHeight="48.0" prefWidth="353.0">
-         <children>
-            <ButtonBar prefHeight="48.0" prefWidth="304.0">
-              <buttons>
-                <Button mnemonicParsing="false" text="Button" />
-                  <Button mnemonicParsing="false" text="Button" />
-                  <Button minWidth="29.0" mnemonicParsing="false" prefHeight="32.0" text="Button" />
-              </buttons>
-            </ButtonBar>
-         </children>
-      </HBox>
-      <TitledPane animated="false" text="Appearance">
-         <content>
-            <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" pannable="true" prefHeight="201.0" prefWidth="351.0">
-               <content>
-                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="336.0">
-                     <children>
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="89.0" style="-fx-font-size: 15;" text="Main Scene">
-                           <VBox.margin>
-                              <Insets left="30.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Background Color">
-                           <VBox.margin>
-                              <Insets left="50.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <ColorPicker maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
-                           <VBox.margin>
-                              <Insets left="50.0" top="10.0" />
-                           </VBox.margin>
-                        </ColorPicker>
-                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Title Text Color">
-                           <VBox.margin>
-                              <Insets left="50.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <ColorPicker maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
-                           <VBox.margin>
-                              <Insets left="50.0" top="10.0" />
-                           </VBox.margin>
-                        </ColorPicker>
-                        <Separator prefWidth="200.0">
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Separator>
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="89.0" style="-fx-font-size: 15;" text="Left Circle">
-                           <VBox.margin>
-                              <Insets left="30.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Circle Color">
-                           <VBox.margin>
-                              <Insets left="50.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <ColorPicker maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
-                           <VBox.margin>
-                              <Insets left="50.0" top="10.0" />
-                           </VBox.margin>
-                        </ColorPicker>
-                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Circle Size">
-                           <VBox.margin>
-                              <Insets left="50.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Slider maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="178.0">
-                           <VBox.margin>
-                              <Insets left="50.0" top="5.0" />
-                           </VBox.margin>
-                        </Slider>
-                        <Separator prefWidth="200.0">
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Separator>
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="89.0" style="-fx-font-size: 15;" text="Right Circle">
-                           <VBox.margin>
-                              <Insets left="30.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Circle Color">
-                           <VBox.margin>
-                              <Insets left="50.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <ColorPicker maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
-                           <VBox.margin>
-                              <Insets left="50.0" top="10.0" />
-                           </VBox.margin>
-                        </ColorPicker>
-                        <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0" style="-fx-font-size: 12;" text="Circle Size">
-                           <VBox.margin>
-                              <Insets left="50.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Slider maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="178.0">
-                           <VBox.margin>
-                              <Insets left="50.0" top="5.0" />
-                           </VBox.margin>
-                        </Slider>
-                     </children>
-                  </VBox>
-               </content>
-            </ScrollPane>
-         </content>
-      </TitledPane>
-      <Label style="-fx-font-size: 20;" text="Quick Actions" />
-      <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="353.0">
-         <children>
-            <ButtonBar prefHeight="50.0" prefWidth="178.0">
-              <buttons>
-                  <Button mnemonicParsing="false" text="Load" />
-                <Button minWidth="0.0" mnemonicParsing="false" prefHeight="32.0" text="Save" />
-              </buttons>
-            </ButtonBar>
-         </children>
-      </HBox>
-   </children>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="791.0" prefWidth="353.0" spacing="10.0"
+      xmlns="http://javafx.com/javafx/8.0.171" fx:controller="controllers.ShapeSceneController ">
+    <children>
+        <Label alignment="TOP_CENTER" prefHeight="32.0" prefWidth="222.0" style="-fx-font-size: 20;"
+               text="VennCreate Nav Bar"/>
+        <HBox prefHeight="44.0" prefWidth="353.0">
+            <children>
+                <TextField maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="43.0" prefWidth="250.0">
+                    <HBox.margin>
+                        <Insets left="10.0"/>
+                    </HBox.margin>
+                </TextField>
+                <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="44.0"
+                        prefWidth="80.0" text="Add">
+                    <HBox.margin>
+                        <Insets left="10.0"/>
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+        <ListView prefHeight="249.0" prefWidth="353.0"/>
+        <HBox prefHeight="48.0" prefWidth="353.0">
+            <children>
+                <ButtonBar prefHeight="48.0" prefWidth="304.0">
+                    <buttons>
+                        <Button mnemonicParsing="false" text="Button"/>
+                        <Button mnemonicParsing="false" text="Button"/>
+                        <Button minWidth="29.0" mnemonicParsing="false" prefHeight="32.0" text="Button"/>
+                    </buttons>
+                </ButtonBar>
+            </children>
+        </HBox>
+        <TitledPane animated="false" text="Appearance">
+            <content>
+                <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity"
+                            pannable="true" prefHeight="201.0" prefWidth="351.0">
+                    <content>
+                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="473.0"
+                              prefWidth="336.0">
+                            <children>
+                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="89.0" style="-fx-font-size: 15;"
+                                       text="Main Scene">
+                                    <VBox.margin>
+                                        <Insets left="30.0" top="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0"
+                                       style="-fx-font-size: 12;" text="Background Color">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <ColorPicker maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                             minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="10.0"/>
+                                    </VBox.margin>
+                                </ColorPicker>
+                                <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0"
+                                       style="-fx-font-size: 12;" text="Title Text Color">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <ColorPicker maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                             minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="10.0"/>
+                                    </VBox.margin>
+                                </ColorPicker>
+                                <Separator prefWidth="200.0">
+                                    <VBox.margin>
+                                        <Insets top="10.0"/>
+                                    </VBox.margin>
+                                </Separator>
+                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="89.0" style="-fx-font-size: 15;"
+                                       text="Left Circle">
+                                    <VBox.margin>
+                                        <Insets left="30.0" top="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0"
+                                       style="-fx-font-size: 12;" text="Circle Color">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <ColorPicker maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                             minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="10.0"/>
+                                    </VBox.margin>
+                                </ColorPicker>
+                                <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0"
+                                       style="-fx-font-size: 12;" text="Circle Size">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <Slider maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="178.0">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="5.0"/>
+                                    </VBox.margin>
+                                </Slider>
+                                <Separator prefWidth="200.0">
+                                    <VBox.margin>
+                                        <Insets top="10.0"/>
+                                    </VBox.margin>
+                                </Separator>
+                                <Label alignment="CENTER" prefHeight="18.0" prefWidth="89.0" style="-fx-font-size: 15;"
+                                       text="Right Circle">
+                                    <VBox.margin>
+                                        <Insets left="30.0" top="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0"
+                                       style="-fx-font-size: 12;" text="Circle Color">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <ColorPicker maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                             minWidth="-Infinity" prefHeight="28.0" prefWidth="137.0">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="10.0"/>
+                                    </VBox.margin>
+                                </ColorPicker>
+                                <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="123.0"
+                                       style="-fx-font-size: 12;" text="Circle Size">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <Slider maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="24.0" prefWidth="178.0">
+                                    <VBox.margin>
+                                        <Insets left="50.0" top="5.0"/>
+                                    </VBox.margin>
+                                </Slider>
+                            </children>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </content>
+        </TitledPane>
+        <Label style="-fx-font-size: 20;" text="Quick Actions"/>
+        <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="353.0">
+            <children>
+                <ButtonBar prefHeight="50.0" prefWidth="178.0">
+                    <buttons>
+                        <Button mnemonicParsing="false" text="Load"/>
+                        <Button minWidth="0.0" mnemonicParsing="false" prefHeight="32.0" text="Save"/>
+                    </buttons>
+                </ButtonBar>
+            </children>
+        </HBox>
+    </children>
 </VBox>

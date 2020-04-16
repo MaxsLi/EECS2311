@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<?import javafx.scene.control.Menu ?>
-<?import javafx.scene.control.MenuBar ?>
-<?import javafx.scene.control.MenuItem ?>
-<?import javafx.scene.control.SeparatorMenuItem ?>
-
-<MenuBar xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MenuBarController">
-  <Menu fx:id="file" mnemonicParsing="false" text="File">
-    <MenuItem fx:id="createNewVenn" mnemonicParsing="false" onAction="#createNew" text="New" />
-    <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openExisting" text="Open..." />
-    <MenuItem mnemonicParsing="false" onAction="#saveProgram" text="Save" />
-    <SeparatorMenuItem mnemonicParsing="false" />
-    <Menu mnemonicParsing="false" text="Export As...">
-      <items>
-        <MenuItem mnemonicParsing="false" text="JPG" />
-        <MenuItem mnemonicParsing="false" text="PNG" />
-      </items>
+<?import javafx.scene.control.*?>
+<MenuBar xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171"
+         fx:controller="controllers.MenuBarController">
+    <Menu fx:id="file" mnemonicParsing="false" text="File">
+        <MenuItem fx:id="createNewVenn" mnemonicParsing="false" onAction="#createNew" text="New"/>
+        <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openExisting" text="Open..."/>
+        <MenuItem mnemonicParsing="false" onAction="#saveProgram" text="Save"/>
+        <SeparatorMenuItem mnemonicParsing="false"/>
+        <Menu mnemonicParsing="false" text="Export As...">
+            <items>
+                <MenuItem mnemonicParsing="false" text="JPG"/>
+                <MenuItem mnemonicParsing="false" text="PNG"/>
+            </items>
+        </Menu>
     </Menu>
-  </Menu>
-  <Menu mnemonicParsing="false" text="Edit">
-    <items>
-      <MenuItem mnemonicParsing="false" fx:id="undoBtn" text="Undo" />
-      <MenuItem mnemonicParsing="false" fx:id="redoBtn" text="Redo" />
-      <SeparatorMenuItem mnemonicParsing="false" />
-      <MenuItem mnemonicParsing="false" text="Select All" />
-      <MenuItem mnemonicParsing="false" text="Delete Selected Item(s)" />
-    </items>
-  </Menu>
-  <Menu mnemonicParsing="false" text="Insert">
-    <MenuItem fx:id="addCircleMenuItem" mnemonicParsing="false" onAction="#addCircle" text="Add Circle" />
-  </Menu>
-  <Menu mnemonicParsing="false" text="Help">
-    <MenuItem mnemonicParsing="false" text="About" />
-  </Menu>
+    <Menu mnemonicParsing="false" text="Edit">
+        <items>
+            <MenuItem mnemonicParsing="false" fx:id="undoBtn" text="Undo"/>
+            <MenuItem mnemonicParsing="false" fx:id="redoBtn" text="Redo"/>
+            <SeparatorMenuItem mnemonicParsing="false"/>
+            <MenuItem mnemonicParsing="false" text="Select All"/>
+            <MenuItem mnemonicParsing="false" text="Delete Selected Item(s)"/>
+        </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Insert">
+        <MenuItem fx:id="addCircleMenuItem" mnemonicParsing="false" onAction="#addCircle" text="Add Circle"/>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Help">
+        <MenuItem mnemonicParsing="false" text="About"/>
+    </Menu>
 </MenuBar>

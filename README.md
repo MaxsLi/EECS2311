@@ -6,7 +6,7 @@
 A desktop app that can draw customizable [Venn diagrams](https://en.wikipedia.org/wiki/Venn_diagram).
 
 ## Getting Started
-Follow the installation intructions below, when installed and on the home page as shown above, click `Create New` to start a new VennCreate Project.
+Follow the installation instructions below, when installed and on the home page as shown above, click `Create New` to start a new VennCreate Project.
 
 ### Retrieve an Existing Project
 On the home menu showed above, click "Get Existing". Your file explorer will then be opened and you may search for an existing venn diagram.
@@ -17,19 +17,16 @@ On the home menu showed above, click "Get Existing". Your file explorer will the
     * [[java]](/src/main/java)
       * [[controllers]](/src/main/java/controllers)
       * [[models]](/src/main/java/models)
-      * [[utilities]](/src/main/java/utilities)
       * [[views]](/src/main/java/views)
     * [[resources]](/src/main/resources)
   * [[src/test]](/src/test)
     * [[java]](/src/test/java)
       * [[tests]](/src/test/java/tests)
-* [[docs]](/docs)
-  * [[Venn-RD]](/docs/Venn-RD)
-    * [Venn-RD.pdf](/docs/Venn-RD/Venn-RD.pdf)
-  * [Venn-TD.pdf](/docs/Venn-TD.pdf)
-  * [[Venn-UM]](/docs/Venn-UM)
-    * [Venn-UM.pdf](/docs/Venn-UM/Venn-UM.pdf)
-  * [ideas.md](/docs/ideas.md)
+* [[Documents]](/Documents)
+  * [Venn-DD.pdf](/Documents/Venn-DD.pdf)
+  * [Venn-RD.pdf](/Documents/Venn-RD.pdf)
+  * [Venn-TD.pdf](/Documents/Venn-TD.pdf)
+  * [Venn-UM.pdf](/Documents/Venn-UM.pdf)
 
 ## User Interface
 ```
@@ -37,11 +34,11 @@ MainFrame
 ┌─────────────────────────────────────┐
 │               MenuBar               │
 ├─────────────────────────────────────┤
-│                                     │
-│                                     │
-│              shapeScence            │
-│                                     │
-│                                     │
+│        │                            │
+│        │                            │
+│ NavBar │       shapeScence          │
+│        │                            │
+│        │                            │
 └─────────────────────────────────────┘
 ```
 ## Design Pattern
@@ -60,17 +57,18 @@ MainFrame
 
 ## Installation
 
-Please find the latest release in [here](https://github.com/MaxsLi/EECS2311/releases).
+Please find the latest release in [here](https://github.com/MaxsLi/VennCreate/releases).
 
-To run, either double click or use command line `java -jar ./VennCreate.jar`.
+To run, either double-click or use command line `java -jar ./VennCreate.jar`.
 
 ## Documents
 
-* [Requirements Document](/docs/Venn-RD/Venn-RD.pdf)
-* [User Manual](/docs/Venn-UM/Venn-UM.pdf)
-* [Testing Document](/docs/Venn-TD.pdf)
+* [Design Document](/Documents/Venn-DD.pdf)
+* [Requirements Document](/Documents/Venn-RD.pdf)
+* [Testing Document](/Documents/Venn-TD.pdf)
+* [User Manual](/Documents/Venn-UM.pdf)
 
-## Group Memebers
+## Group Members
 * Chidalu Agbakwa (216337784)
 * Shangru Li (214488993)
 * Jihal Patel (216376436)
