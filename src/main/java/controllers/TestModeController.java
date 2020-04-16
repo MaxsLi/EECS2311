@@ -26,6 +26,7 @@ import javafx.util.Duration;
 import models.Location;
 import models.VennSet;
 import models.VennShape;
+import models.commands.AddCommand;
 import models.commands.Command;
 import models.commands.EditCircleColorCommand;
 import models.commands.EditHoverColorCommand;
@@ -425,6 +426,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 
 	public void addTextToDiagram(String text) {
+		TextField newTextField;
 
 		if ((text.isEmpty() || text.trim().equals(""))) {
 
@@ -447,16 +449,33 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 		} else {
 			String newText = text;
+			/*
+			 * In Text fields only the first 20 or so characters are visible to the user
+			 * Everything after the 20th character is invisible, so store the first 18
+			 * characters and append "..." to it. Make the whole text avalible as a longer
+			 * description aka ToolTip
+			 */
+			String first18;
 			if (newText.charAt(newText.length() - 1) == ',') {
 				newText = newText.substring(0, newText.length() - 1);
 			}
+			if (newText.length() > 20) {
+				first18 = newText.substring(0, 19);
+				first18 += "...";
+				Tooltip tt = new Tooltip(newText);
+				newTextField = new TextField(first18);
+				
+				Tooltip.install(newTextField, tt);
 
-			TextField newTextField = new TextField();
+			} else {
+				 newTextField = new TextField(newText);
+			}
+
 
 			newTextField.setEditable(false);
 			newTextField.setTranslateX(textFieldPointLocations[textFieldPointLocationsIndex].getX());
 			newTextField.setTranslateY(textFieldPointLocations[textFieldPointLocationsIndex].getY());
-
+			
 			adjustNewTextLocation();
 
 			newTextField.setStyle("-fx-background-color:transparent; -fx-font-size:18px; ");
