@@ -62,10 +62,10 @@ To run, either double-click or use command line `java -jar ./VennCreate.jar`.
 
 ## Documents
 
-* [Design Document.pdf](/Documents/Venn-DD.pdf)
-* [Requirements Document.pdf](/Documents/Venn-RD.pdf)
-* [Testing Document.pdf](/Documents/Venn-TD.pdf)
-* [User Manual.pdf](/Documents/Venn-UM.pdf)
+* [Design Document](/Documents/Venn-DD.pdf)
+* [Requirements Document](/Documents/Venn-RD.pdf)
+* [Testing Document](/Documents/Venn-TD.pdf)
+* [User Manual](/Documents/Venn-UM.pdf)
 
 ## Group Members
 * Chidalu Agbakwa (216337784)
