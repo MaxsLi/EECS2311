@@ -1975,10 +1975,10 @@ public class ShapeSceneController implements Initializable {
 
 		// ----TextField extraTitle starting to be added
 		extraTitle = new TextField();
-		extraTitle.setLayoutX(1000);
+		extraTitle.setLayoutX(1050);
 		extraTitle.setLayoutY(751);
 		extraTitle.setStyle("-fx-font-size:20px;-fx-background-color: transparent;");
-		extraTitle.setPromptText("Diagram #3's Name");
+		extraTitle.setPromptText("Diagram #3");
 		extraTitle.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			Command a = new EditTextCommand(this, extraTitle, extraTitle.getText());
 			undoRedoManager.addCommand(a);

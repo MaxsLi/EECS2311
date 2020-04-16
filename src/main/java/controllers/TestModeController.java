@@ -355,6 +355,10 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		for (int i = 0; i < this.vennSet.size(); i++) {
 			if (this.correctLocation.get(this.vennSet.get(i).getText()) == super.tfLocations.get(this.vennSet.get(i))) { //if this textfield is in same location as it was in the .txt file score++
 				score++;
+				this.vennSet.get(i).setStyle("-fx-border-color:green; -fx-border-width:5; -fx-background-color:transparent");
+			}
+			else {
+				this.vennSet.get(i).setStyle("-fx-border-color:red; -fx-border-width: 5; -fx-background-color:transparent");
 			}
 		}
 
