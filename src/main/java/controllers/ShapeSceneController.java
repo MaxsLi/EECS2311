@@ -40,6 +40,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -2361,46 +2363,6 @@ public class ShapeSceneController implements Initializable {
 		}
 	}
 
-	public void openUserManual() {
-		String currentDir = System.getProperty("user.dir");
-		try {
-			File userManual = new File(currentDir + "\\src\\main\\java\\resources\\Venn-UM.pdf");
-			if (userManual.exists()) {
-				if (Desktop.isDesktopSupported()) {
-					try {
-						Desktop.getDesktop().open(userManual);
-					} catch (IOException e) {
-						Alert alert = new Alert(AlertType.WARNING);
-						alert.setTitle("Warning Dialog");
-						alert.setHeaderText("An Error Occurred");
-						alert.setContentText("User Manual could not be opened.");
-						alert.showAndWait();
-
-					}
-				} else {
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle("Warning Dialog");
-					alert.setHeaderText("An Error Occurred");
-					alert.setContentText("Desktop is Not Supported!");
-					alert.showAndWait();
-				}
-			} else {
-				Alert alert = new Alert(AlertType.WARNING);
-				alert.setTitle("Warning Dialog");
-				alert.setHeaderText("An Error Occurred");
-				alert.setContentText("User Manual Does not Exist!");
-				alert.showAndWait();
-			}
-		} catch (Exception e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Warning Dialog");
-			alert.setHeaderText("An Error Occurred");
-			alert.setContentText("User Manual could not be opened.");
-			alert.showAndWait();
-
-		}
-	}
-
 	@FXML
 	private void goTestMode() throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -2496,6 +2458,28 @@ public class ShapeSceneController implements Initializable {
 		// TODO Auto-generated method stub
 		textField.setText(newText);
 
+	}
+	
+	@FXML
+	public void goToUserManual() {
+		  if(Desktop.isDesktopSupported())
+		    {
+		        try {
+		            Desktop.getDesktop().browse(new URI("https://github.com/MaxsLi/VennCreate/blob/Chidalu-Branch/Documents/Venn-UM.pdf"));
+		        } catch (IOException e1) {
+		        	Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle("Warning Dialog");
+					alert.setHeaderText("An Error Occurred");
+					alert.setContentText("User Manual could not be opened.");
+					alert.showAndWait();
+		        } catch (URISyntaxException e1) {
+		        	Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle("Warning Dialog");
+					alert.setHeaderText("An Error Occurred");
+					alert.setContentText("User Manual could not be opened.");
+					alert.showAndWait();
+		        }
+		    }
 	}
 
 }
