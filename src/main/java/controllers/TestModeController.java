@@ -3,21 +3,14 @@ package controllers;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -26,11 +19,6 @@ import javafx.util.Duration;
 import models.Location;
 import models.VennSet;
 import models.VennShape;
-import models.commands.AddCommand;
-import models.commands.Command;
-import models.commands.EditCircleColorCommand;
-import models.commands.EditHoverColorCommand;
-import models.commands.EditTextCommand;
 import views.MainApp;
 
 import java.io.*;
@@ -48,7 +36,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	public static final String INTERSECTING_RIGHT_BOTTOM = "right+bottom";
 	public static final int NO_ELEMENTS_IMPORTED = 0;
 	public static boolean TEST_HAS_STARTED = false;
-	Map<String, Location> correctLocation = new HashMap<>();
+	public Map<String, Location> correctLocation = new HashMap<>();
 	public ArrayList<String> elements = new ArrayList<>();
 	@FXML
 	Text text;
@@ -59,7 +47,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	private Button importTxtBttn;
 	@FXML
 	private ToggleButton toggleTimeBttn;
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ShapeSceneController.APPLICATION_IS_SAVED = true; //So it wont ask us to save testModeController if the user closes the window
@@ -77,18 +65,8 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		text.setVisible(false);
 		TEST_HAS_STARTED = false;
 		toggle.setDisable(true);
-		//super.initSliders();
-		//super.initColorPickers();
-
 	}
 
-//	private void goShapeScene() throws IOException {
-//
-//		FXMLLoader loader = new FXMLLoader();
-//		loader.setLocation(getClass().getResource("/fxml/shapeScene.fxml"));
-//
-//		MainApp.primaryStage.setScene(new Scene(loader.load()));
-//	}
 
 	@FXML
 	private void importTxt() {
@@ -143,7 +121,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 					if (lineCount == 0) {
 						numOfCircles = getCircleNumber(st);
 						if (numOfCircles == 0) { // Number of circles could not be read
-							String message = "The Number of Cirlces on the first line of the TXT file was wrongly specified."
+							String message = "The Number of circle on the first line of the TXT file was wrongly specified."
 									+ "\n" + "It should be either 2, or 3.";
 							throwImproperFormatting(message);
 							return TestModeController.NO_ELEMENTS_IMPORTED;
@@ -152,7 +130,6 @@ public class TestModeController extends ShapeSceneController implements Initiali
 						} else if (numOfCircles == 3) {
 							addCircle();
 						}
-
 					} else if (lineCount == 1) {
 						appTitle.setText(st);
 					} else if (lineCount == 2) {
@@ -164,16 +141,16 @@ public class TestModeController extends ShapeSceneController implements Initiali
 					} else {    // lineCount > 4
 						String[] parts = st.split(",");
 						if (checkLine(parts)) {
-							if (assignLocation(parts[0], parts[1]) == true) {
+							if (assignLocation(parts[0], parts[1])) {
 								elementsImported++;
 							} else {
-								throwImproperFormatting("An error occurend in reading line: " + lineCount
+								throwImproperFormatting("An error occurred in reading line: " + lineCount
 										+ "of your .txt file,"
 										+ " plese reffer to the VennCreate user manual to see how to address this issue.");
 								return TestModeController.NO_ELEMENTS_IMPORTED;
 							}
 						} else {
-							throwImproperFormatting("An error occurend in reading line: " + lineCount
+							throwImproperFormatting("An error occurred in reading line: " + lineCount
 									+ "of your .txt file,"
 									+ " plese occur to the VennCreate user manual to see how to address this issue.");
 							return TestModeController.NO_ELEMENTS_IMPORTED;
@@ -187,7 +164,6 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return elementsImported;
@@ -208,38 +184,38 @@ public class TestModeController extends ShapeSceneController implements Initiali
 	 * @return true if hashmap successfully assigned an element, false otherwise
 	 */
 	public boolean assignLocation(String text, String location) {
-		if (location.trim().equals(LEFT)) {
-			correctLocation.put(text.trim(), Location.LEFT);
-			elements.add(text.trim());
-			return true;
-		} else if (location.trim().equals(RIGHT)) {
-			correctLocation.put(text.trim(), Location.RIGHT);
-			elements.add(text.trim());
-			return true;
-		} else if (location.trim().equals(BOTTOM)) {
-			correctLocation.put(text.trim(), Location.BOTTOM);
-			elements.add(text.trim());
-			return true;
-		} else if (location.trim().equals(INTERSECTING_3)) {
-			correctLocation.put(text.trim(), Location.INTERSECTING_ALL);
-			elements.add(text.trim());
-			return true;
-		} else if (location.trim().equals(INTERSECTING_LEFT_RIGHT)) {
-			correctLocation.put(text.trim(), Location.INTERSECTING_LEFT_RIGHT);
-			elements.add(text.trim());
-			return true;
-		} else if (location.trim().equals(INTERSECTING_LEFT_BOTTOM)) {
-			correctLocation.put(text.trim(), Location.INTERSECTING_BOTTOM_LEFT);
-			elements.add(text.trim());
-			return true;
-		} else if (location.trim().equals(INTERSECTING_RIGHT_BOTTOM)) {
-			correctLocation.put(text.trim(), Location.INTERSECTING_BOTTOM_RIGHT);
-			elements.add(text.trim());
-			return true;
-		} else {
-			return false;
+		switch (location.trim()) {
+			case LEFT:
+				correctLocation.put(text.trim(), Location.LEFT);
+				elements.add(text.trim());
+				return true;
+			case RIGHT:
+				correctLocation.put(text.trim(), Location.RIGHT);
+				elements.add(text.trim());
+				return true;
+			case BOTTOM:
+				correctLocation.put(text.trim(), Location.BOTTOM);
+				elements.add(text.trim());
+				return true;
+			case INTERSECTING_3:
+				correctLocation.put(text.trim(), Location.INTERSECTING_ALL);
+				elements.add(text.trim());
+				return true;
+			case INTERSECTING_LEFT_RIGHT:
+				correctLocation.put(text.trim(), Location.INTERSECTING_LEFT_RIGHT);
+				elements.add(text.trim());
+				return true;
+			case INTERSECTING_LEFT_BOTTOM:
+				correctLocation.put(text.trim(), Location.INTERSECTING_BOTTOM_LEFT);
+				elements.add(text.trim());
+				return true;
+			case INTERSECTING_RIGHT_BOTTOM:
+				correctLocation.put(text.trim(), Location.INTERSECTING_BOTTOM_RIGHT);
+				elements.add(text.trim());
+				return true;
+			default:
+				return false;
 		}
-
 	}
 
 	/**
@@ -289,20 +265,12 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 		alert.showAndWait();
 
-
-		timeline = new Timeline(new KeyFrame(Duration.millis(1), new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				change(text);
-			}
-		}));
+		timeline = new Timeline(new KeyFrame(Duration.millis(1), event -> change(text)));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.setAutoReverse(false);
 		TEST_HAS_STARTED = true;
 		toggle.setDisable(false);
 		timeline.play();
-
-
 	}
 
 	void change(Text text) {
@@ -338,18 +306,14 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				try {
 					displayFinalResults(finalScore);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			} else {
-				return;
 			}
 		} else {
 			int finalScore = calculateScore();
 			try {
 				displayFinalResults(finalScore);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -357,22 +321,20 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 	public int calculateScore() {
 		int score = 0;
-		for (int i = 0; i < this.vennSet.size(); i++) {
-			if (this.correctLocation.get(this.vennSet.get(i).getText()) == super.tfLocations.get(this.vennSet.get(i))) { //if this textfield is in same location as it was in the .txt file score++
+		for (TextField textField : this.vennSet) {
+			if (this.correctLocation.get(textField.getText()) == super.tfLocations.get(textField)) { //if this textfield is in same location as it was in the .txt file score++
 				score++;
-				this.vennSet.get(i).setStyle("-fx-border-color:green; -fx-border-width:5; -fx-background-color:transparent");
-			}
-			else {
-				this.vennSet.get(i).setStyle("-fx-border-color:red; -fx-border-width: 5; -fx-background-color:transparent");
+				textField.setStyle("-fx-border-color:green; -fx-border-width:5; -fx-background-color:transparent");
+			} else {
+				textField.setStyle("-fx-border-color:red; -fx-border-width: 5; -fx-background-color:transparent");
 			}
 		}
-
 		return score;
 	}
 
 	public void displayFinalResults(int finalScore) throws IOException {
 		double percent = calculatePercent(finalScore, elementsImported);
-		String title = null;
+		String title;
 		if (percent < 50) {
 			title = "You need some work :(";
 		} else if (percent > 80) {
@@ -407,11 +369,9 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 	public double calculatePercent(int finalScore, int elementsImported) {
 		try {
-			double result = (finalScore / elementsImported) * 100;
-			return result;
+			return (finalScore / elementsImported) * 100;
 		} catch (Exception e) {
-			double result = 0;
-			return result;
+			return 0;
 		}
 	}
 
@@ -429,9 +389,7 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		TextField newTextField;
 
 		if ((text.isEmpty() || text.trim().equals(""))) {
-
 			if (REMIND_EMPTY_TEXTFIELD) {
-
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Confirmation Dialog");
 				alert.setHeaderText("Empty TextField");
@@ -446,7 +404,6 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				Optional<ButtonType> result = alert.showAndWait();
 				REMIND_EMPTY_TEXTFIELD = result.get() == remindMe;
 			}
-
 		} else {
 			String newText = text;
 			/*
@@ -464,18 +421,14 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				first18 += "...";
 				Tooltip tt = new Tooltip(newText);
 				newTextField = new TextField(first18);
-				
 				Tooltip.install(newTextField, tt);
-
 			} else {
-				 newTextField = new TextField(newText);
+				newTextField = new TextField(newText);
 			}
-
-
 			newTextField.setEditable(false);
 			newTextField.setTranslateX(textFieldPointLocations[textFieldPointLocationsIndex].getX());
 			newTextField.setTranslateY(textFieldPointLocations[textFieldPointLocationsIndex].getY());
-			
+
 			adjustNewTextLocation();
 
 			newTextField.setStyle("-fx-background-color:transparent; -fx-font-size:18px; ");
@@ -496,8 +449,6 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			this.sideAdded.clear();
 			this.itemList.getItems().remove(newTextField.getText());
 		}
-
-
 	}
 
 	@Override
@@ -512,7 +463,6 @@ public class TestModeController extends ShapeSceneController implements Initiali
 			textField.toFront();
 
 		});
-
 
 		/*
 		 * On Mouse Drag Moves the TextField Around the Screen
@@ -591,30 +541,19 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: blue; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(textField, Location.LEFT);
-				//changeLeftTextColor();
 			} else if (textBoxLocation == Location.RIGHT) {
 				sideAdded.setText("Right!");
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(textField, Location.RIGHT);
-				//changeRightTextColor();
 			} else if (textBoxLocation == Location.BOTTOM) {
 				sideAdded.setText("Bottom!");
 				sideAdded.setEditable(false);
 				sideAdded.setStyle("-fx-text-fill: red; -fx-font-size: 18px;-fx-background-color:transparent;");
 				tfLocations.put(textField, Location.BOTTOM);
-				//changeExtraTextColor();
 			}
-
 		});
-
-		textField.addEventHandler(MouseEvent.MOUSE_EXITED, e -> {
-
-			textField.setEditable(false);
-
-		});
-
-
+		textField.addEventHandler(MouseEvent.MOUSE_EXITED, e -> textField.setEditable(false));
 	}
 
 	@Override
@@ -651,7 +590,6 @@ public class TestModeController extends ShapeSceneController implements Initiali
 				mainApp.switchScene("shapeScene", null);
 			} else {
 				timeline.play();
-				return;
 			}
 		} else
 			mainApp.switchScene("shapeScene", null);
@@ -659,7 +597,6 @@ public class TestModeController extends ShapeSceneController implements Initiali
 
 	@FXML
 	private void toggleTimer() {
-
 		text.setVisible(!this.text.isVisible());
 	}
 
@@ -690,7 +627,5 @@ public class TestModeController extends ShapeSceneController implements Initiali
 		extraTitle.setLayoutY(751);
 		extraTitle.setStyle("-fx-font-size:20px;-fx-background-color: transparent;");
 		extraTitle.setPromptText("Diagram #3");
-
 	}
-
 }

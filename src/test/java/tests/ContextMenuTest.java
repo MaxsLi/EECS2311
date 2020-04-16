@@ -143,7 +143,7 @@ public class ContextMenuTest extends MainTest {
 
 	@Test
 	public void toggleLeftCircleHoverTest() {
-		moveTo((Circle)find("#leftCircle"));
+		moveTo((Circle) find("#leftCircle"));
 		clickOn(MouseButton.SECONDARY);
 		moveBy(20, 20);
 		clickOn(MouseButton.PRIMARY);
@@ -152,7 +152,7 @@ public class ContextMenuTest extends MainTest {
 
 	@Test
 	public void toggleRightCircleHoverTest() {
-		moveTo((Circle)find("#rightCircle"));
+		moveTo((Circle) find("#rightCircle"));
 		clickOn(MouseButton.SECONDARY);
 		moveBy(20, 20);
 		clickOn(MouseButton.PRIMARY);
@@ -160,7 +160,7 @@ public class ContextMenuTest extends MainTest {
 	}
 
 	@Test
-	public void deleteAllTest(){
+	public void deleteAllTest() {
 		dragToLeftCircleTest();
 		moveBy(-50, -100);
 		clickOn(MouseButton.SECONDARY);
@@ -170,14 +170,14 @@ public class ContextMenuTest extends MainTest {
 	}
 
 	@Test
-	public void undoDeleteAllTest(){
+	public void undoDeleteAllTest() {
 		deleteAllTest();
 		clickOn(undoBttn);
 		assertFalse(itemList.getItems().isEmpty());
 	}
 
 	@Test
-	public void redoDeleteAllTest(){
+	public void redoDeleteAllTest() {
 		undoDeleteAllTest();
 		clickOn(redoBttn);
 		assertTrue(itemList.getItems().isEmpty());

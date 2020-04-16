@@ -177,7 +177,7 @@ public class MainApp extends Application {
 	public ShapeSceneController getShapeSceneController() {
 		return this.shapeSceneCont;
 	}
-	
+
 	public ShapeSceneController getTestModeController() {
 		return this.testModeCont;
 	}
