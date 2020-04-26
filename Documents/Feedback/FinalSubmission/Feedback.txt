@@ -1,0 +1,10 @@
+- After adding circle, the button should change to be unclickable or to revert the adding of the circle
+- When adding a circle, pressing undo and then trying to add the circle again, the app does not add the circle. Only if You click undo. 
+- Animations are very nice and the GUI is pretty intuitive without having to read the user manual
+- On startup, having something more descriptive than just the button with show would be more helpful to the user. 
+- The appearance menu might be made easier to navigate by having a separate window in which to edit the app 
+- The layout is very visually appealing and simple, which is good.
+- There is no way to get back to the main menu from the app
+- Saving and loading works well
+- The adding and deleting of entries in the nav bar is very useful along with the list of entries.
+- Overall, the app is well made and has very few bugs 
